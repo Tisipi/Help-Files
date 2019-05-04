@@ -1,5 +1,3 @@
-Miscellaneous help files
-
 # Help-Files
 
-
+Miscellaneous help files
