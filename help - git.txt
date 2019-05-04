@@ -1,0 +1,145 @@
+
+Git / Github
+------------
+
+# install via git-scm.com
+
+# Check installed version
+git --version
+
+# Set global settings
+git config --global user.name "Tisipi"
+git config --global user.email "Tisipi@tisipi.com"
+
+# List global configured settings
+git config --list
+
+# Get help on a command, for example on "git config".
+git help config
+git config --help
+
+# Get the status (local working directory, staging area, etc.)
+git status
+
+# Initialize a git repository (creates .git directory)
+git init
+
+# Use OS commands to delete a git repository
+#  rm -rf .git
+
+# Create a .gitignore file, to indicate files that shouldn't be tracked
+touch .gitignore
+
+# cat .gitignore
+#  db.sqlite3
+#  geckodriver.log
+#  virtualenv
+#  __pycache__
+#  *.pyc
+
+# Add a file to staging area
+git add .gitignore
+git status
+
+# Add all files to staging area
+git add -A
+git status
+
+# Remove a file from staging area
+git reset <file>
+# Remove all file from staging area
+git reset
+
+# Commit files in staging area
+git commit -m "Initial commit"
+
+# History log of commits
+git log
+
+
+# Cloning a remote repository
+git clone <url> <local dir>
+git clone <url> .
+# View information about remote repository
+git remote -v
+git branch -a
+# Pushing changes to remote directory
+git diff
+git status
+git add -A
+git commit -m "Modified print function"
+# Then push it (don't forget to first pull the latest xxx)
+git pull origin master
+git push origin master
+
+
+# Create a local branch called my_test_branch
+git branch my_test_branch
+git checkout my_test_branch
+... do some changes ...
+# Commit changes to your local branch
+git commit -m "Modified pretty print function"
+# Push local branch to remote branch
+git push -u origin my_test_branch
+git branch -a
+# Merge a branch with master
+# - Checkout your local master
+# - Pull down all the changes in the master
+# - List branches merged in so far
+# - Merge my_test_branch with master
+# - Push the local master to the remote master
+git checkout master
+git pull origin master
+git branch --merged
+git merge my_test_branch
+git push origin master
+
+
+# Delete a branch (first locally, then remotely)
+git branch --merged
+git branch -d my_test_branch
+git branch -a
+git push origin --delete my_test_branch
+
+
+
+git config --global credentials.https://github.com/Tisipi/oreilly-github-demo.git.username Tisipi
+git config --global credentials.helper cache
+git clone https://github.com/Tisipi/oreilly-github-demo.git
+cd oreilly-github-demo
+git status
+# List the branches
+git branch -a
+# Create your own branch locally (called my_test_branch)
+git checkout -b my_test_branch
+# ... do some changes to local files...
+git commit -am "Update ntp function"
+# push to github
+git push --set-upstream origin my_test_branch
+
+
+
+git init .
+git status
+git add .
+git rm -r --cached superlists/__pycache__/
+git add .gitignore
+# Add any changed tracked files to staging area
+git commit -a
+
+
+++++
+
+# Create a new repository on the command line
+echo "# Help-Files" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/Tisipi/Help-Files.git
+git push -u origin master
+
+# Push an existing repository from the command line
+git remote add origin https://github.com/Tisipi/Help-Files.git
+git push -u origin master
+
+
