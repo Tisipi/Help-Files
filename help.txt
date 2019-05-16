@@ -5,10 +5,23 @@ tar -xvzf file
 export PATH=$PATH:/path-to-extracted-file
 
 
+------
+
+# install python3-venv
 sudo apt-get install python3-venv
 
-python3 -m venv virtualenv
-source virtualenv/bin/activate
+# Create a virtual environment
+# python3 -m venv <virtualenv>
+python3 -m venv venv
+
+# Activate virtual environment
+source venv/bin/activate
+
+# Deactivate virtual environment
 deactivate
 
-
+# Install Flask package
+pip install flask
+# Check installed packages
+pip list
+pip freeze
