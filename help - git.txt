@@ -55,11 +55,15 @@ git commit -m "Initial commit"
 
 # History log of commits
 git log
-
+git log --oneline
 
 # Cloning a remote repository
 git clone <url> <local dir>
 git clone <url> .
+
+git clone https://github.com/Tisipi/TDD-with-Python .
+git clone https://github.com/miguelgrinberg/flasky.git
+
 # View information about remote repository
 git remote -v
 git branch -a
@@ -121,11 +125,26 @@ git push --set-upstream origin my_test_branch
 
 git init .
 git status
+git diff
+git diff --staged
 git add .
 git rm -r --cached superlists/__pycache__/
 git add .gitignore
 # Add any changed tracked files to staging area
 git commit -a
+
+
+git add .gitignore
+git add manage.py / git add . / git add -A / git commit -am "Message"
+git rm -r --cached <file>
+git commit -m "Changed to Linux Mint"
+!git pull origin master
+git push / git push origin master
+
+
+# change history
+git checkout 1a
+
 
 
 ++++
