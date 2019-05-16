@@ -142,8 +142,19 @@ git commit -m "Changed to Linux Mint"
 git push / git push origin master
 
 
-# change history
-git checkout 1a
+# Move through the change history (via tags)
+git checkout <tag>
+
+# Revert changed historic files back to their original state.
+git reset --hard
+
+# Refresh your local repository from the one on GitHub.
+git fetch --all
+git fetch --tags
+git reset --hard origin/master
+
+# Compare history
+git diff <tag1> <tag2>
 
 
 
