@@ -1,0 +1,209 @@
+
+Reading
+-------
+- S3 FAQs
+- EC FAQs
+- AWS Security Best Practice white paper
+
+Check
+- S3 Transfer Acceleration Tool
+
+
+Interesting AWS Certs
+---------------------
+Certified Solutions Architect – Associate
+Certified Developer – Associate
+Certified SysOps Admin – Associate
+Certified Advanced Networking – Specialty
+Certified DevOps – Professional
+Certified Solutions Architect – Professional
+Certified Security – Specialty
+Certified Big Data – Specialty
+Certified Machine Learning – Specialty
+
+
+Abbreviations
+-------------
+AMI		Amazon Machine Image
+AZ 		Availability Zone
+EBS		Elastic Block Store
+EC2		Elastic Compute Cloud
+EFS		Elastic File System
+KMS		Key Management Service
+RDS		Relational Database Service
+S3		Simple Storage Service
+SSE		Server Side Encryption
+
+
+EBS volume types
+----------------
+- gp2			General Purpose SSD, API
+- io1			Provisioned IOPS SSD, API
+- st1			Throughput Optimized HDD, API
+- sc1			Cold HDD, API
+- standard		Magnetic HDD, API
+
+
+Billing notification
+--------------------
+# Billing notification on e.g. 10 USD:
+CloudWatch > Alarms > Billing >  Create Alarm
+
+
+SSH Keypairs
+------------
+# Download generated Keypair, e.g. MyKP.pem from AWS
+
+# Login into EC2 instance (Linux, Mac)
+chmod 400 MyKP.pem
+ssh ec2-user@<ipAddress> -i MyKP.pem
+sudo su
+
+# Login into EC2 instance (Windows)
+Install and run SSH Chrome Extension
+wincmd> ssh-keygen -y -f MyKP.pem > MyKP.pub
+wincmd> ren MyKP.pem MyKP
+Import MyKP.pub and MyKP into SSH Chrome app
+
+
+Move instance to another AZ
+---------------------------
+Create snapshot.
+Turn snapshot into AMI image.
+Launch your image in another AZ.
+
+Note: You can create AMI from a volume (i.o. snapshot)
+
+
+Move instance to another Region
+-------------------------------
+Copy AMI to another region.
+Launch
+
+
+Create Encrypted root device volume
+-----------------------------------
+Option 1:
+Select root device encryption during creation of EC2 instance.
+
+Option 2:
+Take snapshot of unencrypted root device volume.
+Copy snapshot to an encrypted snapshot (select encrypt option).
+Create an AMI from this encrypted snapshot.
+Launch EC2 instance with encrypted root device volume.
+
+
+AWS CLI Access to EC2 instance
+------------------------------
+# Enter AWS Access Key ID
+# Enter AWS Secret Access Key
+#
+aws configure
+
+aws s3 ls
+aws s3 ls --region us-east-1
+
+aws s3 mb s3://tisipi-test
+
+# NOTE: SECURITY RISK! CREDENTIALS ARE STORED IN HOME DIRECTORY:
+cd
+cd .aws
+ls
+# This directory has a config and credentials file
+cat credentials
+
+DON'T DO THIS: ATTACH AN ROLE TO THE EC2 INSTANCE INSTEAD!!
+
+
+VPC
+---
+Create VPC with CIDR block
+Create subnets in AZs
+	Auto-assign public IPv4 address, if needed, for public subnets
+Create IGW
+Attached IGW to VPC
+Create Public route table
+	Add default route to IGW
+Associate (public) subnets to (public) route table(s)
+Launch EC2 instance
+	VPC and subnet
+	Security group
+
+
+Boot strap script
+-----------------
+Instance creation
+	-> Advanced Details
+	-> User data, as text: your bash script
+
+#!/bin/bash
+yum update -y
+yum install httpd -y
+service httpd start
+chkconfig httpd on
+cd /var/www/html
+echo "<html><h1>Meh, meh, wat inne schoene bootstrapped surver :-)</h1></html>" > index.html
+aws s3 mb s3://tisipi-com
+aws s3 cp index.html s3://tisipi-com
+
+
+Apache Web Server
+-----------------
+# Check for any updates for AWS Linux image
+yum update -y
+# Install Apache
+yum install httpd -y
+# Make HTML page
+cd /var/www/html
+vi index.html
+<html><h1>Hello, world </h1></html>
+# Start Apache and save config
+service httpd start
+chkconfig httpd on
+
+
+Wordpress Server
+----------------
+#!/bin/bash
+yum install httpd php php-mysql -y
+cd /var/www/html
+wget https://wordpress.org/wordpress-5.1.1.tar.gz
+tar -xzf wordpress-5.1.1.tar.gz
+cp -r wordpress/* /var/www/html/
+rm -rf wordpress
+rm -rf wordpress-5.1.1.tar.gz
+chmod -R 755 wp-content
+chown -R apache:apache wp-content
+service httpd start
+chkconfig httpd on
+
+
+EFS/NFS Mount
+-------------
+# Install the EFS mount helper on Amazon Linux
+yum install -y amazon-efs-utils
+
+# NFS client on RHEL or Suse
+sudo yum install -y nfs-utils
+# NFS client on Ubuntu
+sudo apt-get install -y nfs-common
+
+
+# Example:
+#sudo mount -t efs -o tls fs-4ab216cb:/ /mnt/efs
+mount -t efs -o tls fs-4ab216cb:/ /var/www/html
+
+
+EC2 Meta Data
+-------------
+curl http://169.254.169.254/latest/user-data/
+
+curl http://169.254.169.254/latest/meta-data/
+curl http://169.254.169.254/latest/meta-data/local-ipv4
+curl http://169.254.169.254/latest/meta-data/public-ipv4
+
+
+
+++++++
+
+aws ec2 attach-internet-gateway --vpc-id "vpc-091a873767d93516c" --internet-gateway-id "igw-05dc6145b24b450f6" --region us-east-1
