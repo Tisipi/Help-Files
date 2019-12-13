@@ -7,6 +7,54 @@ export PATH=$PATH:/path-to-extracted-file
 
 ------
 
+
+https://github.com/JackHack96/dell-xps-9570-ubuntu-respin
+
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/JackHack96/dell-xps-9570-ubuntu-respin/master/xps-tweaks.sh)"
+
+------
+https://support.killernetworking.com/knowledge-base/killer-ax1650-in-debian-ubuntu-16-04/
+
+Killer AX1650 In Debian/Ubuntu 16.04+
+If your Killer Wireless AX1650 is not seen or used by your Debian-based system you can use this guide to Backport the drivers from the latest Kernel version. We have confirmed that this will restore Wireless connectivity using the AX1650 in Ubuntu 16.04/18.04/19.04.
+
+UPDATE: 2019/10/25
+There is a new method for getting an AX1650 WiFi adapter working on Debian/Ubuntu systems. Run the following commands one by one and reboot your Computer. If your AX1650 is still not detected/used you can scroll down and try the older Backport steps.
+sudo add-apt-repository ppa:canonical-hwe-team/backport-iwlwifi
+sudo apt-get update
+sudo apt-get install backport-iwlwifi-dkms
+reboot
+
+Alternative
+-----------
+
+Step 1 – Download the Latest Git and Build-Essential packages
+$ sudo apt update
+$ sudo apt-get install -y git
+$ sudo apt-get install -y build-essential
+
+Step 2 – Download the Iwlwifi-Firmware.git repository
+$ git clone git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
+$ cd linux-firmware
+$ sudo cp iwlwifi-* /lib/firmware/
+$ cd ..
+
+Step 3 – Download the Backport-Iwlwifi.git repository
+$ git clone https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/backport-iwlwifi.git
+$ cd backport-iwlwifi
+$ sudo make defconfig-iwlwifi-public
+$ sudo make -j4
+$ sudo make install
+ 
+The following command might be necessary to force your machine to use the Driver from boot:
+$ sudo update-initramfs -u
+
+
+
+
+
+------
+
 # install python3-venv
 sudo apt-get install python3-venv
 

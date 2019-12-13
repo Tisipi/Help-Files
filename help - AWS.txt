@@ -3,6 +3,7 @@ Reading
 -------
 - S3 FAQs
 - EC FAQs
+- ELB FAQs; even better for all LBs
 - AWS Security Best Practice white paper
 
 Check
@@ -26,13 +27,20 @@ Abbreviations
 -------------
 AMI		Amazon Machine Image
 AZ 		Availability Zone
+CORS	Cross Origin Resource Sharing
 EBS		Elastic Block Store
 EC2		Elastic Compute Cloud
+EMR		Elastic MapReduce 
 EFS		Elastic File System
 KMS		Key Management Service
 RDS		Relational Database Service
 S3		Simple Storage Service
+SNS 	Simple Notification Service
+SQS		Simple Queue Service
 SSE		Server Side Encryption
+SWF		Simple WordFlow Service
+JWT		JSON Web Token
+SES 	Simple Email Service
 
 
 EBS volume types
@@ -149,14 +157,16 @@ aws s3 cp index.html s3://tisipi-com
 
 Apache Web Server
 -----------------
+#!/bin/bash
 # Check for any updates for AWS Linux image
 yum update -y
 # Install Apache
 yum install httpd -y
 # Make HTML page
 cd /var/www/html
-vi index.html
-<html><h1>Hello, world </h1></html>
+echo "<html><h1>Bootstrapped web surver 01 :-)</h1></html>" > index.html
+#vi index.html
+#<html><h1>Hello, world </h1></html>
 # Start Apache and save config
 service httpd start
 chkconfig httpd on
@@ -165,6 +175,7 @@ chkconfig httpd on
 Wordpress Server
 ----------------
 #!/bin/bash
+yum update -y
 yum install httpd php php-mysql -y
 cd /var/www/html
 wget https://wordpress.org/wordpress-5.1.1.tar.gz
