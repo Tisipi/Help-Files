@@ -99,15 +99,62 @@ S3 Glacier Deep Archive
 S3 RRS (reduced redundancy storage) will be phased out. Similar to S3 One Zone
 
 
+Check Availability diff S3 solutions
+
+
 EBS volume types
 ----------------
-- gp2					General Purpose SSD, API
-- io1					Provisioned IOPS SSD, API
-- st1					Throughput Optimized HDD, API
-- sc1					Cold HDD, API
-- magnetic (standard)	Magnetic HDD, API
+- gp2					General Purpose SSD
+- io1					Provisioned IOPS SSD
+- st1					Throughput Optimized HDD
+- sc1					Cold HDD
+- magnetic (standard)	Magnetic HDD
 
-roor volume only on SSD or Magnetic
+root volume only on SSD or Magnetic
+
+
+Databases, etc.
+---------------
+RDS for OLTP
+Datawarehouse like Redshift for OLAP
+
+RDS retention up to 35 days
+
+SQL Server
+Oracle
+MySQL Server
+PostgreSQL
+MariaDB
+Aurora
+
+Multi-AZ:
+- SQL Server
+- Oracle
+- MySQL Server
+- PostgreSQL
+- MariaDB
+
+Read Replicas:
+- Oracle
+- MySQL Server
+- PostgreSQL
+- MariaDB
+- Aurora
+(SQL Server not supported)
+
+Five read replicas. Backup must be enable to create them.
+Read replica in 2nd region
+Multi-AZ Read replicas
+
+
+
+DynamoDB (no SQL)
+
+ElastiCache:
+1. Memcached
+2. Redis
+
+
 
 Billing notification
 --------------------
@@ -177,7 +224,7 @@ ls
 # This directory has a config and credentials file
 cat credentials
 
-DON'T DO THIS: ATTACH AN ROLE TO THE EC2 INSTANCE INSTEAD!!
+DON'T DO THIS: ATTACH A ROLE TO THE EC2 INSTANCE INSTEAD!!
 
 
 VPC
@@ -264,6 +311,7 @@ mount -t efs -o tls fs-4ab216cb:/ /var/www/html
 
 EC2 Meta Data
 -------------
+# Check bootstrap data of EC2 instance
 curl http://169.254.169.254/latest/user-data/
 
 curl http://169.254.169.254/latest/meta-data/
