@@ -25,6 +25,7 @@ sudo apt-get update
 sudo apt-get install backport-iwlwifi-dkms
 reboot
 
+
 Alternative
 -----------
 
@@ -73,3 +74,51 @@ pip install flask
 # Check installed packages
 pip list
 pip freeze
+
+
+Update firefox
+--------------
+# Complete package
+sudo apt update
+firefox --version
+sudo apt install firefox
+sudo apt upgrade
+
+# Firefox only
+sudo apt-get update
+sudo apt-get install --only-upgrade firefox
+
+
+TLP
+---
+sudo apt-get update
+sudo apt-get install tlp
+sudo tlp start
+
+sudo tlp-stat -s
+sudo tlp-stat -c
+sudo tlp-stat -b
+
+sudo apt-get remove tlp
+
+
+powertop
+--------
+sudo apt-get update
+sudo apt-get install powertop
+sudo powertop
+sudo powertop --auto-tune
+
+
++++ check nvidia ++++
+lspci -k | grep -A 2 -i "VGA"
+
+
+You can check in System Settings -> Details which graphic card you are using.
+
+And to switch between graphics use:
+
+sudo prime-select intel
+and for nvidia use
+
+sudo prime-select nvidia

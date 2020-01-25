@@ -1,0 +1,24 @@
+https://blog.summercat.com/configuring-mixed-dpi-monitors-with-xrandr.html
+
+XPS 15 laptop:	3840 x 2160 (16:9)	331 DPI
+Eizo Display:	1920 x 1080 (16:9)
+
+
+When I want to use both monitors, this is the command I run:
+
+xrandr --dpi 276 --fb 7040x3960 \
+    --output eDP-1 --mode 3200x1800 \
+    --output DP-1-2 --scale 2x2 --pos 3200x0 --panning 3840x2160+3200+0
+
+Here's an explanation of the options:
+
+Global options:
+--dpi 276 sets the DPI to 276.
+--fb 7040x3960 creates one screen with resolution 7040x3960. This is the combined resolution of the two monitors. The high DPI monitor has 3200x1800 resolution. The lower DPI monitor has 1920x1080 resolution, but I double it as I scale it by 2 (see below). Combine these like so: 3200+1920*2 x 1800+1080*2 = 7040x3960. Both monitors share this screen.
+High DPI monitor options (--output eDP-1):
+--mode 3200x1800 says to use resolution 3200x1800. This is the default, but specifying it is necessary if the monitor is disabled (as it is when using the external monitor by itself) as it enables the monitor.
+Lower DPI monitor options (--output DP-1-2):
+--scale 2x2 is similar to zooming out. This is necessary as we set the DPI globally to that of the high DPI monitor.
+--pos positions it to the right of the laptop monitor.
+--panning allows our pointer to access the whole area.
+

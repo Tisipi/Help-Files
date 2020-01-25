@@ -1,4 +1,4 @@
-Certification350-901 DEVCOR
+Certification 350-901 DEVCOR
 Developing Applications using Cisco Core Platforms and APIs v1.0 (350-901)
 Developing Applications using Cisco Core Platforms and APIs v1.0 (DEVCOR 350-901) is a 120-minute exam associated with the DevNet Professional Certification. This exam tests a candidate's knowledge of software development and design including using APIs, Cisco platforms, application deployment and security, and infrastructure and automation. The course, Developing Applications using Cisco Core Platforms and APIs helps candidates to prepare for this exam.
 
@@ -141,14 +141,14 @@ PATCH		Update
 DELETE		Delete
 
 Status Code	Status Message	Meaning
-200	OK	All looks good
-201	Created	New resource created
-400	Bad Request	Request was invalid
-401	Unauthorized	Authentication missing or incorrect
-403	Forbidden	Request was understood but not allowed
-404	Not Found	Resource not found
+200	OK						All looks good
+201	Created					New resource created
+400	Bad Request				Request was invalid
+401	Unauthorized			Authentication missing or incorrect
+403	Forbidden				Request was understood but not allowed
+404	Not Found				Resource not found
 500	Internal Server Error	Something wrong with the server
-503	Service Unavailable	Server is unable to complete request
+503	Service Unavailable		Server is unable to complete request
 
 
 curl -X		followed by a request verb such as GET, PUT, POST, PATCH, or DELETE.
@@ -160,6 +160,9 @@ curl https://deckofcardsapi.com/api/deck/new/ | python3 -m json.tool
 
 curl https://deckofcardsapi.com/api/deck/i5esttp06r1z/shuffle/
 curl https://deckofcardsapi.com/api/deck/i5esttp06r1z/draw/?count=3 | python -m json.tool
+curl https://deckofcardsapi.com/api/deck/9ujz1q9z2hnk/draw/?count=3 | python -m json.tool
+
+https://deckofcardsapi.com/api/deck/{{deck_id}}/draw/?count=3
 
 
 curl https://api.ciscospark.com/v1/people/me
@@ -170,3 +173,31 @@ curl https://api.ciscospark.com/v1/teams -X GET -H "Authorization:Bearer M2RiZWQ
 
 curl -X GET https://api.ciscospark.com/v1/teams -H "Authorization:Bearer M2RiZWQyMDItMDdhYi00NTA1LTgwOTQtMjUzMTc4YThhZDI4YjU4NmJmNmMtZWQ3_PF84_e1a492ed-2b3b-4ab5-b37e-e7a31a6a4d57"
 
+
+
+DNA - Digital Network Architecture
+----------------------------------
+Cisco SDN controller for the enterprise
+
+Cisco DNA Center FAQ:
+	https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/dna-center/nb-06-dna-center-faq-cte-en.html
+	https://developer.cisco.com/dnacenter/
+	https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-platform-overview
+
+Cisco DNA Center workflow:
+- Design
+- Policy (Business and application intent)
+- Provision
+- Assure (via Network telemetry and sensor capabilities)
+
+SDA??
+
+
+DNA lab
+-------
+git clone https://github.com/CiscoDevNet/dnav3-code
+cd dnav3-code
+python3 -m venv venv
+source venv/bin/activate
+cd intro-dnac/
+pip install -r requirements.txt
