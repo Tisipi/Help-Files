@@ -1,7 +1,7 @@
 Certification 350-901 DEVCOR
+----------------------------
 Developing Applications using Cisco Core Platforms and APIs v1.0 (350-901)
 Developing Applications using Cisco Core Platforms and APIs v1.0 (DEVCOR 350-901) is a 120-minute exam associated with the DevNet Professional Certification. This exam tests a candidate's knowledge of software development and design including using APIs, Cisco platforms, application deployment and security, and infrastructure and automation. The course, Developing Applications using Cisco Core Platforms and APIs helps candidates to prepare for this exam.
-
 
 Exam overview
 1.0 Software Development and Design
@@ -131,8 +131,120 @@ Microservices overview
 
 
 
-================
+Setting up your Linux/Ubuntu workstation
+----------------------------------------
+# Basic Linux tools and utilities
+# wget is already installed
+#
+sudo apt-get install curl
 
+
+# Postman
+# Install via snap. If not installed yet: sudo apt install snapd
+sudo snap install postman
+
+
+# Developer tools and utilities:
+# - Equivalent to openssl-dev on other distributions
+# - For example the gcc C compiler
+#
+sudo apt-get install libssl-dev 
+sudo apt-get install build-essential
+
+
+# Git
+#
+sudo apt-get install git
+git --version
+
+
+# Python
+#
+sudo apt-get install python3
+sudo apt-get install python3-pip
+
+
+# Python3-venv
+sudo apt-get install python3-venv
+
+# Create a virtual environment
+# python3 -m venv <virtualenv>
+python3 -m venv venv
+
+# Activate virtual environment
+source venv/bin/activate
+python -V
+
+# Deactivate virtual environment
+deactivate
+
+
+# Install Nodejs
+sudo apt-get install nodejs
+# Install NPM (Node Package Manager)
+sudo apt-get install npm
+nodejs -v
+npm -v
+
+
+# ngrok
+cd /opt
+sudo wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+sudo unzip ngrok-stable-linux-amd64.zip
+sudo mv ngrok /usr/local/bin
+
+# Start an ngrok tunnel.
+ngrok http 6767
+
+
+# Google Chrome
+installed via Software installer...
+
+
+# install OpenConnect (open source VPN client)
+sudo apt-get install openconnect
+openconnect -b <ipAddress>
+
+sudo ps -ax | grep openconnect
+sudo kill <openconnect PID>
+
+
+
+# Docker
+#
+# Install HTTPS plugins
+#
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+
+# Ddd the GPG key for the official Docker repository to the system
+#
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+# Add the Docker repository to APT sources to always check for the latest version.
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+	or
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable edge test"
+
+# Update the package database with the Docker packages from the newly added repo
+# Install Docker Community Edition.
+# 
+sudo apt update
+sudo apt install docker-ce
+
+# Set up group permissions so you don’t need sudo for every docker command.
+# Add your user to the docker group.
+# 
+sudo usermod -aG docker <user>
+
+# Verify Docker
+sudo systemctl status docker
+docker run busybox
+docker ps -a
+
+
+
+API
+---
 HTTP Verb	Typical Action (CRUD)
 POST		Create
 GET			Read
@@ -201,3 +313,21 @@ python3 -m venv venv
 source venv/bin/activate
 cd intro-dnac/
 pip install -r requirements.txt
+
+
+YANG
+----
+# Generate tree view of Yang model.
+pyang -f tree ietf-interfaces.yang
+
+
+
+Cisco Live Presentations
+------------------------
+https://developer.cisco.com/learning/lab/why-mdp/step/7
+	-	Device APIs: The Force Awakens - BRKSDN-1119
+	-	Model Driven Approach to SDN with NETCONF - BRKSDN-1903
+	-	YANG Data Modeling and NETFCONF: Cisco and Industry Developments - BRKNMS- 2032
+	-	Network programming using Yang service models with Cisco Network Services Orchestrator - DEVNET-1177
+	-	Introduction to Data Models and Cisco's NextGen Device Level APIs - DEVNET-1082
+	-	Introduction to RESTCONF - DEVNET-1081
