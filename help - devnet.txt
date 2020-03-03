@@ -130,6 +130,267 @@ Managing Cisco Compute with Ansible
 Microservices overview
 
 
+-------------------------------
+
+
+Modular software design enforces the following software qualities:
+- Composability
+- Decomposability
+- Understandability
+- Continuity
+- Protection
+
+SOLID:
+- Single Responsibility Principle (SRP)
+- Open-Closed Principle (OCP)
+- Liskov's Substitution Principle (LSP)
+- Interface Segregation Principle (ISP)
+- Dependency Inversion Principle (DIP)
+
+Dependency injection methods:
+- Constructor injection
+- Setter injection
+- Interface injection
+
+Dependency injection roles:
+- Service
+- Client (uses the service)
+- Interface
+- Injector (constructs service and injects into client)
+
+
+Observability in Application Design:
+- Logging
+- Monitoring
+- Documentation
+
+
+Logging levels (subset of DINWECAE):
+- INFO
+- WARNING
+- ERROR
+- CRITICAL (FATAL)
+
+- OFF/NOTSET
+- TRACE
+- ALL
+
+DINWECAE Logging levels:
+0 — emergency: System unusable
+1 — alert: Immediate action needed
+2 — critical: Critical condition—default level
+3 — error: Error condition
+4 — warning: Warning condition
+5 — notification: Normal but significant condition
+6 — informational: Informational message only
+7 — debugging: Appears during debugging only
+
+
+import logging
+logging.basicConfig(level=logging.DEBUG)
+logging.info('Info. Blah blah')
+logging.warning('Warning. Meh mien lepke')
+
+
+Scalability:
+- Vertical (scale up/down),
+- Horizontal (scale in/out)
+- Hybrid
+
+Improving resilience:
+- Circuit breaker
+- Fallback (e.g. to default value)
+- Retry loops
+- Timeouts
+
+Rate limiting: HTTP code 429: Too Many Requests
+
+
+SOA
+---
+SOA  	Service-Oriented Architecture
+SOAP 	Simple Object Access Protocol
+WSDL 	Web-Service Description Language
+BPEL 	Business Process Execution Language
+
+ESB  	Enterprise Service Bus
+EDA  	Event-driven Architecture
+MQ 	 	Message Queue
+
+SOA service types:
+- business
+- enterprise
+- application
+- infrastructure
+
+Microservice service types:
+- Functional
+- Infrastructure
+
+Microservice is more granular.
+
+
+
+ECB Design Pattern
+------------------
+ECB  Entity Control Boundary
+MVC  Model View Controller
+
+Entity   	-  Model
+Controll 	-  Controller
+Boundary  	-  View
+
+
+
+UML
+---
+Unified Modeling Language
+
+
+Example using PlantUML text language:
+
+	@startuml
+
+	actor writer
+	participant CMS
+	actor reviewer
+	participant Web
+
+	-> writer : Get topic
+
+	activate writer
+	writer -> writer : Research topic
+	writer -> writer : Create draft
+
+	writer -> CMS : Submit draft
+
+	activate CMS
+	CMS -> reviewer : Send draft
+
+	activate reviewer
+	reviewer -> reviewer : Review draft
+	reviewer -> CMS : Provide feedback
+	deactivate reviewer
+
+	CMS -> writer : Send feedback
+	deactivate CMS
+
+	alt Draft not OK
+	   writer -> writer : Implement feedback
+	   writer -> CMS : Submit draft
+
+	   activate CMS
+	   CMS -> reviewer : Send draft
+
+	   activate reviewer
+	   reviewer -> reviewer : Review draft
+	else Draft OK
+	   reviewer -> CMS : Approve draft
+	   deactivate reviewer
+	   CMS -> writer : Send approval
+	   deactivate CMS
+	end
+
+	writer -\ CMS : Publish document
+	deactivate writer
+
+	activate CMS
+	      CMS -> Web : Publish document
+	      activate Web
+	        CMS <- Web : Document published
+	      deactivate Web
+	deactivate CMS
+
+	Web -\ : Notify Subscribers
+
+	@enduml
+
+
+Webex / Meraki
+--------------
+import requests
+
+# Webex Teams REST API:
+# Set Authorization HTTP header to "Bearer ACCESS_TOKEN" where ACCESS_TOKEN is your Webex Access Token
+#
+requests.get('https://api.ciscospark.com/v1/messages', headers={'Authorization': 'Bearer ACCESS_TOKEN') 
+
+
+# Meraki REST API:
+# Set X-Cisco-Meraki-API-Key HTTP header to the Meraki API Key string that has been generated
+# via https://dashboard.meraki.com/
+#
+requests.get('https://api.ciscospark.com/v1/messages', headers={'X-Cisco-Meraki-API-Key': 'MERAKI-API-KEY') 
+
+
++++ Verder gaan bij 3.6 +++
+Use Cisco Webex Teams API to Enable ChatOps
+
+
+
+Security
+--------
+PKI		Public Key Infrastructure
+GDPR	General Data Protection Regulation
+PII 	Personal Identifiable Information data protection
+OCSP	Online Certificate Status Protoco
+SCEP 	Simple Certificate Enrollment Protocol
+
+Pseudonymization:
+- anonymization
+- deidentification
+
+FDE 	Full Disk Encryption
+HSM 	Hardware Security Module
+
+
+RFC 8446	TLS version 1.3
+
+TLS_RSA_WITH_AES_128_CBC_SHA:  +++ klopt dit wel ?? +++ sha for auth too?; RSA for key exchange? Of mixed?
+- RSA  authentication
+- AES  confidentiality
+- SHA  integrity; digital signatures.
+
+
+Create a Public Key Certificate:
+- Generate Private Key: 					openssl genrsa -aes192 -out PRIVATEKEY.key 4096
+- Generate Certificate Signing Request: 	openssl req -new -key PRIVATEKEY.key -out CSR.csr
+- Check the CSR:							cat CSR.csr; Digicert CSR Check: https://ssltools.digicert.com/checker/views/csrCheck.jsp
+- Enroll CSR with CA
+- Install certificate
+
+
+Service meshes using TLS:
+- Linkerd
+- Istio
+
+
+
+OWASP	Open Web Application Security Project
+XXE		XML External Entities
+XSS		Cross-Site Scripting
+SSRF	Server-Side Request Forgery
+
+Risk = Likelyhood x Impact
+
+Likelyhood is an average of:
+- Exploitability
+- Weakness Prevalence
+- Weakness Detectability
+
+OWASP top 10 (2017)
+1.  Injection
+2.  Broken Authentication
+3.  Sensitive Data Exposure			<== most prevalent and impactful
+4.  XML External Entities (XXE)
+5.  Broken Access Control
+6.  Security Misconfiguration
+7.  Cross-Site Scripting (XSS)
+8.  Insecure Deserialization
+9.  Vulnerable Components
+10. Insufficient Logging & Monitoring
+
+
 
 Setting up your Linux/Ubuntu workstation
 ----------------------------------------
@@ -366,6 +627,79 @@ YANG
 ----
 # Generate tree view of Yang model.
 pyang -f tree ietf-interfaces.yang
+
+
+
+Guest Shell (on IOS-XE)
+-----------------------
+
+! Enable IOx
+!
+conf t
+iox
+exit
+
+! Check that CAF, IOxman and Libvirtd services are running:
+show iox-service
+
+
+
+! Enable the communication between IOS XE and the Guest Shell container
+! Network settings of IOS XE host
+conf t
+interface VirtualPortGroup0
+  ip address 192.168.1.1 255.255.255.0
+
+! Network settings of Guest Shell container  (>= IOS XE 16.7.1):
+! - IP address
+! - Default gateway
+! - DNS server.
+!
+app-hosting appid guestshell
+ vnic gateway1 virtualportgroup 0 guest-interface 0 guest-ipaddress 192.168.1.2 netmask 255.255.255.0 gateway 192.168.1.1 name-server 8.8.8.8
+
+
+! NAT towards outside world (via outside interface Gig/1)
+!
+interface VirtualPortGroup0
+ ip nat inside
+!
+interface GigabitEthernet1
+ ip nat outside
+!
+ip access-list extended NAT-ACL
+ permit ip 192.168.1.0 0.0.0.255 any
+!
+ip nat inside source list NAT-ACL interface GigabitEthernet1 overload
+
+
+! Enable Guest Shell
+!
+guestshell enable
+show app-hosting detail
+end
+
+! Access guestshell
+guestshell
+[guestshell@guestshell ~]$ whoami
+[guestshell@guestshell ~]$ pwd
+[guestshell@guestshell ~]$ ls /flash/
+
+[guestshell@guestshell ~]$ sudo yum update -y
+[guestshell@guestshell ~]$ sudo yum install -y git nano
+[guestshell@guestshell ~]$ git --version 
+[guestshell@guestshell ~]$ nano --version
+[guestshell@guestshell ~]$ git clone https://github.com/CiscoDevNet/dnav3-code.git
+
+
+! Execute IOS XE CLI commands from within the guestshell
+!
+[guestshell@guestshell ~]$ dohost "show memory statistics"
+
+! Run Guest Shell linux applications directly from IOS XE prompt
+!
+guestshell run groups
+guestshell run cat /etc/centos-release
 
 
 
