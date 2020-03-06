@@ -369,7 +369,10 @@ Service meshes using TLS:
 OWASP	Open Web Application Security Project
 XXE		XML External Entities
 XSS		Cross-Site Scripting
+CSRF	Cross-Site Request Forgery (sometimes pronounced sea-surf)
+XSRF	Cross-Site Request Forgery
 SSRF	Server-Side Request Forgery
+
 
 Risk = Likelyhood x Impact
 
@@ -390,6 +393,294 @@ OWASP top 10 (2017)
 9.  Vulnerable Components
 10. Insufficient Logging & Monitoring
 
+
+Cerberus data validator:	https://docs.python-cerberus.org/en/stable/
+
+	>>> schema = {'name': {'type': 'string'}}
+	>>> v = Validator(schema)
+
+	>>> document = {'name': 'john doe'}
+	>>> v.validate(document)
+	True
+
+
+
+XSS enables attackers to inject client-side scripts into web pages viewed by other users.
+
+CSRF/XSRF also known as one-click attack or session riding.
+Malicious exploit of a website where unauthorized commands are transmitted from a user that the web application trusts without the user's interaction or even knowledge. Unlike cross-site scripting (XSS), which exploits the trust a user has for a particular site, CSRF exploits the trust that a site has in a user's browser.
+
+Python:
+- HTML.Escape to escape HTML
+- Sanitize library for HTML input sanitization
+
+
+Python frameworks supporting CSRF tokens:
+- Django
+- Flask-WTF
+- Flask-SeaSurf
+- Pyramid
+- Sanic-WTF
+
+WTF = WTForms
+
+
+OAuth
+-----
+RFC6749: OAuth 2.0 Authorization Framework
+
+OAuth roles:
+- Resource owner
+- Client (the application)
+- Authorisation server
+- Resource server
+
+OAuth interaction models:
+- Resource Owner Password Credentials flow
+- Client Credentials flow
+- Authorization Code Grant flow
+- Implicit flow
+
+OAuth 2.0 grant types:
+- Authorization Code grant
+- Client Credentials grant
+- Device Code grant
+- Refresh Token grant
+- Password grant (Legacy)
+
+Two-Legged authorization flow:
+- Two flows
+- Client application, authorization server and a resource server
+- Two-Legged authorization flow is mostly used for APIs
+
+Three-Legged authorization flow:
+- Tree flows
+- Resource owner, client application, authorization server and a resource server
+- Three-Legged authorization flow is mostly used for end-user authentication.
+
+Three-Legged authorization steps. 
+- Retrieve authorization code.
+- Exchange authorization code for an access token.
+- Use the access token.
+
+
+Grant type used in the two-legged authorization flow: client_credentials
+
+	POST /token HTTP/1.1
+	Host: authorization-server.com
+	Content-Type: application/x-www-form-urlencoded 
+
+	grant_type=client_credentials
+	client_id=xxxxxxxxxx
+	client_secret=xxxxxxxxxx
+
+
+Authentication (?) protocols authorization server:
+- OAuth
+- OpenID
+
+Access token:  lifetime 60 minutes
+Refresh token: lifetime 60 days
+
+
+Revoke token:
+
+	POST /revoke HTTP/1.1 
+	Host: authorization-server.com
+	Content-Type: application/x-www-form-urlencoded 
+	Authorization: Bearer <access_token> 
+
+	token=<access_token>
+
+
+Check:
+- Mitigation Cross-Site Scripting (XSS) attacks
+- Mitigation CSCF attacks
+
+
++++
+The resource owner tells the client application that they wish to perform an OAuth action–for example, login with their Facebook account.
+
+The client application then responds to the resource owner with a redirect to the OAuth authorization server, embedded in the redirect is the client ID.
+
+The user follows the redirect and now communicates directly with the OAuth provider.
+
+The OAuth provider first validates that the client ID is valid.
+
+If the user is not logged in, then the OAuth provider will prompt the user to login and then ask their permission to proceed.
+
+Once the user has granted permission, the authorization server will then redirect the user to the redirect URI (specified in step 2). This redirect will also include the access code and the state parameter.
+++++
+
+
+Python
+------
+Installing Python Packages:
+pip install <packageName>
+pip install -r requirements.txt
+
+pip show <packageName>
+pip list
+
+pip freeze > requirements.txt
+cat requirements.txt
+pip install -r requirements.txt
+
+
+# Create a virtual environment
+# python3 -m venv <virtualenv>
+python3 -m venv venv
+
+# Activate virtual environment
+source venv/bin/activate
+
+# Deactivate virtual environment
+deactivate
+
+
+
+Creating packages with setuptools library. Example setup.py script:
+
+	from setuptools import setup, find_packages
+	setup(
+	    name='my_package',
+	    version='1.0.0',
+	    packages=find_packages()
+	)
+
+
+# Make sure you have the latest versions of setuptools and wheel installed:
+#
+python3 -m pip install --user --upgrade setuptools wheel
+
+# Generate distribution archive(s):
+# - .tar.gz file is a source archive
+# - .whl file is a built distribution (a wheel)
+#
+python3 setup.py sdist bdist_wheel
+
+
+
+Pipenv dependency manager:
+- Pipfile (project libraries minimum requirements; populated by installs)
+- Pipfile.lock (final snapshot of currently installed versions; after lock cmd)
+
+pipenv graph
+
+
+Git
+---
+VCS	Version Control Software
+CI 	Continuous Integration
+CD 	Continuous Deployment
+
+Main git concepts:
+- Remote repository 
+- Local repository
+- Staging area
+- Working directory
+
+
+# Initialize a git repository (creates .git directory)
+git init
+
+# Cloning a remote repository
+git clone <url> <local dir>
+git clone <url> .
+
+
+# Get the status (local working directory, staging area, etc.)
+git status
+
+# Check diffs with staging area
+git diff
+git diff --staged
+
+# Add a file to staging area
+git add <file>
+git add .
+
+# Remove a file from staging area
+git reset <file>
+# Remove all file from staging area
+git reset
+
+# Commit files in staging area
+git commit -m "My first commit"
+
+# Push changes 
+git push
+
+
+# History log of commits
+git log
+git log --oneline
+
+
+# Create a local branch called my_test_branch
+git branch my_test_branch
+
+# Jump to branch (git put files in your working directory)
+git checkout my_test_branch
+
+# Merge my_test_branch with master
+git merge my_test_branch
+
+
+# Stash away unfinished branch
+git stash push -m "Store temporary"
+
+# Restore unfinished branch
+git stash pop
+
+
+# Other git 'merge' options:
+- git rebase <dev branch>
+- git cherry-pick <commit-hash>
+
+
+# Rollback several commits
+# by reverting to specific commit.
+#
+git revert <hash>
+
+# Reset
+git reset --hard
+git reset --mixed
+git reset --soft
+
+
+# View information about remote repository
+git remote -v
+
+git remote add origin https://github.com/Tisipi/Help-Files.git
+
++++
+git pull: combines git fetch and git merge
+git push -u <remote> <branch name> com
++++
+
+
+# Check the content of a git object
+#
+git cat-file -p master
+git cat-file -p <SHA1>
+
+# Check the type of a git object
+#
+git cat-file -t <SHA1>
+
+
+# List files in git working directory
+#
+git ls-files --modified 
+
+# List files in git staging area
+#
+git ls-files --stage 
+
+
+++++ 7.4 +++++
 
 
 Setting up your Linux/Ubuntu workstation
