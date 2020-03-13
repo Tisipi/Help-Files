@@ -313,14 +313,14 @@ import requests
 # Webex Teams REST API:
 # Set Authorization HTTP header to "Bearer ACCESS_TOKEN" where ACCESS_TOKEN is your Webex Access Token
 #
-requests.get('https://api.ciscospark.com/v1/messages', headers={'Authorization': 'Bearer ACCESS_TOKEN') 
+requests.get('https://api.ciscospark.com/v1/messages', headers={'Authorization': 'Bearer ACCESS_TOKEN')
 
 
 # Meraki REST API:
 # Set X-Cisco-Meraki-API-Key HTTP header to the Meraki API Key string that has been generated
 # via https://dashboard.meraki.com/
 #
-requests.get('https://api.ciscospark.com/v1/messages', headers={'X-Cisco-Meraki-API-Key': 'MERAKI-API-KEY') 
+requests.get('https://api.ciscospark.com/v1/messages', headers={'X-Cisco-Meraki-API-Key': 'MERAKI-API-KEY')
 
 
 +++ Verder gaan bij 3.6 +++
@@ -458,7 +458,7 @@ Three-Legged authorization flow:
 - Resource owner, client application, authorization server and a resource server
 - Three-Legged authorization flow is mostly used for end-user authentication.
 
-Three-Legged authorization steps. 
+Three-Legged authorization steps.
 - Retrieve authorization code.
 - Exchange authorization code for an access token.
 - Use the access token.
@@ -468,7 +468,7 @@ Grant type used in the two-legged authorization flow: client_credentials
 
 	POST /token HTTP/1.1
 	Host: authorization-server.com
-	Content-Type: application/x-www-form-urlencoded 
+	Content-Type: application/x-www-form-urlencoded
 
 	grant_type=client_credentials
 	client_id=xxxxxxxxxx
@@ -485,10 +485,10 @@ Refresh token: lifetime 60 days
 
 Revoke token:
 
-	POST /revoke HTTP/1.1 
+	POST /revoke HTTP/1.1
 	Host: authorization-server.com
-	Content-Type: application/x-www-form-urlencoded 
-	Authorization: Bearer <access_token> 
+	Content-Type: application/x-www-form-urlencoded
+	Authorization: Bearer <access_token>
 
 	token=<access_token>
 
@@ -565,7 +565,7 @@ CI 	Continuous Integration
 CD 	Continuous Deployment
 
 Main git concepts:
-- Remote repository 
+- Remote repository
 - Local repository
 - Staging area
 - Working directory
@@ -598,7 +598,7 @@ git reset
 # Commit files in staging area
 git commit -m "My first commit"
 
-# Push changes 
+# Push changes
 git push
 
 
@@ -663,11 +663,11 @@ git cat-file -t <SHA1>
 
 # List files in git working directory
 #
-git ls-files --modified 
+git ls-files --modified
 
 # List files in git staging area
 #
-git ls-files --stage 
+git ls-files --stage
 
 
 ++++ 7.4 +++++
@@ -734,7 +734,7 @@ Cisco DNA Center API:
 - Northbound API aka Intent API
 - RESTful
 - HTTPS: GET, POST, PUT, and DELETE
-- JSON 
+- JSON
 - https://developer.cisco.com/docs/dna-center/api/1-3-1-x/
 
 
@@ -743,7 +743,7 @@ POST <cluster-ip>/dna/system/api/v1/auth/token
 with basic authorization header with username and password
 
 HTTP response code 200 Json token:
-	{ 
+	{
 	    "Token": "eyJ0eXA ... O5uEMR-tc“
 	}
 
@@ -797,8 +797,8 @@ Event Consumer
 
 EDA characteristics:
 - Asynchronous
-- Real-time 
-- Fine-grained 
+- Real-time
+- Fine-grained
 - Unicast & Multicast
 - Event Ontology
 
@@ -839,7 +839,7 @@ Distributed logging stages:
 - Forwarding (to log aggregator)
 - Storage 	 (in object storage)
 - Indexing   (into different data sets; optional)
-- Alerting	 (based on thresholds and patterns; optional) 
+- Alerting	 (based on thresholds and patterns; optional)
 
 
 ELK stack:
@@ -859,6 +859,63 @@ service app status
 service app start
 
 Graylog filter: source:front* AND INFO
+
+
++++++++
+Verloren:
+9.9 Application Monitoring with Cisco AppDynamics
+9.10 Limitations of Distributed Systems and CAP Theorem
+9.11 Overcoming Challenges in Distributed Systems
++++++++
+
+
+Deploying Applications
+----------------------
+
+12-Factor App
+-------------
+Adam Wiggins, 2012, Heroku; https://12factor.net
+
+The Twelve Factors:
+ 1. Codebase				One codebase tracked in revision control, many deploys
+ 2. Dependencies			Explicitly declare and isolate dependencies
+ 3. Config					Store configuration in the environment
+ 4. Backing services		Treat backing services as attached resources
+ 5. Build, release, run		Strictly separate build and run stages
+ 6. Processes				Execute the app as one or more stateless processes
+ 7. Port binding			Export services via port binding
+ 8. Concurrency				Scale out via the process model
+ 9. Disposability			Maximize robustness with fast startup and graceful shutdown
+10. Dev/prod parity			Keep development, staging, and production as similar as possible
+11. Logs					Treat logs as event streams
+12. Admin processes			Run admin/management tasks as one-off processes
+
+
+Version control system (VCS): Git, Subversion (SVN), Mercurial
+
+Package managers:
+- NuGet (.NET). Dependency manifest file in json.
+- Maven or Gradle (Java).
+- npm package manager (Node Javascript). Json dependency declaration file (npm install).
+- Pip (Python). Dependency manifest text file (pip install -r requirements.txt).
+
+Examples backing services:
+- Data stores (Mysql, PostgreSQL)
+- Messaging systems
+- SMTP services (Postfix)
+- Caching systems (Memcached, redis)
+- External authentication providers (Auth0).
+
+Example Web Servers:
+- Apache, NGINX (open source)
+- Tomcat and JBoss (Java)
+- Microsoft Internet Information Server (IIS)  (.NET)
+
+A 12-factor app should not rely on runtime injection of web servers. A self-contained application declares web server libraries as dependencies, e.g.:
+- Tornado (Python)
+- Jetty (Java)
+Export services via port binding.
+
 
 
 Databases
@@ -883,7 +940,7 @@ Non-relational DBs:
 - Scalability and flexibility
 - 3 Vs: volume, velocity, and variety.
 - Denormalization, Aggregation, Data distribution (sharding and replication)
-	
+
 Atomicity, Consistency, Isolation, Durability (ACID Compliance; e.g. Relational DB)
 Consistency, Availability, Partition (CAP) theorem
 
@@ -906,7 +963,7 @@ Document-based DB (document store)
 - Semi-structured data
 - Collections of documents
 - Quick iterations and frequent code pushes (agile sprints)
-- Fast inserts 
+- Fast inserts
 - Easy indexing
 - Loose schema
 - Evolving very fast
@@ -916,7 +973,7 @@ Examples: MongoDB, Amazon DynamoDB ?
 
 Graph-based DB:
 - nodes and edges
-- example: Neo4j 
+- example: Neo4j
 
 Useful for:
 - Social graph
@@ -948,7 +1005,7 @@ Data warehouses
 Business intelligence (BI)
 Big data
 Library card catalog
-Ad-hoc query systems 
+Ad-hoc query systems
 
 Examples: Cassandra, HBase
 
@@ -966,7 +1023,7 @@ EXPLAIN ANALYSE SELECT date_trunc('hour', pickup_datetime) as timeframe, COUNT(*
 	EXPLAIN ANALYSE
 	SELECT date_trunc('hour', pickup_datetime) as timeframe,
 
-	COUNT(*) FROM rides 
+	COUNT(*) FROM rides
 	GROUP BY timeframe
 	ORDER BY timeframe;
 
@@ -987,7 +1044,7 @@ EXPLAIN ANALYSE SELECT time_bucket('5 minutes', pickup_datetime) AS timeframe, C
 MongoDB Exercise
 ----------------
 # Select the DEVNET database
-use DEVNET 
+use DEVNET
 
 # List the collections
 db.getCollectionNames()
@@ -1064,13 +1121,13 @@ Neo4j Graph Database
 --------------------
 MATCH (n) RETURN n
 
-the actors with the movies they played in and display the actors who played in the most Bond movies with the 
+the actors with the movies they played in and display the actors who played in the most Bond movies with the
 
 MATCH (p:People)-[:AS_BOND_IN]->(m:Film)
 RETURN p.Name AS ActorName, count(p.Name) AS BondMovies ORDER BY BondMovies DESC
 
 
- Try querying for the most commonly used car brand that Sean Connery drove in his movies. 
+ Try querying for the most commonly used car brand that Sean Connery drove in his movies.
  As you can see, he drove a Ford card 16 times in all his movies.
 
 MATCH (p:People)-[:AS_BOND_IN]->(m:Film)-[:HAS_VEHICLE]->(v:Vehicle)
@@ -1099,7 +1156,7 @@ sudo snap install postman
 # - Equivalent to openssl-dev on other distributions
 # - For example the gcc C compiler
 #
-sudo apt-get install libssl-dev 
+sudo apt-get install libssl-dev
 sudo apt-get install build-essential
 
 
@@ -1178,13 +1235,13 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 
 # Update the package database with the Docker packages from the newly added repo
 # Install Docker Community Edition.
-# 
+#
 sudo apt update
 sudo apt install docker-ce
 
 # Set up group permissions so you don’t need sudo for every docker command.
 # Add your user to the docker group.
-# 
+#
 sudo usermod -aG docker <user>
 
 # Verify Docker
@@ -1377,7 +1434,7 @@ guestshell
 
 [guestshell@guestshell ~]$ sudo yum update -y
 [guestshell@guestshell ~]$ sudo yum install -y git nano
-[guestshell@guestshell ~]$ git --version 
+[guestshell@guestshell ~]$ git --version
 [guestshell@guestshell ~]$ nano --version
 [guestshell@guestshell ~]$ git clone https://github.com/CiscoDevNet/dnav3-code.git
 
