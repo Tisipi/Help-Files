@@ -916,6 +916,12 @@ A 12-factor app should not rely on runtime injection of web servers. A self-cont
 - Jetty (Java)
 Export services via port binding.
 
+Beanstalkd: background processing queueing software.
+
+Adapters: Abstraction to different backing services. e.g. databases (SQLite, PostgreSQL) in dev, staging and prod. Example adapter: ActiveRecord.
+Con: Might cause problems, e.g. tiny incompatibilities between dev and prod.
+
+Read Eval Print Loop (REPL) shell.
 
 
 Databases
