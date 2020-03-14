@@ -957,18 +957,116 @@ Docker registry:
 - Public: Docker Hub (https://hub.docker.com),
 - Self-hosted: Harbor or GitLab Container Registry
 
+Docker uses Union File System (unionFS) to layer Docker images.
+- unionFS allows files and directories of separate file systems, known as branches, to be transparently overlaid, forming a single coherent file system.
+- Layers or intermediate images.
+- Image can start with a blank layer called scratch (base image).
+- Image can take an existing parent image as base.
 
-# Fetch image explicitly from registry
-docker pull
 
 # Create and run a container (fetches image automatically, if needed)
-docker run
+#
+# docker run -dit --name <name container> -p <host port>:<container port> <image:version>
+#
+# 	-d (--detach)		detached mode (in background)
+# 	-i (--interactive)	interactive session
+# 	-t (--tty)			standard input terminal
+# 	-p (--publish) 		Publish a port outside the container
+#	--name 				Optional name of container
+#
 
-docker stop
+# Run busybox:
+#
+docker run busybox echo hello, world
+docker run busybox pwd
+docker run busybox ping 8.8.8.8
+
+# Run Apache httpd web server
+#
+docker run -dit -p 8080:80 httpd
+docker run -dit -p 8080:80 httpd:2.4
+
+# Run Apache httpd web server
+#
+docker run -dit --name MyApacheWeb -p 8080:80 httpd:2.4
 
 
-# Build your own images
+# Instead of running Apache httpd web server
+# jump into the bash shell (for example for troubleshooting).
+#
+# You now need to start the container manually from the bash shell...
+# Can be used to run one-off containers with diagnostic or maintenance commands...
+# Containers stops when you exit bash shell...
+#
+docker run -dit --name MyApacheWeb -p 8080:80 httpd:2.4 bash
+
+
+# Access the bash shell after starting the container.
+#
+docker run -dit --name MyApacheWeb -p 8080:80 httpd:2.4 bash
+docker exec -it <containerid> bash
+
+
+
+# List running containers:
+#
+docker ps
+docker container ls
+
+# List all containers that have run:
+#
+docker ps --all
+docker container ls -a
+
+
+# Remove stopped containers, docker cache, etc.:
+#
+docker system prune
+
+
+
+# Fetch image explicitly from registry
+#
+docker pull ...
+
+
+#  Create a container without starting it
+#
+docker create hello-world
+
+# Create and start a container.
+#
+docker create hello-world
+docker start -a <container reference>
+
+# Restart a stopped container.
+# First three characters of id suffice.
+#
+docker start <container id>
+
+# Restart a stopped container; attach to STDOUT/STDERR.
+#
+docker start -a <container id>
+
+
+# Stop a running container
+#
+docker stop <container id>
+
+
+# Build your own image
+#
 docker build
+
+
+# Help
+#
+docker --help.
+
+
+# New docker syntax available:
+# docker container run
+# docker image build
 
 
 
