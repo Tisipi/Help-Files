@@ -944,6 +944,7 @@ Docker editions:
 - Engine enterprise
 - Enterprise with full management support
 
+Linux xommand "ps aux" lists all processes (incl. docker containers)
 
 Docker client-server architecture:
 - Client using CLI
@@ -952,14 +953,23 @@ Docker client-server architecture:
 Docker also supports a REST API
 Docker daemon manages containers, images, networks and volumes.
 
-Docker registry, Docker Hub (https://hub.docker.com),
+Docker registry:
+- Public: Docker Hub (https://hub.docker.com),
+- Self-hosted: Harbor or GitLab Container Registry
 
 
+# Fetch image explicitly from registry
+docker pull
+
+# Create and run a container (fetches image automatically, if needed)
 docker run
+
 docker stop
+
+
+# Build your own images
 docker build
 
-Note: ps aux: lists all processes (incl. docker containers)
 
 
 Databases
