@@ -924,6 +924,44 @@ Con: Might cause problems, e.g. tiny incompatibilities between dev and prod.
 Read Eval Print Loop (REPL) shell.
 
 
+
+Hypervisors
+-----------
+- Type-1, native or bare-metal hypervisors. Run directly on the host's hardware.
+  Examples: Xen, Oracle VM Server, Microsoft Hyper-V, VMware ESXi.
+- Type-2 or hosted hypervisors. Run on OS. Runs as a process on the host.
+  Examples: VMware Workstation/Player, VirtualBox, Parallels Desktop for Mac, QEMU.
+
+The distinction between these two types is not always clear.
+
+
+Docker
+------
+Apache 2.0 open-source license.
+
+Docker editions:
+- Engine community
+- Engine enterprise
+- Enterprise with full management support
+
+
+Docker client-server architecture:
+- Client using CLI
+- Server, Docker daemon
+
+Docker also supports a REST API
+Docker daemon manages containers, images, networks and volumes.
+
+Docker registry, Docker Hub (https://hub.docker.com),
+
+
+docker run
+docker stop
+docker build
+
+Note: ps aux: lists all processes (incl. docker containers)
+
+
 Databases
 =========
 ERM 	Entity relationship modeling
