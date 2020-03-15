@@ -1216,11 +1216,45 @@ Restarting a container: Filesystem data is not lost
 Remove a container:		Filesystem data is lost
 
 Persist data with:
-- Volumes: 		Location outside of container union FS (/var/lib/docker/volumes)
-- Bind mounts:
-- tmpfs mounts:
+- Volume: 		Location outside of container union FS (/var/lib/docker/volumes).
+				Not accessible to non-Docker processes.
+- Bind mount:	Any location on host. Accessible to non-Docker processes.
+- tmpfs mount:	System memory on host.
 
 Volumes are the best way.
+A volume can be mounted into multiple containers simultaneously.
+
+
+# List the volumes
+#
+docker volume ls
+
+# Inspect a volume
+#
+docker volume inspect <volume name>
+
+
+# Create a volume
+#
+# docker volume create [OPTIONS] [VOLUME]
+#
+docker volume create <name volume>
+
+
+# Create a volume when starting the container
+#
+# volume:						my-volume
+# maps host local path 			/var/lib/docker/volumes/my-volume/
+# into the container at 	 	/var/lib/app-data
+# container:					my-app
+#
+docker run -d -v my-volume:/var/lib/app-data my-app
+
+
+# Bind mount can only be specified with the docker run command.
+# The path starts with the forward slash (/)
+#
+docker run -d -v /home/cisco/app-folder:/var/lib/app-data my-app
 
 
 
@@ -1640,7 +1674,7 @@ https://deckofcardsapi.com/api/deck/{{deck_id}}/draw/?count=3
 
 curl https://api.ciscospark.com/v1/people/me
 
-curl https://api.ciscospark.com/v1/messages -X POST -H "Authorization:Bearer NDc0OWI3NWMtNjc3ZS00ZDM4LWE3MzktNWYyYmMxYWY2YjIxMWQ0ZjI5ZjAtM2Yz_PF84_e1a492ed-2b3b-4ab5-b37e-e7a31a6a4d57" --data "toPersonEmail=ericbrouwers@home.nl" --data "text=Hi%20from%20DevNet"
+curl https://api.ciscospark.com/v1/messages -X POST -H "Authorization:Bearer NDc0OWI3NWMtNjc3ZS00ZDM4LWE3MzktNWYyYmMxYWY2YjIxMWQ0ZjI5ZjAtM2Yz_PF84_e1a492ed-2b3b-4ab5-b37e-e7a31a6a4d57" --data "toPersonEmail=myEmail@email.nl" --data "text=Hi%20from%20DevNet"
 
 curl https://api.ciscospark.com/v1/teams -X GET -H "Authorization:Bearer M2RiZWQyMDItMDdhYi00NTA1LTgwOTQtMjUzMTc4YThhZDI4YjU4NmJmNmMtZWQ3_PF84_e1a492ed-2b3b-4ab5-b37e-e7a31a6a4d57"
 
