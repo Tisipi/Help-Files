@@ -983,8 +983,8 @@ Dockerfile example:
 	RUN 	pip install -r requirements.txt
 	EXPOSE 	7777
 
-	ENTRYPOINT	["python3"]
-	CMD 		["myApp.py"]
+	ENTRYPOINT	["python3"]			<< This is the command
+	CMD 		["myApp.py"]		<< This is the argument
 
 
 Dockerfile example:
@@ -1014,11 +1014,16 @@ ENTRYPOINT
 
 If you don't use RUN either ENTRYPOINT or CMD must be defined.
 Two modes: shell and exec.
+Exec format: Arguments are inside square brackets.
+
+Exec mode is preferred. It starts the specified command process as PID 1. Ensures that unix signals sent to the container are sent to your spawned process.
+
 
 
 # Build an image from the dockerfile
 #
 docker build -t <image-tag>
+docker build -t <image-tag> .
 docker build -t <image-tag> -f <path to Dockerfile>
 
 # Push image to registry
@@ -1125,6 +1130,97 @@ docker --help.
 # New docker syntax available:
 # docker container run
 # docker image build
+
+
+Docker networking
+-----------------
+Network drivers:
+- Bridge
+- Host
+- Overlay
+- Macvlan
+- None
+
+Built-in DNS resolution:
+- Default bridge network: Container can only access other container by IP addres.
+- Custom bridge network: Automatic DNS resolution between containers.
+
+Containers connected to default bridge network, can not speak to external hosts.
+To enable forwarding:
+1. Allow IP forwarding on host:
+   	sysctl net.ipv4.conf.all.forwarding=1
+2. Update iptables FORWARD policy to ACCEPT traffic:
+   	iptables -P FORWARD ACCEPT
+
+
+
+# List Docker networks
+#
+docker network ls
+
+
+# Create a container network
+#
+# docker network create [OPTIONS] NETWORK
+#
+docker network create my-bridge-network
+docker network create -d bridge my-bridge-network
+
+docker network create --driver=bridge --subnet=192.168.0.0/16 br0
+
+docker network create \
+  --driver=bridge \
+  --subnet=172.28.0.0/16 \
+  --ip-range=172.28.5.0/24 \
+  --gateway=172.28.5.254 \
+  br0
+
+
+docker network create -d overlay my-multihost-network
+
+docker network create -d overlay \
+  --subnet=192.168.10.0/25 \
+  --subnet=192.168.20.0/25 \
+  --gateway=192.168.10.100 \
+  --gateway=192.168.20.100 \
+  --aux-address="my-router=192.168.10.5" --aux-address="my-switch=192.168.10.6" \
+  --aux-address="my-printer=192.168.20.5" --aux-address="my-nas=192.168.20.6" \
+  my-multihost-network
+
+
+# Attach container to a network upon creation
+#
+docker run -it -p 5000:5000 --network multi-host-network container1
+
+
+# Connect a container to a network
+#
+# docker network connect [OPTIONS] NETWORK CONTAINER
+# docker network connect [OPTIONS] <net-id> <container-id>
+#
+docker network connect multi-host-network container1
+docker network connect --ip 10.10.36.122 multi-host-network container2
+
+
+# Disconnect a container from a network
+#
+# docker network disconnect [OPTIONS] NETWORK CONTAINER
+# docker network disconnect [OPTIONS] <net-id> <container-id>
+#
+docker network disconnect multi-host-network container1
+
+
+Persistent Data
+---------------
+Restarting a container: Filesystem data is not lost
+Remove a container:		Filesystem data is lost
+
+Persist data with:
+- Volumes: 		Location outside of container union FS (/var/lib/docker/volumes)
+- Bind mounts:
+- tmpfs mounts:
+
+Volumes are the best way.
 
 
 
