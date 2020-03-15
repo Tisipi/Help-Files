@@ -964,6 +964,69 @@ Docker uses Union File System (unionFS) to layer Docker images.
 - Image can take an existing parent image as base.
 
 
+Dockerfile example:
+
+	FROM 	ubuntu:18.04
+	COPY 	. /app
+	RUN 	make /app
+	CMD 	python /app/app.py
+
+
+Dockerfile example:
+
+	FROM 	python:3.7
+	ENV 	MESSAGE HELLO-WORLD
+
+	COPY 	. /app
+	WORKDIR /app
+
+	RUN 	pip install -r requirements.txt
+	EXPOSE 	7777
+
+	ENTRYPOINT	["python3"]
+	CMD 		["myApp.py"]
+
+
+Dockerfile example:
+
+	FROM 	python:3.7
+	ENV 	MESSAGE HELLO-WORLD
+
+	COPY 	. /app
+	WORKDIR /app
+
+	RUN 	pip install -r requirements.txt
+	EXPOSE 	7777
+
+	CMD 	python3 myApp.py
+
+
+
+FROM 		creates a layer from the ubuntu:18.04 Docker image.
+COPY 		adds files from your Docker client’s current directory.
+RUN 		builds your application with make.
+CMD 		specifies what command to run within the container.
+
+WORKDIR		Changes working directory for any consecutive commands.
+EXPOSE 		Exposed port (only for documentation; must use --publish)
+ENV 		environment variables (key value)
+ENTRYPOINT
+
+If you don't use RUN either ENTRYPOINT or CMD must be defined.
+Two modes: shell and exec.
+
+
+# Build an image from the dockerfile
+#
+docker build -t <image-tag>
+docker build -t <image-tag> -f <path to Dockerfile>
+
+# Push image to registry
+#
+docker push <image-tag>
+
+
+
 # Create and run a container (fetches image automatically, if needed)
 #
 # docker run -dit --name <name container> -p <host port>:<container port> <image:version>
@@ -1052,11 +1115,6 @@ docker start -a <container id>
 # Stop a running container
 #
 docker stop <container id>
-
-
-# Build your own image
-#
-docker build
 
 
 # Help
