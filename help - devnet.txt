@@ -1022,7 +1022,6 @@ Exec mode is preferred. It starts the specified command process as PID 1. Ensure
 
 # Build an image from the dockerfile
 #
-docker build -t <image-tag>
 docker build -t <image-tag> .
 docker build -t <image-tag> -f <path to Dockerfile>
 
@@ -1296,7 +1295,7 @@ Access the application:
 
 app/requirements.txt:
 
- entry Flask==1.1.1
+ Flask==1.1.1
 
 
 app/Dockerfile:
@@ -1389,6 +1388,61 @@ Start the lb container on the appnet network with .10 IP address:
 
 Access the application via the LB:
 	http://localhost:8080
+
+
+++++ 8.4 Containerize Application Using Docker NOG AFMAKEN +++++
+
+
+Kubernetes
+----------
+K8s: K + 8 characters + s ("kates", "keights")
+
+Kubernetes supports Docker, containerd, CRI-O, rktlet, and any implementation of the Kubernetes Container Runtime Interface (CRI).
+(LXC Linux Containers, rkt)
+
+Kubernetes:
+Open-source system for automating deployment, scaling, and management of containerized applications.
+It groups containers that make up an application into logical units for easy management and discovery.
+
+https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/
+
+Kubernetes features:
+- Service discovery and load balancing
+- Storage orchestration
+- Automated rollouts and rollbacks
+- Automatic bin packing
+- Self-healing
+- Secret and configuration management
+
+- EndpointSlices
+- Service Topology
+- Batch execution
+- IPv4/IPv6 dual-stack
+- Horizontal scaling
+
+
+Two types of nodes:
+- Master node(s) (control plane)
+- Worker nodes
+
+Master components:
+- API server (kube-apiserver)
+- etcd
+- Scheduler (kube-scheduler)
+- Controller Manager (kube-controller-manager)
+- Cloud-controller-manager (NEW)
+
+Worker components:
+- Kubelet
+- Kube-proxy
+- Container Runtime
+
+Addons:
+- DNS (CoreDNS)
+- Web UI (Dashboard)
+- Container Resource Monitoring
+- Cluster-level Logging
+
 
 
 Databases
