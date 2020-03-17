@@ -1395,6 +1395,10 @@ Access the application via the LB:
 
 Kubernetes
 ----------
+https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/
+https://kubernetes.io/docs/tutorials/
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+
 K8s: K + 8 characters + s ("kates", "keights")
 
 Kubernetes supports Docker, containerd, CRI-O, rktlet, and any implementation of the Kubernetes Container Runtime Interface (CRI).
@@ -1403,8 +1407,6 @@ Kubernetes supports Docker, containerd, CRI-O, rktlet, and any implementation of
 Kubernetes:
 Open-source system for automating deployment, scaling, and management of containerized applications.
 It groups containers that make up an application into logical units for easy management and discovery.
-
-https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/
 
 Kubernetes features:
 - Service discovery and load balancing
@@ -1420,6 +1422,126 @@ Kubernetes features:
 - IPv4/IPv6 dual-stack
 - Horizontal scaling
 
+
+Pods:
+- Smallest deployment units on K8s.
+- Typically one container per pod.
+- If multiple containers per pod, then assigned to the same worker node.
+- When you scale on K8s, you scale the pods
+- Replicated pods (traffic is load balanced between them)
+- Each Pod gets its own IP address. Address is internal to the cluster.
+
+
+Service object expose the application to other pods (internally) or to the outside world.
+Types of Service objects:
+- ClusterIP 	(internal; default service)
+- NodePort  	(external; opens a specific IP address and a port on all the Nodes (VMs); traffic sent to this port is forwarded to the service)
+- LoadBalancer 	(external; external --> LB --> NodePort --?--> ClusterIP)
+- ExternalName 	(external; maps the Service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME record)
+
+
+ClusterIP service:
+
+	apiVersion: v1
+	kind: Service 						<<<<
+	metadata:
+	  name: my-internal-service
+	spec:
+	  selector:
+	    app: my-app
+	  type: ClusterIP 					<<<<
+	  ports:
+	  - name: http
+	    port: 80
+	    targetPort: 80
+	    protocol: TCP
+
+	Acces to ClusterIP Service via Kubernetes proxy:
+	  http://localhost:8080/api/v1/proxy/namespaces/<NAMESPACE>/services/<SERVICE-NAME>:<PORT-NAME>/
+	  http://localhost:8080/api/v1/proxy/namespaces/default/services/my-internal-service:http/
+
+
+NodePort Service:
+
+	apiVersion: v1
+	kind: Service 						<<<<
+	metadata:
+	  name: my-nodeport-service
+	spec:
+	  selector:
+	    app: my-app
+	  type: NodePort 					<<<<
+	  ports:
+	  - name: http
+	    port: 80
+	    targetPort: 80
+	    nodePort: 30036 				<<<<
+	    protocol: TCP
+
+
+LoadBalancer Service:
+
+	apiVersion: v1
+	kind: Service
+	metadata:
+	  name: my-service
+	spec:
+	  type: LoadBalancer
+	  selector:
+	    app: MyApp
+	  ports:
+	    - port: 8765
+	      targetPort: 9376
+
+
+	apiVersion: v1
+	kind: Service
+	metadata:
+	  name: my-service
+	spec:
+	  type: LoadBalancer
+	  selector:
+	    app: MyApp
+	  ports:
+	    - protocol: TCP
+	      port: 80
+	      targetPort: 9376
+	  clusterIP: 10.0.171.239
+	status:
+	  loadBalancer:
+	    ingress:
+	    - ip: 192.0.2.127
+
+
+
+Ingress. Is actually NOT a type of service. Kind of HTTP Load Balancer
+
+	apiVersion: extensions/v1beta1
+	kind: Ingress 						<<<<
+	metadata:
+	  name: my-ingress
+	spec:
+	  backend:
+	    serviceName: other
+	    servicePort: 8080
+	  rules:
+	  - host: foo.mydomain.com
+	    http:
+	      paths:
+	      - backend:
+	          serviceName: foo
+	          servicePort: 8080
+	  - host: mydomain.com
+	    http:
+	      paths:
+	      - path: /bar/*
+	        backend:
+	          serviceName: bar
+	          servicePort: 8080
+
+
+
+---
 
 Two types of nodes:
 - Master node(s) (control plane)
@@ -1442,6 +1564,226 @@ Addons:
 - Web UI (Dashboard)
 - Container Resource Monitoring
 - Cluster-level Logging
+
+
+Ways to create K8s cluster:
+- Minikube tool
+- Cisco Container Platform
+- Google Kubernetes Engine (GKE)
+- Amazon Elastic Kubernetes Service (EKS)
+
+Kubectl CLI client.
+
+Deployment Descriptor
+Deployment Controller
+ReplicaSet Controller
+
+Note: ReplicationController is getting deprecated and replaced by the ReplicaSet.
+
+Type of kubectl commands:
+- Imperative.  Using kubectl create, run, scale and expose.
+- Declarative. Using the kubectl apply command.
+
+
++++ kubectl run ? +++
+
+(kubectl apply -f https://k8s.io/examples/controllers/nginx-deployment.yaml)
+kubectl get deployments
+
+kubectl get pods
+kubectl get rs
+
+
+# Expose deployed application using public IP address of a load balancer
+#
+kubectl expose deployment hello-world --type=LoadBalancer --name=my-service
+
+# get the state of the service
+#
+kubectl get service
+
+# Get more information about the deployment
+#
+kubectl describe pod devnet-example-6bf9b76dbd-5knnx
+
+
+
+# Export a YAML descriptor of a running pod:
+#
+kubectl get pod <pod> -o yaml
+
+# Output a json formatted pod object
+#
+kubectl get pod <pod> -o json
+
+
+
+# Deploy YAML manifest for pod
+#
+kubectl create -f devnet-pod.yaml
+
+
++++ add example with kind:pod +++
+
+
+
+# Delete a Pod.
+#
+kubectl delete pod <pod>
+kubectl get pod <pod>
+
+
+
+# The Deployment controller, sitting on top of ReplicaSet, simplifies application updates
+#
+# kubectl set image deployment ...
+#
+# E.g. use my-nginx deployment to update container my-nginx to nginx image version 1.12.0
+#
+kubectl set image deployment my-nginx my-nginx=nginx:1.12.0
+kubectl set image deployment/my-nginx my-nginx=nginx:1.12.0
+
+# Inspect the nginx Deployment's rollout
+#
+kubectl rollout status deployment my-nginx
+kubectl rollout status deployment/my-nginx
+
+
+# Rollback to the previous version
+#
+kubectl rollout undo deployment my-nginx
+
+
+
+Deployment Example from Kubernetes docs
+---------------------------------------
+https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/
+
+Yaml manifest file, load-balancer-example.yaml:
+
+	apiVersion: apps/v1
+	kind: Deployment
+	metadata:
+	  labels:
+	    app.kubernetes.io/name: load-balancer-example
+	  name: hello-world
+	spec:
+	  replicas: 5
+	  selector:
+	    matchLabels:
+	      app.kubernetes.io/name: load-balancer-example
+	  template:
+	    metadata:
+	      labels:
+	        app.kubernetes.io/name: load-balancer-example
+	    spec:
+	      containers:
+	      - image: gcr.io/google-samples/node-hello:1.0
+	        name: hello-world
+	        ports:
+	        - containerPort: 8080
+
+# Deploy.
+# Creates a Deployment object and an associated ReplicaSet object.
+#
+kubectl apply -f https://k8s.io/examples/service/load-balancer-example.yaml
+
+# Display information about the Deployment
+#
+kubectl get deployments hello-world
+kubectl describe deployments hello-world
+
+# Display information about your ReplicaSet objects
+#
+kubectl get replicasets
+kubectl describe replicasets
+
+# Create a Service object that exposes the deployment
+#
+kubectl expose deployment hello-world --type=LoadBalancer --name=my-service
+
+# Display information about the Service
+#
+kubectl get services my-service
+
+# Display detailed information about the Service
+#
+kubectl describe services my-service
+
+# To verify these are pod addresses, enter this command:
+#
+kubectl get pods --output=wide
+
+# Use the external IP address (LoadBalancer Ingress) to access the Hello World application:
+#
+curl http://<external-ip>:<port>
+
+
+# To delete the Service, enter this command:
+#
+kubectl delete services my-service
+
+# To delete the Deployment, the ReplicaSet, and the Pods that are running the Hello
+# World application, enter this command:
+#
+kubectl delete deployment hello-world
+
+
+CI/CD
+-----
+Continuous Integration / Continuous Delivery
+
+Red/black deployment
+Canary deployment
+
+
+SAST 	Static Application Security Testing 	(“white box" testing)
+DAST 	Dynamic Application Security Testing 	(“black box” testing)
+	    (vulnerability scanning of application)
+
+
+GitLab CI pipeline:
+- Add .gitlab-ci.yml to your repository’s root directory.
+- Configure a Runner.
+
+Runners run the code that is defined in .gitlab-ci.yml
+
+Common simple pipeline stages:
+- Build
+- Test
+- Deploy
+
+Example more comprehensive pipeline stages:
+- Build
+- Test (code quality, SAST, unit tests)
+- Review
+- Dast
+- Deploy/Production
+- Cleanup
+
+
+Example of a GitLab CI pipeline file (.gitlab-ci.yml):
+
+	image:
+
+	services:
+
+	variables:
+		<KEY>:<VALUE>
+		PORT:3000
+	before_script:
+	  -
+      -
+	build:
+	  stage:
+	  script:
+	    -
+	    -
+	    -
+
+
++++ #TODO: 8.7 Deploying Applications LAB +++
+
 
 
 
