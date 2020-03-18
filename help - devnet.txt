@@ -1390,7 +1390,8 @@ Access the application via the LB:
 	http://localhost:8080
 
 
-++++ 8.4 Containerize Application Using Docker NOG AFMAKEN +++++
+
++++ #TODO: 8.4 Containerize Application Using Docker NOG AFMAKEN +++
 
 
 Kubernetes
@@ -1783,6 +1784,158 @@ Example of a GitLab CI pipeline file (.gitlab-ci.yml):
 
 
 +++ #TODO: 8.7 Deploying Applications LAB +++
+
+
+Hosting Applications on Network Devices
+---------------------------------------
+Cisco Catalyst 9000 Series, IOS XE
+
+Two ways of application hosting
+- Native    (Cisco)
+- Container (Docker, KVM)
+
+IOx:
+- IOs + linuX
+- End-to-end application framework.
+- Provides application-hosting capabilities for different application types.
+- Example is the Cisco Guest Shell, a special container deployment.
+
+IOx facilitates life cycle management of applications:
+- Distribution
+- Deployment
+- Hosting
+- Starting
+- Stopping
+- Monitoring
+
+Cisco IOx application hosting features:
+- Hides network heterogenity.
+- APIs manage the life cycle of applications hosted on a device.
+- Centralized application life cycle management.
+- Cloud-based developer experience.
+
+
+Applications have no access to the internal device flash.
+Applications must reside on External storage.
+External storage options for containers, applications and local logging:
+- USB 3.0	(max 120 GB)
+- SATA SSD  (max 1 TB)
+
+Storage encrypted with AES-256 (Advanced Encryption Standard)
+USB is password-protected,
+
+
+Hosted applications can be managed through:
+- CLI
+- Cisco DNA Center API
+
+Application states:
+- DEPLOYED	(installed, but resources not committed)
+- ACTIVATED	(resources committed; container artifacts generated)
+- RUNNING
+- STOPPED
+
+Application lifecycle stages:
+- Install
+- Activate
+- Start
+
+app-hosting install appid myapp package usbflash1:myapp.tar
+app-hosting activate appid myapp
+app-hosting start appid myapp
+
+app-hosting stop appid myapp
+app-hosting deactivate appid myapp
+app-hosting uninstall appid myapp
+
+
+Containers can be connected via:
+- Management interface Gi0/0
+  mgmt int -- mgmt VRF -- mgmt bridge -- container
+  mgmt interface and the container are in the same subnet
+
+- Front panel data ports (Gi1/0/1, Gi1/0/2, etc.)
+  data port -- L2 switch -- AppGigabitEthernet -- Bridge - Containers
+
+
+So, two types of networking apps:
+- Control plane apps (access the management interface)
+- Data plane apps    (access the front-panel ports)
+
+
+AppGigabitEthernet interface:
+- Internal hardware data port
+- hardware-switched to the front panel data ports
+- Same features as front-panel GigabitEthernet ports (e.g.switchport mode trunk, switchport trunk allowed vlan).
+- Avoid using switchport mode access, because it limits the containers to only one VLAN.
+- Single app (IOS XE Release 16): Either vlan-access or trunk mode; no mixing of the modes
+- Single app (IOS XE Release 17): Mixing allowed.
+- Multiple applications: Mixing allowed.
+
+
+AppGigabitEthernet  is only available on:
+- Catalyst 9300 (IOS XE 16.12.1)
+- Catalyst 9400 (IOS XE 17.1.1)
+
+Assigning an IP address to the container:
+- Linux CLI (static)
+- IOS XE CLI (static)
+- DHCP
+Cisco DNA Center workflow supports both DHCP and static options.
+
+
+! Application Hosting on Front-Panel VLAN Ports
+!
+interface AppGigabitEthernet 1/0/1
+  switchport trunk allowed vlan 10-12,20
+  switchport mode trunk
+!
+app-hosting appid iox_app
+  app-vnic AppGigEthernet vlan-access      <<<<<
+    vlan 10 guest-interface 2 			   <<<<<
+     !
+     guest-ipaddress 192.168.0.1 netmask 255.255.255.0
+
+
+! Application Hosting on Front-Panel Trunk Ports
+!
+! Note: Containers can have L3 routed access to an IOS SVI when using app-vnic "trunk" mode
+!
+interface AppGigabitEthernet 3/0/1
+  switchport trunk allowed vlan 10-12,20
+  switchport mode trunk
+!
+app-hosting appid iox_app
+  app-vnic AppGigEthernet trunk 		<<<<<
+    guest-interface 2 					<<<<<
+
+
+Enabling Application Hosting
+-----------------------------
+Prerequisites:
+- Release >= 16.12
+- Cisco certified USB3.0 Flash Drive
+- Smart License for the Catalyst 9000 series
+- DNA-Advantage license
+
+
+! Install licenses
+!
+license boot level network-advantage addon dna-advantage
+wr mem
+reload
+show version
+
+! Enable IOx Application Hosting framework
+!
+
+
+---
+
+! Install/enable Cisco Guest Shell
+!
+guestshell enable
+
 
 
 
@@ -2262,6 +2415,7 @@ show iox-service
 
 ! Enable the communication between IOS XE and the Guest Shell container
 ! Network settings of IOS XE host
+!
 conf t
 interface VirtualPortGroup0
   ip address 192.168.1.1 255.255.255.0
@@ -2296,6 +2450,7 @@ show app-hosting detail
 end
 
 ! Access guestshell
+!
 guestshell
 [guestshell@guestshell ~]$ whoami
 [guestshell@guestshell ~]$ pwd
