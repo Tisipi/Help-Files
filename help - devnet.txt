@@ -323,8 +323,36 @@ requests.get('https://api.ciscospark.com/v1/messages', headers={'Authorization':
 requests.get('https://api.ciscospark.com/v1/messages', headers={'X-Cisco-Meraki-API-Key': 'MERAKI-API-KEY')
 
 
-+++ Verder gaan bij 3.6 +++
++++ #TODO; Verder gaan bij 3.6 +++
 Use Cisco Webex Teams API to Enable ChatOps
+
+
+
+Advanced REST API Integration
+=============================
+Reasons for using pagination
+- Save resources
+- Improve response times
+- Improve end user experience
+
+Pagination Methods:
+-  Page-based pagination (client provides page number; optionally the page length)
+   GET /devices?page=3
+   GET /devices?per_page=25&page=3	(#items per page, page number)
+   GET /devices?limit=25&offset=50 	(#records per page, #records to be skipped; used with SQL DB)
+- Cursor-Based Pagination +++
+
+
+Limitations paged-based/offset-limit:
+- Adding new entries can cause confusion, known as page drift.
+- Adding items. Some result items could appear multiple times on different pages.
+- Deleting items. Subsequent results shift forward. When requesting next page, results might be skipped
+
+ETag:
+- HTTP Entity Tag
+- Kind of a fingerprint
+- Used for web cache validation
+- Web server does not send a full response if the content has not changed.
 
 
 
@@ -670,8 +698,7 @@ git ls-files --modified
 git ls-files --stage
 
 
-++++ 7.4 +++++
-
++++ #TODO: vanaf 7.4 +++
 
 
 
@@ -1391,7 +1418,7 @@ Access the application via the LB:
 
 
 
-+++ #TODO: 8.4 Containerize Application Using Docker NOG AFMAKEN +++
++++ #TODO: 8.4 Containerize Application Using Docker  +++
 
 
 Kubernetes
@@ -1782,7 +1809,6 @@ Example of a GitLab CI pipeline file (.gitlab-ci.yml):
 	    -
 	    -
 
-
 +++ #TODO: 8.7 Deploying Applications LAB +++
 
 
@@ -1928,15 +1954,127 @@ show version
 
 ! Enable IOx Application Hosting framework
 !
+conf t
+iox
+
+! Check that CAF, IOxman and Libvirtd services are running
+!
+show iox-service
 
 
----
+Deploying Application
+---------------------
+- Download the application on the USB
+- Configure the interface (what is meant here: mgmt, data port / AppGigabitEthernet ??)
+- Install the application on the networking device
+
+
+! Generate a Docker tarball:
+!
+docker pull myapp
+docker save myapp:latest -o myapp.tar
+
+! Interface config etc.
+!
+...
+
+! Copy Docker tar to the switch (usbflash1)
+!
+! ++ Check this cmd ++
+!
+copy scp:<path> usbflash1:myapp.tar vrf Mgmt-vrf
+
+
+! Install the app on the switch
+!
+app-hosting install appid myapp package usbflash1:myapp.tar
+app-hosting activate appid myapp
+app-hosting start appid myapp
+!
+show app-hosting list
+
+
+! Stop and uninstall
+!
+app-hosting stop appid myapp
+app-hosting deactivate appid myapp
+app-hosting uninstall appid myapp
+
+
+Guest Shell (on IOS-XE)
+-----------------------
+
+! Enable IOx
+!
+conf t
+iox
+
+! Check that CAF, IOxman and Libvirtd services are running:
+show iox-service
+
+
+! Enable the communication between IOS XE and the Guest Shell container
+! Network settings of IOS XE host
+!
+conf t
+interface VirtualPortGroup0
+  ip address 192.168.1.1 255.255.255.0
+
+! Network settings of Guest Shell container  (>= IOS XE 16.7.1):
+! - IP address
+! - Default gateway
+! - DNS server.
+!
+app-hosting appid guestshell
+ vnic gateway1 virtualportgroup 0 guest-interface 0 guest-ipaddress 192.168.1.2 netmask 255.255.255.0 gateway 192.168.1.1 name-server 8.8.8.8
+
+
+! NAT towards outside world (via outside interface Gig/1)
+!
+interface VirtualPortGroup0
+ ip nat inside
+!
+interface GigabitEthernet1
+ ip nat outside
+!
+ip access-list extended NAT-ACL
+ permit ip 192.168.1.0 0.0.0.255 any
+!
+ip nat inside source list NAT-ACL interface GigabitEthernet1 overload
+
 
 ! Install/enable Cisco Guest Shell
 !
 guestshell enable
+show app-hosting detail
+end
+
+! Access guestshell
+!
+guestshell
+[guestshell@guestshell ~]$ whoami
+[guestshell@guestshell ~]$ pwd
+[guestshell@guestshell ~]$ ls /flash/
+
+[guestshell@guestshell ~]$ sudo yum update -y
+[guestshell@guestshell ~]$ sudo yum install -y git nano
+[guestshell@guestshell ~]$ git --version
+[guestshell@guestshell ~]$ nano --version
+[guestshell@guestshell ~]$ git clone https://github.com/CiscoDevNet/dnav3-code.git
 
 
+! Execute IOS XE CLI commands from within the guestshell
+!
+[guestshell@guestshell ~]$ dohost "show memory statistics"
+
+! Run Guest Shell linux applications directly from IOS XE prompt
+!
+guestshell run groups
+guestshell run cat /etc/centos-release
+
+
+
++++ #TODO: 8.9 Summary Challenge +++
 
 
 
@@ -2396,81 +2534,6 @@ YANG
 ----
 # Generate tree view of Yang model.
 pyang -f tree ietf-interfaces.yang
-
-
-
-Guest Shell (on IOS-XE)
------------------------
-
-! Enable IOx
-!
-conf t
-iox
-exit
-
-! Check that CAF, IOxman and Libvirtd services are running:
-show iox-service
-
-
-
-! Enable the communication between IOS XE and the Guest Shell container
-! Network settings of IOS XE host
-!
-conf t
-interface VirtualPortGroup0
-  ip address 192.168.1.1 255.255.255.0
-
-! Network settings of Guest Shell container  (>= IOS XE 16.7.1):
-! - IP address
-! - Default gateway
-! - DNS server.
-!
-app-hosting appid guestshell
- vnic gateway1 virtualportgroup 0 guest-interface 0 guest-ipaddress 192.168.1.2 netmask 255.255.255.0 gateway 192.168.1.1 name-server 8.8.8.8
-
-
-! NAT towards outside world (via outside interface Gig/1)
-!
-interface VirtualPortGroup0
- ip nat inside
-!
-interface GigabitEthernet1
- ip nat outside
-!
-ip access-list extended NAT-ACL
- permit ip 192.168.1.0 0.0.0.255 any
-!
-ip nat inside source list NAT-ACL interface GigabitEthernet1 overload
-
-
-! Enable Guest Shell
-!
-guestshell enable
-show app-hosting detail
-end
-
-! Access guestshell
-!
-guestshell
-[guestshell@guestshell ~]$ whoami
-[guestshell@guestshell ~]$ pwd
-[guestshell@guestshell ~]$ ls /flash/
-
-[guestshell@guestshell ~]$ sudo yum update -y
-[guestshell@guestshell ~]$ sudo yum install -y git nano
-[guestshell@guestshell ~]$ git --version
-[guestshell@guestshell ~]$ nano --version
-[guestshell@guestshell ~]$ git clone https://github.com/CiscoDevNet/dnav3-code.git
-
-
-! Execute IOS XE CLI commands from within the guestshell
-!
-[guestshell@guestshell ~]$ dohost "show memory statistics"
-
-! Run Guest Shell linux applications directly from IOS XE prompt
-!
-guestshell run groups
-guestshell run cat /etc/centos-release
 
 
 
