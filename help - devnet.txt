@@ -335,18 +335,65 @@ Reasons for using pagination
 - Improve response times
 - Improve end user experience
 
+
 Pagination Methods:
--  Page-based pagination (client provides page number; optionally the page length)
-   GET /devices?page=3
-   GET /devices?per_page=25&page=3	(#items per page, page number)
-   GET /devices?limit=25&offset=50 	(#records per page, #records to be skipped; used with SQL DB)
-- Cursor-Based Pagination +++
+- Page-based pagination (client provides page number; optionally the page length)
+  GET /devices?page=3
+  GET /devices?per_page=25&page=3	(#items per page, page number)
+
+- Offset based pagination (kind of page-based pagination)
+  GET /devices?limit=25&offset=50 	(#records per page, #records to be skipped; used with SQL DB)
+
+- Cursor-Based Pagination (keyset-based)
+  beforeId cursor:
+    GET /devices?beforeId=6&max=3
+  afterDate cursor:
+    GET /devices?afterDate=2020-03-19T11:11:11&max=3
+
+
+HATEOAS
+-------
+- Hypermedia as the Engine of Application State
+- REST Client interacts with a network application whose application servers provide information
+  dynamically through hypermedia.
+- A REST client needs little to no prior knowledge about how to interact with an application or server
+  beyond a generic understanding of hypermedia.
+
+
+GET request:
+
+	GET /accounts/12345 HTTP/1.1
+	Host: bank.example.com
+	Accept: application/vnd.acme.account+json
+	...
+
+Response:
+
+	HTTP/1.1 200 OK
+	Content-Type: application/vnd.acme.account+json
+	Content-Length: ...
+
+	{
+	    "account": {
+	        "account_number": 12345,
+	        "balance": {
+	            "currency": "usd",
+	            "value": 100.00
+	        },
+	        "links": { 										<<< hypermedia links
+	            "deposit": "/accounts/12345/deposit",
+	            "withdraw": "/accounts/12345/withdraw",
+	            "transfer": "/accounts/12345/transfer",
+	            "close": "/accounts/12345/close"
+	        }
+	    }
+	}
 
 
 Limitations paged-based/offset-limit:
 - Adding new entries can cause confusion, known as page drift.
 - Adding items. Some result items could appear multiple times on different pages.
-- Deleting items. Subsequent results shift forward. When requesting next page, results might be skipped
+- Deleting items. Subsequent results shift forward. When requesting next page, results might be skipped.
 
 ETag:
 - HTTP Entity Tag
