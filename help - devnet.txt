@@ -336,7 +336,7 @@ Reasons for using pagination
 - Improve end user experience
 
 
-Pagination Methods:
+Some pagination Methods:
 - Page-based pagination (client provides page number; optionally the page length)
   GET /devices?page=3
   GET /devices?per_page=25&page=3	(#items per page, page number)
@@ -350,15 +350,27 @@ Pagination Methods:
   afterDate cursor:
     GET /devices?afterDate=2020-03-19T11:11:11&max=3
 
+- HATEOAS
+
+- HTTP Link Header
+
+- Metadata in HTTP Response Payload
+
+
+Limitations paged-based/offset-limit:
+- Adding new entries can cause confusion, known as page drift.
+- Adding items. Some result items could appear multiple times on different pages.
+- Deleting items. Subsequent results shift forward. When requesting next page, results might be skipped.
+
 
 HATEOAS
 -------
 - Hypermedia as the Engine of Application State
+- Engine of Application State: What actions are possible varies as the state of the resource varies.
 - REST Client interacts with a network application whose application servers provide information
   dynamically through hypermedia.
 - A REST client needs little to no prior knowledge about how to interact with an application or server
   beyond a generic understanding of hypermedia.
-
 
 GET request:
 
@@ -389,17 +401,141 @@ Response:
 	    }
 	}
 
+Response (account is overdrawn):
 
-Limitations paged-based/offset-limit:
-- Adding new entries can cause confusion, known as page drift.
-- Adding items. Some result items could appear multiple times on different pages.
-- Deleting items. Subsequent results shift forward. When requesting next page, results might be skipped.
+	HTTP/1.1 200 OK
+	Content-Type: application/vnd.acme.account+json
+	Content-Length: ...
+
+	{
+	    "account": {
+	        "account_number": 12345,
+	        "balance": {
+	            "currency": "usd",
+	            "value": -25.00
+	        },
+	        "links": { 										<<< Only one hypermedia link
+	            "deposit": "/accounts/12345/deposit"
+	        }
+	    }
+	}
+
+
+Another example:
+
+	GET http://example.com/api/item/11
+
+	HTTP/1.1 200 OK
+	<"... output omitted "...>
+	{
+	 "itemId": 11,
+	 "category": "book",
+	 "author": "Mai Link",
+	 "links": [ 							<<< links
+	    {
+	      "href":"11/cart,
+	      "rel": "addCart",
+	      "method": "POST"
+	    },
+	    {
+	     "href":"11/wishlist,
+	      "rel": "addWish",
+	      "method": "POST"
+	    }
+	  ]
+	}
+
+
+HTTP Link Header
+----------------
+- RFC 5988, RFC 8288 (Web Linking).
+- Response HTTP header
+- Resources on the web (presented as web links). URI.
+- HTTP "Link" for navigating pages.
+- "rel" parameter: Defines type of relationships (relation type) between the resources.
+- Common relation values: first, last, previous, next.
+- Client should use the URL provided in the Link header.
+- Link can be parsed for example with Python requests utility method: requests.utils.parse_header_links
+
+Pagination example:
+	HTTP/1.1 200 OK
+	<"... output omitted "...>
+
+	Link: <https://api.github.com/user/repos?page=3&per_page=100>; rel="next",
+	      <https://api.github.com/user/repos?page=50&per_page=100>; rel="last"
+
+	<"... output omitted "...>
+
+
+
+Metadata in HTTP Response Payload
+---------------------------------
+- Construct new Requests from Response Payload.
+- Metadata can include:
+  - Values like: current page number, #pages, #records/page. #records.
+  - Hypermedia links to the first/last/previous/next record.
+
+
+Example Request:
+
+	from requests import request
+
+	first_page = request('GET', '/devices?page=3')
+	last_page_link = first_page.json()['_metadata']['links']['last']
+	last_page = request('GET',last_page_link)
+
+
+Example Metadata:
+
+	{ "_metadata":
+	  { "page": 3,
+	    "per_page": 10,
+	    "page_count": 20,
+	    "record_count": 196,
+	    "links": [ {"first": "/devices?page=1},
+	                {"prev": "/devices?page=2"},
+	                {"next": "/devices?page=4},
+	                {"last": "/devices?page=20} ]
+	  },
+	...
+	}
+
+--
 
 ETag:
 - HTTP Entity Tag
 - Kind of a fingerprint
 - Used for web cache validation
 - Web server does not send a full response if the content has not changed.
+
+
++++ #TODO: 4.3 Use Paginated REST API Endpoint +++
+
+
+Network errors:
+- Connection timeout
+- Destination host unreachable
+- Destination port unreachable
+- Protocol error (using HTTP when HTTPS required)
+
+API errors, HTTP response codes:
+1xx		Informational
+2xx		Success
+3xx		Redirect
+4xx		Client error
+5xx		Server Error
+
+429 	Too Many Requests; throttling
+
+Example implementation rate-limiting:
+
+	HTTP/1.1 200 OK
+	Server: nginx
+	Date: Thu, 71 Nov 2039 12:54:51 GMT
+	RateLimit-Limit: 600								<<< #requests/min
+	RateLimit-Observed: 4								<<< #requests issued
+	RateLimit-Remaining: 596							<<< #requests remaining
+	RateLimit-ResetTime: Thu, 71 Nov 2039 12:55:51 GMT	<<< back-off until (in case of violation)
 
 
 
