@@ -538,6 +538,44 @@ Example implementation rate-limiting:
 	RateLimit-ResetTime: Thu, 71 Nov 2039 12:55:51 GMT	<<< back-off until (in case of violation)
 
 
+REST API Unrecoverable Errors:
+- 400 Bad Request
+- 401 Unauthorized
+- 403 Forbidden
+
+REST API Retryable Errors:
+- 405 Method Not Allowed 	(HTTP "Allow" header: lists valid methods)
+- 408 Request Timeout
+- 411 Length Required 		(Content-Length header missing)
+- 429 Too Many Requests 	(Throttling, rate-limiting; Webex responds with HTTP "Retry-After" header, in secs)
+
+Are 405 and 411 really retryable ??
+
+
+Retry-After code:
+
+	while True:
+	    response = requests.post(url)
+	    if response.status_code == 429:
+	        wait = response.headers.get('Retry-After', 99)
+	        time.sleep(int(wait))
+	    else:
+	        break
+
++++ #TODO: 4.6 Utilize REST API Error Control Flow Techniques +++
+
+
+Reasons for optimizing API performance:
+- Response time
+- Required bandwidth
+- Processing time and resources
+
+Optimize API calls by:
+- Caching
+- Compression
+- Pagination
+
+
 
 Security
 --------
