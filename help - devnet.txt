@@ -500,14 +500,6 @@ Example Metadata:
 	...
 	}
 
---
-
-ETag:
-- HTTP Entity Tag
-- Kind of a fingerprint
-- Used for web cache validation
-- Web server does not send a full response if the content has not changed.
-
 
 +++ #TODO: 4.3 Use Paginated REST API Endpoint +++
 
@@ -574,6 +566,38 @@ Optimize API calls by:
 - Caching
 - Compression
 - Pagination
+
+HTTP Caching:
+- Client-side caching in browser
+- Web proxy servers / Caching proxy server
+- Server-side caching (reserve proxy, e.g. Varnish Cache; API gateway)
+
+- Caching systems (Memcached, redis)
+
+
+HTTP mechanisms to invalidate stale cached data:
+1. Time-based period (static resources)
+2. Mandatory revalidation with origin server to verify that cached entry is still valid.
+
+
+
+Cache-Control header specifies caching behaviour of HTTP responses:
+- No-store: 	Disable caching
+- No-cache: 	Always verify if resource is still valid
+- Max-age: 		Validity time of cached copy (in secs)
+- Public: 		Anyone may cache
+- Private: 		Only browser/client may cache
+
+
+
+
+HTTP ETag Validation
+- ETag = Entity Tag
+- HTTP header
+- Kind of a fingerprint
+- Used for web cache validation
+- Web server does not send a full response if the content has not changed.
+
 
 
 
