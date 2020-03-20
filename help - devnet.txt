@@ -592,13 +592,52 @@ Cache-Control header specifies caching behaviour of HTTP responses:
 
 
 HTTP ETag Validation
+-------------------
 - ETag = Entity Tag
 - HTTP header
 - Kind of a fingerprint
 - Used for web cache validation
+- Can also be used for concurrent resource modification control
 - Web server does not send a full response if the content has not changed.
 
+- Clients use conditional IF-Match HTTP header in PUT or DELETE (If-Match: <etag_value>).
+- Server uses strong or weak validation:
+	- Strong validation: Byte-by-byte comparison.
+	- Weak validation: 	 Small diffs allowed (e.g. ads/banners).
+						 ETag prefixed with W/ , for example, W/"09j12ALMpo73a8."
 
+- Used for web cache validation
+
+
+Cache control:
+- HTTP 304 Not Modified
+- Cached copy is still up-to-date.
+- Client redirection response code indicates that there is no need to retransmit the requested resources.
+- Implicit redirection to a cached resource.
+
+Concurrent resource control
+- HTTP 412 Precondition Failed.
+- Client error response code indicates that access to the target resource has been denied.
+
+
+
+HTTP HEAD Method:
+- Similar to GET method.
+- Server only returns HTTP headers (instead of a full response).
+- Used to check if resource exists.
+- Used to inspect HTTP headers only.
+
+When using timed curl, you'll see the fast response times of HEAD:
+time curl -silent --output /tmp/myFile.gz  http://dev.web.local/myFile.gz
+time curl --head http://dev.web.local/myFile.gz
+
+
+HTTP Conditions
+---------------
+
+If-Modified-Since:
+- Server sends back the requested resource, with a 200 status, only if it has been modified after the given date. - If the request has not been modified, the response is a 304 Not Modified without any body.
+- Note: The Last-Modified response header of a previous request contains the date of last modification.
 
 
 Security
