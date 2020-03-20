@@ -501,7 +501,19 @@ Example Metadata:
 	}
 
 
-+++ #TODO: 4.3 Use Paginated REST API Endpoint +++
+---
+LAB, 4.3 Use Paginated REST API Endpoint
+Refer files.
+
+WebEx Teams API https://developer.webex.com/docs/api/basics
+WebEx Teams API implements the Web Linking standard for pagination.
+
+VS Code:
+- Ctrl+j to display the terminal.
+- pipenv install: to install the required packages in the virtual environment.
+- pipenv shell:   to activate the virtual environment.
+
+---
 
 
 Network errors:
@@ -580,15 +592,12 @@ HTTP mechanisms to invalidate stale cached data:
 2. Mandatory revalidation with origin server to verify that cached entry is still valid.
 
 
-
 Cache-Control header specifies caching behaviour of HTTP responses:
 - No-store: 	Disable caching
 - No-cache: 	Always verify if resource is still valid
 - Max-age: 		Validity time of cached copy (in secs)
 - Public: 		Anyone may cache
 - Private: 		Only browser/client may cache
-
-
 
 
 HTTP ETag Validation
@@ -620,7 +629,6 @@ Concurrent resource control
 - Client error response code indicates that access to the target resource has been denied.
 
 
-
 HTTP HEAD Method:
 - Similar to GET method.
 - Server only returns HTTP headers (instead of a full response).
@@ -637,7 +645,28 @@ HTTP Conditions
 
 If-Modified-Since:
 - Server sends back the requested resource, with a 200 status, only if it has been modified after the given date. - If the request has not been modified, the response is a 304 Not Modified without any body.
-- Note: The Last-Modified response header of a previous request contains the date of last modification.
+- Note: Client uses the "Last-Modified" response header of a previous request, because it contains the date of last modification.
+
+
+Compressing Data
+----------------
+- Client may include the "Accept-Encoding" header. Lists supported compression algorithms.
+- Server can include the "Content-Encoding" entity header. Indicates which encoding was applied.
+
+Client side:
+	Accept-Encoding: gzip, deflate
+	Accept-Encoding: identity			<<< Identity function indicates no compression (default)
+
+Server side:
+	Content-Encoding: gzip
+
+Compression algorithms:
+- compress
+- deflate 			<<< Most common
+- gzip 	    		<<< Most common
+- bzip2
+- lzma
+- xz
 
 
 Security
@@ -2359,6 +2388,31 @@ guestshell run cat /etc/centos-release
 
 
 +++ #TODO: 8.9 Summary Challenge +++
+
+
+
+YANG
+====
+RFC 6020 YANG, a data modeling language for NETCONF.
+More recently, independently of NETCONF and for protocols such as RESTCONF and gRPC.
+
+Characteristics YANG:
+- Data modeling language (RFC 6020).
+- Analogous to XML schema and SMI for SNMP.
+- Models configuration, operational and RPC data
+- Provides semantics to better define data.
+- Extensible and modular (constraints, reusable structures and built-in and derived types).
+- Protocol independent.
+
+Note: SNMP SMI, Structure of Management Information. SMI is derived from ASN.1
+
+Tree-structured
+- schema tree
+- data tree (instance of schema tree)
+
+Modules
+Submodules
+
 
 
 
