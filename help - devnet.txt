@@ -2396,6 +2396,7 @@ YANG
 RFC 6020 YANG, a data modeling language for NETCONF.
 More recently, independently of NETCONF and for protocols such as RESTCONF and gRPC.
 
+
 Characteristics YANG:
 - Data modeling language (RFC 6020).
 - Analogous to XML schema and SMI for SNMP.
@@ -2410,9 +2411,15 @@ Tree-structured
 - schema tree
 - data tree (instance of schema tree)
 
-Modules
-Submodules
+Modules. May include multiple submodules.
+Submodules. May belong to only one module. It can never be included in any other module.
+Names of all standard (sub)modules must be unique. They share the same namespace.
+Include statement to include submodules.
+Import statement to reference external modules.
 
+For a (sub)module to reference definitions in an external module, the external module must be imported.
+For a module to reference definitions in one of its submodules, the module must include the submodule.
+For a submodule to reference definitions in a 2nd submodule of the same module, the 1st submodule must include the 2nd submodule.
 
 
 
