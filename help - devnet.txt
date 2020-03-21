@@ -2669,6 +2669,71 @@ Example of union and enumeration types:
 	}
 
 
+
+YANG SYNTAX
+===========
+
+Yang statements:
+- Leaf
+- Leaf-list (of the same type)
+- Container (contain various other types of statements)
+- List
+- Leafref   (points to data elsewhere in the data model)
+
+
+
+
+Leaf
+----
+
+leaf loopback {
+  type int32 {
+    range "0..2147483647";
+  }
+}
+
+Leaf substatements (optional):
+
+config 			Configurable (true)
+					Part of the reply to <get-config>, <copy-config> or <edit-config> request
+				Operational (false)
+					Can be part of reply to a <get>
+default 		Default value (implies that leaf is optional)
+mandatory 		Mandatory (true); optional (false). True implies a constraint.
+must 			XPath constraint
+type 			Data type
+when 			Conditional leaf (present only if XPath expression is true)
+description 	Human-readable description
+reference 		Human-readable reference to other element or spec
+units 			Human-readable unit (Hz, MBps, ℉, ...)
+status 			current, deprecated, obsolete
+
+
+Leaf-list
+---------
+
+
+Container
+---------
+
+
+List
+----
+
+
+Leafref
+-------
+
+
+
+---
+
+Validate a YANG module:		pyang myFirst.yang
+View the schema tree:		pyang -f tree myFirst.yang
+
+
+
+
 XPath - Query Language
 -----------------------
 XML Path Language, defined by W3C.
@@ -2751,7 +2816,6 @@ Examples for bookstore with books (https://www.w3schools.com/xml/xpath_examples.
 	Select all the prices 				/bookstore/book/price[text()]
 	Select price nodes with price>35 	/bookstore/book[price>35]/price
 	Select title nodes with price>35 	/bookstore/book[price>35]/title
-
 
 
 XPath Functions (Node):
