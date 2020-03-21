@@ -2676,16 +2676,13 @@ YANG SYNTAX
 Yang statements:
 - Leaf
 - Leaf-list (of the same type)
-- Container (contain various other types of statements)
+- Container (contains various other types of statements)
 - List
 - Leafref   (points to data elsewhere in the data model)
 
 
-
-
 Leaf
 ----
-
 leaf loopback {
   type int32 {
     range "0..2147483647";
@@ -2711,19 +2708,64 @@ status 			current, deprecated, obsolete
 
 Leaf-list
 ---------
+Values in a leaf-list must be unique.
+
+leaf-list loopback {
+  type int32 {
+    range "0..2147483647";
+  }
+}
 
 
 Container
 ---------
+Interior data node in the schema tree!
+
+container loopback-ipv4 {
+  leaf loopback {
+    type int32 {
+      range "0..2147483647";
+    }
+  }
+  leaf ip-address {
+    type inet:ipv4-address;
+  }
+}
 
 
 List
 ----
+Interior data node in the schema tree!
+
+list loopback-ipv4 {
+  key loopback;
+  unique ip-address;
+  leaf loopback {
+    type int32 {
+      range "0..2147483647";
+    }
+  }
+  leaf ip-address {
+    type inet:ipv4-address;
+  }
+}
+
+
+Substatements for the list and leaf-list statements:
+- Max-elements
+- Min-elements
+- Ordered-by
+
+List entries are sorted by system or user:
+- System: Natural order (numerically, alphabetically, ...)
+- User:   Order in which the operator entered them is preserved (DNS server search order, firewall rules)
 
 
 Leafref
 -------
 
+
++++ #TODO: verder bij 11.5 Data Model Modularity  +++
 
 
 ---
