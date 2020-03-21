@@ -2669,6 +2669,108 @@ Example of union and enumeration types:
 	}
 
 
+XPath - Query Language
+-----------------------
+XML Path Language, defined by W3C.
+YANG uses older version: XPath 1.0 (W3C recommens XPath 3.1, 2017, ...)
+
+Query language:
+- For selecting nodes from an XML document
+- Compute values (strings, numbers, booleans) from the content of an XML document.
+
+Results of path expressions:
+- Node set (multiple elements from the XML document)
+- String
+- Number
+- Boolean
+
+XPath uses path expressions to select nodes in an XML document.
+The node is selected by following a path or steps.
+
+Path expressions:
+	nodename	Selects all nodes with the name "nodename"
+	/			Selects from the root node
+	//			Selects nodes from the current node that match the selection no matter where they are
+	.			Selects the current node
+	..			Selects the parent of the current node
+	*			Selects any element at a given level
+	@			Selects attributes
+
+
+Example XPath query:
+	<Loopback>
+	  <name>0</name>
+	  <ip>
+	    <address>
+	      <primary>
+	        <address>10.11.11.11</address>
+	        <mask>255.255.255.255</mask>
+	      </primary>
+	    </address>
+	  </ip>
+	</Loopback>
+
+	<GigabitEthernet>
+	  <name>0/1</name>
+	  <ip>
+	    <address>
+	      <primary>
+	        <address>10.22.2.1</address>
+	        <mask>255.255.255.252</mask>
+	      </primary>
+	    </address>
+	  </ip>
+	</GigabitEthernet>
+	...
+
+Select all IP addresses:
+
+	//primary/address
+			or
+	/*/ip/address/primary/address
+
+Select only GigabitEthernet IP addresses:
+
+	//GigabitEthernet//primary/address
+	//GigabitEthernet/ip/address/primary/address
+	/GigabitEthernet/ip/address/primary/address 	<<< valid?
+
+Select IP addresses of line card 0 interfaces:
+	//GigabitEthernet[starts-with(name,'0')]//primary/address
+
+Select IP addresses of first GigabitEthernet interfaces:
+	//GigabitEthernet[1]//primary/address
+		or
+	//GigabitEthernet[position()=1]//primary/address
+
+
+Examples for bookstore with books (https://www.w3schools.com/xml/xpath_examples.asp):
+
+	Select all the titles				/bookstore/book/title
+	Select the title of the first book 	/bookstore/book[1]/title
+	Select all the prices 				/bookstore/book/price[text()]
+	Select price nodes with price>35 	/bookstore/book[price>35]/price
+	Select title nodes with price>35 	/bookstore/book[price>35]/title
+
+
+
+XPath Functions (Node):
+* count(node-set)				The number of nodes
+* position()					The context position index in the node set
+* last()						The index of the last node in the node set
+* id(node)						The node by name
+
+XPath Functions (String):
+* string(node-set)				The value of the first node as string
+* starts-with(string, prefix)	True if the string starts with the prefix
+* contains(string, substring)	True if the string contains the substring
+* string-length(string)			The length of string
+
+XPath Functions (Number):
+* number(node-set)				The value of the first node as number
+* sum(node-set)					Sum of the numeric values of each node in the node-set.
+
+
 
 Databases
 =========
