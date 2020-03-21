@@ -426,7 +426,7 @@ Another example:
 	GET http://example.com/api/item/11
 
 	HTTP/1.1 200 OK
-	<"... output omitted "...>
+	<"... snip "...>
 	{
 	 "itemId": 11,
 	 "category": "book",
@@ -459,12 +459,12 @@ HTTP Link Header
 
 Pagination example:
 	HTTP/1.1 200 OK
-	<"... output omitted "...>
+	<"... snip "...>
 
 	Link: <https://api.github.com/user/repos?page=3&per_page=100>; rel="next",
 	      <https://api.github.com/user/repos?page=50&per_page=100>; rel="last"
 
-	<"... output omitted "...>
+	<"... snip "...>
 
 
 
@@ -2393,17 +2393,21 @@ guestshell run cat /etc/centos-release
 
 YANG
 ====
+YANG:	Yet Another Next Generation
 RFC 6020 YANG, a data modeling language for NETCONF.
 More recently, independently of NETCONF and for protocols such as RESTCONF and gRPC.
-
 
 Characteristics YANG:
 - Data modeling language (RFC 6020).
 - Analogous to XML schema and SMI for SNMP.
-- Models configuration, operational and RPC data
+- Models configuration, operational and RPC data:
+	* Models configuration data.
+	* Models state data of network elements.
+	* Defines the format of event notifications.
+	* Define the signature of remote procedure calls
 - Provides semantics to better define data.
 - Extensible and modular (constraints, reusable structures and built-in and derived types).
-- Protocol independent.
+- Protocol independent. Can be converted into any encoding format, e.g. XML or JSON.
 
 Note: SNMP SMI, Structure of Management Information. SMI is derived from ASN.1
 
@@ -2420,6 +2424,249 @@ Import statement to reference external modules.
 For a (sub)module to reference definitions in an external module, the external module must be imported.
 For a module to reference definitions in one of its submodules, the module must include the submodule.
 For a submodule to reference definitions in a 2nd submodule of the same module, the 1st submodule must include the 2nd submodule.
+
+
+Example module header:
+
+	module acme-module  {
+	    namespace "http://acme.example.com/acme-module";
+	    prefix acm;
+
+	    import "ietf-yang-types"  { prefix yang; }
+	    include "acme-system";
+
+	    organization "ACME Inc.";
+	    contact joe@acme.example.com;
+	    description "Module describing the ACME products";
+	    revision 2007-06-09  {
+	        description "Initial revision.";
+	    }
+		<... snip ...>
+	}
+
+
+Example Module:
+
+	module example-sports {
+
+	  namespace "http://example.com/example-sports";
+	  prefix sports;
+
+	  import ietf-yang-types { prefix yang; }
+
+	  typedef season {
+	    type string;
+	    description
+	      "The name of a sports season, including the type and the year, e.g,
+	       'Champions League 2014/2015'.";
+	  }
+
+	  container sports {
+	    config true;
+
+	    list person {
+	      key name;
+	      leaf name { type string; }
+	      leaf birthday { type yang:date-and-time; mandatory true; }
+	    }
+
+	    list team {
+	      key name;
+	      leaf name { type string; }
+	      list player {
+	        key "name season";
+	        unique number;
+	        leaf name { type leafref { path "/sports/person/name"; }  }
+	        leaf season { type season; }
+	        leaf number { type uint16; mandatory true; }
+	        leaf scores { type uint16; default 0; }
+	      }
+	    }
+	  }
+	}
+
+
+Sources of data types:
+- Built-in data types 		(RFC 6020)
+- Derived data types 		(defined in module or imported from other module)
+- Common Yang Data Types 	(RFC 6991; derived types):
+	- "ietf-yang-types"  	(general data types)
+	- "ietf-inet-types"  	(definitions for Internet protocol suite)
+
+
+Built-in Types (RFC 6020):
+
+   +---------------------+-------------------------------------+
+   | Name                | Description                         |
+   +---------------------+-------------------------------------+
+   | binary              | Any binary data                     |
+   | bits                | A set of bits or flags              |
+   | boolean             | "true" or "false"                   |
+   | decimal64           | 64-bit signed decimal number        |
+   | empty               | A leaf that does not have any value |
+   | enumeration         | Enumerated strings                  |
+   | identityref         | A reference to an abstract identity |
+   | instance-identifier | References a data tree node         |
+   | int8                | 8-bit signed integer                |
+   | int16               | 16-bit signed integer               |
+   | int32               | 32-bit signed integer               |
+   | int64               | 64-bit signed integer               |
+   | leafref             | A reference to a leaf instance      |
+   | string              | Human-readable string               |
+   | uint8               | 8-bit unsigned integer              |
+   | uint16              | 16-bit unsigned integer             |
+   | uint32              | 32-bit unsigned integer             |
+   | uint64              | 64-bit unsigned integer             |
+   | union               | Choice of member types              |
+   +---------------------+-------------------------------------+
+
+	Reference built-in data types:
+		type uint32;
+
+
+ietf-yang-types (RFC 6991):
+
+    +-----------------------+
+    | YANG type             |
+    +-----------------------+
+    | counter32             |
+    | zero-based-counter32  |
+    | counter64             |
+    | zero-based-counter64  |
+    | gauge32               |
+    | gauge64               |
+    | object-identifier     |
+    | object-identifier-128 |
+    | yang-identifier       |
+    | date-and-time         |
+    | timeticks             |
+    | timestamp             |
+    | phys-address          |
+    | mac-address           |
+    | xpath1.0              |
+    | hex-string            |
+    | uuid                  |
+    | dotted-quad           |
+    +-----------------------+
+
+
+ietf-inet-types (RFC 6991):
+
+   +----------------------+
+   | YANG type            |
+   +----------------------+
+   | ip-version           |
+   | dscp                 |
+   | ipv6-flow-label      |
+   | port-number          |
+   | as-number            |
+   |                      |
+   | ip-address           |
+   | ipv4-address         |
+   | ipv6-address         |
+   | ip-address-no-zone   |
+   | ipv4-address-no-zone |
+   | ipv6-address-no-zone |
+   | ip-prefix            |
+   | ipv4-prefix          |
+   | ipv6-prefix          |
+   | domain-name          |
+   | host                 |
+   | uri                  |
+   +----------------------+
+
+
+To use/reference ietf-yang-types:
+		import ietf-yang-types { prefix yang; }
+		type yang:counter32;
+
+To use/reference ietf-inet-types:
+		import ietf-inet-types { prefix inet; }
+		type inet:ip-address;
+
+
+Derived Types (typedef)
+-----------------------
+YANG can define derived types from base types using the "typedef" statement.
+A base type can be either a built-in type or a derived type.
+
+Restrictions of the derived type must be the same as or stricter than the base type.
+- Numeric restrictions: range and fraction digits substatements
+- String restrictions: length and pattern substatements
+
+Four substatements of the type statement:
+- Range statement
+- Length statement
+- Pattern statement
+- Fraction-digits statement (must be present in case of subtyping decimal64)
+
+Example typedefs:
+
+	typedef acl-num-type {
+	  type int32 {
+	    range "1..199 | 1300..2699";
+	  }
+	}
+
+	typedef std-acl-num-type {
+	  type acl-num-type {
+	    range "min..99 | 1300..1999";
+	  }
+	}
+
+	typedef ext-acl-num-type {
+	  type acl-num-type {
+	    range "100..199 | 2000..max";
+	  }
+	}
+
+	typedef ext-acl-name-type {
+	  type string {
+	    length "1..50";
+	    pattern "[a-zA-Z][a-zA-Z0-9-_]*";
+	  }
+	}
+
+
+Example of fraction-digits substatement.
+
+     typedef my-decimal {
+       type decimal64 {
+         fraction-digits 2;
+         range "1 .. 3.14 | 10 | 20..max";
+       }
+     }
+
+
+Example of union built-in type:
+
+     typedef ip-address {
+       type union {
+         type inet:ipv4-address;
+         type inet:ipv6-address;
+       }
+
+Example of enumeration built-in type:
+
+    typedef ifType {
+      type enumeration {
+          enum ethernet;
+          enum atm;
+      }
+    }
+
+Example of union and enumeration types:
+
+	typedef intf-ip-addr-type {
+	  type union {
+	    type inet:ip-address;
+	    type enumeration {
+	      enum "none";
+	      enum "unnumbered";
+	      enum "dhcp";
+	    }
+	  }
+	}
 
 
 
