@@ -130,55 +130,50 @@ Managing Cisco Compute with Ansible
 Microservices overview
 
 
--------------------------------
+
 Network programmability basics
 ------------------------------
 https://developer.cisco.com/video/net-prog-basics/
 
 MODULE 1 - Introduction
-1	How to be a Network Engineer in a Programmable Age	16:04
-
+1	How to be a Network Engineer in a Programmable Age				16:04
 
 MODULE 2 - Programming Fundamentals
-1	Data Formats: Understanding and using JSON, XML and YAML 	21:21
-2	APIs are Everywhere... but what are they? 	13:00
-3	REST APIs Part 1: HTTP is for more than Web Browsing 	32:07
-4	REST APIs Part 2: Making REST API Calls with Postman 	19:43
-5	Python Part 1: Python Language and Script Basics 	33:17
+1	Data Formats: Understanding and using JSON, XML and YAML 		21:21
+2	APIs are Everywhere... but what are they? 						13:00
+3	REST APIs Part 1: HTTP is for more than Web Browsing 			32:07
+4	REST APIs Part 2: Making REST API Calls with Postman 			19:43
+5	Python Part 1: Python Language and Script Basics 				33:17
 6	Python Part 2: Working with Libraries and Virtual Environments 	21:45
 7	Python Part 3: Useful Python Libraries for Network Engineers 	38:55
 
-
 MODULE 3 - Network Device APIs
-1	Getting the "YANG" of it with Standard Data Models	18:41
-2	Goodbye SNMP <hello> NETCONF!	27:00
-3	Learn to CRUD with GET, POST and DELETE using RESTCONF	22:41
-4	NX-API Part 1: Get Started with APIs and Nexus	19:14
-5	NX-API Part 2: Dive into the Nexus Object Model	23:31
-
+1	Getting the "YANG" of it with Standard Data Models				18:41
+2	Goodbye SNMP <hello> NETCONF!									27:00
+3	Learn to CRUD with GET, POST and DELETE using RESTCONF			22:41
+4	NX-API Part 1: Get Started with APIs and Nexus					19:14
+5	NX-API Part 2: Dive into the Nexus Object Model					23:31
 
 MODULE 4 - Network Controllers
 1	Introducing Cisco DNA Center Platform APIs and Programmability 	15:44
-2	Got SDN? Understanding the ACI Programmability Options 	28:56
+2	Got SDN? Understanding the ACI Programmability Options 			28:56
 3	Network Control in the Cloud - Developing with Cisco Meraki 	16:16
-4	Cisco DNA Center Platform APIs Part 1: Exploring Apps and Tools 	19:39
+4	Cisco DNA Center Platform APIs Part 1: Exploring Apps and Tools 19:39
 5	Cisco DNA Center Platform APIs Part 2: Network Troubleshooting 	23:47
-6	ACI Programmability Part 1: The ACI Object Model 	19:08
-7	ACI Programmability Part 2: Using the ACI Toolkit 	29:24
-
+6	ACI Programmability Part 1: The ACI Object Model 				19:08
+7	ACI Programmability Part 2: Using the ACI Toolkit 				29:24
 
 MODULE 5 - Application Hosting and the Network
-1	Cloud to Fog: Why Host Apps in the Network 	09:44
-2	Linux at the Edge: Introduction to Guest Shell 	21:39
-3	Python at the Edge: Super Charged Network Event Management 	23:48
+1	Cloud to Fog: Why Host Apps in the Network 						09:44
+2	Linux at the Edge: Introduction to Guest Shell 					21:39
+3	Python at the Edge: Super Charged Network Event Management 		23:48
 4	Package, Deploy and Run Applications in the Network with IOx 	20:31
 
-
 MODULE 6 - NetDevOps
-1	Configuration Management and the Network 	11:28
-2	Ansible Part 1: What you need to Get Started 	24:27
-3	Ansible Part 2: Using Ansible for Network Configuration 	14:21
-4	Ansible Part 3: Your Network As Code 	20:02
+1	Configuration Management and the Network 						11:28
+2	Ansible Part 1: What you need to Get Started 					24:27
+3	Ansible Part 2: Using Ansible for Network Configuration 		14:21
+4	Ansible Part 3: Your Network As Code 							20:02
 
 -------------------------------
 
@@ -2732,7 +2727,6 @@ Yang statements:
 - Grouping
 
 
-
 Leaf
 ----
 leaf loopback {
@@ -2993,6 +2987,163 @@ https://github.com/YangModels/yang/tree/master/vendor/cisco/xe/1691	(version 16.
 URI for the Cisco IOS XE full device configuration:
 https://<ip address switch>:443/restconf/data/native
 
+
+RESTCONF
+-------
+RESTCONF: HTTP-based Representational State Transfer Configuration Protocol
+
+RESTCONF ~ NETCONF/YANG + HTTP(S)
+
+Subset of NETCONF
+Exposes YANG models via a REST API
+HTTP(S) transport; XML or JSON encoding
+
+Uses common HTTP verbs in REST APIs:
+GET			Read
+PATCH		Update
+PUT			Create or Replace
+POST		Create or Operations (reload, default)
+DELETE		Deletes the targeted resource
+HEAD		Header metadata (no response body)
+
+Note:
+- PATCH adds configuration.
+- PUT replaces configuration (declarative)
+
+
+Examples
+--------
+https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/prog/configuration/168/b_168_programmability_cg/RESTCONF.html
+
+RESTCONF Requests (HTTPS Verbs). RESTCONF request that shows the HTTPS verbs allowed on a targeted resource (logging monitor):
+
+curl -i -k -X "OPTIONS" "https://10.85.116.30:443/restconf/data/Cisco-IOS-XE-native:native/logging/monitor/severity" \
+     -H 'Accept: application/yang-data+json' \
+     -u 'admin:admin'
+
+	HTTP/1.1 200 OK
+	Server: nginx
+	Date: Mon, 23 Apr 2018 15:27:57 GMT
+	Content-Type: text/html
+	Content-Length: 0
+	Connection: keep-alive
+	Allow: DELETE, GET, HEAD, PATCH, POST, PUT, OPTIONS    					>>>> Allowed methods
+	Cache-Control: private, no-cache, must-revalidate, proxy-revalidate
+	Accept-Patch: application/yang-data+xml, application/yang-data+json
+	Pragma: no-cache
+
+
+
+POST (Create) Request. The POST operation creates a configuration (logging monitor alerts)
+
+curl -i -k -X "POST" "https://10.85.116.30:443/restconf/data/Cisco-IOS-XE-native:native/logging/monitor" \
+     -H 'Content-Type: application/yang-data+json' \
+     -H 'Accept: application/yang-data+json' \
+     -u 'admin:admin' \
+     -d $'{"severity": "alerts"}'
+
+	HTTP/1.1 201 Created
+	Server: nginx
+	Date: Mon, 23 Apr 2018 14:53:51 GMT
+	Content-Type: text/html
+	Content-Length: 0
+	Location: https://10.85.116.30/restconf/data/Cisco-IOS-XE-native:native/logging/monitor/severity
+	Connection: keep-alive
+	Last-Modified: Mon, 23 Apr 2018 14:53:51 GMT
+	Cache-Control: private, no-cache, must-revalidate, proxy-revalidate
+	Etag: 1524-495231-97239
+	Pragma: no-cache
+
+
+PUT: (Create or Replace) Request.
+- If the specified command is not present, the request creates it.
+- If it is already present, the request replaces it.
+
+Command: logging monitor warnings
+
+curl -i -k -X "PUT" "https://10.85.116.30:443/restconf/data/Cisco-IOS-XE-native:native/logging/monitor/severity" \
+     -H 'Content-Type: application/yang-data+json' \
+     -H 'Accept: application/yang-data+json' \
+     -u 'admin:admin' \
+     -d $'{"severity": "warnings"}
+     '
+	HTTP/1.1 204 No Content
+	Server: nginx
+	Date: Mon, 23 Apr 2018 14:58:36 GMT
+	Content-Type: text/html
+	Content-Length: 0
+	Connection: keep-alive
+	Last-Modified: Mon, 23 Apr 2018 14:57:46 GMT
+	Cache-Control: private, no-cache, must-revalidate, proxy-revalidate
+	Etag: 1524-495466-326956
+	Pragma: no-cache
+
+
+PATCH: (Update) Request.  Command: logging monitor informational
+
+curl -i -k -X "PATCH" "https://10.85.116.30:443/restconf/data/Cisco-IOS-XE-native:native" \
+     -H 'Content-Type: application/yang-data+json' \
+     -H 'Accept: application/yang-data+json' \
+     -u 'admin:admin' \
+     -d $'{"native": {
+    		    "logging": {
+    		      "monitor": {
+    		        "severity": "informational"
+    		      }
+    		    }
+    		  }
+    		}'
+
+	HTTP/1.1 204 No Content
+	Server: nginx
+	Date: Mon, 23 Apr 2018 15:07:56 GMT
+	Content-Type: text/html
+	Content-Length: 0
+	Connection: keep-alive
+	Last-Modified: Mon, 23 Apr 2018 15:07:56 GMT
+	Cache-Control: private, no-cache, must-revalidate, proxy-revalidate
+	Etag: 1524-496076-273016
+	Pragma: no-cache
+
+
+GET Request (To Read). Command: logging monitor informational
+
+curl -i -k -X "GET" "https://10.85.116.30:443/restconf/data/Cisco-IOS-XE-native:native/logging/monitor/severity" \
+     -H 'Accept: application/yang-data+json' \
+     -u 'admin:admin'
+
+	HTTP/1.1 200 OK
+	Server: nginx
+	Date: Mon, 23 Apr 2018 15:10:59 GMT
+	Content-Type: application/yang-data+json
+	Transfer-Encoding: chunked
+	Connection: keep-alive
+	Cache-Control: private, no-cache, must-revalidate, proxy-revalidate
+	Pragma: no-cache
+
+	{
+	  "Cisco-IOS-XE-native:severity": "informational"
+	}
+
+
+
+
+DELETE Request (To Delete the Configuration)
+curl -i -k -X "DELETE" "https://10.85.116.30:443/restconf/data/Cisco-IOS-XE-native:native/logging/monitor/severity" \
+     -H 'Content-Type: application/yang-data+json' \
+     -H 'Accept: application/yang-data+json' \
+     -u 'admin:admin'
+
+	HTTP/1.1 204 No Content
+	Server: nginx
+	Date: Mon, 23 Apr 2018 15:26:05 GMT
+	Content-Type: text/html
+	Content-Length: 0
+	Connection: keep-alive
+	Last-Modified: Mon, 23 Apr 2018 15:26:05 GMT
+	Cache-Control: private, no-cache, must-revalidate, proxy-revalidate
+	Etag: 1524-497165-473206
+	Pragma: no-cache
 
 
 
