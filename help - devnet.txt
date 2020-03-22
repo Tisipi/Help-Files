@@ -131,7 +131,56 @@ Microservices overview
 
 
 -------------------------------
+Network programmability basics
+------------------------------
+https://developer.cisco.com/video/net-prog-basics/
 
+MODULE 1 - Introduction
+1	How to be a Network Engineer in a Programmable Age	16:04
+
+
+MODULE 2 - Programming Fundamentals
+1	Data Formats: Understanding and using JSON, XML and YAML 	21:21
+2	APIs are Everywhere... but what are they? 	13:00
+3	REST APIs Part 1: HTTP is for more than Web Browsing 	32:07
+4	REST APIs Part 2: Making REST API Calls with Postman 	19:43
+5	Python Part 1: Python Language and Script Basics 	33:17
+6	Python Part 2: Working with Libraries and Virtual Environments 	21:45
+7	Python Part 3: Useful Python Libraries for Network Engineers 	38:55
+
+
+MODULE 3 - Network Device APIs
+1	Getting the "YANG" of it with Standard Data Models	18:41
+2	Goodbye SNMP <hello> NETCONF!	27:00
+3	Learn to CRUD with GET, POST and DELETE using RESTCONF	22:41
+4	NX-API Part 1: Get Started with APIs and Nexus	19:14
+5	NX-API Part 2: Dive into the Nexus Object Model	23:31
+
+
+MODULE 4 - Network Controllers
+1	Introducing Cisco DNA Center Platform APIs and Programmability 	15:44
+2	Got SDN? Understanding the ACI Programmability Options 	28:56
+3	Network Control in the Cloud - Developing with Cisco Meraki 	16:16
+4	Cisco DNA Center Platform APIs Part 1: Exploring Apps and Tools 	19:39
+5	Cisco DNA Center Platform APIs Part 2: Network Troubleshooting 	23:47
+6	ACI Programmability Part 1: The ACI Object Model 	19:08
+7	ACI Programmability Part 2: Using the ACI Toolkit 	29:24
+
+
+MODULE 5 - Application Hosting and the Network
+1	Cloud to Fog: Why Host Apps in the Network 	09:44
+2	Linux at the Edge: Introduction to Guest Shell 	21:39
+3	Python at the Edge: Super Charged Network Event Management 	23:48
+4	Package, Deploy and Run Applications in the Network with IOx 	20:31
+
+
+MODULE 6 - NetDevOps
+1	Configuration Management and the Network 	11:28
+2	Ansible Part 1: What you need to Get Started 	24:27
+3	Ansible Part 2: Using Ansible for Network Configuration 	14:21
+4	Ansible Part 3: Your Network As Code 	20:02
+
+-------------------------------
 
 Modular software design enforces the following software qualities:
 - Composability
@@ -2680,6 +2729,9 @@ Yang statements:
 - List
 - Leafref   (points to data elsewhere in the data model)
 
+- Grouping
+
+
 
 Leaf
 ----
@@ -2763,16 +2815,70 @@ List entries are sorted by system or user:
 
 Leafref
 -------
+list services {
+  key "ip port"
+  leaf ip {
+    type inet:ipv4-address;
+  }
+  leaf port {
+    type uint16;
+  }
+}
+
+container app {
+  leaf address {
+    type leafref {
+      path "/services/ip";
+    }
+  }
+  leaf port {
+    type leafref {
+      path "/services[ip=current()/../address]/port";
+    }
+  }
+}
+
+Note: Using "deref" might be simpler for complexer scenarios.
 
 
-+++ #TODO: verder bij 11.5 Data Model Modularity  +++
+
+Grouping
+--------
+Enables 'code' reuse.
+Reuse by "uses" keyword.
 
 
----
+grouping app {
+  leaf address {
+    type inet:ip-address;
+  }
+  leaf port {
+    type inet:port-number;
+  }
+}
 
-Validate a YANG module:		pyang myFirst.yang
-View the schema tree:		pyang -f tree myFirst.yang
+container http-server {
+  uses app {
+    refine port {
+      default 80;
+    }
+  }
+}
 
+container smtp-server {
+  uses app {
+    refine port {
+      default 25;
+    }
+  }
+}
+
+
+Backward compatibility
+----------------------
+Two concepts:
+- Revision control in module ("revision"). Import/include with "revision-date".
+- Status statement (current, deprecated, obsolete)
 
 
 
@@ -2875,6 +2981,19 @@ XPath Functions (String):
 XPath Functions (Number):
 * number(node-set)				The value of the first node as number
 * sum(node-set)					Sum of the numeric values of each node in the node-set.
+
+
+
+Cisco IOS XE Data Model
+-----------------------
+https://github.com/YangModels/yang/tree/master/vendor/cisco/xe
+https://github.com/YangModels/yang/tree/master/vendor/cisco/xe/1691	(version 16.9.1)
+
+
+URI for the Cisco IOS XE full device configuration:
+https://<ip address switch>:443/restconf/data/native
+
+
 
 
 
@@ -3332,9 +3451,11 @@ pip install -r requirements.txt
 
 YANG
 ----
+# Validate a YANG module
+pyang ietf-interfaces.yang
+
 # Generate tree view of Yang model.
 pyang -f tree ietf-interfaces.yang
-
 
 
 Cisco Live Presentations
