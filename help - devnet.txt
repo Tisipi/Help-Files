@@ -2998,8 +2998,14 @@ Subset of NETCONF
 Exposes YANG models via a REST API
 HTTP(S) transport; XML or JSON encoding
 
+RESTCONF uses same utilities and tools as REST, e.g.:
+- curl
+- Postman
+- Firefox RESTClient
+- Python requests module
+
 Uses common HTTP verbs in REST APIs:
-GET			Read
+GET			Read 	(NOT used for Operations!)
 PATCH		Update
 PUT			Create or Replace
 POST		Create or Operations (reload, default)
@@ -3011,9 +3017,14 @@ Note:
 - PUT replaces configuration (declarative)
 
 
-Examples
---------
+RESTCONF URI for config:		/restconf/data/<module name>:interfaces
+RESTCONF URI for operations:	/restconf/operations/<module name>:flapinterface
+
+
+Examples - RESTCONF
+-------------------
 https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/prog/configuration/168/b_168_programmability_cg/RESTCONF.html
+
 
 RESTCONF Requests (HTTPS Verbs). RESTCONF request that shows the HTTPS verbs allowed on a targeted resource (logging monitor):
 
@@ -3055,11 +3066,9 @@ curl -i -k -X "POST" "https://10.85.116.30:443/restconf/data/Cisco-IOS-XE-native
 	Pragma: no-cache
 
 
-PUT: (Create or Replace) Request.
-- If the specified command is not present, the request creates it.
-- If it is already present, the request replaces it.
-
-Command: logging monitor warnings
+PUT: (Create or Replace) Request.   Command: logging monitor warnings
+- If not present, the request creates it.
+- If present, the request replaces it.
 
 curl -i -k -X "PUT" "https://10.85.116.30:443/restconf/data/Cisco-IOS-XE-native:native/logging/monitor/severity" \
      -H 'Content-Type: application/yang-data+json' \
@@ -3126,8 +3135,6 @@ curl -i -k -X "GET" "https://10.85.116.30:443/restconf/data/Cisco-IOS-XE-native:
 	}
 
 
-
-
 DELETE Request (To Delete the Configuration)
 curl -i -k -X "DELETE" "https://10.85.116.30:443/restconf/data/Cisco-IOS-XE-native:native/logging/monitor/severity" \
      -H 'Content-Type: application/yang-data+json' \
@@ -3145,6 +3152,108 @@ curl -i -k -X "DELETE" "https://10.85.116.30:443/restconf/data/Cisco-IOS-XE-nati
 	Etag: 1524-497165-473206
 	Pragma: no-cache
 
+
+RESTCONF Responses
+------------------
+200 OK			 				Success. Response body contains representation of the resource.
+201 Created				 		Resource was created; new resource URI is in the "Location" header.
+204 No Content			 		The request was successfully completed, but no response body is returned.
+
+400 Bad Request			 		Missing or invalid information
+401 Unauthorized			 	The request requires user authentication.
+403 Forbidden			 		Access denied, due to authorization rules.
+404 Not Found			 		The requested resource does not exist.
+405 Method Not Allowed			The HTTP method is not supported for this resource.
+406 Not Acceptable			 	The resource cam not generatE the requested representation specified in the "Accept" header
+409 Conflict				 	Request tries to create a resource that exists.
+415 Unsupported Media Type		The format of the request is not supported.
+
+500 Internal Error			 	The server encountered an unexpected condition.
+501 Not Implemented				The server does not support the functionality.
+503 Unavailable					The server is currently unable to handle the request
+
+
+
+More IOS XE RESTCONF examples
+-----------------------------
+Full device configuration:
+	GET https://172.16.1.57:443/restconf/data/native/
+
+List of GigabitEthernet interfaces:
+	GET https://172.16.1.57:443/restconf/data/native/interface/GigabitEthernet?fields=name
+
+Get interface attributes of GigabitEthernet0/0/2 (note the %2F for /):
+	GET https://172.16.1.57:443/restconf/data/native/interface/GigabitEthernet=0%2F0%2F2
+
+Get the primary IP address of the GigabitEthernet interfaces:
+	GET https://172.16.1.57:443/restconf/data/native/interface/GigabitEthernet?fields=ip/address/primary
+
+
+
+RESTCONF lab (Cisco CSR1000v)
+-----------------------------
+
+! Enable RESTCONF interface.
+!
+conf t
+restconf
+
+! Enable HTTPS server
+!
+ip http secure-server
+
+
+Postman:
+
+# Get the full configuration
+#
+https://10.0.0.20:443/restconf/data/native
+
+# Set the authorization to basic (username and password)
+#
+Authorization: Basic ....
+
+# Set the Header key Accept to "application/yang-data+json"
+#
+Accept: application/yang-data+json
+
+
+# Get the configurations of the interfaces.
+#
+https://10.0.0.20:443/restconf/data/native/interface
+
+
+# Get the configurations of the 3rd GigabitEthernet interfaces.
+#
+https://10.0.0.20:443/restconf/data/native/interface/GigabitEthernet=3
+
+
+# Get the IP address of the first GigabitEthernet interface
+#
+https://10.0.0.20:443/restconf/data/native/interface/GigabitEthernet=1/ip/address
+
+---
+
+# Change the IP address of the 3rd GigabitEthernet interface
+
+
+# Set the Header key Accept to "application/yang-data+json"
+#
+Accept: application/yang-data+json
+Content-Type: application/yang-data+json
+
+Json Raw format:
+{
+   "address": "192.168.0.99",
+   "mask": "255.255.255.0"
+}
+
+Post to:
+https://10.0.0.20:443/restconf/data/native/interface/GigabitEthernet=3/ip/address/primary
+
+---
+
+Refer restconf.py for examples with python requests library
 
 
 
