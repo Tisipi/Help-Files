@@ -3289,10 +3289,29 @@ gNMI:
 - Opensource: OpenConfig community.
 - Transport protocol is gRPC, built on top of HTTP/2.
 - Alternative to NETCONF/RESTCONF.
-- Functional subset of NETCONF.
+- Functional subset of NETCONF. But: improved security and support for bidirectional streaming.
 - Data can be modeled using YANG (but, no requirement).
 
 
+gNMI RPCs:
+- Capability request/response. Handshake to exchange capabilities (models, encoding, version, extensions).
+- GET request/response. Retrieve data on the target.
+- SET request/response. Modify state of the target (all changes are considered as a part of one transaction).
+- Subscribe Request/Response. Subscribe to data on the target:
+	- Dedicated stream to return once-off data (ONCE).
+	- Periodically a set of data (POLL).
+	- Long-lived stream of data.
+
+Cisco-specific gRPC operations for gNMI:
+- GetConfig
+- MergeConfig
+- DeleteConfig
+- ReplaceConfig
+- CommitConfig
+- ConfigDiscardChanges
+- CliConfig 				Merge configuration data in CLI format.
+- GetOper 					Get operational data.
+- ShowCmdTextOutput 		Show CLI command output data.
 
 
 Databases
