@@ -148,8 +148,8 @@ MODULE 2 - Programming Fundamentals
 7	Python Part 3: Useful Python Libraries for Network Engineers 	38:55
 
 MODULE 3 - Network Device APIs
-1	Getting the "YANG" of it with Standard Data Models				18:41
-2	Goodbye SNMP <hello> NETCONF!									27:00
+1	Getting the "YANG" of it with Standard Data Models				18:41	DONE
+2	Goodbye SNMP <hello> NETCONF!									27:00	12:40
 3	Learn to CRUD with GET, POST and DELETE using RESTCONF			22:41
 4	NX-API Part 1: Get Started with APIs and Nexus					19:14
 5	NX-API Part 2: Dive into the Nexus Object Model					23:31
@@ -3202,6 +3202,7 @@ restconf
 !
 ip http secure-server
 
+---
 
 Postman:
 
@@ -3254,6 +3255,43 @@ https://10.0.0.20:443/restconf/data/native/interface/GigabitEthernet=3/ip/addres
 ---
 
 Refer restconf.py for examples with python requests library
+
+
+Model-Driven Telemetry
+----------------------
+MDT: Model-Driven Telemetry
+Subscription model (subscribe to YANG datastore)
+Streaming data
+
+Session:	 	Specifies destinations to collect streamed data.
+				Two Modes:
+				- Dial-in: Subscribed receiver dials in to the router. Router is server; receiver is client. Dynamic subscription terminates when the receiver cancels the subscription or when the session terminates.
+				- Dial-out: Router dials out to the subscribed receivers (default mode). Router is client; receiver is server. Dial-out mode is persistent. If a session terminates, the router continually attempts to re-establish every 30 seconds.
+Sensor path:	YANG path to data definitions.
+Subscription:	Links sensor-paths and destinations. Specifies streaming criteria.
+Transport:		Protocols:
+				- TCP/UDP			(dial-out)
+				- NETCONF/YANG push	(dial-out)
+				- gNMI				(dial-in and dial-out)
+				- gRPC				(dial-in and dial-out)
+Encoding:		JSON encoding
+				GPB encoding (compiled .proto files metadata; describe the GPB message format)
+
+
+Streaming Telemetry with gNMI
+-----------------------------
+gNMI:	gRPC Network Management Interface
+gRPC:	Google remote procedure call
+
+gNMI:
+- Management protocol for streaming telemetry and configuration management.
+- Protocol for configuration manipulation and state retrieval.
+- Opensource: OpenConfig community.
+- Transport protocol is gRPC, built on top of HTTP/2.
+- Alternative to NETCONF/RESTCONF.
+- Functional subset of NETCONF.
+- Data can be modeled using YANG (but, no requirement).
+
 
 
 
