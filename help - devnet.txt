@@ -149,8 +149,8 @@ MODULE 2 - Programming Fundamentals
 
 MODULE 3 - Network Device APIs
 1	Getting the "YANG" of it with Standard Data Models				18:41	DONE
-2	Goodbye SNMP <hello> NETCONF!									27:00	12:40
-3	Learn to CRUD with GET, POST and DELETE using RESTCONF			22:41
+2	Goodbye SNMP <hello> NETCONF!									27:00	DONE
+3	Learn to CRUD with GET, POST and DELETE using RESTCONF			22:41	DONE
 4	NX-API Part 1: Get Started with APIs and Nexus					19:14
 5	NX-API Part 2: Dive into the Nexus Object Model					23:31
 
