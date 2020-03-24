@@ -136,15 +136,15 @@ Network programmability basics
 https://developer.cisco.com/video/net-prog-basics/
 
 MODULE 1 - Introduction
-1	How to be a Network Engineer in a Programmable Age				16:04
+1	How to be a Network Engineer in a Programmable Age				16:04	-
 
 MODULE 2 - Programming Fundamentals
 1	Data Formats: Understanding and using JSON, XML and YAML 		21:21	xxx
-2	APIs are Everywhere... but what are they? 						13:00
-3	REST APIs Part 1: HTTP is for more than Web Browsing 			32:07
-4	REST APIs Part 2: Making REST API Calls with Postman 			19:43
-5	Python Part 1: Python Language and Script Basics 				33:17
-6	Python Part 2: Working with Libraries and Virtual Environments 	21:45
+2	APIs are Everywhere... but what are they? 						13:00	-
+3	REST APIs Part 1: HTTP is for more than Web Browsing 			32:07	-
+4	REST APIs Part 2: Making REST API Calls with Postman 			19:43	-
+5	Python Part 1: Python Language and Script Basics 				33:17	-
+6	Python Part 2: Working with Libraries and Virtual Environments 	21:45	-
 7	Python Part 3: Useful Python Libraries for Network Engineers 	38:55	xxx
 
 MODULE 3 - Network Device APIs
