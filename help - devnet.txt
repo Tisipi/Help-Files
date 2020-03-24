@@ -139,41 +139,41 @@ MODULE 1 - Introduction
 1	How to be a Network Engineer in a Programmable Age				16:04
 
 MODULE 2 - Programming Fundamentals
-1	Data Formats: Understanding and using JSON, XML and YAML 		21:21
+1	Data Formats: Understanding and using JSON, XML and YAML 		21:21	xxx
 2	APIs are Everywhere... but what are they? 						13:00
 3	REST APIs Part 1: HTTP is for more than Web Browsing 			32:07
 4	REST APIs Part 2: Making REST API Calls with Postman 			19:43
 5	Python Part 1: Python Language and Script Basics 				33:17
 6	Python Part 2: Working with Libraries and Virtual Environments 	21:45
-7	Python Part 3: Useful Python Libraries for Network Engineers 	38:55
+7	Python Part 3: Useful Python Libraries for Network Engineers 	38:55	xxx
 
 MODULE 3 - Network Device APIs
 1	Getting the "YANG" of it with Standard Data Models				18:41	DONE
 2	Goodbye SNMP <hello> NETCONF!									27:00	DONE
 3	Learn to CRUD with GET, POST and DELETE using RESTCONF			22:41	DONE
-4	NX-API Part 1: Get Started with APIs and Nexus					19:14
-5	NX-API Part 2: Dive into the Nexus Object Model					23:31
+4	NX-API Part 1: Get Started with APIs and Nexus					19:14	DONE
+5	NX-API Part 2: Dive into the Nexus Object Model					23:31	5:32
 
 MODULE 4 - Network Controllers
-1	Introducing Cisco DNA Center Platform APIs and Programmability 	15:44
-2	Got SDN? Understanding the ACI Programmability Options 			28:56
-3	Network Control in the Cloud - Developing with Cisco Meraki 	16:16
-4	Cisco DNA Center Platform APIs Part 1: Exploring Apps and Tools 19:39
-5	Cisco DNA Center Platform APIs Part 2: Network Troubleshooting 	23:47
-6	ACI Programmability Part 1: The ACI Object Model 				19:08
-7	ACI Programmability Part 2: Using the ACI Toolkit 				29:24
+1	Introducing Cisco DNA Center Platform APIs and Programmability 	15:44	xxx
+2	Got SDN? Understanding the ACI Programmability Options 			28:56	xxx
+3	Network Control in the Cloud - Developing with Cisco Meraki 	16:16	xxx
+4	Cisco DNA Center Platform APIs Part 1: Exploring Apps and Tools 19:39	xxx
+5	Cisco DNA Center Platform APIs Part 2: Network Troubleshooting 	23:47	xxx
+6	ACI Programmability Part 1: The ACI Object Model 				19:08	xxx
+7	ACI Programmability Part 2: Using the ACI Toolkit 				29:24	xxx
 
 MODULE 5 - Application Hosting and the Network
-1	Cloud to Fog: Why Host Apps in the Network 						09:44
-2	Linux at the Edge: Introduction to Guest Shell 					21:39
-3	Python at the Edge: Super Charged Network Event Management 		23:48
-4	Package, Deploy and Run Applications in the Network with IOx 	20:31
+1	Cloud to Fog: Why Host Apps in the Network 						09:44	xxx
+2	Linux at the Edge: Introduction to Guest Shell 					21:39	xxx
+3	Python at the Edge: Super Charged Network Event Management 		23:48	xxx
+4	Package, Deploy and Run Applications in the Network with IOx 	20:31	xxx
 
 MODULE 6 - NetDevOps
-1	Configuration Management and the Network 						11:28
-2	Ansible Part 1: What you need to Get Started 					24:27
-3	Ansible Part 2: Using Ansible for Network Configuration 		14:21
-4	Ansible Part 3: Your Network As Code 							20:02
+1	Configuration Management and the Network 						11:28	xxx
+2	Ansible Part 1: What you need to Get Started 					24:27	xxx
+3	Ansible Part 2: Using Ansible for Network Configuration 		14:21	xxx
+4	Ansible Part 3: Your Network As Code 							20:02	xxx
 
 -------------------------------
 
@@ -3333,7 +3333,7 @@ Refer restconf.py for examples with python requests library. Some basics:
 	headers = {'Content-Type': 'application/yang-data+json',
                'Accept': 'application/yang-data+json'}
 
-    ip_address = {
+    payload = {
         "Cisco-IOS-XE-native:address": {
             "primary": {
                 "address": "192.168.0.66",
@@ -3342,7 +3342,7 @@ Refer restconf.py for examples with python requests library. Some basics:
         }
     }
 
-    response = requests.put(url_gig2, auth=(USER, PASS), headers=headers, verify=False, data=json.dumps(ip_address))
+    response = requests.put(url_gig2, auth=(USER, PASS), headers=headers, verify=False, data=json.dumps(payload))
 	response.status_code
 
 
