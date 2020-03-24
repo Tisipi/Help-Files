@@ -2441,6 +2441,8 @@ YANG:	Yet Another Next Generation
 RFC 6020 YANG, a data modeling language for NETCONF.
 More recently, independently of NETCONF and for protocols such as RESTCONF and gRPC.
 
+http://www.yang-central.org/twiki/pub/Main/YangDocuments/Instant_YANG_NB.pdf
+
 Characteristics YANG:
 - Data modeling language (RFC 6020).
 - Analogous to XML schema and SMI for SNMP.
@@ -2448,22 +2450,23 @@ Characteristics YANG:
 	* Models configuration data.
 	* Models state data of network elements.
 	* Defines the format of event notifications.
-	* Define the signature of remote procedure calls
+	* Define the format of remote procedure calls.
 - Provides semantics to better define data.
-- Extensible and modular (constraints, reusable structures and built-in and derived types).
+- Extensible and modular (constraints, reusable structures, built-in and derived types).
 - Protocol independent. Can be converted into any encoding format, e.g. XML or JSON.
 
-Note: SNMP SMI, Structure of Management Information. SMI is derived from ASN.1
+Note: SNMP SMI, Structure of Management Information. SMI is derived from ASN.1.
 
 Tree-structured
 - schema tree
 - data tree (instance of schema tree)
 
 Modules. May include multiple submodules.
-Submodules. May belong to only one module. It can never be included in any other module.
+Submodules. May belong to only one module.
 Names of all standard (sub)modules must be unique. They share the same namespace.
-Include statement to include submodules.
-Import statement to reference external modules.
+A module can import data from other modules and include data from submodules:
+- Import statement to reference external modules.
+- Include statement to include submodules.
 
 For a (sub)module to reference definitions in an external module, the external module must be imported.
 For a module to reference definitions in one of its submodules, the module must include the submodule.
@@ -2635,8 +2638,8 @@ YANG can define derived types from base types using the "typedef" statement.
 A base type can be either a built-in type or a derived type.
 
 Restrictions of the derived type must be the same as or stricter than the base type.
-- Numeric restrictions: range and fraction digits substatements
-- String restrictions: length and pattern substatements
+- Numeric restrictions: range and fraction digits substatements.
+- String restrictions: length and pattern substatements.
 
 Four substatements of the type statement:
 - Range statement
@@ -2803,8 +2806,8 @@ Substatements for the list and leaf-list statements:
 - Ordered-by
 
 List entries are sorted by system or user:
-- System: Natural order (numerically, alphabetically, ...)
-- User:   Order in which the operator entered them is preserved (DNS server search order, firewall rules)
+- System: Natural order (numerically, alphabetically, ...).
+- User:   Order in which the operator entered them is preserved (DNS server search order, firewall rules).
 
 
 Leafref
@@ -2835,9 +2838,33 @@ container app {
 Note: Using "deref" might be simpler for complexer scenarios.
 
 
+Choice
+------
+Set of alternatives. Only one may exist in the data tree.
+
+choice route-distinguisher {
+ case ip-address-based {
+	 leaf ip-address {
+	 	type ipv4-address;
+	 }
+	 leaf ip-address-number {
+	 	type uint16;
+	 }
+ }
+ case asn32-based {
+	 leaf asn32 {
+	 	type uint32;
+	 }
+	 leaf two-byte-number {
+	 	type uint16;
+	 }
+ }
+}
+
 
 Grouping
 --------
+A reusable collection of nodes.
 Enables 'code' reuse.
 Reuse by "uses" keyword.
 
@@ -2905,6 +2932,7 @@ Path expressions:
 
 
 Example XPath query:
+
 	<Loopback>
 	  <name>0</name>
 	  <ip>
@@ -2985,7 +3013,15 @@ https://github.com/YangModels/yang/tree/master/vendor/cisco/xe/1691	(version 16.
 
 
 URI for the Cisco IOS XE full device configuration:
-https://<ip address switch>:443/restconf/data/native
+ https://<ip address switch>:443/restconf/data/native
+or
+ https://<ip address switch>:443/restconf/data/Cisco-IOS-XE-native:native 		<<< Module name is optional
+
+
+NETCONF
+-------
+The IANA-assigned port for NETCONF-over-SSH sessions is 830.
+Python client: ncclient
 
 
 RESTCONF
@@ -3058,7 +3094,7 @@ curl -i -k -X "POST" "https://10.85.116.30:443/restconf/data/Cisco-IOS-XE-native
 	Date: Mon, 23 Apr 2018 14:53:51 GMT
 	Content-Type: text/html
 	Content-Length: 0
-	Location: https://10.85.116.30/restconf/data/Cisco-IOS-XE-native:native/logging/monitor/severity
+	Location: https://10.85.116.30/restconf/data/Cisco-IOS-XE-native:native/logging/monitor/severity 		<<< NEW RESOURCE !
 	Connection: keep-alive
 	Last-Modified: Mon, 23 Apr 2018 14:53:51 GMT
 	Cache-Control: private, no-cache, must-revalidate, proxy-revalidate
@@ -3159,34 +3195,34 @@ RESTCONF Responses
 201 Created				 		Resource was created; new resource URI is in the "Location" header.
 204 No Content			 		The request was successfully completed, but no response body is returned.
 
-400 Bad Request			 		Missing or invalid information
+400 Bad Request			 		Missing or invalid information.
 401 Unauthorized			 	The request requires user authentication.
 403 Forbidden			 		Access denied, due to authorization rules.
 404 Not Found			 		The requested resource does not exist.
 405 Method Not Allowed			The HTTP method is not supported for this resource.
-406 Not Acceptable			 	The resource cam not generatE the requested representation specified in the "Accept" header
+406 Not Acceptable			 	The resource can not generate the requested representation specified in the "Accept" header.
 409 Conflict				 	Request tries to create a resource that exists.
 415 Unsupported Media Type		The format of the request is not supported.
 
 500 Internal Error			 	The server encountered an unexpected condition.
 501 Not Implemented				The server does not support the functionality.
-503 Unavailable					The server is currently unable to handle the request
+503 Unavailable					The server is currently unable to handle the request.
 
 
 
 More IOS XE RESTCONF examples
 -----------------------------
 Full device configuration:
-	GET https://172.16.1.57:443/restconf/data/native/
+	GET https://172.16.10.66:443/restconf/data/native/
 
 List of GigabitEthernet interfaces:
-	GET https://172.16.1.57:443/restconf/data/native/interface/GigabitEthernet?fields=name
+	GET https://172.16.10.66:443/restconf/data/native/interface/GigabitEthernet?fields=name
 
 Get interface attributes of GigabitEthernet0/0/2 (note the %2F for /):
-	GET https://172.16.1.57:443/restconf/data/native/interface/GigabitEthernet=0%2F0%2F2
+	GET https://172.16.10.66:443/restconf/data/native/interface/GigabitEthernet=0%2F0%2F2
 
 Get the primary IP address of the GigabitEthernet interfaces:
-	GET https://172.16.1.57:443/restconf/data/native/interface/GigabitEthernet?fields=ip/address/primary
+	GET https://172.16.10.66:443/restconf/data/native/interface/GigabitEthernet?fields=ip/address/primary
 
 
 
@@ -3254,7 +3290,27 @@ https://10.0.0.20:443/restconf/data/native/interface/GigabitEthernet=3/ip/addres
 
 ---
 
-Refer restconf.py for examples with python requests library
+Refer restconf.py for examples with python requests library. Some basics:
+
+	response = requests.get(url_gig1, auth=(USER, PASS), headers=headers, verify=False)
+	response.text
+
+
+	headers = {'Content-Type': 'application/yang-data+json',
+               'Accept': 'application/yang-data+json'}
+
+    ip_address = {
+        "Cisco-IOS-XE-native:address": {
+            "primary": {
+                "address": "192.168.0.66",
+                "mask": "255.255.255.0"
+            }
+        }
+    }
+
+    response = requests.put(url_gig2, auth=(USER, PASS), headers=headers, verify=False, data=json.dumps(ip_address))
+	response.status_code
+
 
 
 Model-Driven Telemetry
@@ -3275,7 +3331,9 @@ Transport:		Protocols:
 				- gNMI				(dial-in and dial-out)
 				- gRPC				(dial-in and dial-out)
 Encoding:		JSON encoding
-				GPB encoding (compiled .proto files metadata; describe the GPB message format)
+				Google Protocol Buffers (GPB) encoding (compiled .proto files metadata; describe the GPB message format)
+				- Compact GPB encoding
+				- KV-GPB encoding (Key-value or self-describing”)
 
 
 Streaming Telemetry with gNMI
@@ -3312,6 +3370,7 @@ Cisco-specific gRPC operations for gNMI:
 - CliConfig 				Merge configuration data in CLI format.
 - GetOper 					Get operational data.
 - ShowCmdTextOutput 		Show CLI command output data.
+
 
 
 Databases
