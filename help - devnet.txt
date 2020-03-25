@@ -139,7 +139,7 @@ MODULE 1 - Introduction
 1	How to be a Network Engineer in a Programmable Age				16:04	-
 
 MODULE 2 - Programming Fundamentals
-1	Data Formats: Understanding and using JSON, XML and YAML 		21:21	xxx
+1	Data Formats: Understanding and using JSON, XML and YAML 		21:21	DONE
 2	APIs are Everywhere... but what are they? 						13:00	-
 3	REST APIs Part 1: HTTP is for more than Web Browsing 			32:07	-
 4	REST APIs Part 2: Making REST API Calls with Postman 			19:43	-
@@ -152,7 +152,7 @@ MODULE 3 - Network Device APIs
 2	Goodbye SNMP <hello> NETCONF!									27:00	DONE
 3	Learn to CRUD with GET, POST and DELETE using RESTCONF			22:41	DONE
 4	NX-API Part 1: Get Started with APIs and Nexus					19:14	DONE
-5	NX-API Part 2: Dive into the Nexus Object Model					23:31	5:32
+5	NX-API Part 2: Dive into the Nexus Object Model					23:31	DONE
 
 MODULE 4 - Network Controllers
 1	Introducing Cisco DNA Center Platform APIs and Programmability 	15:44	xxx
