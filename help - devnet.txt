@@ -958,21 +958,35 @@ Main git concepts:
 - Working directory
 
 
-+++
-Origin:
-When you clone a repository for the first time, origin is a default name given to the original remote repository.
+Origin: The original remote repository (default name).
 
-Master:
-- The name of the default branch that git creates for you when first creating a repository.
-- The primary branch of all repositories. All committed and accepted changes should be on the master branch. You can work directly from the master branch, or create other branches.
+Master: Is a local branch (default branch that git creates when first creating a repository).
 
+Origin/master: Is a remote branch (it's a local copy of the "master" branch on the remote "origin").
+
+	# Since origin/master is a branch, you can merge it. Here's a pull in two steps:
+	#
+	# Fetch master from the remote origin. The master branch on origin will be fetched and the
+	# local copy will be named origin/master.
+	#
+	git fetch origin master
+
+	# Then you merge origin/master into master.
+	#
+	git merge origin/master
+
+	# Then you can push your new changes in master back to origin:
+	#
+	git push origin master
+
+
+Master: The primary branch of all repositories. All committed and accepted changes should be on the master branch. You can work directly from the master branch, or create other branches.
 
 Cherry-picking a commit:
 - Taking an older commit, and rerunning it at a defined location.
 - Git copies the changes from the original commit, and then adds them to the current location.
 
 HEAD: This is a reference variable used to denote the most current commit of the repository in which you are working. When you add a new commit, HEAD will then become that new commit.
-+++
 
 
 # Initialize a git repository (creates .git directory)
@@ -1079,18 +1093,49 @@ git ls-files --stage
 +++ #TODO: 7.4, Resolve Merge Conflicts with Git, LAB +++
 
 
-Branching +++
+Branching
 ---------
 Two opposite collaboration approaches:
-1. Centralized workflow.
-	For small projects or projects that are more document oriented, e.g. small infrastructure as code projects
+1. Centralized workflow (small projects, document oriented projects e.g. infrastructure as code)
+2. Feature branch workflow (separate dedicated branch for each feature).
 
-2. Feature branch workflow
+GitFlow (Workflow) is a branching strategies that covers CI/CD operations:
+- Master branch 	Only release and Hotfix/maintenance branches can be merged into master.
+- Develop branch 	Derived from the master branch; integration branch for all features.
+					NOT merged into master.
+- Feature branches 	Created from develop; never allowed to interact directly with the master branch.
+					Merged back into develop.
+- Release branch 	Created from develop. Used to integrate all the features
+					since the last release, and fix any arising bugs.
+					Merged back into develop and master.
+- Hotfix branch 	Hotfix/maintenance branch is created from the master.
+					Merged back into develop and master.
+
+Master branch
+	Develop branch
+		Feature branch
+		Release branch
+	Hotfix/maintenance branch
 
 
+Automated (Unit) Testing
 
+Static Code Analysis:
+- Lint/linter
+- Style checker (PEP8)
+- Code complexity, unused code
+- Security issues (OWASP, credential leaking)
 
+Python packages
+- Potential bugs and common errors:		prospector, pyflakes
+- Code complexity:				 		mccabe
+- Unused code:				 			vulture
+- Security vulnerabilities:				bandit
+- Leaking credentials:				 	dodgy
+- Incorrect type usage:				 	mypy
+- Code style inconsistencies:			pylint, pycodestyl
 
++++ Pipeline, Stages, Jobs +++
 
 
 Distributed Systems
