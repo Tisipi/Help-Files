@@ -1133,9 +1133,54 @@ Python packages
 - Security vulnerabilities:				bandit
 - Leaking credentials:				 	dodgy
 - Incorrect type usage:				 	mypy
-- Code style inconsistencies:			pylint, pycodestyl
+- Code style inconsistencies:			pylint, pycodestyle
 
-+++ Pipeline, Stages, Jobs +++
+
+Elements of CI/CD system:
+- Pipeline. Has multiple stages.
+- Stages. Consists of jobs running in parallel.
+- Jobs. If a job fails, the entire stage is considered failed.
+
+
+Example pipeline containerized application:
+- Build. Create application image
+- Test. Run tests against the image
+- Push image to registry
+- Deploy image on server
+
+Security testing:
+- SAST. Static Application Security Testing. Source/compiled code analysis.
+- DAST. Dynamic Application Security Testing. Vulnerability scanning of application.
+
+
+Examples of CI/CD pipeline services:
+- Tools on GitHub, Gitlab and Bitbucket
+- Jenkins, Travis CI, and Semaphore
+
+
+Common pipeline failures:
+- Pipeline configuration (file)
+- Missing dependencies
+- Static code analysis errors
+- Incompatible versions
+- Unit and integration tests
+- Deployment failures
+
+
+GitLab pipeline consist for example of:
+- Commit: 	A change in the code.
+- Pipeline: A group of jobs divided into different stages.
+- Stages
+- Job: 		Runner instructions.
+- Runner
+
+GitLab CI pipeline file: .gitlab-ci.yml
+
+
++++ #TODO 7.8 Diagnose CI/CD Pipeline Failures, LAB +++
+
++++ #TODO 7.9 Summary Challenge +++
+
 
 
 Distributed Systems
@@ -2509,8 +2554,34 @@ guestshell run groups
 guestshell run cat /etc/centos-release
 
 
-
 +++ #TODO: 8.9 Summary Challenge +++
+
+
+UCS
+---
+UCS 	Unified Compute System
+MIT:	Management information tree
+MIM:	Management information model
+DME:	Data Management Engine
+DN:		Distinguished Name
+RN:		Relative Name
+
+Cisco UCS Manager:
+- XML API
+- API is transactional (change multiple objects, or none)
+- Managed objects (MOs) in hierarchical MIT
+- MIT aka MIM (management information model)
+- Top of MIT: sys
+
+Data management engine (DME):
+- User-level process on fabric interconnects.
+- Manages and centrally stores the information model.
+- Model-driven framework: First apply change to MIT, then to the managed endpoint.
+
+The API entities:
+- Classes: Properties and states of objects.
+- Methods: Actions on objects.
+- Types:   Object properties that map values to the object state.
 
 
 
