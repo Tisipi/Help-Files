@@ -2752,12 +2752,120 @@ Example Cisco UCS Manager API: see UCS.py
 
 Terraform
 ---------
+https://github.com/CiscoUcs/UCS-Terraform
+
 - Open-source, HashiCorp.
 - Infrastructure as Code (IaC).
-- Declarative: Describe the desired state.
-- Configuration files under version control.
+- Declarative: Describe the desired state/intent.
 - HashiCorp Configuration Language (HCL).
 - Configuration  in .tf files.
+- Configuration files under version control.
+- Basic syntax is the block type:
+
+	<block type> "<block label>" ["<block label>"] {
+	  <identifier> = <expression>
+	}
+
+- Examples of block types:
+	- Resource block (infrastructure objects; resource type, resource name, Resource arguments)
+
+
+
+--
+
+
+
+Terraform uses providers to deploy the configuration to the infrastructure:
+
+Providers define resources and arguments.
+
+Each provider can corresponds to multiple resources.
+
+Provider is used to communicate with the infrastructure.
+
+Provider typically has its own configuration:
+
+For example, URLs, credentials, and so on.
+
+Provider is defined with the provider block type.
+
+--
+
+
+provider "ucs" {
+  ip_address  = "1.2.3.4"
+  username    = "john"
+  password    = "supersecret"
+  log_level    = 6
+  log_filename = "terraform.log"
+}
+
+resource "ucs_service_profile" "master-server" {
+  name                     = “terraserver1"
+  target_org               = “root-org"
+  service_profile_template = “terraformprofiletemplate"
+  #
+  metadata {
+    # Free format. Values must be strings.
+    #
+    role             = "master"
+    ansible_ssh_user = "root"
+    foo              = "bar"
+  }
+}
+
+
+# Initialize/Setup the Terraform Environment
+#
+terraform init
+
+# Check the planned changes
+#
+terraform plan
+
+# Deploy the changes
+#
+terraform apply
+
+
+
+
+terraform get
+
+terraform destroy
+
+
+
+AWS example:
+
+	provider "aws" {
+		access_key = "Your Access Key"
+		secret_key = "Your Secret Key"
+		region = "ap-southeast-2"
+	}
+
+	resource "aws_instance" "MyFirstTerraFormedVM" {
+		ami = "ami-da2ac3b8"
+		instance_type = "t2.micro"
+	}
+
+	resource "aws_vpc" "myvpc" {
+		cidr_block = "${var.vpc_cidr}"
+		enable_dns_hostnames = true
+		tags = {
+			Name = "myvpc"
+		}
+	}
+
+	resource "aws_subnet" "myvpc_public_subnet" {
+	    vpc_id = "${aws_vpc.myvpc.id}"
+	    cidr_block = "${var.subnet_one_cidr}"
+	    availability_zone = "${data.aws_availability_zones.availability_zones.names[0]}"
+	    map_public_ip_on_launch = true
+	    tags = {
+	        Name = "myvpc_public_subnet"
+	    }
+	}
 
 
 
