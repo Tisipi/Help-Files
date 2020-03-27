@@ -172,8 +172,8 @@ MODULE 5 - Application Hosting and the Network
 4	Package, Deploy and Run Applications in the Network with IOx 	20:31	xxx
 
 MODULE 6 - NetDevOps
-1	Configuration Management and the Network 						11:28	xxx
-2	Ansible Part 1: What you need to Get Started 					24:27	xxx
+1	Configuration Management and the Network 						11:28	DONE
+2	Ansible Part 1: What you need to Get Started 					24:27	DONE
 3	Ansible Part 2: Using Ansible for Network Configuration 		14:21	xxx
 4	Ansible Part 3: Your Network As Code 							20:02	xxx
 
