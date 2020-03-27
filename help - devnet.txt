@@ -2767,73 +2767,46 @@ https://github.com/CiscoUcs/UCS-Terraform
 	}
 
 - Examples of block types:
-	- Resource block (infrastructure objects; resource type, resource name, Resource arguments)
+	- Resource block (infrastructure objects; resource type, resource name; resource arguments)
+	- Provider block type (communicates with the infrastructure; deploy the configuration)
+- Provides and resources are linked. Provider name is prefix of resource type.
 
+	# For example in main.tf
+	#
+	provider "ucs" {
+	  ip_address  = "1.2.3.4"
+	  username    = "john"
+	  password    = "supersecret"
+	  log_level    = 6
+	  log_filename = "terraform.log"
+	}
 
+	# For example in profiles.tf
+	#
+	resource "ucs_service_profile" "master-server" {
+	  name                     = “terraserver1"
+	  target_org               = “root-org"
+	  service_profile_template = “terraformprofiletemplate"
+	  #
+	  metadata {
+	    # Free format. Values must be strings.
+	    #
+	    role             = "master"
+	    ansible_ssh_user = "root"
+	    foo              = "bar"
+	  }
+	}
 
---
+terraform init 				Initialize a Terraform working directory
+terraform plan 				Generate and show an execution plan
+terraform apply 			Builds or changes infrastructure
 
+terraform version 			Prints the Terraform version
+terraform validate      	Validate Terraform file(s)
+terraform show 				Inspect Terraform state or plan
 
-
-Terraform uses providers to deploy the configuration to the infrastructure:
-
-Providers define resources and arguments.
-
-Each provider can corresponds to multiple resources.
-
-Provider is used to communicate with the infrastructure.
-
-Provider typically has its own configuration:
-
-For example, URLs, credentials, and so on.
-
-Provider is defined with the provider block type.
-
---
-
-
-provider "ucs" {
-  ip_address  = "1.2.3.4"
-  username    = "john"
-  password    = "supersecret"
-  log_level    = 6
-  log_filename = "terraform.log"
-}
-
-resource "ucs_service_profile" "master-server" {
-  name                     = “terraserver1"
-  target_org               = “root-org"
-  service_profile_template = “terraformprofiletemplate"
-  #
-  metadata {
-    # Free format. Values must be strings.
-    #
-    role             = "master"
-    ansible_ssh_user = "root"
-    foo              = "bar"
-  }
-}
-
-
-# Initialize/Setup the Terraform Environment
-#
-terraform init
-
-# Check the planned changes
-#
-terraform plan
-
-# Deploy the changes
-#
-terraform apply
-
-
-
-
-terraform get
-
-terraform destroy
-
+terraform get 				Download and install modules for the configuration
+terraform destroy 			Destroy Terraform-managed infrastructure
 
 
 AWS example:
@@ -2867,6 +2840,34 @@ AWS example:
 	    }
 	}
 
+
+Orchestration:
+- Focus on bootstrapping and initializing resources
+- Provision resources.
+- Typical actions: Create nVM.
+- Example: Terraform.
+
+Configuration management:
+- Configure resources that exist
+- Manage resources.
+- Typical actions: Install software, provide configurations, manage services
+- Examples: Ansible, Puppet.
+
+There is some overlap between tools. They can work together.
+
+
+Two categories of management configuration and orchestration tools:
+- Procedural	(Ansible)
+- Declarative (Puppet and Terraform)
+
+Ansible is partly hybrid (procedural and declarative).
+
+
+Ansible 		Puppet
+-------			------
+Procedural 		Declarative
+Client only 	Client/server
+Push model 		Pull model
 
 
 
