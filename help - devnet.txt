@@ -1,4 +1,4 @@
-Certification 350-901 DEVCOR
+Certification 350-901 DEVCOR   +++++ #TODO, Updated ++++
 ----------------------------
 Developing Applications using Cisco Core Platforms and APIs v1.0 (350-901)
 Developing Applications using Cisco Core Platforms and APIs v1.0 (DEVCOR 350-901) is a 120-minute exam associated with the DevNet Professional Certification. This exam tests a candidate's knowledge of software development and design including using APIs, Cisco platforms, application deployment and security, and infrastructure and automation. The course, Developing Applications using Cisco Core Platforms and APIs helps candidates to prepare for this exam.
@@ -130,6 +130,8 @@ Managing Cisco Compute with Ansible
 Microservices overview
 
 
+=============================================
+
 
 Network programmability basics
 ------------------------------
@@ -175,7 +177,9 @@ MODULE 6 - NetDevOps
 3	Ansible Part 2: Using Ansible for Network Configuration 		14:21	xxx
 4	Ansible Part 3: Your Network As Code 							20:02	xxx
 
--------------------------------
+
+=============================================
+
 
 Modular software design enforces the following software qualities:
 - Composability
@@ -285,6 +289,8 @@ Controll 	-  Controller
 Boundary  	-  View
 
 
+=============================================
+
 
 UML
 ---
@@ -370,6 +376,8 @@ requests.get('https://api.ciscospark.com/v1/messages', headers={'X-Cisco-Meraki-
 +++ #TODO; Verder gaan bij 3.7 +++
 Use Cisco Webex Teams API to Enable ChatOps
 
+
+=============================================
 
 
 Advanced REST API Integration
@@ -713,6 +721,9 @@ Compression algorithms:
 - xz
 
 
+=============================================
+
+
 Security
 --------
 PKI		Public Key Infrastructure
@@ -886,6 +897,9 @@ Check:
 OAuth sequence:
 +++
 +++
+
+
+=============================================
 
 
 Python
@@ -1181,6 +1195,9 @@ GitLab CI pipeline file: .gitlab-ci.yml
 
 +++ #TODO 7.9 Summary Challenge +++
 
+
+
+=============================================
 
 
 Distributed Systems
@@ -2557,6 +2574,9 @@ guestshell run cat /etc/centos-release
 +++ #TODO: 8.9 Summary Challenge +++
 
 
+=============================================
+
+
 UCS
 ---
 UCS 	Unified Compute System
@@ -2603,9 +2623,9 @@ UCS API Methods:
 	- configScope 				Class queries on a DN in the MIT.
 
 - Configuration methods
-	- configConfMo: 		Configs a single MO/DN.
-	- configConfMos: 		Configs multiple subtrees (for example several DNs).
-	- configConfMoGroup: 	Configs multiple subtree structures (DNs) or MOs.
+	- configConfMo: 			Configs a single MO/DN.
+	- configConfMos: 			Configs multiple subtrees (for example several DNs).
+	- configConfMoGroup: 		Configs multiple subtree structures (DNs) or MOs.
 
 - Event subscription methods
 	- eventSubscribe
@@ -2721,8 +2741,28 @@ A query for a nonexistent object is not treated as a failure by the DME. It retu
 	</configResolveDn>
 
 
-+++ verder bij: Cisco UCS Manager Emulator +++
+Cisco UCS Manager Emulator:
+- Emulates the actual UCS system.
+- Same code, full MIT
+- CentOS VM (.vmx and .ova image files
 
+
+Example Cisco UCS Manager API: see UCS.py
+
+
+Terraform
+---------
+- Open-source, HashiCorp.
+- Infrastructure as Code (IaC).
+- Declarative: Describe the desired state.
+- Configuration files under version control.
+- HashiCorp Configuration Language (HCL).
+- Configuration  in .tf files.
+
+
+
+
+=============================================
 
 
 YANG
@@ -3662,6 +3702,8 @@ Cisco-specific gRPC operations for gNMI:
 - ShowCmdTextOutput 		Show CLI command output data.
 
 
+=============================================
+
 
 Databases
 =========
@@ -3881,7 +3923,7 @@ RETURN p.Name as Actor, v.Brand as Car, COUNT(p.Name) as Count
 ORDER BY COUNT(p.Name) DESC LIMIT 1)
 
 
-
+=============================================
 
 
 Setting up your Linux/Ubuntu workstation
