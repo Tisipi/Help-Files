@@ -2863,11 +2863,22 @@ Two categories of management configuration and orchestration tools:
 Ansible is partly hybrid (procedural and declarative).
 
 
-Ansible 		Puppet
--------			------
-Procedural 		Declarative
-Client only 	Client/server
-Push model 		Pull model
+Ansible 					Puppet
+-------						------
+Procedural 					Declarative
+Agentless 					Agent on managed node; Master node
+Client only 				Client/server
+Push model 					Pull model
+
+Playbooks (YAML) 			Catalogs
+Tasks 						Manifests (desired state)
+Inventory of nodes			Agent gathers facts; sends them to master; requests a catalog from master.
+							Master creates a catalog from the manifests; sends catalog to agent.
+							Agent checks catalog and applies required changes; sends a report to master
+
+Playbook to revert 			Executes periodically: manual changes will be reverted!
+ manual changes
+
 
 
 
