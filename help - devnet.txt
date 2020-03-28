@@ -2965,6 +2965,102 @@ Ways of declaring a class:
 						}
 
 
+Example site.pp (in /etc/puppetlabs/code/environments/production/manifests):
+
+	class conf_if (String $ip_address) {
+	  file { 'if_config':
+	    path => '/etc/sysconfig/network-scripts/ifcfg-enp0s3',
+	    content => template("$settings::manifest/network-if.cfg"),
+	    ensure => present,
+	  }
+	  exec { 'if_down': command => '/usr/sbin/ifdown enp0s3',
+	    require => File['if_config'],
+	  }
+	  exec { 'if_up': command => '/usr/sbin/ifup enp0s3',
+	    require => Exec['if_down'],
+	  }
+	}
+
+	class conf_dns {
+	  $dns_servers = ['192.168.1.253', '192.168.1.254']
+	  file { 'dns_config':
+	    path => '/etc/resolv.conf',
+	    content => template("$settings::manifest/dns.cfg"),
+	    ensure => present,
+	  }
+	}
+
+	node 'puppeta01' {
+	  class { 'conf_if': ip_address => "192.168.1.11" }
+	  include conf_dns
+	  class { 'ntp': servers => ['192.168.1.250'] }
+	}
+
+	node 'puppeta02' {
+	  class { 'conf_if': ip_address => "192.168.1.12" }
+	  include conf_dns
+	  class { 'ntp': servers => ['192.168.1.250'] }
+	}
+
+
+Template file, network-if.cfg:
+
+	TYPE=Ethernet
+	BOOTPROTO=none
+	DEFROUTE=yes
+	IPV4_FAILURE_FATAL=no
+	NAME=enp0s3
+	UUID=
+	DEVICE=enp0s3
+	ONBOOT=yes
+	IPADDR=<%= @ip_address %>
+	PREFIX=24
+	GATEWAY=192.168.1.1
+
+Template file, dns.cfg:
+
+	<% [@dns_servers].flatten.each do |server| -%>
+	nameserver <%= server %>
+	<% end -%
+
+
+To deploy the configuration:
+- Run the pull request manually on the node: puppet agent -t
+- Or wait until next poll period.
+
+
+# Puppet Server
+#
+service puppetserver status
+puppetserver start
+
+# Client, server with Puppet agent
+#
+# Test connectivity or pul the configuration
+#
+puppet agent -t
+
+# Enable new settings on agent (after change on master)
+#
+puppet agent
+
+
+
+# Pull configuration every 2 minutes (default is 30 min)
+# Or modify /etc/puppetlabs/puppet/puppet.conf
+#
+puppet config set --section agent runinterval 120
+
+# Check logs on master
+#
+cat /var/log/puppetlabs/puppetserver/puppetserver.log
+
+
+# Check certificates
+#
+puppetserver ca list --all
+
+
 
 
 =============================================
