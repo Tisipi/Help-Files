@@ -147,7 +147,7 @@ MODULE 2 - Programming Fundamentals
 4	REST APIs Part 2: Making REST API Calls with Postman 			19:43	-
 5	Python Part 1: Python Language and Script Basics 				33:17	-
 6	Python Part 2: Working with Libraries and Virtual Environments 	21:45	-
-7	Python Part 3: Useful Python Libraries for Network Engineers 	38:55	xxx
+7	Python Part 3: Useful Python Libraries for Network Engineers 	38:55	23:45 ncclient
 
 MODULE 3 - Network Device APIs
 1	Getting the "YANG" of it with Standard Data Models				18:41	DONE
@@ -3029,11 +3029,6 @@ To deploy the configuration:
 - Or wait until next poll period.
 
 
-# Puppet Server
-#
-service puppetserver status
-puppetserver start
-
 # Client, server with Puppet agent
 #
 # Test connectivity or pul the configuration
@@ -3046,6 +3041,11 @@ puppet agent
 
 
 
+# Puppet Server
+#
+service puppetserver status
+puppetserver start
+
 # Pull configuration every 2 minutes (default is 30 min)
 # Or modify /etc/puppetlabs/puppet/puppet.conf
 #
@@ -3055,11 +3055,26 @@ puppet config set --section agent runinterval 120
 #
 cat /var/log/puppetlabs/puppetserver/puppetserver.log
 
-
 # Check certificates
 #
 puppetserver ca list --all
 
+
+# Install standard Puppet NTP module
+#
+puppet module install puppetlabs-ntp
+puppet module list
+
+
++++ NOT executed, LAB 10.6 Configure Network Parameters Using Puppet +++
+
+
+
+Ansible
+-------
+Manages elements using: SSH, NETCONF, REST APIs, etc.
+
++++ verder bij 10.7 +++
 
 
 
@@ -4476,3 +4491,22 @@ https://developer.cisco.com/learning/lab/why-mdp/step/7
 	-	Network programming using Yang service models with Cisco Network Services Orchestrator - DEVNET-1177
 	-	Introduction to Data Models and Cisco's NextGen Device Level APIs - DEVNET-1082
 	-	Introduction to RESTCONF - DEVNET-1081
+
+
+
+
+Linux
+-----
+# IP in IP tunnel
+ip link add name <if_name> type ipip local <local_ip> remote <remote_ip>
+ip link set <if_name> up
+
+ip addr show dev <if_name>
+ip addr add <ip_address> dev <if_name>
+ip addr del <ip_address> dev <if_name>
+
+ip route add <subnet> dev <if_name>
+ip route replace <subnet> dev <if_name>
+
+service ntp status
+cat /etc/ntp.conf
