@@ -2882,11 +2882,87 @@ Playbook need to revert		|	Executes periodically: manual changes will be reverte
 
 
 Puppet Concepts:
-Resource: 	Describes particular aspect of a system.
-Class: 		Collection of resources.
-Manifest: 	Configuration file describing how to configure resources.
-Catalog: 	Compiled configuration for a node.
-Module: 	Collection of manifests, templates and other files. Used to configure multiple options of a specific feature
+- Resource: Describes particular aspect of a system. Unit of configuration.
+- Class: 	Collection of resources.
+- Manifest: Configuration file describing how to configure resources.
+- Catalog: 	Compiled configuration for a node.
+- Module: 	Collection of manifests, templates and other files. Allow reusability.
+			Write own modules or download from Puppet Forge.
+
+Manifest:
+- Main infrastructure configuration.
+- Puppet code that describes configuration of resources.
+- Text file with .pp extension (usually site.pp).
+- UTF-8 encoding.
+- Single file or directory with multiple manifests. Multiple files treated as one.
+- Configuration in manifests is compiled into a catalog for each individual node.
+
+
+Built-in resource types:
+- exec: 	Executes commands.
+- file: 	Manages files.
+- service: 	Manages running services.
+- user: 	Manages users.
+
+	<RESOURCE TYPE> { '<TITLE>':
+		<ATTRIBUTE> => <VALUE>,
+		<ATTRIBUTE> => <VALUE>,
+		...
+	  }
+
+
+	package { 'openssh-server':
+	  ensure => installed,
+	}
+
+	file { '/etc/ssh/sshd_config':
+	  source  => 'puppet:///modules/sshd/sshd_config',
+	  owner   => 'root',
+	  group   => 'root',
+	  mode    => '0640',
+	  notify  => Service['sshd'], # sshd restarts whenever you edit this file.
+	  require => Package['openssh-server'],
+	}
+
+	service { 'sshd':
+	  ensure     => running,
+	  enable     => true,
+	}
+
+	user { "jane":
+	    ensure     => present,
+	    uid        => '507',
+	    gid        => 'admin',
+	    shell      => '/bin/zsh',
+	    home       => '/home/jane',
+	    managehome => true,
+	}
+
+
+Class specification:
+
+	class save_time (String $file_path='/root/time.log') {
+
+	  file { 'log_file_present':
+	    ensure => present,
+	    path => $file_path,
+	  }
+
+	  exec { 'save_time_cmd':
+	    command => "/usr/bin/time > $file_path"
+	  }
+	}
+
+Ways of declaring a class:
+- Include-like 		Most common. Declare multiple times.
+
+						include save_time
+
+- Resource-like		Pass parameters (override defaults)
+
+						class { 'save_time':
+						  file_path => '/tmp/temp_time.log'
+						}
 
 
 
