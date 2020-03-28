@@ -174,8 +174,8 @@ MODULE 5 - Application Hosting and the Network
 MODULE 6 - NetDevOps
 1	Configuration Management and the Network 						11:28	DONE
 2	Ansible Part 1: What you need to Get Started 					24:27	DONE
-3	Ansible Part 2: Using Ansible for Network Configuration 		14:21	xxx
-4	Ansible Part 3: Your Network As Code 							20:02	xxx
+3	Ansible Part 2: Using Ansible for Network Configuration 		14:21	DONE
+4	Ansible Part 3: Your Network As Code 							20:02	DONE
 
 
 =============================================
@@ -2863,21 +2863,30 @@ Two categories of management configuration and orchestration tools:
 Ansible is partly hybrid (procedural and declarative).
 
 
-Ansible 					Puppet
--------						------
-Procedural 					Declarative
-Agentless 					Agent on managed node; Master node
-Client only 				Client/server
-Push model 					Pull model
+Ansible 					|	Puppet
+----------------------------|--------------------------------------
+Procedural 					|	Declarative
+Agentless 					|	Agent on managed node; Master node (Proxy agent, if agent not possible on device)
+Client only 				|	Client/server
+Push model 					|	Pull model
+							|
+Playbooks (YAML) 			|	Catalogs
+Tasks 						|	Manifests (desired state)
+Inventory of nodes			|	Agent gathers facts; sends them to master; requests a catalog from master.
+							|	Master creates a catalog from the manifests; sends catalog to agent.
+							|	Agent checks catalog and applies required changes; sends a report to master
+							|   (Agent requests config every 30 minutes)
+							|
+Playbook need to revert		|	Executes periodically: manual changes will be reverted!
+ manual changes 			|
 
-Playbooks (YAML) 			Catalogs
-Tasks 						Manifests (desired state)
-Inventory of nodes			Agent gathers facts; sends them to master; requests a catalog from master.
-							Master creates a catalog from the manifests; sends catalog to agent.
-							Agent checks catalog and applies required changes; sends a report to master
 
-Playbook to revert 			Executes periodically: manual changes will be reverted!
- manual changes
+Puppet Concepts:
+Resource: 	Describes particular aspect of a system.
+Class: 		Collection of resources.
+Manifest: 	Configuration file describing how to configure resources.
+Catalog: 	Compiled configuration for a node.
+Module: 	Collection of manifests, templates and other files. Used to configure multiple options of a specific feature
 
 
 
