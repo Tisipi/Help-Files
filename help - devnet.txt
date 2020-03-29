@@ -3072,9 +3072,87 @@ puppet module list
 
 Ansible
 -------
-Manages elements using: SSH, NETCONF, REST APIs, etc.
+https://docs.ansible.com/ansible/latest/user_guide/
 
-+++ verder bij 10.7 +++
+Manages elements using: SSH, NETCONF, REST APIs, etc.
+Two basic elements Ansible architecture: core engine and modules.
+
+Inventory:
+- list of managed nodes ('hostfile').
+- INI or YAML format.
+- Default: etc/ansible/hosts.
+- Groups and nesting for easier scaling.
+- Assigning variables to host or group.
+- Dynamic inventory: Track hosts from multiple sources, e.g. cloud providers (inventory Plugins and scripts).
+
+
+INI format:
+
+	mail.example.com
+
+	[webservers]
+	foo.example.com
+	bar.example.com
+
+	[dbservers]
+	one.example.com
+	two.example.com
+	three.example.com
+
+
+YAML format:
+
+	all:
+	  hosts:
+	    mail.example.com:
+	  children:
+	    webservers:
+	      hosts:
+	        foo.example.com:
+	        bar.example.com:
+	    dbservers:
+	      hosts:
+	        one.example.com:
+	        two.example.com:
+	        three.example.com:
+
+
+Host variables:
+
+	[atlanta]
+	host1 http_port=80 maxRequestsPerChild=808
+	host2 http_port=303 maxRequestsPerChild=909
+
+
+Host variables (for non-standard SSH port):
+
+	badwolf.example.com:5309
+
+
+Inventory alias:
+
+	jumper ansible_port=5555 ansible_host=192.0.2.50
+
+
+Group variables:
+
+	[atlanta]
+	host1
+	host2
+
+	[atlanta:vars]
+	ntp_server=ntp.atlanta.example.com
+	proxy=proxy.atlanta.example.com
+
+
+
+host_vars folder:
+- Files have same names as hosts in the inventory.
+- Files contain host-specific variables.
+
+group_vars folder:
+- Files names correspond to group names in inventory.
+- Files contain group-specific variables.
 
 
 
