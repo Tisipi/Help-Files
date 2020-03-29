@@ -3326,21 +3326,36 @@ XML
 CSV
 
 
+MySQL:
 
-MySQL
------
-import MySQLdb
+	import MySQLdb
 
-db = MySQLdb.connect(host='localhost', user='dbAdmin', password='myDbAdmin123', db='mySimpleDB')
-c = db.cursor()
-c.execute('SELECT * FROM devices')
+	db = MySQLdb.connect(host='localhost', user='dbAdmin', password='myDbAdmin123', db='mySimpleDB')
+	c = db.cursor()
+	c.execute('SELECT * FROM devices')
 
-devices = c.fetchall()
-for device in devices:
- print(device)
+	devices = c.fetchall()
+	for device in devices:
+	 print(device)
 
 
-Firepower
+
+Firepower Threat Defense
+------------------------
+https://developer.cisco.com/firepower/threat-defense/
+
+FDM 	Firepower Device Manager
+FTD 	Firepower Threat Defense
+
+API explorer: https://<hostname>/#/api-explorer
+
+FTD API
+- REST API
+- JSON
+- Oauth 2.0, JSON Web Tokens
+- URL: https://<hostname>/api/fdm/v4/object/networks
+
+
 
 
 =============================================
