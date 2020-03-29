@@ -3343,19 +3343,183 @@ MySQL:
 Firepower Threat Defense
 ------------------------
 https://developer.cisco.com/firepower/threat-defense/
+https://developer.cisco.com/site/ftd-api-reference/#!authenticating-your-rest-api-client-using-oauth/requesting-a-custom-access-token
 
 FDM 	Firepower Device Manager
 FTD 	Firepower Threat Defense
 
 API explorer: https://<hostname>/#/api-explorer
 
-FTD API
+Firepower Threat Defense API:
 - REST API
 - JSON
 - Oauth 2.0, JSON Web Tokens
-- URL: https://<hostname>/api/fdm/v4/object/networks
+- Different Access and refresh tokens!
+- Access token valid for 1800s (default is 30 min)
+- Format URLs: https://<hostname>/api/fdm/<version>/object/networks
 
 
+JSON object for the password-granted access token grant:
+
+	{
+	  "grant_type": "password",
+	  "username": "string",
+	  "password": "string"
+	}
+
+
+Requesting a Password-Granted Access Token:
+
+	Use POST https://<server>/api/fdm/v4/fdm/token to obtain the access token.
+
+	curl -X POST \
+	    --header 'Content-Type: application/json' \
+	    --header 'Accept: application/json' \
+	    -d '{
+	        "grant_type": "password",
+	        "username": "admin",
+	        "password": "Admin123"
+	    }' https://ftd.example.com/api/fdm/v4/fdm/token
+
+
+	Retrieve tokens from response:
+	{
+    "access_token": "eyJ..snip..K38",
+    "expires_in": 1800,
+    "token_type": "Bearer",
+    "refresh_token": "eyJ..snip..z_o",
+    "refresh_expires_in": 2400
+	}
+
+
+Requesting a Custom Access Token:
+
+curl -X POST \
+  --header 'Content-Type: application/json' \
+  --header 'Accept: application/json' \
+  -d '{
+    "grant_type": "custom_token",
+    "access_token": "eyJ..snip..K38",
+    "desired_expires_in": 2400,
+    "desired_refresh_expires_in": 3000,
+    "desired_subject": "api-client",
+    "desired_refresh_count": 3
+  }' https://ftd.example.com/api/fdm/v4/fdm/token
+
+
+
+Using an Access Token on API Call, GET /object/networks:
+
+	Include the received TOKEN in the Authorization header
+	Authorization: Bearer <access_token>
+
+	curl -k -X GET \
+	    -H 'Accept: application/json' \
+	    -H 'Authorization: Bearer eyJ..snip..bN8' \
+	    https://ftd.example.com/api/fdm/v4/object/networks
+
+
+Refreshing an Access Token:
+
+	Refresh token using the original refresh token. But note that this supplies a NEW pair of access and refresh tokens (it does NOT extend the life of the old tokens).
+
+	curl -X POST \
+	    --header 'Content-Type: application/json' \
+	    --header 'Accept: application/json' \
+	    -d '{
+	       "grant_type": "refresh_token",
+	       "refresh_token": "eyJ..snip..z_o",
+	     }' https://ftd.example.com/api/fdm/v4/fdm/token
+
+
+
+Revoking an Access Token:
+
+	Clean up by revoking a token when the user logs out of your API client.
+
+	{
+	    "grant_type": "revoke_token",
+	    "access_token": "string",
+	    "token_to_revoke": "string",
+	    "custom_token_subject_to_revoke": "string"
+	}
+
+	You must specify one, and only one, of token_to_revoke and custom_token_subject_to_revoke.
+
+	curl -X POST \
+	    --header 'Content-Type: application/json' \
+	    --header 'Accept: application/json' \
+	    -d '{
+	        "grant_type": "revoke_token",
+    		"access_token": "eyJ..snip..K38",
+	        "custom_token_subject_to_revoke": "api-client"
+	    }' https://ftd.example.com/api/fdm/v4/fdm/token
+
+	curl -X POST \
+	    --header 'Content-Type: application/json' \
+	    --header 'Accept: application/json' \
+	    -d '{
+	        "grant_type": "revoke_token",
+    		"access_token": "eyJ..snip..K38",
+    		"token_to_revoke": "eyJ..snip..K38",
+	    }' https://ftd.example.com/api/fdm/v4/fdm/token
+
+
+Deploying Configuration Changes:
+
+	Changes are not immediately active. You must deploy them.
+	Use the POST /operational/deploy resource to initiate a deployment.
+
+	curl -X POST \
+	    --header 'Content-Type: application/json' \
+	    --header 'Accept: application/json' \
+	    https://ftd.example.com/api/fdm/v4/operational/deploy
+
+
+Evaluate the response to verify that the deployment job was queued.
+
+	{
+	  "id": "a7a227fb-82ab-11e7-8186-0dc471ff0672",
+	  "statusMessage": null,
+	  "statusMessages": null,
+	  "modifiedObjects": {},
+	  "queuedTime": 1502905942150,
+	  "startTime": -1,
+	  "endTime": -1,
+	  "state": "QUEUED",								<<<< CHECK
+	  "links": {
+	    "self": "https://ftd.example.com/api/fdm/v4/operational/deploy/a7a227fb-82ab-11e7-8186-0dc471ff0672"
+	  }
+	}
+
+Use the GET /operational/deploy/{objId} resource to check the status of the job:
+
+	curl -X GET \
+	    --header 'Accept: application/json' \
+	    https://ftd.example.com/api/fdm/v4/operational/deploy/a7a227fb-82ab-11e7-8186-0dc471ff0672
+
+
+The state, DEPLOYED, indicates the job completed successfully.
+	{
+	  "id": "a7a227fb-82ab-11e7-8186-0dc471ff0672",
+	  "statusMessage": null,
+	  "statusMessages": null,
+	  "modifiedObjects": {
+	    "NetworkObject": [
+	      "new-network"
+	    ]
+	  },
+	  "queuedTime": 1502905942150,
+	  "startTime": 1502905942463,
+	  "endTime": 1502906010068,
+	  "state": "DEPLOYED",					<<<<
+	  "links": {
+	    "self": "https://ftd.example.com/api/fdm/v4/operational/deploy/a7a227fb-82ab-11e7-8186-0dc471ff0672"
+	  }
+	}
+
+
+++ verder bij Using the Methods and Resources +++
 
 
 =============================================
