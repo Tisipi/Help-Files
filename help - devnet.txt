@@ -3311,6 +3311,38 @@ ansible all -i hosts -m ping
 +++ NOT executed, LAB 10.8, Configure Network Parameters Using Ansible +++
 
 
+Options for single source of truth:
+- Configuration files: YAML, JSON, XML, CSV, etc.
+- Databases
+	Relational: MySQL, PostgreSQL, MariaDB, etc.
+	Non-relational: MongoDB, Cassandra, etc.
+- Off-the-self solutions: NetBox, Network Source of Truth (NSot)
+
+
++++ Add code snippets for reading/writing +++
+YAML
+JSON
+XML
+CSV
+
+
+
+MySQL
+-----
+import MySQLdb
+
+db = MySQLdb.connect(host='localhost', user='dbAdmin', password='myDbAdmin123', db='mySimpleDB')
+c = db.cursor()
+c.execute('SELECT * FROM devices')
+
+devices = c.fetchall()
+for device in devices:
+ print(device)
+
+
+Firepower
+
+
 =============================================
 
 
