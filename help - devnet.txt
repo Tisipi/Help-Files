@@ -3075,6 +3075,7 @@ Ansible
 https://docs.ansible.com/ansible/latest/user_guide/
 
 Manages elements using: SSH, NETCONF, REST APIs, etc.
+Ansible uses YAML playbooks and Jinja2 templating language.
 Two basic elements Ansible architecture: core engine and modules.
 
 Inventory:
@@ -3085,8 +3086,39 @@ Inventory:
 - Assigning variables to host or group.
 - Dynamic inventory: Track hosts from multiple sources, e.g. cloud providers (inventory Plugins and scripts).
 
+Playbook:
+- YAML format.
+- Instructions to configure infrastructure.
+- Playbook consists of plays.
+- Play is a collection of tasks.
+- Task consist of name and module.
 
-INI format:
+Tasks are executed sequentially.
+Specific task is executed against all hosts in play.
+Task must be finished on all hosts, before moving to the next one.
+If a task fails on a host, the next tasks are not executed on that host.
+
+
+Create reusable playbooks with:
+- Include
+- Import
+- Roles
+
+Split playbook into smaller playbooks.
+Reuse smaller playbooks in other parent playbooks.
+Imports are processed at playbook parsing time.
+Include are processed when task is encountered.
+
+A role groups tasks, variables, templates, etc.
+A role is typically used to configure a well-defined part of the infrastructure (BGP peer, OSPF process).
+A role has a directory structure. It consists of multiple files.
+
+Collections pack Ansible content in a reusable format for simple distribution.
+A collection may include playbooks, roles, modules and plugins.
+Install Ansible collection from a community hub, a hosted server or from a tarball.
+
+
+Inventory, INI format:
 
 	mail.example.com
 
@@ -3100,7 +3132,7 @@ INI format:
 	three.example.com
 
 
-YAML format:
+Inventory, YAML format:
 
 	all:
 	  hosts:
@@ -3145,7 +3177,6 @@ Group variables:
 	proxy=proxy.atlanta.example.com
 
 
-
 host_vars folder:
 - Files have same names as hosts in the inventory.
 - Files contain host-specific variables.
@@ -3153,6 +3184,88 @@ host_vars folder:
 group_vars folder:
 - Files names correspond to group names in inventory.
 - Files contain group-specific variables.
+
+
+Syntax of a play:
+
+	- hosts: <HOST_OR_GROUP_NAME>
+	  tasks:
+	    - name: <TASK NAME>
+
+
+Example playbook (verify-apache.yml, one play):
+
+	---
+	- hosts: webservers
+	  vars:
+	    http_port: 80
+	    max_clients: 200
+	  remote_user: root
+	  tasks:
+	  - name: ensure apache is at the latest version
+	    yum:
+	      name: httpd
+	      state: latest
+	  - name: write the apache config file
+	    template:
+	      src: /srv/httpd.j2
+	      dest: /etc/httpd.conf
+	    notify:
+	    - restart apache
+	  - name: ensure apache is running
+	    service:
+	      name: httpd
+	      state: started
+	  handlers:
+	    - name: restart apache
+	      service:
+	        name: httpd
+	        state: restarted
+
+
+Example playbook (multiple plays):
+
+	---
+	- hosts: webservers
+	  remote_user: root
+
+	  tasks:
+	  - name: ensure apache is at the latest version
+	    yum:
+	      name: httpd
+	      state: latest
+	  - name: write the apache config file
+	    template:
+	      src: /srv/httpd.j2
+	      dest: /etc/httpd.conf
+
+	- hosts: databases
+	  remote_user: root
+
+	  tasks:
+	  - name: ensure postgresql is at the latest version
+	    yum:
+	      name: postgresql
+	      state: latest
+	  - name: ensure that postgresql is started
+	    service:
+	      name: postgresql
+	      state: started
+
+
+
+
+# Run a playbook
+#
+ansible-playbook -i hosts configure_servers.yml
+
+
+# Create a reusable Ansible role
+#
+ansible-galaxy init ntp
+
+
++++ NOT executed, LAB 10.8, Configure Network Parameters Using Ansible +++
 
 
 
