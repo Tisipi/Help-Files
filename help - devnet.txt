@@ -3253,6 +3253,44 @@ Example playbook (multiple plays):
 	      state: started
 
 
+routes_ntp.yml:
+
+    ---
+	- name: Change routes and NTP on all servers
+	  hosts: all
+	  tasks:
+
+	    - name: Change route
+	      shell: /sbin/ip route replace {{ mgmt_subnet }} dev {{ if_name }}
+
+		- name: Create NTP configuration from the template
+		  template:
+		    src: ntp_config.tmpl
+		    dest: /etc/ntp.conf
+		    owner: root
+		    group: root
+		    mode: 644
+
+		- name: Restart NTP service
+		  service:
+		    name: ntp
+		    state: restarted
+
+
+	group_vars/all:
+
+		mgmt_subnet: 10.60.70.0/24
+		if_name: bg0
+		ntp_servers:
+		  - ntp1.tisipi.nl
+		  - ntp1.tisipi.nl
+
+	templates/ntp_config.tmpl:
+
+		{% for server in ntp_servers %}
+		server {{ server }} iburst
+		{% endfor %}
+
 
 
 # Run a playbook
@@ -3262,11 +3300,15 @@ ansible-playbook -i hosts configure_servers.yml
 
 # Create a reusable Ansible role
 #
-ansible-galaxy init ntp
+ansible-galaxy init roles/ntp
+
+
+# Ping hosts
+#
+ansible all -i hosts -m ping
 
 
 +++ NOT executed, LAB 10.8, Configure Network Parameters Using Ansible +++
-
 
 
 =============================================
@@ -4698,6 +4740,18 @@ ip addr del <ip_address> dev <if_name>
 
 ip route add <subnet> dev <if_name>
 ip route replace <subnet> dev <if_name>
+route -n
+
+ping -c 5 10.10.10.1
+
 
 service ntp status
 cat /etc/ntp.conf
+
+
+# Generate SSH keys (private and public)
+ssh-keygen -t rsa
+
+# Copy public keys to clients
+#
+ssh-copy-id -p <port> <username>@<server IP>
