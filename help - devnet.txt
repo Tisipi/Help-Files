@@ -3356,7 +3356,9 @@ Firepower Threat Defense API:
 - Oauth 2.0, JSON Web Tokens
 - Different Access and refresh tokens!
 - Access token valid for 1800s (default is 30 min)
+- Standard HTTP status codes: 200 (OK) successful GET/PUT/POST call; 204 a successful DELETE call
 - Format URLs: https://<hostname>/api/fdm/<version>/object/networks
+			   https://<hostname>/api/fdm/<version>/object/urls
 
 
 JSON object for the password-granted access token grant:
@@ -3486,7 +3488,7 @@ Evaluate the response to verify that the deployment job was queued.
 	  "queuedTime": 1502905942150,
 	  "startTime": -1,
 	  "endTime": -1,
-	  "state": "QUEUED",								<<<< CHECK
+	  "state": "QUEUED",				<<<< CHECK STATUS
 	  "links": {
 	    "self": "https://ftd.example.com/api/fdm/v4/operational/deploy/a7a227fb-82ab-11e7-8186-0dc471ff0672"
 	  }
@@ -3504,7 +3506,7 @@ The state, DEPLOYED, indicates the job completed successfully.
 	  "id": "a7a227fb-82ab-11e7-8186-0dc471ff0672",
 	  "statusMessage": null,
 	  "statusMessages": null,
-	  "modifiedObjects": {
+	  "modifiedObjects": {			   <<<< List of modified objects
 	    "NetworkObject": [
 	      "new-network"
 	    ]
@@ -3512,14 +3514,68 @@ The state, DEPLOYED, indicates the job completed successfully.
 	  "queuedTime": 1502905942150,
 	  "startTime": 1502905942463,
 	  "endTime": 1502906010068,
-	  "state": "DEPLOYED",					<<<<
+	  "state": "DEPLOYED",				<<<< CHECK STATUS (can also be "DEPLOYING")
 	  "links": {
 	    "self": "https://ftd.example.com/api/fdm/v4/operational/deploy/a7a227fb-82ab-11e7-8186-0dc471ff0672"
 	  }
 	}
 
 
-++ verder bij Using the Methods and Resources +++
+Read all URL objects:
+
+	You can include query parameters to control the number of objects returned. D
+	Default is 10 objects from the start of the object list.
+
+	curl -k -X GET \
+	    -H 'Accept: application/json' \
+	    -H 'Content-Type: application/json' \
+	    -H 'Authorization: Bearer eyJ..snip..bN8' \
+	    https://ftd.example.com/api/fdm/v4/object/urls
+
+
+POST: Create a New Object
+
+	curl -X POST \
+	   --header 'Content-Type: application/json' \
+	   --header 'Accept: application/json' -d '{ \
+	   "name": "new_network_object", \
+	   "description": "A subnet object created using the REST API.", \
+	   "subType": "NETWORK", \
+	   "value": "10.100.10.0/24", \
+	   "type": "networkobject" \
+	 }' 'https://ftd.example.com/api/fdm/latest/object/networks'
+
+
+PUT: Modify an Existing Object
+
+	Change the attributes of an object. The PUT method replaces the entire object.
+	You cannot change one attribute. Ensure that your JSON object includes:
+	- the old values that you want to preserve.
+	- version (changes every time you modify an object)
+	- id
+
+	curl -X PUT \
+	--header 'Content-Type: application/json' \
+	--header 'Accept: application/json' -d '{ \
+	   "version": "f6d8da48-7ed5-11e7-9bfd-d96183b5f5f1", \
+	   "name": "new_network_object", \
+	   "description": "A subnet object created using the REST API.", \
+	   "subType": "NETWORK", \
+	   "value": "10.100.11.0/24", \
+	   "type": "networkobject" \
+	 }' 'https://ftd.example.com/api/fdm/latest/object/networks/f6d8da49-7ed5-11e7-9bfd-27136f5686ad'
+
+
+DELETE: Remove a User-Created Object
+
+	You cannot delete system-defined objects or objects that are required to exist.
+	You cannot delete an object that is used by another object (e.g. network object in an access rule).
+
+	Successful calls (return code 204 “No Content”), send an empty response body.
+
+	curl -X DELETE \
+	--header 'Accept: application/json' \
+	'https://ftd.example.com/api/fdm/latest/object/networks/f6d8da49-7ed5-11e7-9bfd-27136f5686ad'
 
 
 =============================================
