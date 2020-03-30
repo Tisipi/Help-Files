@@ -3578,6 +3578,10 @@ DELETE: Remove a User-Created Object
 	'https://ftd.example.com/api/fdm/latest/object/networks/f6d8da49-7ed5-11e7-9bfd-27136f5686ad'
 
 
++++ NOT executed, LAB 10.11, Synchronize Firepower Device Configuration +++
++++ #TODO, test basic things like: API explorer, get token, etc +++
+
+
 =============================================
 
 
