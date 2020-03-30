@@ -2743,8 +2743,8 @@ A query for a nonexistent object is not treated as a failure by the DME. It retu
 
 Cisco UCS Manager Emulator:
 - Emulates the actual UCS system.
-- Same code, full MIT
-- CentOS VM (.vmx and .ova image files
+- Same code, full MIT.
+- CentOS VM (.vmx and .ova image files.
 
 
 Example Cisco UCS Manager API: see UCS.py
@@ -2842,15 +2842,15 @@ AWS example:
 
 
 Orchestration:
-- Focus on bootstrapping and initializing resources
+- Focus on bootstrapping and initializing resources.
 - Provision resources.
-- Typical actions: Create nVM.
+- Typical actions: Create a VM.
 - Example: Terraform.
 
 Configuration management:
-- Configure resources that exist
+- Configure resources that exist.
 - Manage resources.
-- Typical actions: Install software, provide configurations, manage services
+- Typical actions: Install software, provide configurations, manage services.
 - Examples: Ansible, Puppet.
 
 There is some overlap between tools. They can work together.
@@ -2858,7 +2858,7 @@ There is some overlap between tools. They can work together.
 
 Two categories of management configuration and orchestration tools:
 - Procedural	(Ansible)
-- Declarative (Puppet and Terraform)
+- Declarative 	(Puppet and Terraform)
 
 Ansible is partly hybrid (procedural and declarative).
 
@@ -2874,12 +2874,16 @@ Playbooks (YAML) 			|	Catalogs
 Tasks 						|	Manifests (desired state)
 Inventory of nodes			|	Agent gathers facts; sends them to master; requests a catalog from master.
 							|	Master creates a catalog from the manifests; sends catalog to agent.
-							|	Agent checks catalog and applies required changes; sends a report to master
+							|	Agent checks catalog and applies required changes; sends a report to master.
 							|   (Agent requests config every 30 minutes)
 							|
-Playbook need to revert		|	Executes periodically: manual changes will be reverted!
- manual changes 			|
+Playbook needs to revert	|	Executes periodically: manual changes will be reverted!
+ any manual changes 		|
 
+
+
+Puppet
+------
 
 Puppet Concepts:
 - Resource: Describes particular aspect of a system. Unit of configuration.
