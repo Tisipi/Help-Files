@@ -147,7 +147,7 @@ MODULE 2 - Programming Fundamentals
 4	REST APIs Part 2: Making REST API Calls with Postman 			19:43	-
 5	Python Part 1: Python Language and Script Basics 				33:17	-
 6	Python Part 2: Working with Libraries and Virtual Environments 	21:45	-
-7	Python Part 3: Useful Python Libraries for Network Engineers 	38:55	23:45 ncclient
+7	Python Part 3: Useful Python Libraries for Network Engineers 	38:55	DONE
 
 MODULE 3 - Network Device APIs
 1	Getting the "YANG" of it with Standard Data Models				18:41	DONE
@@ -166,8 +166,8 @@ MODULE 4 - Network Controllers
 7	ACI Programmability Part 2: Using the ACI Toolkit 				29:24	xxx
 
 MODULE 5 - Application Hosting and the Network
-1	Cloud to Fog: Why Host Apps in the Network 						09:44	xxx
-2	Linux at the Edge: Introduction to Guest Shell 					21:39	xxx
+1	Cloud to Fog: Why Host Apps in the Network 						09:44	DONE
+2	Linux at the Edge: Introduction to Guest Shell 					21:39	DONE
 3	Python at the Edge: Super Charged Network Event Management 		23:48	xxx
 4	Package, Deploy and Run Applications in the Network with IOx 	20:31	xxx
 
