@@ -293,9 +293,22 @@ Boundary  	-  View
 
 Cisco Webex Teams
 -----------------
+https://developer.webex.com/docs/api/getting-started.
+https://developer.webex.com/login
+
 Secure collaboration platform.
-REST API
-) which enables you integrate a powerful chatbot to your workflow. API documentation is available at https://developer.webex.com/docs/api/getting-started. After you log in to your Webex account for developers at https://developer.webex.com/login, there are a few key steps needed to create a bot and begin you ChatOps journey.
+REST API.
+Integrate chatbot into your workflow.
+Chat room is called a space in Webex Teams.
+Space has a roomId.
+
+Bot creation:
+- Provide: Name, Username, Icon, Description
+- Properties assigned to your bot: Bot ID and Bot Access Token
+
+To respond to events register a webhook (e.g. to external ChatOps Gateway).
+Registered targetUrl gets called after a specific event occurs inside Webex Teams.
+Do a callback to Webex Teams REST API to get more detailed information.
 
 
 ChatOps Benefits:
@@ -325,9 +338,19 @@ Chatbots types:
 - Personal assistants 	Most sophisticated. Use advanced algorithms and natural language processing to respond.
 
 
+Examples of possible call flow directions:
+- ChatOps Gateway to Webex Teams REST API.
+- Webex Teams ChatBot App to ChatOps Gateway.
+- ChatOps Gateway to Meraki REST API.
+
+
 
 Webex / Meraki
 --------------
+https://developer.webex.com/docs/api/basics
+https://developer.cisco.com/meraki/api/
+
+
 import requests
 
 # Webex Teams REST API:
@@ -351,6 +374,14 @@ Use Cisco Webex Teams API to Enable ChatOps
 UML
 ---
 Unified Modeling Language
+
+UML tools:
+- PlantUML
+- GitUML
+- Lucidchart
+- Smartdraw
+- WebSequenceDiagrams
+
 
 Example using PlantUML text language:
 
