@@ -168,7 +168,7 @@ MODULE 4 - Network Controllers
 MODULE 5 - Application Hosting and the Network
 1	Cloud to Fog: Why Host Apps in the Network 						09:44	DONE
 2	Linux at the Edge: Introduction to Guest Shell 					21:39	DONE
-3	Python at the Edge: Super Charged Network Event Management 		23:48	xxx
+3	Python at the Edge: Super Charged Network Event Management 		23:48	DONE
 4	Package, Deploy and Run Applications in the Network with IOx 	20:31	xxx
 
 MODULE 6 - NetDevOps
@@ -303,8 +303,8 @@ Chat room is called a space in Webex Teams.
 Space has a roomId.
 
 Bot creation:
-- Provide: Name, Username, Icon, Description
-- Properties assigned to your bot: Bot ID and Bot Access Token
+- Provide: Name, Username, Icon, Description.
+- Properties assigned to your bot: Bot ID and Bot Webex Access Token.
 
 To respond to events register a webhook (e.g. to external ChatOps Gateway).
 Registered targetUrl gets called after a specific event occurs inside Webex Teams.
@@ -343,6 +343,11 @@ Examples of possible call flow directions:
 - Webex Teams ChatBot App to ChatOps Gateway.
 - ChatOps Gateway to Meraki REST API.
 
+Example of components of ChatOps Gateway:
+- Webex Access Token to call Webex Teams REST API.
+- Python flask Web module to serve webhooks.
+- Meraki API Key to call Meraki REST API.
+- Python requests module to submit HTTP requests.
 
 
 Webex / Meraki
@@ -364,10 +369,11 @@ requests.get('https://api.ciscospark.com/v1/messages', headers={'Authorization':
 # via https://dashboard.meraki.com/
 #
 requests.get('https://api.ciscospark.com/v1/messages', headers={'X-Cisco-Meraki-API-Key': 'MERAKI-API-KEY')
++++ ook ciscospark ??+++
 
 
-+++ #TODO; Verder gaan bij 3.7 +++
-Use Cisco Webex Teams API to Enable ChatOps
++++ #TODO; 3.7 Use Cisco Webex Teams API to Enable ChatOps, LAB +++
+
 
 
 
