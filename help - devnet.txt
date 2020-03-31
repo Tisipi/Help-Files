@@ -291,11 +291,66 @@ Boundary  	-  View
 
 =============================================
 
+Cisco Webex Teams
+-----------------
+Secure collaboration platform.
+REST API
+) which enables you integrate a powerful chatbot to your workflow. API documentation is available at https://developer.webex.com/docs/api/getting-started. After you log in to your Webex account for developers at https://developer.webex.com/login, there are a few key steps needed to create a bot and begin you ChatOps journey.
+
+
+ChatOps Benefits:
+- Centralization 	Centralized infrastructure management
+- Conversation 		Conversational approach to operations
+- Collaboration 	Tighter collaboration
+- Transparency 		Transparent workflow
+
+Chatbot Frameworks:
+- Botkit
+- Errbot
+- Hubot
+- Lita
+- Wobot
+- Robut
+
+Chatbot API:
+- Cisco Webex Teams
+- Microsoft Teams
+- Google Hangouts
+- Slack
+- Hipchat
+
+Chatbots types:
+- Notifier bots			Monitor specific changes and send notifications to your chat room.
+- Controller bot 		Listen for phrases or keywords in your chat room and execute pre-defined tasks.
+- Personal assistants 	Most sophisticated. Use advanced algorithms and natural language processing to respond.
+
+
+
+Webex / Meraki
+--------------
+import requests
+
+# Webex Teams REST API:
+# Set Authorization HTTP header to "Bearer ACCESS_TOKEN" where ACCESS_TOKEN is your Webex Access Token
+#
+requests.get('https://api.ciscospark.com/v1/messages', headers={'Authorization': 'Bearer ACCESS_TOKEN')
+
+
+# Meraki REST API:
+# Set X-Cisco-Meraki-API-Key HTTP header to the Meraki API Key string that has been generated
+# via https://dashboard.meraki.com/
+#
+requests.get('https://api.ciscospark.com/v1/messages', headers={'X-Cisco-Meraki-API-Key': 'MERAKI-API-KEY')
+
+
++++ #TODO; Verder gaan bij 3.7 +++
+Use Cisco Webex Teams API to Enable ChatOps
+
+
 
 UML
 ---
 Unified Modeling Language
-
 
 Example using PlantUML text language:
 
@@ -355,26 +410,6 @@ Example using PlantUML text language:
 
 	@enduml
 
-
-Webex / Meraki
---------------
-import requests
-
-# Webex Teams REST API:
-# Set Authorization HTTP header to "Bearer ACCESS_TOKEN" where ACCESS_TOKEN is your Webex Access Token
-#
-requests.get('https://api.ciscospark.com/v1/messages', headers={'Authorization': 'Bearer ACCESS_TOKEN')
-
-
-# Meraki REST API:
-# Set X-Cisco-Meraki-API-Key HTTP header to the Meraki API Key string that has been generated
-# via https://dashboard.meraki.com/
-#
-requests.get('https://api.ciscospark.com/v1/messages', headers={'X-Cisco-Meraki-API-Key': 'MERAKI-API-KEY')
-
-
-+++ #TODO; Verder gaan bij 3.7 +++
-Use Cisco Webex Teams API to Enable ChatOps
 
 
 =============================================
@@ -2844,7 +2879,7 @@ AWS example:
 Orchestration:
 - Focus on bootstrapping and initializing resources.
 - Provision resources.
-- Typical actions: Create a VM.
+- Typical actions: Create a VM. Create virtual network.
 - Example: Terraform.
 
 Configuration management:
