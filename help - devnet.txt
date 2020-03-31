@@ -2896,9 +2896,9 @@ Puppet Concepts:
 Manifest:
 - Main infrastructure configuration.
 - Puppet code that describes configuration of resources.
+- Single file or directory with multiple manifests. Multiple files treated as one.
 - Text file with .pp extension (usually site.pp).
 - UTF-8 encoding.
-- Single file or directory with multiple manifests. Multiple files treated as one.
 - Configuration in manifests is compiled into a catalog for each individual node.
 
 
@@ -3083,7 +3083,7 @@ Ansible uses YAML playbooks and Jinja2 templating language.
 Two basic elements Ansible architecture: core engine and modules.
 
 Inventory:
-- list of managed nodes ('hostfile').
+- List of managed nodes ('hostfile').
 - INI or YAML format.
 - Default: etc/ansible/hosts.
 - Groups and nesting for easier scaling.
@@ -3527,7 +3527,7 @@ The state, DEPLOYED, indicates the job completed successfully.
 
 Read all URL objects:
 
-	You can include query parameters to control the number of objects returned. D
+	You can include query parameters to control the number of objects returned.
 	Default is 10 objects from the start of the object list.
 
 	curl -k -X GET \
@@ -3583,6 +3583,7 @@ DELETE: Remove a User-Created Object
 
 
 +++ NOT executed, LAB 10.11, Synchronize Firepower Device Configuration +++
+
 +++ #TODO, test basic things like: API explorer, get token, etc +++
 
 
