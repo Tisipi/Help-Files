@@ -1,8 +1,11 @@
-Certification 350-901 DEVCOR   +++++ #TODO, Updated ++++
+Certification 350-901 DEVCOR
 ----------------------------
 Developing Applications using Cisco Core Platforms and APIs v1.0 (350-901)
 Developing Applications using Cisco Core Platforms and APIs v1.0 (DEVCOR 350-901) is a 120-minute exam associated with the DevNet Professional Certification. This exam tests a candidate's knowledge of software development and design including using APIs, Cisco platforms, application deployment and security, and infrastructure and automation. The course, Developing Applications using Cisco Core Platforms and APIs helps candidates to prepare for this exam.
 
+https://learningnetwork.cisco.com/s/devcor-exam-topics
+https://developer.cisco.com/certification/exam-topic-core/
+\
 Exam overview
 1.0 Software Development and Design
 1.1 Describe distributed applications related to the concepts of front-end, back-end, and load balancing
@@ -70,13 +73,17 @@ Meraki Location Scanning API Python
 Run a Webex Teams Bot Locally
 
 
-Exam overview
 3.0 Cisco Platforms
 3.1 Construct API requests to implement chatops with Webex Teams API
 3.2 Construct API requests to create and delete objects using Firepower device management (FDM)
 3.3 Construct API requests using the Meraki platform to accomplish these tasks
 3.3.a Use Meraki Dashboard APIs to enable an SSID
 3.3.b Use Meraki location APIs to retrieve location data
+3.4 Construct API calls to retrieve data from Intersight
+3.5 Construct a Python script using the UCS APIs to provision a new UCS server given a template
+3.6 Construct a Python script using the Cisco DNA center APIs to retrieve and display wireless health information
+3.7 Describe the capabilities of AppDynamics when instrumenting an application
+3.8 Describe steps to build a custom dashboard to present data collected from Cisco APIs
 
 Study Material
 Exploring Firepower Management Center (FMC) REST APIs
@@ -130,6 +137,7 @@ Managing Cisco Compute with Ansible
 Microservices overview
 
 
+
 =============================================
 
 
@@ -159,7 +167,7 @@ MODULE 3 - Network Device APIs
 MODULE 4 - Network Controllers
 1	Introducing Cisco DNA Center Platform APIs and Programmability 	15:44	xxx
 2	Got SDN? Understanding the ACI Programmability Options 			28:56	xxx
-3	Network Control in the Cloud - Developing with Cisco Meraki 	16:16	xxx
+3	Network Control in the Cloud - Developing with Cisco Meraki 	16:16	DONE
 4	Cisco DNA Center Platform APIs Part 1: Exploring Apps and Tools 19:39	xxx
 5	Cisco DNA Center Platform APIs Part 2: Network Troubleshooting 	23:47	xxx
 6	ACI Programmability Part 1: The ACI Object Model 				19:08	xxx
@@ -169,7 +177,7 @@ MODULE 5 - Application Hosting and the Network
 1	Cloud to Fog: Why Host Apps in the Network 						09:44	DONE
 2	Linux at the Edge: Introduction to Guest Shell 					21:39	DONE
 3	Python at the Edge: Super Charged Network Event Management 		23:48	DONE
-4	Package, Deploy and Run Applications in the Network with IOx 	20:31	xxx
+4	Package, Deploy and Run Applications in the Network with IOx 	20:31	DONE
 
 MODULE 6 - NetDevOps
 1	Configuration Management and the Network 						11:28	DONE
@@ -291,6 +299,7 @@ Boundary  	-  View
 
 =============================================
 
+
 Cisco Webex Teams
 -----------------
 https://developer.webex.com/docs/api/getting-started.
@@ -350,31 +359,39 @@ Example of components of ChatOps Gateway:
 - Python requests module to submit HTTP requests.
 
 
-Webex / Meraki
---------------
+Webex
+-----
 https://developer.webex.com/docs/api/basics
-https://developer.cisco.com/meraki/api/
-
-
-import requests
 
 # Webex Teams REST API:
 # Set Authorization HTTP header to "Bearer ACCESS_TOKEN" where ACCESS_TOKEN is your Webex Access Token
 #
+import requests
 requests.get('https://api.ciscospark.com/v1/messages', headers={'Authorization': 'Bearer ACCESS_TOKEN')
 
+
++++ #TODO, 3.7 Use Cisco Webex Teams API to Enable ChatOps, LAB +++
+
+
+
+Meraki
+------
+https://developer.cisco.com/meraki/api/
+https://developer.cisco.com/meraki 			Credentials always-on public sandbox
+https://dashboard.meraki.com/				Manage your Meraki devices from the cloud
 
 # Meraki REST API:
 # Set X-Cisco-Meraki-API-Key HTTP header to the Meraki API Key string that has been generated
 # via https://dashboard.meraki.com/
 #
-requests.get('https://api.ciscospark.com/v1/messages', headers={'X-Cisco-Meraki-API-Key': 'MERAKI-API-KEY')
-+++ ook ciscospark ??+++
+import requests
+requests.get('https://api.meraki.com/api/v0', headers={'X-Cisco-Meraki-API-Key': 'MERAKI-API-KEY')
 
 
-+++ #TODO; 3.7 Use Cisco Webex Teams API to Enable ChatOps, LAB +++
-
-
+To use the Meraki Dashboard API:
+- Enable the API
+- Generate an API key
+Only two API keys are valid at the same time
 
 
 UML
@@ -3418,7 +3435,7 @@ MySQL:
 
 Firepower Threat Defense
 ------------------------
-https://developer.cisco.com/firepower/threat-defense/
+https://developer.cisco.com/firepower/threat-defense/  +++ #TODO, 1.5h learning module ++++
 https://developer.cisco.com/site/ftd-api-reference/#!authenticating-your-rest-api-client-using-oauth/requesting-a-custom-access-token
 
 FDM 	Firepower Device Manager
@@ -5066,12 +5083,13 @@ pyang -f tree ietf-interfaces.yang
 Cisco Live Presentations
 ------------------------
 https://developer.cisco.com/learning/lab/why-mdp/step/7
-	-	Device APIs: The Force Awakens - BRKSDN-1119
-	-	Model Driven Approach to SDN with NETCONF - BRKSDN-1903
-	-	YANG Data Modeling and NETFCONF: Cisco and Industry Developments - BRKNMS- 2032
-	-	Network programming using Yang service models with Cisco Network Services Orchestrator - DEVNET-1177
-	-	Introduction to Data Models and Cisco's NextGen Device Level APIs - DEVNET-1082
-	-	Introduction to RESTCONF - DEVNET-1081
+
+-	Device APIs: The Force Awakens - BRKSDN-1119
+-	Model Driven Approach to SDN with NETCONF - BRKSDN-1903
+-	YANG Data Modeling and NETFCONF: Cisco and Industry Developments - BRKNMS- 2032
+-	Network programming using Yang service models with Cisco Network Services Orchestrator - DEVNET-1177
+-	Introduction to Data Models and Cisco's NextGen Device Level APIs - DEVNET-1082
+-	Introduction to RESTCONF - DEVNET-1081
 
 
 
