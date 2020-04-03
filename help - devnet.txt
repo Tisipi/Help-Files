@@ -395,6 +395,8 @@ Cisco Meraki APIs:
 import requests
 requests.get('https://api.meraki.com/api/v0', headers={'X-Cisco-Meraki-API-Key': 'MERAKI-API-KEY')
 
++++ add some examples like requests.get(url, headers=headers).json()  +++
+
 
 Dashboard API:
 - To use the Meraki Dashboard API:
@@ -455,6 +457,7 @@ Location/Scanning API:
 - The Meraki cloud will then begin performing JSON posts.
 
 
++++ #TODO, 3.9 Integrate Cisco Meraki API to List SSIDs and Retrieve Location Data, LAB +++
 
 
 UML
