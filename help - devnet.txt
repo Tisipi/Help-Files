@@ -149,13 +149,13 @@ https://github.com/CiscoDevNet/netprog_basics			(code, slides and sandboxes!)
 
 
 MODULE 1 - Introduction
-1	How to be a Network Engineer in a Programmable Age				16:04	-
+1	How to be a Network Engineer in a Programmable Age				16:04	DONE
 
 MODULE 2 - Programming Fundamentals
 1	Data Formats: Understanding and using JSON, XML and YAML 		21:21	DONE
-2	APIs are Everywhere... but what are they? 						13:00	-
-3	REST APIs Part 1: HTTP is for more than Web Browsing 			32:07	xxx
-4	REST APIs Part 2: Making REST API Calls with Postman 			19:43	xxx
+2	APIs are Everywhere... but what are they? 						13:00	DONE
+3	REST APIs Part 1: HTTP is for more than Web Browsing 			32:07	DONE
+4	REST APIs Part 2: Making REST API Calls with Postman 			19:43	DONE
 5	Python Part 1: Python Language and Script Basics 				33:17	-
 6	Python Part 2: Working with Libraries and Virtual Environments 	21:45	-
 7	Python Part 3: Useful Python Libraries for Network Engineers 	38:55	DONE
@@ -559,7 +559,7 @@ Some pagination Methods:
   afterDate cursor:
     GET /devices?afterDate=2020-03-19T11:11:11&max=3
 
-- HATEOAS
+- HATEOAS (Hypermedia Links)
 
 - HTTP Link Header
 
@@ -574,6 +574,7 @@ Limitations paged-based/offset-limit:
 
 HATEOAS
 -------
+- Hypermedia Links
 - Hypermedia as the Engine of Application State
 - Engine of Application State: What actions are possible varies as the state of the resource varies.
 - REST Client interacts with a network application whose application servers provide information
@@ -640,7 +641,7 @@ Another example:
 	 "itemId": 11,
 	 "category": "book",
 	 "author": "Mai Link",
-	 "links": [ 							<<< links
+	 "links": [ 							<<< links (relation type, link target)
 	    {
 	      "href":"11/cart,
 	      "rel": "addCart",
@@ -658,7 +659,7 @@ Another example:
 HTTP Link Header
 ----------------
 - RFC 5988, RFC 8288 (Web Linking).
-- Response HTTP header
+- Response HTTP header.
 - Resources on the web (presented as web links). URI.
 - HTTP "Link" for navigating pages.
 - "rel" parameter: Defines type of relationships (relation type) between the resources.
@@ -681,7 +682,7 @@ Metadata in HTTP Response Payload
 ---------------------------------
 - Construct new Requests from Response Payload.
 - Metadata can include:
-  - Values like: current page number, #pages, #records/page. #records.
+  - Values like: current page number, #pages, #records/page, #records.
   - Hypermedia links to the first/last/previous/next record.
 
 
@@ -762,7 +763,7 @@ REST API Retryable Errors:
 - 411 Length Required 		(Content-Length header missing)
 - 429 Too Many Requests 	(Throttling, rate-limiting; Webex responds with HTTP "Retry-After" header, in secs)
 
-Are 405 and 411 really retryable ??
+Are 405 and 411 really retryable ?? ==> inform you how to successfully complete your request...
 
 
 Retry-After code:
@@ -811,11 +812,11 @@ Cache-Control header specifies caching behaviour of HTTP responses:
 
 HTTP ETag Validation
 -------------------
-- ETag = Entity Tag
-- HTTP header
-- Kind of a fingerprint
-- Used for web cache validation
-- Can also be used for concurrent resource modification control
+- ETag = Entity Tag.
+- HTTP header.
+- Kind of a fingerprint.
+- Used for web cache validation.
+- Can also be used for concurrent resource modification control.
 - Web server does not send a full response if the content has not changed.
 
 - Clients use conditional IF-Match HTTP header in PUT or DELETE (If-Match: <etag_value>).
@@ -844,7 +845,7 @@ HTTP HEAD Method:
 - Used to check if resource exists.
 - Used to inspect HTTP headers only.
 
-When using timed curl, you'll see the fast response times of HEAD:
+When timing curl request, you'll see the fast response times of HEAD:
 time curl -silent --output /tmp/myFile.gz  http://dev.web.local/myFile.gz
 time curl --head http://dev.web.local/myFile.gz
 
@@ -3491,6 +3492,18 @@ XML
 CSV
 
 
+JSON:
+	import json
+	json_object = json.loads(response_string)
+
+	json.dumps(json_object, sort_keys=True, indent=4)
+
+
+	Remarks:
+	- JSON strings themselves must be delineated using double quotes " "
+	- JSON uses an all-lowercase convention of true and false (Python uppercase).
+
+
 MySQL:
 
 	import MySQLdb
@@ -5053,7 +5066,7 @@ git branch --delete --force <branch name>
 
 # Set global settings
 git config --global user.name "Tisipi"
-git config --global user.email "Tisipi@tisipi.com"
+git config --global user.email "Tisipi@tisipi.nl"
 
 # List global configured settings
 git config --list
