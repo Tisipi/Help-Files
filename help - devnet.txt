@@ -776,6 +776,7 @@ Retry-After code:
 	    else:
 	        break
 
+
 +++ #TODO: 4.6 Utilize REST API Error Control Flow Techniques, LAB +++
 
 
@@ -818,6 +819,7 @@ HTTP ETag Validation
 - Used for web cache validation.
 - Can also be used for concurrent resource modification control.
 - Web server does not send a full response if the content has not changed.
+- Used in conjunction with If-Match and If-None-Match HTTP request headers.
 
 - Clients use conditional IF-Match HTTP header in PUT or DELETE (If-Match: <etag_value>).
 - Server uses strong or weak validation:
@@ -854,7 +856,8 @@ HTTP Conditions
 ---------------
 
 If-Modified-Since:
-- Server sends back the requested resource, with a 200 status, only if it has been modified after the given date. - If the request has not been modified, the response is a 304 Not Modified without any body.
+- Server sends back the requested resource, with a 200 status, only if it has been modified after the given date.
+- If the request has not been modified, the response is a 304 Not Modified without any body.
 - Note: Client uses the "Last-Modified" response header of a previous request, because it contains the date of last modification.
 
 
@@ -1115,7 +1118,7 @@ Pipenv dependency manager:
 pipenv graph
 
 
-Git
+Git +++ ... +++
 ---
 https://linuxacademy.com/blog/linux/git-terms-explained
 
