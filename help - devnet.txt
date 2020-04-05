@@ -1110,7 +1110,6 @@ python3 -m pip install --user --upgrade setuptools wheel
 python3 setup.py sdist bdist_wheel
 
 
-
 Pipenv dependency manager:
 - Pipfile (project libraries minimum requirements; populated by installs)
 - Pipfile.lock (final snapshot of currently installed versions; after lock cmd)
@@ -1118,7 +1117,8 @@ Pipenv dependency manager:
 pipenv graph
 
 
-Git +++ ... +++
+
+Git
 ---
 https://linuxacademy.com/blog/linux/git-terms-explained
 
@@ -1209,7 +1209,23 @@ git branch my_test_branch
 git checkout my_test_branch
 
 # Merge my_test_branch with master
+git checkout master
 git merge my_test_branch
+
+
+# Abort the merge, for example in case of too many conflicts.
+#
+git merge --abort
+
+
+#
++++
+Alternatively, if you know that one version of the complete file is better, you can simply choose one of the versions, called "ours" (HEAD) or "theirs" (feature branch).
+
+$git checkout --ours my_network.py
++++
+
+
 
 
 # Stash away unfinished branch
