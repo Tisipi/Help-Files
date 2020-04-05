@@ -1185,6 +1185,7 @@ git add .
 
 # Remove a file from staging area
 git reset <file>
+
 # Remove all file from staging area
 git reset
 
@@ -1203,29 +1204,29 @@ git log --oneline
 # Create a local branch called my_test_branch
 git branch my_test_branch
 
+# List the branches
+git branch
+git branch -all
+
 # Jump to branch (git put files in your working directory).
 # Switch branches.
 #
 git checkout my_test_branch
+
 
 # Merge my_test_branch with master
 git checkout master
 git merge my_test_branch
 
 
+# If you don't want to merge and prefer one file over the other, choose
+# one of the versions: either "ours" (HEAD) or "theirs" (branch).
+#
+git checkout --ours my_network.py
+
 # Abort the merge, for example in case of too many conflicts.
 #
 git merge --abort
-
-
-#
-+++
-Alternatively, if you know that one version of the complete file is better, you can simply choose one of the versions, called "ours" (HEAD) or "theirs" (feature branch).
-
-$git checkout --ours my_network.py
-+++
-
-
 
 
 # Stash away unfinished branch
@@ -1240,15 +1241,17 @@ git stash pop
 - git cherry-pick <commit-hash>
 
 
-# Rollback several commits
-# by reverting to specific commit.
+# Revert a specific commit.
+# Does not discard any commits that came after that one.
+# It creates a new revision that reverts the effects of a specified commit.
 #
 git revert <hash>
 
+
 # Reset
-git reset --hard
-git reset --mixed
-git reset --soft
+git reset --hard 	(working directory and staging area are overwritten/synchronized)
+git reset --mixed	(preserves staging area)
+git reset --soft 	(preserves staging area and working directory)
 
 
 # View information about remote repository
@@ -1287,10 +1290,10 @@ git ls-files --stage
 Branching
 ---------
 Two opposite collaboration approaches:
-1. Centralized workflow (small projects, document oriented projects e.g. infrastructure as code)
+1. Centralized workflow (small projects, document oriented projects e.g. infrastructure as code).
 2. Feature branch workflow (separate dedicated branch for each feature).
 
-GitFlow (Workflow) is a branching strategies that covers CI/CD operations:
+GitFlow (Workflow) is a branching strategy that covers CI/CD operations:
 - Master branch 	Only release and Hotfix/maintenance branches can be merged into master.
 - Develop branch 	Derived from the master branch; integration branch for all features.
 					NOT merged into master.
@@ -1307,6 +1310,9 @@ Master branch
 		Feature branch
 		Release branch
 	Hotfix/maintenance branch
+
+
++++ Add SW versioning; semantic versioning scheme +++
 
 
 Automated (Unit) Testing
@@ -1334,10 +1340,10 @@ Elements of CI/CD system:
 
 
 Example pipeline containerized application:
-- Build. Create application image
-- Test. Run tests against the image
-- Push image to registry
-- Deploy image on server
+- Build: Create application image.
+- Test: Run tests against the image.
+- Push image to registry.
+- Deploy image on server.
 
 Security testing:
 - SAST. Static Application Security Testing. Source/compiled code analysis.
@@ -1345,8 +1351,8 @@ Security testing:
 
 
 Examples of CI/CD pipeline services:
-- Tools on GitHub, Gitlab and Bitbucket
-- Jenkins, Travis CI, and Semaphore
+- Tools on GitHub, Gitlab and Bitbucket.
+- Jenkins, Travis CI, and Semaphore.
 
 
 Common pipeline failures:
@@ -1358,7 +1364,7 @@ Common pipeline failures:
 - Deployment failures
 
 
-GitLab pipeline consist for example of:
+GitLab pipeline consists for example of:
 - Commit: 	A change in the code.
 - Pipeline: A group of jobs divided into different stages.
 - Stages
@@ -1370,7 +1376,7 @@ GitLab CI pipeline file: .gitlab-ci.yml
 
 +++ #TODO 7.8 Diagnose CI/CD Pipeline Failures, LAB +++
 
-+++ #TODO 7.9 Summary Challenge +++
++++ #TODO 7.9 Summary Challenge +++ ==> 6 out of 7
 
 
 
@@ -2090,7 +2096,6 @@ Start the lb container on the appnet network with .10 IP address:
 
 Access the application via the LB:
 	http://localhost:8080
-
 
 
 +++ #TODO: 8.4 Containerize Application Using Docker, LAB  +++
