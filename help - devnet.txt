@@ -169,7 +169,7 @@ MODULE 3 - Network Device APIs
 
 MODULE 4 - Network Controllers
 1	Introducing Cisco DNA Center Platform APIs and Programmability 	15:44	DONE
-2	Got SDN? Understanding the ACI Programmability Options 			28:56	xxx
+2	Got SDN? Understanding the ACI Programmability Options 			28:56	DONE
 3	Network Control in the Cloud - Developing with Cisco Meraki 	16:16	DONE
 4	Cisco DNA Center Platform APIs Part 1: Exploring Apps and Tools 19:39	xxx
 5	Cisco DNA Center Platform APIs Part 2: Network Troubleshooting 	23:47	xxx
