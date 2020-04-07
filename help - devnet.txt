@@ -1376,205 +1376,8 @@ GitLab CI pipeline file: .gitlab-ci.yml
 
 +++ #TODO 7.8 Diagnose CI/CD Pipeline Failures, LAB +++
 
-+++ #TODO 7.9 Summary Challenge +++ ==> 6 out of 7
-
-
 
 =============================================
-
-
-Distributed Systems
-===================
-
-Principles large scale distributed applications:
-- Availability
-- Performance
-- Transparency
-- Scalability
-
-
-HAProxy frontend example:
-
-	frontend http
-	  bind *:80
-	  mode http
-	  acl url_img path_beg /images
-	  use_backend img-backend if url_img
-	  default_backend web-backend
-
-HAProxy backend example:
-
-	backend web-backend
-	   balance roundrobin [leastconn|source]
-	   mode http
-	   server web1 web1.example.com:80 check
-	   server web2 web2.example.com:80 check
-
-
-Types of load balancers:
-- Layer 4 (Transport layer)
-- Layer 7 (Application layer)
-
-
-HAProxy
-Linux Virtual Servers (LVS) (L4)
-NGINX
-
-
-Reasons to use APIs to interact with web services:
-- Lightweight
-- Flexible
-- Scalable
-- Platform-agnostic
-
-
-GET
-POST
-PUT
-PATCH
-DELETE
-
-
-Alternatives to REST: gRPC, RPC, SOAP, CORBA
-
-
-Cisco DNA Center API:
-- Northbound API aka Intent API
-- RESTful
-- HTTPS: GET, POST, PUT, and DELETE
-- JSON
-- https://developer.cisco.com/docs/dna-center/api/1-3-1-x/
-
-
-Generate DNA token:
-POST <cluster-ip>/dna/system/api/v1/auth/token
-with basic authorization header with username and password
-
-HTTP response code 200 Json token:
-	{
-	    "Token": "eyJ0eXA ... O5uEMR-tc“
-	}
-
-GET <cluster-ip>/dna/intent/api/v1/network-device
-with X-Auth-Token header
-
-
-Example:
-
-	import requests
-
-	base_url = 'https://<hostname>'
-	r = requests.post(f'{base_url}/dna/system/api/v1/auth/token',
-	                         auth=('<USERNAME>', '<PASSWORD>'))
-	r.raise_for_status()
-	token = r.json()['Token']
-
-	headers = {'X-Auth-Token': token}
-	r = requests.get(f'{base_url}/dna/intent/api/v1/site-health', headers=headers)
-	r.raise_for_status()
-	sites = r.json()['response']
-
-
-Example SDK (Cisco Intersight API):
-
-	from intersight.intersight_api_client import IntersightApiClient
-	import intersight.apis.network_element_summary_api as summary_api
-
-	client = IntersightApiClient(
-	    host='https://intersight.com/api/v1',
-	    private_key='<KEYFILE>',
-	    api_key_id='<ID>'
-	)
-	api = summary_api.NetworkElementSummaryApi(client)
-	summary = api.network_element_summaries_get()
-
-
-
-Event-Driven Architecture (EDA)
--------------------------------
-Atomic or simple event.
-Related events or event stream.
-Behavioral or complex events.
-
-Loosely coupled and well distributed.
-Scalability and performance.
-
-Event Emitter
-Event Channel
-Event Consumer
-
-EDA characteristics:
-- Asynchronous
-- Real-time
-- Fine-grained
-- Unicast & Multicast
-- Event Ontology
-
-EDA topologies:
-- Mediator topology
-- Broker topology
-
-Mediator topology components:
-- Event queue
-- Event mediator
-- Event channel
-- Event processor
-
-Broker topology:
-Message broker: collection of event channels (message queue)
-
-
-Microservices
--------------
-Microservices architecture characteristics:
-- Independent evolution and deployment
-- Independent scalability
-- Availability
-- Modularity preservation
-- Independent technology and language stack
-
-
-Logging
--------
-Aggregate logging techniques:
-- Log replication
-- Centralized syslog repositories
-- Distributed log collection
-
-
-Distributed logging stages:
-- Collection (by collector agents)
-- Forwarding (to log aggregator)
-- Storage 	 (in object storage)
-- Indexing   (into different data sets; optional)
-- Alerting	 (based on thresholds and patterns; optional)
-
-
-ELK stack:
-- Elasticsearch
-- Logstash
-- Kibana
-Beats is used as collector agent
-
-Distributed tracing frameworks: OpenTracing and OpenCensus (merged into OpenTelemetry)
-
-
-ssh root@dev.app.local -p 12005
-service config status
-service config start
-
-service app status
-service app start
-
-Graylog filter: source:front* AND INFO
-
-
-+++++++
-Verloren:
-9.9 Application Monitoring with Cisco AppDynamics
-9.10 Limitations of Distributed Systems and CAP Theorem
-9.11 Overcoming Challenges in Distributed Systems
-+++++++
 
 
 Deploying Applications
@@ -2758,6 +2561,204 @@ guestshell run cat /etc/centos-release
 
 +++ Check default state of guest shell: disabled/enabled by default on XE/Nexus platforms +++
 
+
+
+=============================================
+
+
+
+Distributed Systems
+===================
+
+Principles large scale distributed applications:
+- Availability
+- Performance
+- Transparency
+- Scalability
+
+
+HAProxy frontend example:
+
+	frontend http
+	  bind *:80
+	  mode http
+	  acl url_img path_beg /images
+	  use_backend img-backend if url_img
+	  default_backend web-backend
+
+HAProxy backend example:
+
+	backend web-backend
+	   balance roundrobin [leastconn|source]
+	   mode http
+	   server web1 web1.example.com:80 check
+	   server web2 web2.example.com:80 check
+
+
+Types of load balancers:
+- Layer 4 (Transport layer)
+- Layer 7 (Application layer)
+
+
+HAProxy
+Linux Virtual Servers (LVS) (L4)
+NGINX
+
+
+Reasons to use APIs to interact with web services:
+- Lightweight
+- Flexible
+- Scalable
+- Platform-agnostic
+
+
+GET
+POST
+PUT
+PATCH
+DELETE
+
+
+Alternatives to REST: gRPC, RPC, SOAP, CORBA
+
+
+Cisco DNA Center API:
+- Northbound API aka Intent API
+- RESTful
+- HTTPS: GET, POST, PUT, and DELETE
+- JSON
+- https://developer.cisco.com/docs/dna-center/api/1-3-1-x/
+
+
+Generate DNA token:
+POST <cluster-ip>/dna/system/api/v1/auth/token
+with basic authorization header with username and password
+
+HTTP response code 200 Json token:
+	{
+	    "Token": "eyJ0eXA ... O5uEMR-tc“
+	}
+
+GET <cluster-ip>/dna/intent/api/v1/network-device
+with X-Auth-Token header
+
+
+Example:
+
+	import requests
+
+	base_url = 'https://<hostname>'
+	r = requests.post(f'{base_url}/dna/system/api/v1/auth/token',
+	                         auth=('<USERNAME>', '<PASSWORD>'))
+	r.raise_for_status()
+	token = r.json()['Token']
+
+	headers = {'X-Auth-Token': token}
+	r = requests.get(f'{base_url}/dna/intent/api/v1/site-health', headers=headers)
+	r.raise_for_status()
+	sites = r.json()['response']
+
+
+Example SDK (Cisco Intersight API):
+
+	from intersight.intersight_api_client import IntersightApiClient
+	import intersight.apis.network_element_summary_api as summary_api
+
+	client = IntersightApiClient(
+	    host='https://intersight.com/api/v1',
+	    private_key='<KEYFILE>',
+	    api_key_id='<ID>'
+	)
+	api = summary_api.NetworkElementSummaryApi(client)
+	summary = api.network_element_summaries_get()
+
+
+
+Event-Driven Architecture (EDA)
+-------------------------------
+Atomic or simple event.
+Related events or event stream.
+Behavioral or complex events.
+
+Loosely coupled and well distributed.
+Scalability and performance.
+
+Event Emitter
+Event Channel
+Event Consumer
+
+EDA characteristics:
+- Asynchronous
+- Real-time
+- Fine-grained
+- Unicast & Multicast
+- Event Ontology
+
+EDA topologies:
+- Mediator topology
+- Broker topology
+
+Mediator topology components:
+- Event queue
+- Event mediator
+- Event channel
+- Event processor
+
+Broker topology:
+Message broker: collection of event channels (message queue)
+
+
+Microservices
+-------------
+Microservices architecture characteristics:
+- Independent evolution and deployment
+- Independent scalability
+- Availability
+- Modularity preservation
+- Independent technology and language stack
+
+
+Logging
+-------
+Aggregate logging techniques:
+- Log replication
+- Centralized syslog repositories
+- Distributed log collection
+
+
+Distributed logging stages:
+- Collection (by collector agents)
+- Forwarding (to log aggregator)
+- Storage 	 (in object storage)
+- Indexing   (into different data sets; optional)
+- Alerting	 (based on thresholds and patterns; optional)
+
+
+ELK stack:
+- Elasticsearch
+- Logstash
+- Kibana
+Beats is used as collector agent
+
+Distributed tracing frameworks: OpenTracing and OpenCensus (merged into OpenTelemetry)
+
+
+ssh root@dev.app.local -p 12005
+service config status
+service config start
+
+service app status
+service app start
+
+Graylog filter: source:front* AND INFO
+
+
++++++++
+Verloren:
+9.9 Application Monitoring with Cisco AppDynamics
+9.10 Limitations of Distributed Systems and CAP Theorem
+9.11 Overcoming Challenges in Distributed Systems
++++++++
 
 
 =============================================
