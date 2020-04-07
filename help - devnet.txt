@@ -1435,7 +1435,6 @@ Con: Might cause problems, e.g. tiny incompatibilities between dev and prod.
 Read Eval Print Loop (REPL) shell.
 
 
-
 Hypervisors
 -----------
 - Type-1, native or bare-metal hypervisors. Run directly on the host's hardware.
@@ -1778,7 +1777,6 @@ docker run -d -v my-volume:/var/lib/app-data my-app
 # The path always starts with the forward slash (/)
 #
 docker run -d -v /home/cisco/app-folder:/var/lib/app-data my-app
-
 
 
 Docker Exercise
