@@ -138,7 +138,6 @@ Managing Cisco Compute with Ansible
 Microservices overview
 
 
-
 =============================================
 
 
@@ -1477,7 +1476,7 @@ Docker uses Union File System (unionFS) to layer Docker images.
 Dockerfile example:
 
 	FROM 	ubuntu:18.04
-	COPY 	. /app
+	COPY 	. /app 					<<< Copies from host to container location.
 	RUN 	make /app
 	CMD 	python /app/app.py
 
@@ -1511,22 +1510,21 @@ Dockerfile example:
 	CMD 	python3 myApp.py
 
 
-
-FROM 		creates a layer from the ubuntu:18.04 Docker image.
-COPY 		adds files from your Docker client’s current directory.
-RUN 		builds your application with make.
-CMD 		specifies what command to run within the container.
+FROM 		Creates a layer from the ubuntu:18.04 Docker image.
+COPY 		Adds files from your Docker client’s current directory.
+RUN 		Builds your application with make.
+CMD 		Specifies what command to run within the container.
 
 WORKDIR		Changes working directory for any consecutive commands.
 EXPOSE 		Exposed port (only for documentation; must use --publish)
-ENV 		environment variables (key value)
+ENV 		Environment variables (key value)
 ENTRYPOINT
 
 If you don't use RUN either ENTRYPOINT or CMD must be defined.
 Two modes: shell and exec.
 Exec format: Arguments are inside square brackets.
 
-Exec mode is preferred. It starts the specified command process as PID 1. Ensures that unix signals sent to the container are sent to your spawned process.
+Exec mode is preferred. It starts the specified command process as PID 1. Ensures that Unix signals sent to the container are sent to your spawned process.
 
 
 
@@ -1654,10 +1652,11 @@ docker --help.
 # docker image build
 
 
+
 Docker networking
 -----------------
 Network drivers:
-- Bridge
+- Bridge (default)
 - Host
 - Overlay
 - Macvlan
@@ -1738,7 +1737,7 @@ Restarting a container: Filesystem data is not lost
 Remove a container:		Filesystem data is lost
 
 Persist data with:
-- Volume: 		Location outside of container union FS (/var/lib/docker/volumes).
+- Volume: 		Location outside of container union FS: /var/lib/docker/volumes
 				Not accessible to non-Docker processes.
 - Bind mount:	Any location on host. Accessible to non-Docker processes.
 - tmpfs mount:	System memory on host.
@@ -1876,7 +1875,7 @@ app/main.py:
 	@app.route('/')
 	def home():
 	    out = (
-	        f'Welcome to Cisco DevNet.<br>'
+	        f'Welcome My Dear Friends.<br>'
 	        f'IP address of the server is {ip}.<br><br>'
 	    )
 	    return out
