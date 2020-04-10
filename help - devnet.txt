@@ -1935,8 +1935,8 @@ Pods:
 - Smallest deployment units on K8s.
 - Typically one container per pod.
 - If multiple containers per pod, then assigned to the same worker node.
-- When you scale on K8s, you scale the pods
-- Replicated pods (traffic is load balanced between them)
+- When you scale on K8s, you scale the pods.
+- Replicated pods (traffic is load balanced between them).
 - Each Pod gets its own IP address. Address is internal to the cluster.
 
 
@@ -1990,11 +1990,11 @@ NodePort Service:
 LoadBalancer Service:
 
 	apiVersion: v1
-	kind: Service
+	kind: Service 						<<<<
 	metadata:
 	  name: my-service
 	spec:
-	  type: LoadBalancer
+	  type: LoadBalancer 				<<<<
 	  selector:
 	    app: MyApp
 	  ports:
@@ -2003,11 +2003,11 @@ LoadBalancer Service:
 
 
 	apiVersion: v1
-	kind: Service
+	kind: Service 						<<<<
 	metadata:
 	  name: my-service
 	spec:
-	  type: LoadBalancer
+	  type: LoadBalancer 				<<<<
 	  selector:
 	    app: MyApp
 	  ports:
@@ -2093,7 +2093,8 @@ Type of kubectl commands:
 - Declarative. Using the kubectl apply command.
 
 
-+++ kubectl run ? +++
+kubectl run my-example --image=gcr.io/devnet-756111/my-flask-example:latest --port=4200 --replicas=3
+
 
 (kubectl apply -f https://k8s.io/examples/controllers/nginx-deployment.yaml)
 kubectl get deployments
@@ -2112,7 +2113,7 @@ kubectl get service
 
 # Get more information about the deployment
 #
-kubectl describe pod devnet-example-6bf9b76dbd-5knnx
+kubectl describe pod devnet-example-6af1d76bdb-5knbx
 
 
 
@@ -2237,13 +2238,18 @@ kubectl delete services my-service
 kubectl delete deployment hello-world
 
 
+
 CI/CD
 -----
 Continuous Integration / Continuous Delivery
 
-Red/black deployment
-Canary deployment
+CI: Continuous building and testing
 
+Continuous Delivery:	Deployment in production manually
+Continuous Deployment:	Deployment in production automatically
+
+Red/black deployment: Only one of the prod environments is getting traffic (a.k.a blue/green)
+Canary deployment:	  Deploy the change to a small subset of servers
 
 SAST 	Static Application Security Testing 	(“white box" testing)
 DAST 	Dynamic Application Security Testing 	(“black box” testing)
@@ -2255,6 +2261,9 @@ GitLab CI pipeline:
 - Configure a Runner.
 
 Runners run the code that is defined in .gitlab-ci.yml
+
+dind image: docker-in-docker image; each job will be isolated in a container.
+
 
 Common simple pipeline stages:
 - Build
@@ -2289,7 +2298,14 @@ Example of a GitLab CI pipeline file (.gitlab-ci.yml):
 	    -
 	    -
 
-+++ #TODO: 8.7 Deploying Applications, LAB +++
++++ NOT executed; #TODO: 8.7 Deploying Applications, LAB +++
+
+	# Register the GitLab runner
+	gitlab-runner register
+
+	# Start GitLab runner
+	gitlab-runner run -d /tmp
+
 
 
 Hosting Applications on Network Devices
@@ -2328,7 +2344,7 @@ External storage options for containers, applications and local logging:
 - SATA SSD  (max 1 TB)
 
 Storage encrypted with AES-256 (Advanced Encryption Standard)
-USB is password-protected,
+USB is password-protected
 
 
 Hosted applications can be managed through:
@@ -2379,7 +2395,7 @@ AppGigabitEthernet interface:
 - Multiple applications: Mixing allowed.
 
 
-AppGigabitEthernet  is only available on:
+AppGigabitEthernet is only available on:
 - Catalyst 9300 (IOS XE 16.12.1)
 - Catalyst 9400 (IOS XE 17.1.1)
 
@@ -2557,7 +2573,9 @@ guestshell run cat /etc/centos-release
 
 
 +++ Check default state of guest shell: disabled/enabled by default on XE/Nexus platforms +++
+guest shell...
 
+Application Hosting framework is not enabled by default on Cat9000/IOS XE
 
 
 =============================================
@@ -5103,6 +5121,10 @@ git add .
 
 # Commit files in staging area
 git commit -m "Initial commit"
+
+
+# Combined add and commit
+git commit -am "msg"
 
 
 
