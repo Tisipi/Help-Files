@@ -2573,10 +2573,6 @@ guestshell run groups
 guestshell run cat /etc/centos-release
 
 
-+++ #TODO: 8.9 Summary Challenge +++
-
-
-
 IOS-XE
 - IOx disabled (Application Hosting framework)
 - Guest Shell disabled
@@ -2587,7 +2583,6 @@ Nexus, NX-OS:
 
 
 =============================================
-
 
 
 Distributed Systems
