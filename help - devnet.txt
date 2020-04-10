@@ -2458,6 +2458,10 @@ iox
 show iox-service
 
 
+CAF:	Cisco Application Hosting Framework
+
+
+
 Deploying Application
 ---------------------
 - Download the application on the USB
@@ -2545,7 +2549,7 @@ guestshell enable
 show app-hosting detail
 end
 
-! Access guestshell
+! Access guestshell; yum installed by default
 !
 guestshell
 [guestshell@guestshell ~]$ whoami
@@ -2572,10 +2576,14 @@ guestshell run cat /etc/centos-release
 +++ #TODO: 8.9 Summary Challenge +++
 
 
-+++ Check default state of guest shell: disabled/enabled by default on XE/Nexus platforms +++
-guest shell...
 
-Application Hosting framework is not enabled by default on Cat9000/IOS XE
+IOS-XE
+- IOx disabled (Application Hosting framework)
+- Guest Shell disabled
+
+Nexus, NX-OS:
+- Guest Shell is enabled by default on NX-OS
+- IOx enabled then implicitly ?
 
 
 =============================================
