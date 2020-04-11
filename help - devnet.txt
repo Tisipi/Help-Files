@@ -4864,6 +4864,9 @@ ERD 	entity relationship diagram
 LDM		logical data model
 PDM		physical data model
 
+Atomicity, Consistency, Isolation, Durability (ACID Compliance; e.g. Relational DB).
+Consistency, Availability, Partition (CAP) theorem.
+
 Entity, Attributes, Relationship
 weak entities (foreign key)
 cardinality, modality
@@ -4875,14 +4878,6 @@ Crow’s Foot Notation
 -|0		zero or 1
 
 
-Non-relational DBs:
-- Scalability and flexibility.
-- 3 Vs: volume, velocity, and variety.
-- Denormalization, Aggregation, Data distribution (sharding and replication).
-
-Atomicity, Consistency, Isolation, Durability (ACID Compliance; e.g. Relational DB).
-Consistency, Availability, Partition (CAP) theorem.
-
 DB Types
 - Relational
 - Key-value database
@@ -4892,26 +4887,68 @@ DB Types
 - Graph-based database
 
 
+Non-relational DBs:
+- Scalability and flexibility.
+- 3 Vs: volume, velocity, and variety.
+- Denormalization, Aggregation, Data distribution (sharding and replication).
+
+
 Key-value DB:
 - Simplicity
 - Speed
 - Scalability
 
+- Values commonly stored as BLOB (Binary Large Object).
+- Search by key.
+- You cannot search by values.
+- Range-based queries are not supported.
+
 
 Document-based DB (document store):
+- Subclass of key-value databases
 - Semi-structured data
-- Collections of documents
+- Collections of documents.
+- Documents similar to programming objects.
+- Document is a member of only one collection.
+- Embedded documents vs. referenced documents.
 - Quick iterations and frequent code pushes (agile sprints)
 - Fast inserts
 - Easy indexing
 - Loose schema
 - Evolving very fast
+- Examples: MongoDB, Amazon DynamoDB
+- Query operators allow for functionalities like SQL: $gt, $lt, $all, $size, $elemMatch
 
-Examples: MongoDB, Amazon DynamoDB ?
+Cons:
+- Less structured data.
+- Queries cannot leverage relations and joins.
+- Not ACID compliant (by default, can be changed).
+- Less explored and documented than relational databases.
+
+Example:
+	db.createCollection( “Persons“ )
+	db.Persons.insertOne( { name: "Eric", location: "NL", age: 24 } )
+	db.Persons.insertMany( [ { name: "Erica", location: "NL", age: 36 },
+							 { name: "Jeromeke", location: "BE", age: 17 }
+						 ] )
+	db.Persons.find( { location: "NL" } )
+	db.Person.find( { “children”: { $size: 3 } } )
+
+	db.Inventory.updateMany( { type: ”GPU” }, { $set: { stock: true } } )
+
+	db.Inventory.deleteMany( { material: [ “Plastic”, “Iron” ] } )
+
+
+Analysing/processing big amounts of data:
+- Elasticsearch: Scalable, distributed, full-text search and analytics engine (open-source).
+- MapReduce: Programming model and implementation. Uses parallelism and load distribution.
+- Both use inverted index concept. Moreover: data sharding and replication.
+- MapReduce stages: split, map, shuffle, and reduce.
+
 
 
 Graph-based DB:
-- nodes and edges
+- nodes and edges (both having properties)
 - example: Neo4j
 
 Useful for:
