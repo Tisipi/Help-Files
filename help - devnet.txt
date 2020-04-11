@@ -170,7 +170,7 @@ MODULE 4 - Network Controllers
 1	Introducing Cisco DNA Center Platform APIs and Programmability 	15:44	DONE
 2	Got SDN? Understanding the ACI Programmability Options 			28:56	DONE
 3	Network Control in the Cloud - Developing with Cisco Meraki 	16:16	DONE
-4	Cisco DNA Center Platform APIs Part 1: Exploring Apps and Tools 19:39	xxx
+4	Cisco DNA Center Platform APIs Part 1: Exploring Apps and Tools 19:39	DONE
 5	Cisco DNA Center Platform APIs Part 2: Network Troubleshooting 	23:47	xxx
 6	ACI Programmability Part 1: The ACI Object Model 				19:08	xxx
 7	ACI Programmability Part 2: Using the ACI Toolkit 				29:24	xxx
@@ -191,12 +191,52 @@ MODULE 6 - NetDevOps
 =============================================
 
 
+Functional requirements:
+- Specify what the software should do.
+- Can be measured in "yes" or "no" terms.
+- Usually include the words "can" and "shall".
+- Often derived from user stories.
+- Use cases.
+
+Non-functional requirements:
+- Tell how a system should perform those actions.
+- Technical requirements of the system.
+- Quality attributes.
+- Often use the words "must" and "should".
+- Commonly measured over an interval or a range.
+
+
 Modular software design enforces the following software qualities:
 - Composability
 - Decomposability
 - Understandability
 - Continuity
 - Protection
+
+Module:
+- Has a distinct purpose.
+- Encapsulates data and functionality.
+- Is reusable.
+- Has dependencies.
+- Has an interface and a body.
+- High cohesion and low coupling.
+
+Module design rules:
+- Direct Mapping Rule
+- Few Interfaces Rule
+- Small Interfaces Rule
+- Explicit Interfaces Rule
+- Information Hiding Rule
+
+Microservice:
+- Single functionality inside a business domain.
+- Covers a bounded context inside the domain. Logical boundary between sub-domains.
+- Has a distinct purpose.
+- Encapsulates the underlying functionality.
+- Is reusable.
+- Can depend on other microservices.
+- Communicates via API or events.
+
 
 SOLID:
 - Single Responsibility Principle (SRP)
@@ -205,16 +245,27 @@ SOLID:
 - Interface Segregation Principle (ISP)
 - Dependency Inversion Principle (DIP)
 
+
+Dependency injection roles:
+- Service
+- Client 	(uses the service)
+- Interface
+- Injector 	(constructs service and injects into client)
+
 Dependency injection methods:
 - Constructor injection
 - Setter injection
 - Interface injection
 
-Dependency injection roles:
-- Service
-- Client (uses the service)
-- Interface
-- Injector (constructs service and injects into client)
+Pros DI: 													Cons DI:
+- Looser coupling.							 				 - Code is more difficult to trace and navigate.
+- Allows the client to be configurable. 					 - Increases complexity.
+- No knowledge of implementation. 							 - Code is tightly coupled to the implementation of dependency injection pattern.
+- Makes client code easier to test by mocking dependencies.  - Requires more knowledge and time to implement.
+- Creates reusable code.
+
+
+=============================================
 
 
 Observability in Application Design:
