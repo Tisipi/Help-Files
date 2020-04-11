@@ -191,6 +191,21 @@ MODULE 6 - NetDevOps
 =============================================
 
 
+Cisco Live Presentations
+------------------------
+https://developer.cisco.com/learning/lab/why-mdp/step/7
+
+-	Device APIs: The Force Awakens - BRKSDN-1119
+-	Model Driven Approach to SDN with NETCONF - BRKSDN-1903
+-	YANG Data Modeling and NETFCONF: Cisco and Industry Developments - BRKNMS- 2032
+-	Network programming using Yang service models with Cisco Network Services Orchestrator - DEVNET-1177
+-	Introduction to Data Models and Cisco's NextGen Device Level APIs - DEVNET-1082
+-	Introduction to RESTCONF - DEVNET-1081
+
+
+=============================================
+
+
 Functional requirements:
 - Specify what the software should do.
 - Can be measured in "yes" or "no" terms.
@@ -274,37 +289,65 @@ Observability in Application Design:
 - Documentation
 
 
-Logging levels (subset of DINWECAE):
-- INFO
-- WARNING
-- ERROR
-- CRITICAL (FATAL)
-
-- OFF/NOTSET
-- TRACE
-- ALL
+Log4j log levels (DIWEF / DIWEC; compare to DINWECAE):
+- OFF	-	NOTSET. The highest possible rank and is intended to turn off logging.
+- FATAL	C	CRITICAL. Severe errors that cause premature termination.
+- ERROR	E	Other runtime errors or unexpected conditions.
+- WARN	W	There might be a problem in the application. Use of deprecated APIs, poor use of API, 'almost' errors, runtime situations that are undesirable or unexpected, but not necessarily "wrong".
+- INFO	I	Normal application behavior. Interesting runtime events (startup/shutdown).
+- DEBUG	D	Granular information about the execution; detailed information on the flow through the system.
+- TRACE	-	Extremely detailed information on the flow of the system.
+- ALL 	-	Log everything.
 
 DINWECAE Logging levels:
-0 — emergency: System unusable
-1 — alert: Immediate action needed
-2 — critical: Critical condition—default level
-3 — error: Error condition
-4 — warning: Warning condition
-5 — notification: Normal but significant condition
-6 — informational: Informational message only
-7 — debugging: Appears during debugging only
+0 — emergency: 		System unusable
+1 — alert: 			Immediate action needed
+2 — critical: 		Critical condition—default level
+3 — error: 			Error condition
+4 — warning: 		Warning condition
+5 — notification: 	Normal but significant condition
+6 — informational: 	Informational message only
+7 — debugging: 		Appears during debugging only
+
+Example Python:
+
+	import logging
+	logging.basicConfig(level=logging.DEBUG)
+	logging.info('Info. Blah blah')
+	logging.warning('Warning. Meh mien lepke')
 
 
-import logging
-logging.basicConfig(level=logging.DEBUG)
-logging.info('Info. Blah blah')
-logging.warning('Warning. Meh mien lepke')
-
+Scalability dimensions:
+- Functional scalability: 		Do more without disrupting existing services.
+- Geographical scalability: 	Expand geographically.
+- Load scalability: 			Increase load on individual components.
+- Administrative scalability: 	More users or tenants.
+- Generation scalability: 		Adapt to newer components.
+- Heterogenous scalability: 	Adapt to different vendors.
 
 Scalability:
-- Vertical (scale up/down),
+- Vertical 	 (scale up/down)
 - Horizontal (scale in/out)
 - Hybrid
+
+Loosely coupled applications.
+Stateless vs. Stateful.
+
+Infrastructure sharing options:
+- Share nothing architecture
+- Shared disk/database architecture
+- Shared everything architecture
+
+
+Availability 	Downtime/year:
+90.0%			36.5 days		Three days/month
+99.9%			8.76 hours		Three Nines
+99.999%			5.26 minutes	Five Nines
+
+Three principles to achieve high availability:
+- No single points of failure (redundancy).
+- Detection and handling of failures.
+- Reliable failover/crossover.
 
 Improving resilience:
 - Circuit breaker
@@ -312,7 +355,15 @@ Improving resilience:
 - Retry loops
 - Timeouts
 
+
 Rate limiting: HTTP code 429: Too Many Requests
+
+
+To get a feeling about latency:
+- Theoretical speed of light:	 3.3 microseconds/km
+- Actual speed in fiber:		 5  microseconds/km
+RTT between two points on the opposite sides of the globe: 200 ms.
+In practice much higher, because only fiber is considered in calculation...
 
 
 SOA
@@ -320,24 +371,32 @@ SOA
 SOA  	Service-Oriented Architecture
 SOAP 	Simple Object Access Protocol
 WSDL 	Web-Service Description Language
-BPEL 	Business Process Execution Language
+BPEL 	Business Process Execution Language.
 
 ESB  	Enterprise Service Bus
 EDA  	Event-driven Architecture
 MQ 	 	Message Queue
 
 SOA service types:
-- business
-- enterprise
-- application
-- infrastructure
+- Business
+- Enterprise
+- Application
+- Infrastructure
 
 Microservice service types:
 - Functional
 - Infrastructure
 
 Microservice is more granular.
+SOA uses a shared communication channel, while microservices communicate independently...
 
+
+Event-Driven Architecture:
+- Event Broker: Events arrive at (distributed) brokers, placed in a queue, and dispatched to event processors.
+- Event Mediator: Events require coordination by a central mediator component.
+
+Message queues
+Publish-subscribe pattern
 
 
 ECB Design Pattern
@@ -346,7 +405,7 @@ ECB  Entity Control Boundary
 MVC  Model View Controller
 
 Entity   	-  Model
-Controll 	-  Controller
+Control 	-  Controller
 Boundary  	-  View
 
 
@@ -4806,7 +4865,7 @@ LDM		logical data model
 PDM		physical data model
 
 Entity, Attributes, Relationship
-weak entities
+weak entities (foreign key)
 cardinality, modality
 
 Crow’s Foot Notation
@@ -4817,12 +4876,12 @@ Crow’s Foot Notation
 
 
 Non-relational DBs:
-- Scalability and flexibility
+- Scalability and flexibility.
 - 3 Vs: volume, velocity, and variety.
-- Denormalization, Aggregation, Data distribution (sharding and replication)
+- Denormalization, Aggregation, Data distribution (sharding and replication).
 
-Atomicity, Consistency, Isolation, Durability (ACID Compliance; e.g. Relational DB)
-Consistency, Availability, Partition (CAP) theorem
+Atomicity, Consistency, Isolation, Durability (ACID Compliance; e.g. Relational DB).
+Consistency, Availability, Partition (CAP) theorem.
 
 DB Types
 - Relational
@@ -4839,7 +4898,7 @@ Key-value DB:
 - Scalability
 
 
-Document-based DB (document store)
+Document-based DB (document store):
 - Semi-structured data
 - Collections of documents
 - Quick iterations and frequent code pushes (agile sprints)
@@ -5016,7 +5075,9 @@ RETURN p.Name as Actor, v.Brand as Car, COUNT(p.Name) as Count
 ORDER BY COUNT(p.Name) DESC LIMIT 1)
 
 
-=============================================
+
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+
 
 
 Setting up your Linux/Ubuntu workstation
@@ -5261,20 +5322,6 @@ pyang ietf-interfaces.yang
 
 # Generate tree view of Yang model.
 pyang -f tree ietf-interfaces.yang
-
-
-Cisco Live Presentations
-------------------------
-https://developer.cisco.com/learning/lab/why-mdp/step/7
-
--	Device APIs: The Force Awakens - BRKSDN-1119
--	Model Driven Approach to SDN with NETCONF - BRKSDN-1903
--	YANG Data Modeling and NETFCONF: Cisco and Industry Developments - BRKNMS- 2032
--	Network programming using Yang service models with Cisco Network Services Orchestrator - DEVNET-1177
--	Introduction to Data Models and Cisco's NextGen Device Level APIs - DEVNET-1082
--	Introduction to RESTCONF - DEVNET-1081
-
-
 
 
 Linux
