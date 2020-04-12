@@ -997,26 +997,27 @@ Compression algorithms:
 Security
 --------
 PKI		Public Key Infrastructure
+MTLS 	Mutual TLS
+
 GDPR	General Data Protection Regulation
 PII 	Personal Identifiable Information data protection
-OCSP	Online Certificate Status Protoco
-SCEP 	Simple Certificate Enrollment Protocol
 
-Pseudonymization:
-- anonymization
-- deidentification
+OCSP	Online Certificate Status Protocol
+SCEP 	Simple Certificate Enrollment Protocol
 
 FDE 	Full Disk Encryption
 HSM 	Hardware Security Module
 
+Pseudonymization:
+- Anonymization
+- Deidentification
 
 RFC 8446	TLS version 1.3
 
-TLS_RSA_WITH_AES_128_CBC_SHA:  +++ klopt dit wel ?? +++ sha for auth too?; RSA for key exchange? Of mixed?
-- RSA  authentication
+TLS_RSA_WITH_AES_128_CBC_SHA:
+- RSA  key exchange & authentication
 - AES  confidentiality
 - SHA  integrity; digital signatures.
-
 
 Create a Public Key Certificate:
 - Generate Private Key: 					openssl genrsa -aes192 -out PRIVATEKEY.key 4096
@@ -1025,11 +1026,37 @@ Create a Public Key Certificate:
 - Enroll CSR with CA
 - Install certificate
 
+Note: Public/private-key encryption is one-way encryption. Only the server can decrypt with private key.
 
-Service meshes using TLS:
+Certificate Signing Request: PKCS #10
+
+Certificate revocation check methods:
+- CRL
+- OCSP
+
+
+Protect east-west traffic:
+- TLS or MTLS between services
+- Service mesh between containers
+- Dedicated container firewall
+
+Service meshes using TLS (inter-container):
 - Linkerd
 - Istio
+Note: TCP only (ICMP and UDP are not supported).
 
+
+Secret/key handling by applications:
+- Directly in code
+- Encrypted in code
+- In environment variables
+- In Database
+- API key syncing services
+- Cloud-based secret services (direct request)
+- Cloud-based secret services accessed through an API gateway
+
+
+=============================================
 
 
 OWASP	Open Web Application Security Project
@@ -1070,16 +1097,18 @@ Cerberus data validator:	https://docs.python-cerberus.org/en/stable/
 	True
 
 
+Cross-site scripting (XSS):
+- XSS enables attackers to inject client-side scripts into web pages viewed by other users.
+- XSS exploits the trust a user has for a particular site.
 
-XSS enables attackers to inject client-side scripts into web pages viewed by other users.
-
-CSRF/XSRF also known as one-click attack or session riding.
-Malicious exploit of a website where unauthorized commands are transmitted from a user that the web application trusts without the user's interaction or even knowledge. Unlike cross-site scripting (XSS), which exploits the trust a user has for a particular site, CSRF exploits the trust that a site has in a user's browser.
+Cross-Site Request Forgery (CSRF/XSRF):
+- Also known as one-click attack or session riding.
+- Malicious exploit of a website where unauthorized commands are transmitted from a user (without the user's interaction or knowledge).
+- CSRF exploits the trust that a web site has in a user's browser.
 
 Python:
 - HTML.Escape to escape HTML
 - Sanitize library for HTML input sanitization
-
 
 Python frameworks supporting CSRF tokens:
 - Django
@@ -1087,6 +1116,7 @@ Python frameworks supporting CSRF tokens:
 - Flask-SeaSurf
 - Pyramid
 - Sanic-WTF
+
 
 WTF = WTForms
 
@@ -1096,8 +1126,8 @@ OAuth
 RFC6749: OAuth 2.0 Authorization Framework
 
 OAuth roles:
-- Resource owner
-- Client (the application)
+- Resource owner 			(typically the end user)
+- Client 					(the application)
 - Authorisation server
 - Resource server
 
@@ -1124,7 +1154,7 @@ Three-Legged authorization flow:
 - Resource owner, client application, authorization server and a resource server
 - Three-Legged authorization flow is mostly used for end-user authentication.
 
-Three-Legged authorization steps.
+Three-Legged authorization steps:
 - Retrieve authorization code.
 - Exchange authorization code for an access token.
 - Use the access token.
