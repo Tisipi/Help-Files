@@ -4882,9 +4882,9 @@ DB Types
 - Relational
 - Key-value database
 - Document-based database
+- Graph-based database
 - Column-based database
 - Time-series database
-- Graph-based database
 
 
 Non-relational DBs:
@@ -4986,15 +4986,36 @@ Ad-hoc query systems
 Examples: Cassandra, HBase
 
 
+Time-series DB (TSDB):
+- Essentially key-value DB.
+- Key represents time/date.
+- Value is a metric (a measurement), system state, or something more complex.
+- Single value or a collection of values.
+- Exceptionally fast and scalable.
+- ACID compliance is not enforced (measurement can be lost).
+- Simple insert commands at regular time intervals.
+- Data points are immutable.
+- Update statements should not be used.
+- Smoothing techniques create new representations of time series (original data is preserved).
+- Time series data is usually very compressed.
+- Used in:
+	- System monitoring
+	- Finances
+	- IoT
+	- Asset management
+	- Machine learning
+- Round Robin Databases + Consolidation
+- Implemented either as a relational database (TimescaleDB) or as a NoSQL database (InfluxDB).
 
-SQL Exercise
-------------
-...
+
+
+Example TimescaleDB
+-------------------
+Time-series DB with PostgreSQL engine
 
 SELECT COUNT(*) FROM rides;
 
-
-EXPLAIN ANALYSE SELECT date_trunc('hour', pickup_datetime) as timeframe, COUNT(*) FROM rides GROUP BY timeframe ORDER BY timeframe;
+EXPLAIN ANALYSE SELECT date_trunc('hour', pickup_datetime) AS timeframe, COUNT(*) FROM rides GROUP BY timeframe ORDER BY timeframe;
 
 	EXPLAIN ANALYSE
 	SELECT date_trunc('hour', pickup_datetime) as timeframe,
@@ -5004,7 +5025,7 @@ EXPLAIN ANALYSE SELECT date_trunc('hour', pickup_datetime) as timeframe, COUNT(*
 	ORDER BY timeframe;
 
 
-Same query but now with TimescaleDB’s time bucket aggregation tool (10% faster):
+Same query using time bucket aggregation tool (10% faster):
 
 EXPLAIN ANALYSE SELECT time_bucket('5 minutes', pickup_datetime) AS timeframe, COUNT(*) FROM rides GROUP BY timeframe ORDER BY timeframe;
 
@@ -5097,14 +5118,15 @@ Neo4j Graph Database
 --------------------
 MATCH (n) RETURN n
 
-the actors with the movies they played in and display the actors who played in the most Bond movies with the
+Display the Bond actors:
+- with the movies they played in
+- who played in the most Bond movies
 
 MATCH (p:People)-[:AS_BOND_IN]->(m:Film)
 RETURN p.Name AS ActorName, count(p.Name) AS BondMovies ORDER BY BondMovies DESC
 
 
- Try querying for the most commonly used car brand that Sean Connery drove in his movies.
- As you can see, he drove a Ford card 16 times in all his movies.
+Display the most commonly used car brand that Sean Connery drove.
 
 MATCH (p:People)-[:AS_BOND_IN]->(m:Film)-[:HAS_VEHICLE]->(v:Vehicle)
 WHERE p.Name='Sean Connery'
