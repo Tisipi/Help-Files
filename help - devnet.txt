@@ -1067,12 +1067,15 @@ XSRF	Cross-Site Request Forgery
 SSRF	Server-Side Request Forgery
 
 
-Risk = Likelyhood x Impact
+OWASP Risk Rating Methodology:
 
-Likelyhood is an average of:
-- Exploitability
-- Weakness Prevalence
-- Weakness Detectability
+	Risk = Likelyhood x Impact
+
+	Likelyhood is an average of:
+	- Exploitability
+	- Weakness Prevalence
+	- Weakness Detectability
+
 
 OWASP top 10 (2017)
 1.  Injection
@@ -1081,12 +1084,21 @@ OWASP top 10 (2017)
 4.  XML External Entities (XXE)
 5.  Broken Access Control
 6.  Security Misconfiguration
-7.  Cross-Site Scripting (XSS)
+7.  Cross-Site Scripting (XSS)		<== 2nd most prevalent
 8.  Insecure Deserialization
 9.  Vulnerable Components
 10. Insufficient Logging & Monitoring
 
 
+Mitigation SQL injection:
+- Blacklist / whitelist characters (filter malicious characters).
+- Fortify SQL statements (Parameterized queries or prepared statements; escape dangerous characters).
+- Catch/remove SQL error messages (don't show to user).
+- IPS
+- Firewall (layer 7 inspection).
+
+
+Python library to validate user data:
 Cerberus data validator:	https://docs.python-cerberus.org/en/stable/
 
 	>>> schema = {'name': {'type': 'string'}}
@@ -1098,17 +1110,36 @@ Cerberus data validator:	https://docs.python-cerberus.org/en/stable/
 
 
 Cross-site scripting (XSS):
+- Injection attack.
+- Typically via persistent storage.
 - XSS enables attackers to inject client-side scripts into web pages viewed by other users.
-- XSS exploits the trust a user has for a particular site.
+- XSS exploits the trust a user has for a particular web site.
+
+Mitigating XSS:
+- Escape any untrusted input.
+- Escape data to and from user.
+- HTML escaping.
+- Input sanitization.
+
+Python:
+- HTML.Escape to escape HTML (HTML Core library)
+- Sanitize library for HTML input sanitization
+
+	form = cgi.FieldStorage()
+	comment = html.escape(form.getvalue(“COMMENT”)
+
+	import sanitize
+	sanitize.HTML('safe<meta http-equiv="Refresh" content="0; URL=/">')
+
 
 Cross-Site Request Forgery (CSRF/XSRF):
+- Attack on state-changing requests.
 - Also known as one-click attack or session riding.
 - Malicious exploit of a website where unauthorized commands are transmitted from a user (without the user's interaction or knowledge).
 - CSRF exploits the trust that a web site has in a user's browser.
 
-Python:
-- HTML.Escape to escape HTML
-- Sanitize library for HTML input sanitization
+Mitigating CSRF:
+- Use of CSRF token (unique, unpredictable value)
 
 Python frameworks supporting CSRF tokens:
 - Django
@@ -1116,7 +1147,6 @@ Python frameworks supporting CSRF tokens:
 - Flask-SeaSurf
 - Pyramid
 - Sanic-WTF
-
 
 WTF = WTForms
 
@@ -1126,20 +1156,22 @@ OAuth
 RFC6749: OAuth 2.0 Authorization Framework
 
 OAuth roles:
-- Resource owner 			(typically the end user)
+- Resource owner 			(typically the end user who owns a protected resource; who grants access)
 - Client 					(the application)
-- Authorisation server
-- Resource server
+- Authorisation server 		(verifies identity; issues autho. code and/or access token to the client)
+- Resource server 			(holds the protected resource)
+
+Authorization and resource server are often co-located.
 
 OAuth interaction models:
 - Resource Owner Password Credentials flow
 - Client Credentials flow
-- Authorization Code Grant flow
-- Implicit flow
+- Authorization Code Grant flow 				(autho. code & access token)
+- Implicit flow 								(only access token, no autho. code)
 
-OAuth 2.0 grant types:
-- Authorization Code grant
-- Client Credentials grant
+OAuth 2.0 grant types (the way an application gets an access token):
+- Authorization Code grant 		(three-legged)
+- Client Credentials grant 		(two-legged)
 - Device Code grant
 - Refresh Token grant
 - Password grant (Legacy)
