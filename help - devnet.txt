@@ -2952,9 +2952,64 @@ service app start
 Graylog filter: source:front* AND INFO
 
 
+Cisco AppDynamics
+-----------------
+- Application Monitoring.
+- Stores historic data & calculates baselines.
+- Correlate function or web service calls across multiple systems.
+- Visualizes the aggregate data.
+- Does not rely on logging.
+- Uses code instrumentation techniques to "hook into" application code.
+- Discovers business transactions (user action, response to an API call, etc.)
+- Instrumentation code observes the communication with other systems.
+- Creates a map of application components (transaction flow map; application topology).
+
+A flow map consists of:
+- Node 			(monitored application server)
+- Tier 			(logical grouping of nodes like front-end and back-end)
+- Backend 		(black-box; not instrumented component; DB ar MQ)
+- Application 	(components representing a different business application)
+
+Monitoring Agents collect data and forward to Cisco AppDynamics controller.
+
+Types of monitoring agents:
+- Application Server Agent 	(analyzes and monitors code)
+- Machine Agent 			(monitors server performance etc.)
+- End User Agent 			(monitors performance experienced by users)
+
+
+Application Server Agents available for Java, .NET, Node.js, Python, PHP, Go.
+
+To instrument a Python application:
+- Install Python Agent: 		pip install -U appdynamics\<4.5
+- Create configuration file: 	application, node, tier and controller info
+- Start Python Agent:			pyagent run -c <config> -- <command>
+  (incl. Java agent proxy)
+
+
+Example configuration file skeleton
+
+	[agent]
+	app = <app_name>
+	tier = <tier_name>
+	node = <node_name>
+
+	[controller]
+	host = <controller_host>
+	port = <controller_port>
+	ssl = on|off
+	account = <your AppDynamics controller account name>
+	accesskey = <your AppDynamics controller account access key>
+
+
+AppDynamics Controller
+- Processes and analyzes data.
+- Host on-prem or use the officially provided cloud instance.
+
+
+
 +++++++
 Verloren:
-9.9 Application Monitoring with Cisco AppDynamics
 9.10 Limitations of Distributed Systems and CAP Theorem
 9.11 Overcoming Challenges in Distributed Systems
 +++++++
