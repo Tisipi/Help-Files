@@ -171,9 +171,9 @@ MODULE 4 - Network Controllers
 2	Got SDN? Understanding the ACI Programmability Options 			28:56	DONE
 3	Network Control in the Cloud - Developing with Cisco Meraki 	16:16	DONE
 4	Cisco DNA Center Platform APIs Part 1: Exploring Apps and Tools 19:39	DONE
-5	Cisco DNA Center Platform APIs Part 2: Network Troubleshooting 	23:47	xxx
-6	ACI Programmability Part 1: The ACI Object Model 				19:08	xxx
-7	ACI Programmability Part 2: Using the ACI Toolkit 				29:24	xxx
+5	Cisco DNA Center Platform APIs Part 2: Network Troubleshooting 	23:47	xxx 	<<<<
+6	ACI Programmability Part 1: The ACI Object Model 				19:08	-
+7	ACI Programmability Part 2: Using the ACI Toolkit 				29:24	-
 
 MODULE 5 - Application Hosting and the Network
 1	Cloud to Fog: Why Host Apps in the Network 						09:44	DONE
@@ -1115,11 +1115,13 @@ Cross-site scripting (XSS):
 - XSS enables attackers to inject client-side scripts into web pages viewed by other users.
 - XSS exploits the trust a user has for a particular web site.
 
-Mitigating XSS:
+Mitigation XSS:
 - Escape any untrusted input.
 - Escape data to and from user.
 - HTML escaping.
 - Input sanitization.
+- Separate untrusted data from active browser content.
+
 
 Python:
 - HTML.Escape to escape HTML (HTML Core library)
@@ -1138,7 +1140,7 @@ Cross-Site Request Forgery (CSRF/XSRF):
 - Malicious exploit of a website where unauthorized commands are transmitted from a user (without the user's interaction or knowledge).
 - CSRF exploits the trust that a web site has in a user's browser.
 
-Mitigating CSRF:
+Mitigation CSRF:
 - Use of CSRF token (unique, unpredictable value)
 
 Python frameworks supporting CSRF tokens:
@@ -1164,16 +1166,16 @@ OAuth roles:
 Authorization and resource server are often co-located.
 
 OAuth interaction models:
+- Client Credentials flow 						(two-legged)
+- Authorization Code Grant flow 				(three-legged; autho. code & access token)
+- Implicit flow 								(three-legged; only access token, no autho. code)
 - Resource Owner Password Credentials flow
-- Client Credentials flow
-- Authorization Code Grant flow 				(autho. code & access token)
-- Implicit flow 								(only access token, no autho. code)
 
 OAuth 2.0 grant types (the way an application gets an access token):
 - Authorization Code grant 		(three-legged)
 - Client Credentials grant 		(two-legged)
-- Device Code grant
 - Refresh Token grant
+- Device Code grant
 - Password grant (Legacy)
 
 Two-Legged authorization flow:
@@ -1191,6 +1193,8 @@ Three-Legged authorization steps:
 - Exchange authorization code for an access token.
 - Use the access token.
 
+Complete OAuth sequence: refer text. +++ What kind of Oauth flow is this ? +++
+
 
 Grant type used in the two-legged authorization flow: client_credentials
 
@@ -1200,18 +1204,23 @@ Grant type used in the two-legged authorization flow: client_credentials
 
 	grant_type=client_credentials
 	client_id=xxxxxxxxxx
-	client_secret=xxxxxxxxxx
+	client_secret=yyyyyyy
 
 
-Authentication (?) protocols authorization server:
-- OAuth
-- OpenID
+	HTTP/1.1 200 OK
+	Content-Type: application/json;charset=UTF-8
+	Cache-Control: no-store
+	Pragma: no-cache
 
-Access token:  lifetime 60 minutes
-Refresh token: lifetime 60 days
+	{
+	 "access_token":"zzzzzzzzzzzzzzzzz",
+ 	 "token_type":"bearer",
+	 "expires_in":3600,
+	 ...
+	 }
 
 
-Revoke token:
+Revoke access token:
 
 	POST /revoke HTTP/1.1
 	Host: authorization-server.com
@@ -1221,14 +1230,13 @@ Revoke token:
 	token=<access_token>
 
 
-Check:
-- Mitigation Cross-Site Scripting (XSS) attacks
-- Mitigation CSCF attacks
+Access token:  lifetime 60 minutes
+Refresh token: lifetime 60 days
 
 
-OAuth sequence:
-+++
-+++
+Authentication (?) protocols authorization server:
+- OAuth
+- OpenID
 
 
 =============================================
@@ -2773,8 +2781,8 @@ HAProxy frontend example:
 	  bind *:80
 	  mode http
 	  acl url_img path_beg /images
-	  use_backend img-backend if url_img
-	  default_backend web-backend
+	  use_backend img-backend if url_img	<<< to img-backend servers
+	  default_backend web-backend 			<<< to default web-backend servers
 
 HAProxy backend example:
 
@@ -2821,16 +2829,17 @@ Cisco DNA Center API:
 
 
 Generate DNA token:
-POST <cluster-ip>/dna/system/api/v1/auth/token
-with basic authorization header with username and password
+	POST <cluster-ip>/dna/system/api/v1/auth/token
+	with basic authorization header with username and password
 
-HTTP response code 200 Json token:
-	{
-	    "Token": "eyJ0eXA ... O5uEMR-tc“
-	}
+	HTTP response code 200 Json token:
+		{
+		    "Token": "auX0eFe ... O7uMRA-ab“
+		}
 
-GET <cluster-ip>/dna/intent/api/v1/network-device
-with X-Auth-Token header
+Subsequent requests:
+	GET <cluster-ip>/dna/intent/api/v1/<object>
+	with X-Auth-Token header
 
 
 Example:
@@ -2849,7 +2858,7 @@ Example:
 	sites = r.json()['response']
 
 
-Example SDK (Cisco Intersight API):
+Example SDK (Cisco Intersight API; requires request signing):
 
 	from intersight.intersight_api_client import IntersightApiClient
 	import intersight.apis.network_element_summary_api as summary_api
@@ -2866,9 +2875,9 @@ Example SDK (Cisco Intersight API):
 
 Event-Driven Architecture (EDA)
 -------------------------------
-Atomic or simple event.
-Related events or event stream.
-Behavioral or complex events.
+Atomic or simple event. 			(what happened)
+Related events or event stream. 	(when something happened)
+Behavioral or complex events. 		(why an event happened)
 
 Loosely coupled and well distributed.
 Scalability and performance.
@@ -2885,7 +2894,7 @@ EDA characteristics:
 - Event Ontology
 
 EDA topologies:
-- Mediator topology
+- Mediator topology (orchestrates)
 - Broker topology
 
 Mediator topology components:
