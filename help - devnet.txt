@@ -3121,18 +3121,18 @@ Challenges/Solutions in Distributed Systems:
 UCS
 ---
 UCS 	Unified Compute System
-MIT:	Management information tree
-MIM:	Management information model
-DME:	Data Management Engine
-DN:		Distinguished Name
-RN:		Relative Name
+MIT		Management information tree
+MIM		Management information model
+DME		Data Management Engine
+DN		Distinguished Name
+RN		Relative Name
 
 Cisco UCS Manager:
-- XML API
-- API is transactional (change multiple objects, or none)
-- Managed objects (MOs) in hierarchical MIT
-- MIT aka MIM (management information model)
-- Top of MIT: sys
+- XML API.
+- API is transactional (change multiple objects, or none).
+- Managed objects (MOs) in hierarchical MIT.
+- MIT aka MIM (management information model).
+- Top of MIT: sys.
 
 Data management engine (DME):
 - User-level process on fabric interconnects.
@@ -3153,6 +3153,8 @@ UCS API Methods:
 	- aaaLogin
 	- aaaRefresh
 	- aaaLogout
+
+	- aaaKeepAlive
 
 - Query methods, examples:
 	- configResolveDns 			Retrieves objects by a set of DNs.
@@ -3285,10 +3287,10 @@ A query for a nonexistent object is not treated as a failure by the DME. It retu
 Cisco UCS Manager Emulator:
 - Emulates the actual UCS system.
 - Same code, full MIT.
-- CentOS VM (.vmx and .ova image files.
-
+- CentOS VM (.vmx and .ova image files).
 
 Example Cisco UCS Manager API: see UCS.py
+
 
 
 Terraform
@@ -3299,7 +3301,7 @@ https://github.com/CiscoUcs/UCS-Terraform
 - Infrastructure as Code (IaC).
 - Declarative: Describe the desired state/intent.
 - HashiCorp Configuration Language (HCL).
-- Configuration  in .tf files.
+- Configuration in .tf files.
 - Configuration files under version control.
 - Basic syntax is the block type:
 
@@ -3310,7 +3312,7 @@ https://github.com/CiscoUcs/UCS-Terraform
 - Examples of block types:
 	- Resource block (infrastructure objects; resource type, resource name; resource arguments)
 	- Provider block type (communicates with the infrastructure; deploy the configuration)
-- Provides and resources are linked. Provider name is prefix of resource type.
+- Providers and resources are linked. Provider name is prefix of resource type.
 
 	# For example in main.tf
 	#
@@ -3382,6 +3384,9 @@ AWS example:
 	}
 
 
+
+Orchestration / Configuration management
+----------------------------------------
 Orchestration:
 - Focus on bootstrapping and initializing resources.
 - Provision resources.
@@ -3394,8 +3399,7 @@ Configuration management:
 - Typical actions: Install software, provide configurations, manage services.
 - Examples: Ansible, Puppet.
 
-There is some overlap between tools. They can work together.
-
+There is some overlap between tools. They can complement each together.
 
 Two categories of management configuration and orchestration tools:
 - Procedural	(Ansible)
@@ -3425,7 +3429,6 @@ Playbook needs to revert	|	Executes periodically: manual changes will be reverte
 
 Puppet
 ------
-
 Puppet Concepts:
 - Resource: Describes particular aspect of a system. Unit of configuration.
 - Class: 	Collection of resources.
@@ -3576,7 +3579,7 @@ To deploy the configuration:
 
 # Client, server with Puppet agent
 #
-# Test connectivity or pul the configuration
+# Test connectivity or pull the configuration
 #
 puppet agent -t
 
@@ -3609,9 +3612,6 @@ puppetserver ca list --all
 #
 puppet module install puppetlabs-ntp
 puppet module list
-
-
-+++ NOT executed, LAB 10.6 Configure Network Parameters Using Puppet +++
 
 
 
@@ -3853,9 +3853,9 @@ ansible-galaxy init roles/ntp
 ansible all -i hosts -m ping
 
 
-+++ NOT executed, LAB 10.8, Configure Network Parameters Using Ansible +++
 
-
+Source of Truth
+---------------
 Options for single source of truth:
 - Configuration files: YAML, JSON, XML, CSV, etc.
 - Databases
@@ -3893,7 +3893,7 @@ MySQL:
 
 	devices = c.fetchall()
 	for device in devices:
-	 print(device)
+		print(device)
 
 
 
