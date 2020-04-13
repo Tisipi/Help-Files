@@ -2169,8 +2169,6 @@ Access the application via the LB:
 	http://localhost:8080
 
 
-+++ #TODO: 8.4 Containerize Application Using Docker, LAB  +++
-
 
 Kubernetes
 ----------
@@ -2569,7 +2567,6 @@ Example of a GitLab CI pipeline file (.gitlab-ci.yml):
 	    -
 	    -
 
-+++ NOT executed; #TODO: 8.7 Deploying Applications, LAB +++
 
 	# Register the GitLab runner
 	gitlab-runner register
@@ -4136,11 +4133,6 @@ DELETE: Remove a User-Created Object
 	curl -X DELETE \
 	--header 'Accept: application/json' \
 	'https://ftd.example.com/api/fdm/latest/object/networks/f6d8da49-7ed5-11e7-9bfd-27136f5686ad'
-
-
-+++ NOT executed, LAB 10.11, Synchronize Firepower Device Configuration +++
-
-+++ #TODO, test basic things like: API explorer, get token, etc +++
 
 
 =============================================
