@@ -1383,8 +1383,6 @@ Git
 https://linuxacademy.com/blog/linux/git-terms-explained
 
 VCS	Version Control Software
-CI 	Continuous Integration
-CD 	Continuous Dev/Deployment
 
 Main git concepts:
 - Remote repository
@@ -1575,6 +1573,13 @@ Master branch
 	Hotfix/maintenance branch
 
 
+
+CI/CD Pipelines
+---------------
+CI 	Continuous Integration
+CD 	Continuous Delivery		(manual deploy)
+CD	Continuous Deployment 	(automatic deploy)
+
 Automated (Unit) Testing
 
 Static Code Analysis:
@@ -1599,7 +1604,7 @@ Elements of CI/CD system:
 - Jobs. If a job fails, the entire stage is considered failed.
 
 
-Example pipeline containerized application:
+Example, pipeline containerized application:
 - Build: Create application image.
 - Test: Run tests against the image.
 - Push image to registry.
@@ -1632,9 +1637,6 @@ GitLab pipeline consists for example of:
 - Runner
 
 GitLab CI pipeline file: .gitlab-ci.yml
-
-
-+++ #TODO 7.8 Diagnose CI/CD Pipeline Failures, LAB +++
 
 
 =============================================
