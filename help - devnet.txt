@@ -1289,6 +1289,10 @@ Authentication (?) protocols authorization server:
 
 Python
 ------
+PyPi 	Python Package Index Repository
+Wheel 	A Built Distribution format (intended to replace the Egg format).
+
+
 Installing Python Packages:
 pip install <packageName>
 pip install -r requirements.txt
@@ -1296,7 +1300,7 @@ pip install -r requirements.txt
 pip show <packageName>
 pip list
 
-pip freeze > requirements.txt
+pip freeze > requirements.txt 			<<< Simple dependency management
 cat requirements.txt
 pip install -r requirements.txt
 
@@ -1312,7 +1316,8 @@ source venv/bin/activate
 deactivate
 
 
-
+Packaging
+---------
 Creating packages with setuptools library. Example setup.py script:
 
 	from setuptools import setup, find_packages
@@ -1334,11 +1339,42 @@ python3 -m pip install --user --upgrade setuptools wheel
 python3 setup.py sdist bdist_wheel
 
 
-Pipenv dependency manager:
-- Pipfile (project libraries minimum requirements; populated by installs)
-- Pipfile.lock (final snapshot of currently installed versions; after lock cmd)
+Dependency management
+---------------------
+Pipenv: built on top of pip and virtualenv.
 
-pipenv graph
+Pipenv dependency manager uses two files:
+- Pipfile 			(project libraries minimum requirements; populated by installs)
+- Pipfile.lock 		(final snapshot of currently installed versions; after lock cmd)
+
+To see the dependency tree and resolve the conflicts:
+ pipenv graph
+
+Pipenv also enhances security by using verification hashes.
+
+
+Python Package Versioning
+-------------------------
+- Ensure compliancy with public version scheme in PEP 440 (https://www.python.org/dev/peps/pep-0440).
+- Serial versioning, YEAR.SERIAL (for example 20.01, 19.88).
+- Date based versioning: YEAR.MONTH (for example, 20.04, 19.12).
+- Preferred one is the semantic versioning 2.0.0.
+
+Semantic Versioning:
+- MAJOR.MINOR.PATCH
+- MAJOR version when you make incompatible API changes.
+- MINOR version when you add functionality in a backwards compatible manner.
+- PATCH version when you make backwards compatible bug fixes.
+- Option to append additional identification strings that define non-final releases (dev, beta, release candidate).
+  For example: 2.3.0dev1, 2.2.0_b1, 2.2.0.rc1
+
+Changelog:
+- Added 		New features
+- Changed 		Changed functionalities
+- Deprecated    Soon-to be removed features
+- Removed 		Removed features
+- Fixed 		Bug fixes
+- Security 		Vulnerability fixes
 
 
 
@@ -1348,7 +1384,7 @@ https://linuxacademy.com/blog/linux/git-terms-explained
 
 VCS	Version Control Software
 CI 	Continuous Integration
-CD 	Continuous Deployment
+CD 	Continuous Dev/Deployment
 
 Main git concepts:
 - Remote repository
@@ -1387,6 +1423,8 @@ Cherry-picking a commit:
 
 HEAD: This is a reference variable used to denote the most current commit of the repository in which you are working. When you add a new commit, HEAD will then become that new commit.
 
+Detached HEAD: HEAD pointing to a commit rather than branch (detached state).
+
 
 # Initialize a git repository (creates .git directory)
 git init
@@ -1415,6 +1453,9 @@ git reset
 
 # Commit files in staging area
 git commit -m "My first commit"
+
+# Combine: add to staging area & commmit
+git commit -am "Caching"
 
 # Push changes
 git push
@@ -1461,7 +1502,7 @@ git stash pop
 
 
 # Other git 'merge' options:
-- git rebase <dev branch>
+- git rebase <dev branch> 				(Note: This forges history)
 - git cherry-pick <commit-hash>
 
 
@@ -1508,8 +1549,6 @@ git ls-files --modified
 git ls-files --stage
 
 
-+++ #TODO: 7.4, Resolve Merge Conflicts with Git, LAB +++
-
 
 Branching
 ---------
@@ -1518,25 +1557,22 @@ Two opposite collaboration approaches:
 2. Feature branch workflow (separate dedicated branch for each feature).
 
 GitFlow (Workflow) is a branching strategy that covers CI/CD operations:
-- Master branch 	Only release and Hotfix/maintenance branches can be merged into master.
-- Develop branch 	Derived from the master branch; integration branch for all features.
-					NOT merged into master.
-- Feature branches 	Created from develop; never allowed to interact directly with the master branch.
-					Merged back into develop.
-- Release branch 	Created from develop. Used to integrate all the features
+- Master branch 	Only Release and Hotfix/maintenance branches can be merged into master.
+- Develop branch 	Derived from the Master branch; integration branch for all features.
+					NOT merged into Master.
+- Feature branches 	Created from Develop; never allowed to interact directly with the Master branch.
+					Merged back into Develop.
+- Release branch 	Created from Develop. Used to integrate all the features
 					since the last release, and fix any arising bugs.
-					Merged back into develop and master.
-- Hotfix branch 	Hotfix/maintenance branch is created from the master.
-					Merged back into develop and master.
+					Merged back into Develop and Master.
+- Hotfix branch 	Hotfix/maintenance branch is created from the Master.    <<< !!
+					Merged back into Develop and Master.
 
 Master branch
 	Develop branch
 		Feature branch
 		Release branch
 	Hotfix/maintenance branch
-
-
-+++ Add SW versioning; semantic versioning scheme +++
 
 
 Automated (Unit) Testing
