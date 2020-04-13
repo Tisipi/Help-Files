@@ -501,9 +501,6 @@ requests.get('https://api.ciscospark.com/v1/messages', headers=headers)
 curl -X GET https://api.ciscospark.com/v1/messages -H "Authorization:Bearer <ACCESS_TOKEN>"
 
 
-+++ #TODO, 3.7 Use Cisco Webex Teams API to Enable ChatOps, LAB +++
-
-
 
 Meraki
 ------
@@ -587,9 +584,6 @@ Location/Scanning API:
 - Meraki cloud performs a single HTTP GET to destination server.
 - Destination server must return the validator string as a response.
 - The Meraki cloud will then begin performing JSON posts (using the defined secret).
-
-
-+++ #TODO, 3.9 Integrate Cisco Meraki API to List SSIDs and Retrieve Location Data, LAB +++
 
 
 UML
@@ -845,9 +839,6 @@ Example Metadata:
 
 
 ---
-LAB, 4.3 Use Paginated REST API Endpoint
-Refer files.
-
 WebEx Teams API https://developer.webex.com/docs/api/basics
 WebEx Teams API implements the Web Linking standard for pagination.
 
@@ -896,6 +887,7 @@ REST API Retryable Errors:
 - 429 Too Many Requests 	(Throttling, rate-limiting; Webex responds with HTTP "Retry-After" header, in secs)
 
 Are 405 and 411 really retryable ?? ==> inform you how to successfully complete your request...
+										adapt your curl request or change your code...
 
 
 Retry-After code:
@@ -909,7 +901,34 @@ Retry-After code:
 	        break
 
 
-+++ #TODO: 4.6 Utilize REST API Error Control Flow Techniques, LAB +++
+Timeout and Throttling example:
+
+	try:
+	    response = requests.get(api_url, headers=headers)
+
+	    if response:
+	        # OK
+	        return response
+
+	    # Rate limiting
+	    if response.status_code == 429 and tries < REQUEST_RETRIES:
+	        try:
+	            retry_after = int(response.headers.get('Retry-After'))
+	        except Exception:
+	            retry_after = 1
+
+	        sleep(retry_after)
+	        continue
+
+	    # Throw if not OK (2xx)
+	    response.raise_for_status()
+
+	except ConnectTimeout:
+		# Network timeout, retry.
+	    if tries < REQUEST_RETRIES:
+	        continue
+	    else:
+	        raise
 
 
 Reasons for optimizing API performance:
@@ -963,7 +982,7 @@ HTTP ETag Validation
 
 
 Cache control:
-- HTTP 304 Not Modified
+- HTTP 304 Not Modified header
 - Cached copy is still up-to-date.
 - Client redirection response code indicates that there is no need to retransmit the requested resources.
 - Implicit redirection to a cached resource.
@@ -995,6 +1014,10 @@ If-Modified-Since:
 
 Compressing Data
 ----------------
+- Compression may lead to errors due to:
+	- Antivirus programs on client.
+	- Proxies & company policies.
+
 - Client may include the "Accept-Encoding" header. Lists supported compression algorithms.
 - Server can include the "Content-Encoding" entity header. Indicates which encoding was applied.
 
