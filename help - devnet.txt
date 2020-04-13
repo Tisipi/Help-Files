@@ -1423,6 +1423,11 @@ HEAD: This is a reference variable used to denote the most current commit of the
 
 Detached HEAD: HEAD pointing to a commit rather than branch (detached state).
 
+Nice to now:
+- Git commit --amend can be used only with the last commit.
+- Git revert does not rewrite the Git history. It adds a new commit...
+- Git checkout can be used to copy a desired version of a file into the working directory.
+
 
 # Initialize a git repository (creates .git directory)
 git init
@@ -1637,6 +1642,9 @@ GitLab pipeline consists for example of:
 - Runner
 
 GitLab CI pipeline file: .gitlab-ci.yml
+
+
+When a test fails in the Test stage of a Build/Test CI pipeline, will it then restart with the first job in the Build stage (after fix)? Is this specific for Build/Test only??
 
 
 =============================================
