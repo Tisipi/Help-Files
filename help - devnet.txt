@@ -947,7 +947,7 @@ HTTP Caching:
 - Server-side caching (reserve proxy, e.g. Varnish Cache; API gateway)
 
 - Caching systems (Memcached, redis)
-
+- CDN
 
 HTTP mechanisms to invalidate stale cached data:
 1. Time-based period (static resources)
@@ -1005,7 +1005,6 @@ time curl --head http://dev.web.local/myFile.gz
 
 HTTP Conditions
 ---------------
-
 If-Modified-Since:
 - Server sends back the requested resource, with a 200 status, only if it has been modified after the given date.
 - If the request has not been modified, the response is a 304 Not Modified without any body.
