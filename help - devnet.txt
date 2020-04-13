@@ -771,10 +771,10 @@ Another example:
 	 "itemId": 11,
 	 "category": "book",
 	 "author": "Mai Link",
-	 "links": [ 							<<< links (relation type, link target)
+	 "links": [ 							<<< links
 	    {
-	      "href":"11/cart,
-	      "rel": "addCart",
+	      "href":"11/cart, 					<<< Hypertext REFerence / link target
+	      "rel": "addCart", 				<<< RELation attribute  / relation type
 	      "method": "POST"
 	    },
 	    {
@@ -784,6 +784,9 @@ Another example:
 	    }
 	  ]
 	}
+
+The rel attribute specifies the relationship between the current document and the linked document.
+
 
 
 HTTP Link Header
@@ -852,7 +855,6 @@ VS Code:
 - Ctrl+j to display the terminal.
 - pipenv install: to install the required packages in the virtual environment.
 - pipenv shell:   to activate the virtual environment.
-
 ---
 
 
