@@ -171,7 +171,7 @@ MODULE 4 - Network Controllers
 2	Got SDN? Understanding the ACI Programmability Options 			28:56	DONE
 3	Network Control in the Cloud - Developing with Cisco Meraki 	16:16	DONE
 4	Cisco DNA Center Platform APIs Part 1: Exploring Apps and Tools 19:39	DONE
-5	Cisco DNA Center Platform APIs Part 2: Network Troubleshooting 	23:47	xxx 	<<<<
+5	Cisco DNA Center Platform APIs Part 2: Network Troubleshooting 	23:47	DONE
 6	ACI Programmability Part 1: The ACI Object Model 				19:08	-
 7	ACI Programmability Part 2: Using the ACI Toolkit 				29:24	-
 
@@ -2903,8 +2903,7 @@ Mediator topology components:
 - Event channel
 - Event processor
 
-Broker topology:
-Message broker: collection of event channels (message queue)
+Message broker topology: collection of event channels (message queue).
 
 
 Microservices
@@ -2965,10 +2964,15 @@ Cisco AppDynamics
 - Creates a map of application components (transaction flow map; application topology).
 
 A flow map consists of:
-- Node 			(monitored application server)
-- Tier 			(logical grouping of nodes like front-end and back-end)
-- Backend 		(black-box; not instrumented component; DB ar MQ)
-- Application 	(components representing a different business application)
+- Nodes 		(monitored application server)
+- Tiers 		(logical grouping of nodes like front-end and back-end)
+- Backends 		(black-box; not instrumented component; DB ar MQ)
+- Applications 	(components representing a different business application)
+
+
+AppDynamics Controller
+- Processes and analyzes data.
+- Host on-prem or use the officially provided cloud instance.
 
 Monitoring Agents collect data and forward to Cisco AppDynamics controller.
 
@@ -2976,7 +2980,6 @@ Types of monitoring agents:
 - Application Server Agent 	(analyzes and monitors code)
 - Machine Agent 			(monitors server performance etc.)
 - End User Agent 			(monitors performance experienced by users)
-
 
 Application Server Agents available for Java, .NET, Node.js, Python, PHP, Go.
 
@@ -3002,17 +3005,26 @@ Example configuration file skeleton
 	accesskey = <your AppDynamics controller account access key>
 
 
-AppDynamics Controller
-- Processes and analyzes data.
-- Host on-prem or use the officially provided cloud instance.
+
+CAP Theorem (Brewer's theorem, Eric Brewer)
+-------------------------------------------
+- Consistency: 			Every read receives the most recent write or an error.
+- Availability: 		Every request receives a (non-error) response, without the guarantee that it contains the most recent write.
+- Partition tolerance:	The system continues to operate despite messages being dropped (or delayed) by the network between nodes.
+
+In the presence of a network partition, choose between consistency and availability:
+- Cancel the operation 		 	(decrease availability, ensure consistency)
+- Proceed with the operation 	(provide availability, risk inconsistency)
 
 
-
-+++++++
-Verloren:
-9.10 Limitations of Distributed Systems and CAP Theorem
-9.11 Overcoming Challenges in Distributed Systems
-+++++++
+Challenges/Solutions in Distributed Systems:
+- Eventually consistent systems.
+- Split-brain scenario.
+- Quorum: Majority of the nodes agree.
+- Conflict resolution mechanisms. Timestamps, newer values take precedence; "last write wins" scenario (changes might be lost).
+- Bulkhead pattern. For example: multiple, individual resource pools; different connection pools.
+- Circuit Breaker pattern: Fail fast, retry after a while.
+- Service mesh.
 
 
 =============================================
