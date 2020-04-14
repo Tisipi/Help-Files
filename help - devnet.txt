@@ -4169,7 +4169,7 @@ Submodules. May belong to only one module.
 Names of all standard (sub)modules must be unique. They share the same namespace.
 A module can import data from other modules and include data from submodules:
 - Import statement to reference external modules.
-- Include statement to include submodules.
+- Include statement to include SUBmodules.
 
 For a (sub)module to reference definitions in an external module, the external module must be imported.
 For a module to reference definitions in one of its submodules, the module must include the submodule.
