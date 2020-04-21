@@ -1,3 +1,73 @@
+https://www.ciscolive.com/global/on-demand-library.html?search=ucs&search.program=cloDevNet#/
+
+
+SEEN/READ
+---------
+
+Automating Your Cisco UCS with Python - Managing Your Infrastructure as Code - DEVNET-1611
+Event:2020 Barcelona
+SPEAKERS
+Miguel Barajas, TECHNICAL SOLUTIONS ARCHITECT.SALES - Distinguished Speaker
+
+
+TO READ/WATCH
+-------------
+
+Cisco UCS & Cisco Intersight - Programmability Automation & Orchestration Overview - DEVNET-1481
+Event:2020 Barcelona
+SPEAKERS
+John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
+
+
+TO READ
+-------
+DevNet Workshop: Managing Cisco UCS with the Python SDK - DEVWKS-2060
+Event:2020 Barcelona
+SPEAKERS
+David Soper, ENGINEER.TECHNICAL MARKETING - Distinguished Speaker
+
+Getting Started: Cisco UCS Python SDK for UCS Manager Lab, https://www.ciscolive.com/c/dam/r/ciscolive/us/docs/2016/pdf/LTRINI%202020-LG.pdf
+
+Start Now with Cisco UCS programmability and automation: From the data center to converged to the cloud - DEVNET-3212
+Event:2020 Barcelona
+SPEAKERS
+John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
+
+
+UCS Programmability for the Rest of Us - DEVNET-2298
+Event:2020 Barcelona
+SPEAKERS
+Michael Lally, TECHNICAL SOLUTIONS ARCHITECT.SALES
+
+
+DevNet Workshop: Cisco Intersight REST API Introduction - Postman - Python - DEVWKS-1474
+Event:2020 Barcelona
+SPEAKERS
+John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
+
+
+====
+
+Cisco UCS PowerTool - Deploy at Scale - DEVNET-2562
+Event:2020 Barcelona
+SPEAKERS
+John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
+
+DevNet Workshop: UCS PowerTool Suite - Secrets, Tips and Tricks - DEVWKS-2061
+Event:2020 Barcelona
+SPEAKERS
+John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
+
+
+===
+
+Cisco UCS Agentless Configuration Management - Ansible or Microsoft Desired State Configuration - DEVNET-2916
+Event:2019 San Diego
+SPEAKERS
+John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
+
+=====
+
 
 Certification 350-901 DEVCOR
 ----------------------------
@@ -155,9 +225,10 @@ MODULE 2 - Programming Fundamentals
 2	APIs are Everywhere... but what are they? 						13:00	DONE
 3	REST APIs Part 1: HTTP is for more than Web Browsing 			32:07	DONE
 4	REST APIs Part 2: Making REST API Calls with Postman 			19:43	DONE
-5	Python Part 1: Python Language and Script Basics 				33:17	-
-6	Python Part 2: Working with Libraries and Virtual Environments 	21:45	-
+5	Python Part 1: Python Language and Script Basics 				33:17	DONE
+6	Python Part 2: Working with Libraries and Virtual Environments 	21:45	DONE
 7	Python Part 3: Useful Python Libraries for Network Engineers 	38:55	DONE
+
 
 MODULE 3 - Network Device APIs
 1	Getting the "YANG" of it with Standard Data Models				18:41	DONE
@@ -3117,6 +3188,7 @@ Challenges/Solutions in Distributed Systems:
 
 =============================================
 
++++ Check UCS SDK +++
 
 UCS
 ---
@@ -5406,6 +5478,11 @@ python -V
 
 # Deactivate virtual environment
 deactivate
+
+# Running IDLE
+idle
+# Running IDLE in python venv
+python -m idlelib.idle
 
 
 # Install Nodejs
