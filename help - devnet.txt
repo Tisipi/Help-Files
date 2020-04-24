@@ -24,9 +24,22 @@ Miguel Barajas, TECHNICAL SOLUTIONS ARCHITECT.SALES - Distinguished Speaker
 Getting the Skill Mix Right for the 20’s - DEVLIT-4025
 Marco Coulter, Technical Evangelist, Cisco Systems, Inc.
 
+Want to code, but what language should I use - DEVNET-4096
+Patrick Riel, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+
+Migration to Next-Gen Network with Automation First Approach - DEVNET-1047
+Akshaya Kumar Sankaran, ENGINEER.TECHNICAL MARKETING, Cisco Systems, Inc.
+
+DevOps, but Why? - DEVLIT-4007
+Quinn Anx, Technical Evangelist, Cisco Systems, Inc.
+
+
 
 Quick Wins of using NSO - DEVLIT-4019
 Sunpreetsingh Arora, CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc. - Distinguished Speaker
+
+Get Started Automating Your Network with Cisco NSO - DEVNET-4805
+Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
 
 
 
@@ -35,9 +48,6 @@ TO READ/WATCH
 -------------
 +++ Cisco Live: check NSO stuff +++
 
-
-Get Started Automating Your Network with Cisco NSO - DEVNET-4805
-Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
 
 DevNet Workshop: Automating Services with Cisco NSO and Model-Driven Telemetry - DEVWKS-2312
 Bartosz Luraniec, CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc.
@@ -56,9 +66,6 @@ Rightsize Your Infrastructure with AppDynamics and CWOM - DEVNET-1607
 oved lourie, Global Field CTO, Collaborated End Users
 Marco Coulter, Technical Evangelist, Cisco Systems, Inc.
 
-
-Migration to Next-Gen Network with Automation First Approach - DEVNET-1047
-Akshaya Kumar Sankaran, ENGINEER.TECHNICAL MARKETING, Cisco Systems, Inc.
 
 Coding 1002 - Getting Started with Python - DEVNET-1893.a
 Matt Denapoli, ENGINEER.CUSTOM APPLICATION, Cisco Systems, Inc.
@@ -91,9 +98,6 @@ Ryan Shoemaker, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Disti
 API Metadata Why You Should Care! - DEVLIT-4012
 John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
 
-Want to code, but what language should I use - DEVNET-4096
-Patrick Riel, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
-
 DevNet Workshop: Becoming the Jinja Ninja: Using YAML and Jinja Templates to Create Reusable Code - DEVWKS-1512
 Alexey Borisenko, Program Specialist, Cisco Systems, Inc.
 
@@ -125,7 +129,6 @@ Cisco UCS Agentless Configuration Management - Ansible or Microsoft Desired Stat
 Event:2019 San Diego
 SPEAKERS
 John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
-
 
 
 NetDevOpS -- Application-to-Network, automated & programmable performance insights - DEVNET-2204
@@ -225,9 +228,6 @@ Rishikesh Radhakrishnan, SOFTWARE ARCHITECT.CUSTOMER DELIVERY, Cisco Systems, In
 
 Solving Operational Challenges with Network Automation - DEVLIT-4027
 Stuart Clark, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
-
-DevOps, but Why? - DEVLIT-4007
-Quinn Anx, Technical Evangelist, Cisco Systems, Inc.
 
 What is Infrastructure as Code (IaC) and what is in there for me? - DEVLIT-4031
 Miguel Barajas, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
