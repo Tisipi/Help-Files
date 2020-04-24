@@ -1,27 +1,40 @@
++++
+Cisco developer blog : https://blogs.cisco.com/developer
++++
+
+
 https://www.ciscolive.com/global/on-demand-library.html?search=ucs&search.program=cloDevNet#/
+
+
+TO BE CHECKED
+-------------
+UCS
+	https://github.com/CiscoUcs/ucsmsdk
+	https://ciscoucs.github.io/ucsmsdk_docs/ucsmsdk_ug.html#overview
+
 
 
 SEEN/READ
 ---------
-
 Automating Your Cisco UCS with Python - Managing Your Infrastructure as Code - DEVNET-1611
 Event:2020 Barcelona
-SPEAKERS
 Miguel Barajas, TECHNICAL SOLUTIONS ARCHITECT.SALES - Distinguished Speaker
+
+
+Getting the Skill Mix Right for the 20’s - DEVLIT-4025
+Marco Coulter, Technical Evangelist, Cisco Systems, Inc.
+
+
+Quick Wins of using NSO - DEVLIT-4019
+Sunpreetsingh Arora, CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc. - Distinguished Speaker
+
+
 
 
 TO READ/WATCH
 -------------
++++ Cisco Live: check NSO stuff +++
 
-Cisco UCS & Cisco Intersight - Programmability Automation & Orchestration Overview - DEVNET-1481
-Event:2020 Barcelona
-SPEAKERS
-John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
-
-
-
-TO READ
--------
 
 Get Started Automating Your Network with Cisco NSO - DEVNET-4805
 Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
@@ -29,6 +42,8 @@ Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distingu
 DevNet Workshop: Automating Services with Cisco NSO and Model-Driven Telemetry - DEVWKS-2312
 Bartosz Luraniec, CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc.
 
+Multi-Domain Infrastructure as Code using Orchestration and CICD as a Service - BRKDEV-2320
+Tony Dubiel, Technical Solutions Architect - NetDevOps and Programmability, Cisco Systems, Inc.
 
 Programming with Cisco Cloud Center Action Orchestrator Engine - DEVNET-2907
 Ravi Jandyala, SOFTWARE ARCHITECT.CX PRODUCT MANAGEMENT, Cisco Systems, Inc.
@@ -40,11 +55,6 @@ Marco Coulter, Technical Evangelist, Cisco Systems, Inc.
 Rightsize Your Infrastructure with AppDynamics and CWOM - DEVNET-1607
 oved lourie, Global Field CTO, Collaborated End Users
 Marco Coulter, Technical Evangelist, Cisco Systems, Inc.
-
-
-CICD Pipelines for Cisco's IoT Edge compute platforms - - DEVNET-1559
-Jock Reed, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
-
 
 
 Migration to Next-Gen Network with Automation First Approach - DEVNET-1047
@@ -59,6 +69,9 @@ Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distingu
 Coding 1002 - Getting Started with Python - DEVNET-1893.c
 Shweta Palande, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
 
+Coding 1003 – Useful Python Libraries, Frameworks, and Features to Master
+DEVNET-2895, Matthew DeNapoli – Developer Advocate DevNet
+
 Coding 1001 - Intro to APIs and REST - DEVNET-1897.a
 Kareem Iskander, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
 Coding 1001 - Intro to APIs and REST - DEVNET-1897.b
@@ -70,6 +83,7 @@ Shweta Palande, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
 
 How does the Python Interpreter interpret my Python? - DEVLIT-4056
 Conor Murphy, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
+
 
 APIs for Automating Network Element Deployment - DEVNET-2323
 Ryan Shoemaker, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
@@ -83,6 +97,10 @@ Patrick Riel, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished
 DevNet Workshop: Becoming the Jinja Ninja: Using YAML and Jinja Templates to Create Reusable Code - DEVWKS-1512
 Alexey Borisenko, Program Specialist, Cisco Systems, Inc.
 
+
+Effectively Understand and Leverage YANG with NETCONF and RESTCONF for Model Driven Programmability - BRKDEV-1368
+Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+https://www.ciscolive.com/global/on-demand-library.html?search=BRKDEV&search.event=ciscoliveemea2020#/session/1564610722292001c6xS
 
 DevNet Workshop: Hands-on Exploration of NETCONF and YANG - DEVWKS-2561
 Dmitry Figol, Systems Engineer - Programmability, Cisco Systems, Inc. - Distinguished Speaker
@@ -98,6 +116,16 @@ Jared Smith, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished
 
 How to Write an Ansible Module - DEVNET-2215
 John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+
+Continuous Integration and Testing for SD-WAN with Ansible - BRKDEV-3326
+Chris Hocker, SYSTEMS ARCHITECT.SALES, Cisco Systems, Inc.
+Steven Carter, PRINCIPAL ARCHITECT.SALES, Cisco Systems, Inc.
+
+Cisco UCS Agentless Configuration Management - Ansible or Microsoft Desired State Configuration - DEVNET-2916
+Event:2019 San Diego
+SPEAKERS
+John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
+
 
 
 NetDevOpS -- Application-to-Network, automated & programmable performance insights - DEVNET-2204
@@ -120,7 +148,6 @@ Event:2020 Barcelona
 SPEAKERS
 John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
 
-
 UCS Programmability for the Rest of Us - DEVNET-2298
 Event:2020 Barcelona
 SPEAKERS
@@ -134,6 +161,14 @@ John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
 
 Powering Data Center Infrastructure Programmability and Automation: Cisco Intersight's API and Integrations - DEVNET-3214
 David Soper, ENGINEER.TECHNICAL MARKETING, Cisco Systems, Inc. - Distinguished Speaker
+
+Cisco UCS & Cisco Intersight - Programmability Automation & Orchestration Overview - DEVNET-1481
+Event:2020 Barcelona
+SPEAKERS
+John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
+
+Cisco UCS & Cisco Intersight - Programmability Automation & Orchestration Overview - BRKDEV-2432
+John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
 
 
 Cisco DNA Center 101: Getting started with Cisco DNA Center Platform - DEVNET-1234
@@ -177,8 +212,16 @@ Allison Butler, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
 Start Now GIT Intro - DEVNET-1080.d
 Matt Johnson, Technologist, Cisco Systems, Inc.
 
+Brief intro to Git - DEVLIT-4030
+Kareem Iskander, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+
+
+CICD Pipelines for Cisco's IoT Edge compute platforms - - DEVNET-1559
+Jock Reed, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+
 Jenkins-X - CI/CD for Cloud Native - DEVLIT-2022
 Rishikesh Radhakrishnan, SOFTWARE ARCHITECT.CUSTOMER DELIVERY, Cisco Systems, Inc.
+
 
 Solving Operational Challenges with Network Automation - DEVLIT-4027
 Stuart Clark, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
@@ -186,12 +229,26 @@ Stuart Clark, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Disti
 DevOps, but Why? - DEVLIT-4007
 Quinn Anx, Technical Evangelist, Cisco Systems, Inc.
 
+What is Infrastructure as Code (IaC) and what is in there for me? - DEVLIT-4031
+Miguel Barajas, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
+https://www.ciscolive.com/global/on-demand-library.html?search=devlit&search.event=ciscoliveemea2020#/session/1574364273370001Uq9v
+
 
 Meraki 101: Getting started with Meraki - DEVNET-1232
 Matt Denapoli, ENGINEER.CUSTOM APPLICATION, Cisco Systems, Inc.
 
 Infrastructure As Code 2003: Deploying and Managing Meraki Networks Using Code and APIs - DEVNET-2086
 Matt Denapoli, ENGINEER.CUSTOM APPLICATION, Cisco Systems, Inc.
+
+Infrastructure as Code 2002 - Hardening your Meraki Network with Code (and APIs) - DEVNET-2434
+Shiyue Cheng, SOLUTIONS ARCHITECT, Cisco Systems, Inc. - Distinguished Speaker
+
+Powerful network automation with Meraki APIs - DEVNET-1217
+Matt Denapoli, ENGINEER.CUSTOM APPLICATION, Cisco Systems, Inc.
+
+Meraki Infrastructure As Code: Deploying and Managing Meraki Networks Using Code and APIs - BRKPRG-2482
+Matt Denapoli, ENGINEER.CUSTOM APPLICATION, Cisco Systems, Inc.
+https://www.ciscolive.com/global/on-demand-library.html?search=devnet&search.event=ciscoliveemea2020#/session/1564591278050001cCOc
 
 DevNet Workshop: Infrastructure as Code 1002 - Building, Configuring and Deploying WiFi Engagement Captive Portals with Meraki - DEVWKS-1110
 Shiyue Cheng, SOLUTIONS ARCHITECT, Cisco Systems, Inc. - Distinguished Speaker
@@ -201,15 +258,18 @@ Webex APIs for Administrators - DEVNET-2610
 Steve Sfartz, API Architect, Cisco Systems, Inc. - Distinguished Speaker
 
 
+From Zero to IOx Hero - BRKIOT-2213
+Emmanuel Tychon, IoT Wizardry, Cisco Systems, Inc.
+
 Docker+VM+LXC = IOx? - DEVNET-1712
 Florian Pachinger, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
+
+IOx 2.0 - Docker all the way - DEVNET-2529
+Jens Depuydt, TECHNICAL LEADER.CUSTOMER DELIVERY, Cisco Systems, Inc.
 
 Run containers in your Cat9K? Yes you can! - DEVNET-2202
 Jason Su, SYSTEMS ARCHITECT.SALES, Cisco Systems, Inc.
 Francois Caen, SYSTEMS ARCHITECT.SALES, Cisco Systems, Inc.
-
-IOx 2.0 - Docker all the way - DEVNET-2529
-Jens Depuydt, TECHNICAL LEADER.CUSTOMER DELIVERY, Cisco Systems, Inc.
 
 
 DevNet Workshop: From CLI Hero to API Superhero: Manage and Automate ACI L2-L7 Infrastructure-as-Code - DEVWKS-1195
@@ -223,6 +283,10 @@ Nicolas Vermande, Product Management Engineer, Cisco Systems, Inc. - Distinguish
 Kuber-what?! Learn about Kubernetes - DEVNET-1999
 Matt Johnson, Technologist, Cisco Systems, Inc.
 
+Kubernetes Networking in 20 Minutes - DEVLIT-4055
+Conor Murphy, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
+https://www.ciscolive.com/global/on-demand-library.html?search=devlit&search.event=ciscoliveemea2020#/session/1575998057280001G1by
+
 Service Mesh for Network Engineers - DEVNET-1697
 Roger Dickinson, Developer Evangelist, Cisco Systems, Inc.
 
@@ -234,6 +298,9 @@ Gaetano Carlucci, CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc.
 
 Automate Kubernetes Infrastructure deployment in a MultiCloud environment using Cloud Center Suite API - DEVNET-2756
 Ravi Jandyala, SOFTWARE ARCHITECT.CX PRODUCT MANAGEMENT, Cisco Systems, Inc.
+
+DevNet Workshop: Introduction to Cloud Center API - DEVWKS-1139
+Pete Gore, BUSINESS DEVELOPMENT MANAGER.BUSINESS DEVELOPMENT, Cisco Systems, Inc. - Distinguished Speaker
 
 App-segmentation, threat detection, behavioral insight, and access control for containerized applications running in Kubernetes - DEVNET-2500
 Randy Birdsall, DIRECTOR.TECHNICAL MARKETING, Cisco Systems, Inc.
@@ -252,11 +319,6 @@ Antonio Piepoli, ARCHITECT.CUSTOMER DELIVERY, Cisco Systems, Inc.
 Infrastructure as Code 2001 - Efficient Network Monitoring with Webhooks - DEVNET-2481
 Jon Hartman, SYSTEMS ENGINEER.SALES, Cisco Systems, Inc
 
-Infrastructure as Code 2002 - Hardening your Meraki Network with Code (and APIs) - DEVNET-2434
-Shiyue Cheng, SOLUTIONS ARCHITECT, Cisco Systems, Inc. - Distinguished Speaker
-
-Powerful network automation with Meraki APIs - DEVNET-1217
-Matt Denapoli, ENGINEER.CUSTOM APPLICATION, Cisco Systems, Inc.
 
 Automate Your Network with Nornir Python Automation Framework - DEVNET-2192
 Dmitry Figol, Systems Engineer - Programmability, Cisco Systems, Inc. - Distinguished Speaker
@@ -265,6 +327,10 @@ Dmitry Figol, Systems Engineer - Programmability, Cisco Systems, Inc. - Distingu
 DevNet Workshop: From Zero to Model-Driven Telemetry Hero - DEVWKS-1389
 Bartosz Luraniec, CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc.
 
+Streaming telemetry: The value of 'realtime' analytics for the network - DEVLIT-4023
+Stuart Clark, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+
+Matyas Prokop, Principle Architect, Natilik
 Operational Dashboarding with Wireless Streaming Telemetry - DEVNET-2415
 Jeremy Cohoe, ENGINEER.TECHNICAL MARKETING, Cisco Systems, Inc.
 
@@ -280,6 +346,10 @@ DevNet Workshop: SD-WAN DevOps Step 1: Automating Test Environments - DEVWKS-222
 Jason King, SYSTEMS ARCHITECT.SALES, Cisco Systems, Inc.
 Steven Carter, PRINCIPAL ARCHITECT.SALES, Cisco Systems, Inc.
 
+DevNet Workshop: SD-WAN DevOps Step 3: Continuous Integration/Continuous Deployment - DEVWKS-2030
+Craig Hill, DISTINGUISHED ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
+
+Jason King, SYSTEMS ARCHITECT.SALES, Cisco Systems, Inc.
 DevNet Workshop: SD-WAN DevOps Step 4: Monitoring and Analytics - DEVWKS-3484
 Sai Suchandan Reddy Marapareddy, ENGINEER.TECHNICAL MARKETING, Cisco Systems, Inc.
 
@@ -295,6 +365,12 @@ Adrian Iliesiu, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Dis
 A Look at Microsegmentation in VXLAN EVPN - DEVLIT-4001
 Tim Miller, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
 
+
+Advanced Programmability with Tetration - BRKDEV-2483
+Remi Philippe, PRINCIPAL ENGINEER.TECHNICAL MARKETING, Cisco Systems, Inc. - Distinguished Speaker
+Tim Garner, ENGINEER.TECHNICAL MARKETING, Cisco Systems, Inc.
+
+
 ====
 
 Cisco UCS PowerTool - Deploy at Scale - DEVNET-2562
@@ -307,13 +383,6 @@ Event:2020 Barcelona
 SPEAKERS
 John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
 
-
-===
-
-Cisco UCS Agentless Configuration Management - Ansible or Microsoft Desired State Configuration - DEVNET-2916
-Event:2019 San Diego
-SPEAKERS
-John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
 
 =====
 
@@ -3437,7 +3506,6 @@ Challenges/Solutions in Distributed Systems:
 
 =============================================
 
-+++ Check UCS SDK +++
 
 UCS
 ---
@@ -3611,6 +3679,187 @@ Cisco UCS Manager Emulator:
 - CentOS VM (.vmx and .ova image files).
 
 Example Cisco UCS Manager API: see UCS.py
+
+
+
+UCS SDK
+-------
+https://github.com/CiscoUcs/ucsmsdk
+https://ciscoucs.github.io/ucsmsdk_docs/ucsmsdk_ug.html
+
+https://ucsmsdk.readthedocs.io/en/latest/ucsmsdk_ug.html
+https://buildmedia.readthedocs.org/media/pdf/ucsmsdk/latest/ucsmsdk.pdf
+
+https://developer.cisco.com/learning/tracks/ucs-compute-prog 		<<<<
+
+
+
+UCS SDK boilerplate:
+
+	from ucsmsdk.ucshandle import UcsHandle
+
+	handle = UcsHandle("192.168.1.1", "admin", "password")
+	handle.login()
+
+	mo = handle.query_dn("...path to AnMO...")
+	mo_1 = AnMO(parent_mo_or_dn=mo, ...pars...)
+	handle.add_mo(mo_1)
+
+	handle.commit()
+
+	handle.logout()
+
+
+Some UcsHandle() Methods:
+	handle.login()
+	handle.logout()
+	handle.commit()
+
+	handle.query_dn()
+	handle.query_classid()
+	handle.query_dns()
+	handle.query_classids()
+
+	handle.add_mo()
+	handle.set_mo()
+	handle.delete_mo()
+
+
+UCS SDK Example:
+
+	from ucsmsdk.ucshandle import UcsHandle
+	from ucsmsdk.mometa.fabric.FabricVlan import FabricVlan
+
+	handle = UcsHandle("192.168.220.201", "admin", "password")
+	handle.login()
+
+	fabric_lan_cloud = handle.query_dn("fabric/lan")
+	vlan_100 = FabricVlan(parent_mo_or_dn=fabric_lan_cloud,
+	           name="vlan100",
+	           id="100")
+
+	handle.add_mo(vlan_100)
+	handle.commit()
+
+	handle.logout()
+
+
+UCS SDK Example:
+
+	from ucsmsdk.ucshandle import UcsHandle
+	from ...
+
+	handle = UcsHandle("192.168.1.1", "admin", "password")
+	handle.login()
+
+	mo = handle.query_dn("org-root/ip-pool-ext-mgmt")
+	mo_1 = IppoolBlock(parent_mo_or_dn=mo, r_from="192.168.1.1", to="192.168.1.50", subnet="255.255.255.0", def_gw="192.168.1.51", prim_dns="8.8.8.8")
+
+	handle.add_mo(mo_1)
+	handle.commit()
+
+	handle.logout()
+
+
+
+UCS SDK Example:
+
+	from ucsmsdk.ucshandle import UcsHandle
+	from ucsmsdk.mometa.vnic.VnicLanConnPolicy import VnicLanConnPolicy
+	from ucsmsdk.mometa.vnic.VnicEther import VnicEther
+
+	handle = UcsHandle("192.168.1.1", "admin", "password")
+	handle.login()
+
+	#Create LAN Connection Policy
+	LanConnPolicyMo = VnicLanConnPolicy(parent_mo_or_dn=parent_dn, name="esxi-host")
+
+	#Add vNIC to LAN Connection Policy
+	VnicEther(parent_mo_or_dn=LanConnPolicyMo, name="mgmt0", nw_templ_name=mgmtVnicmo0.name,
+	          adaptor_profile_name="VMWare")
+
+	handle.add_mo(LanConnPolicyMo, True)
+	handle.commit()
+
+	handle.logout()
+
+
+UCS Ansible Examples
+--------------------
+- name: Configure NTP server
+  ucs_ntp_server:
+    hostname: 172.16.143.150
+    username: admin
+    password: password
+    ntp_server: 10.10.10.10
+    description: Internal NTP Server by IP address
+    state: present
+
+- name: Remove NTP server
+  ucs_ntp_server:
+    hostname: 172.16.143.150
+    username: admin
+    password: password
+    ntp_server: pool.ntp.org
+    state: absent
+
+---
+
+- name: Configure VLAN
+  ucs_vlans:
+    hostname: 172.16.143.150
+    username: admin
+    password: password
+    name: vlan2
+    id: '2'
+    native: 'yes'
+
+- name: Remove VLAN
+  ucs_vlans:
+    hostname: 172.16.143.150
+    username: admin
+    password: password
+    name: vlan2
+    state: absent
+
+---
+
+- name: Get all vlans in fabric A
+  ucs_vlan_find:
+    hostname: 172.16.143.150
+    username: admin
+    password: password
+    fabric: 'A'
+    pattern: '.'
+- name: Confirm if vlan 15 is present
+  ucs_vlan_find:
+    hostname: 172.16.143.150
+    username: admin
+    password: password
+    vlanid: '15'
+
+---
+
+- name: Configure IPv4 address pools
+  ucs_ip_pool:
+    hostname: 172.16.143.150
+    username: admin
+    password: password
+    name: ip-A
+    order: sequential
+    first_addr: 192.168.0.10
+    last_addr: 192.168.0.19
+    subnet_mask: 255.255.255.0
+    default_gw: 192.168.0.1
+    primary_dns: 172.16.143.136
+
+- name: Remove IPv4 address pools
+  ucs_ip_pool:
+    hostname: 172.16.143.150
+    username: admin
+    password: password
+    name: ip-A
+    state: absent
 
 
 
@@ -5957,3 +6206,12 @@ ssh-keygen -t rsa
 # Copy public keys to clients
 #
 ssh-copy-id -p <port> <username>@<server IP>
+
+
+NSO API
+-------
+# Default XML response
+curl -u admin:admin http://localhost:8080/api/running/devices/device/PE11/config/ios:router/bgp?deep
+
+# JSON response
+curl -u admin:admin -H "Accept: application/vnd.yang.data+json" http://localhost:8080/api/running/devices/device/PE11/config/ios:router/bgp?deep
