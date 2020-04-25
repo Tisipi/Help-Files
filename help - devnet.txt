@@ -34,6 +34,19 @@ DevOps, but Why? - DEVLIT-4007
 Quinn Anx, Technical Evangelist, Cisco Systems, Inc.
 
 
+Coding 1002 - Getting Started with Python - DEVNET-1893.a
+Matt Denapoli, ENGINEER.CUSTOM APPLICATION, Cisco Systems, Inc.
+
+Coding 1002 - Getting Started with Python - DEVNET-1893.b
+Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+
+Coding 1002 - Getting Started with Python - DEVNET-1893.c
+Shweta Palande, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
+
+Coding 1003 – Useful Python Libraries, Frameworks, and Features to Master - DEVNET-2895
+Matthew DeNapoli – Developer Advocate DevNet
+
+
 
 Quick Wins of using NSO - DEVLIT-4019
 Sunpreetsingh Arora, CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc. - Distinguished Speaker
@@ -46,7 +59,23 @@ Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distingu
 
 TO READ/WATCH
 -------------
-+++ Cisco Live: check NSO stuff +++
++++ Cisco Live: query NSO stuff +++
+
+
+
+Coding 1001 - Intro to APIs and REST - DEVNET-1897.a
+Kareem Iskander, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+Coding 1001 - Intro to APIs and REST - DEVNET-1897.b
+Florian Pachinger, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
+Coding 1001 - Intro to APIs and REST - DEVNET-1897.c
+Chloe Kauffman, BUSINESS DEVELOPMENT MANAGER.BUSINESS DEVELOPMENT, Cisco Systems, Inc.
+Coding 1001 - Intro to APIs and REST - DEVNET-1897.d
+Shweta Palande, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
+
+How does the Python Interpreter interpret my Python? - DEVLIT-4056
+Conor Murphy, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
+
+
 
 
 DevNet Workshop: Automating Services with Cisco NSO and Model-Driven Telemetry - DEVWKS-2312
@@ -66,30 +95,6 @@ Rightsize Your Infrastructure with AppDynamics and CWOM - DEVNET-1607
 oved lourie, Global Field CTO, Collaborated End Users
 Marco Coulter, Technical Evangelist, Cisco Systems, Inc.
 
-
-Coding 1002 - Getting Started with Python - DEVNET-1893.a
-Matt Denapoli, ENGINEER.CUSTOM APPLICATION, Cisco Systems, Inc.
-
-Coding 1002 - Getting Started with Python - DEVNET-1893.b
-Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
-
-Coding 1002 - Getting Started with Python - DEVNET-1893.c
-Shweta Palande, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
-
-Coding 1003 – Useful Python Libraries, Frameworks, and Features to Master
-DEVNET-2895, Matthew DeNapoli – Developer Advocate DevNet
-
-Coding 1001 - Intro to APIs and REST - DEVNET-1897.a
-Kareem Iskander, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
-Coding 1001 - Intro to APIs and REST - DEVNET-1897.b
-Florian Pachinger, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
-Coding 1001 - Intro to APIs and REST - DEVNET-1897.c
-Chloe Kauffman, BUSINESS DEVELOPMENT MANAGER.BUSINESS DEVELOPMENT, Cisco Systems, Inc.
-Coding 1001 - Intro to APIs and REST - DEVNET-1897.d
-Shweta Palande, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
-
-How does the Python Interpreter interpret my Python? - DEVLIT-4056
-Conor Murphy, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
 
 
 APIs for Automating Network Element Deployment - DEVNET-2323
@@ -4434,23 +4439,47 @@ Options for single source of truth:
 - Off-the-self solutions: NetBox, Network Source of Truth (NSot)
 
 
-+++ Add code snippets for reading/writing +++
-YAML
-JSON
-XML
-CSV
+XML:
+	import xmltodict
+
+	xml_dict = xmltodict.parse(xml_int_example)
+	interface = xml_dict['interface']['name']
+
+	back_to_xml = xmltodict.unparse(xml_dict)
 
 
 JSON:
 	import json
-	json_object = json.loads(response_string)
+	json_dict = json.loads(json_data)
 
-	json.dumps(json_object, sort_keys=True, indent=4)
+	json.dumps(json_dict, sort_keys=True, indent=4)
 
 
 	Remarks:
 	- JSON strings themselves must be delineated using double quotes " "
 	- JSON uses an all-lowercase convention of true and false (Python uppercase).
+
+
+YAML:
+
+	import yaml
+	yaml_dict = yaml.load(yaml_data)
+	yaml.dump(yaml_dict)
+
+
+CSV:
+
+	import csv
+
+	with open('test.csv', newline='') as f:
+	    csv_reader = csv.reader(f)
+	    for row in csv_reader:
+	        print(row)
+
+	with open('new_test.csv', 'w', newline='') as f:
+	    csv_writer = csv.writer(f)
+	    csv_writer.writerow(['A1', 'B1', 'C1'])
+	    csv_writer.writerow(['A2', 'B2', 'C2'])
 
 
 MySQL:
@@ -4464,7 +4493,6 @@ MySQL:
 	devices = c.fetchall()
 	for device in devices:
 		print(device)
-
 
 
 Firepower Threat Defense
@@ -5294,7 +5322,27 @@ or
 NETCONF
 -------
 The IANA-assigned port for NETCONF-over-SSH sessions is 830.
-Python client: ncclient
+Python client: ncclient (pip install ncclient)
+
+
+	from ncclient import manager
+	import xmltodict
+
+	netconf_filter = """
+	<filter>
+	  <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+	    <interface>
+	      <name>GigabitEthernet1</name>
+	    </interface>
+	  </interfaces>
+	</filter>
+	"""
+
+	m = manager.connect(host=host, port=port, username=username, password=password, hostkey_verify=False)
+
+	interface_netconf = m.get_config("running", netconf_filter)
+	interface_python = xmltodict.parse(interface_netconf.xml)["rpc-reply"]["data"]
+	interface = interface_python["interfaces"]["interface"]["name"]["#text"]
 
 
 RESTCONF
@@ -5982,6 +6030,9 @@ idle
 # Running IDLE in python venv
 python -m idlelib.idle
 
+# Run a script in interactive mode
+python -i script.py
+
 
 # Install Nodejs
 sudo apt-get install nodejs
@@ -6177,6 +6228,23 @@ pyang ietf-interfaces.yang
 
 # Generate tree view of Yang model.
 pyang -f tree ietf-interfaces.yang
+
+
+Netmiko
+-------
+# CLI access to device
+# Uses paramiko library for SSH connectivity
+#
+from netmiko import ConnectHandler
+
+router = {"device_type": ,
+          "host": "10.10.10.1",
+          "user": "cisco",
+          "pass": "C1sco1234"}
+
+net_connect = ConnectHandler(ip=ip, username=router["user"], password=password, device_type="cisco_ios")
+interface_config = net_connect.send_command("show run int Gig0/1")
+print(interface_config)
 
 
 Linux
