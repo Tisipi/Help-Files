@@ -21,6 +21,9 @@ Event:2020 Barcelona
 Miguel Barajas, TECHNICAL SOLUTIONS ARCHITECT.SALES - Distinguished Speaker
 
 
+How to Be a Network Engineer in a Programmable Age - DEVNET-1725
+Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+
 Getting the Skill Mix Right for the 20’s - DEVLIT-4025
 Marco Coulter, Technical Evangelist, Cisco Systems, Inc.
 
@@ -56,6 +59,14 @@ Shweta Palande, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
 Coding 102 - REST API Basics using APIC-EM - DEVNET-2003
 Matthew Denapoli, DevNet Engineer, Cisco
 
+DevNet Workshop - NetDevOps for the Network Dude - How to get started with API's, Ansible and Python - DEVNET-1002
+Francois Caen, SE, Cisco
+
+Everybody Can Automate Now - BRKPRG-1798
+Jean-Benoit Aubin, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+Siming Yuan, TECHNICAL LEADER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+
+
 
 Quick Wins of using NSO - DEVLIT-4019
 Sunpreetsingh Arora, CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc. - Distinguished Speaker
@@ -63,24 +74,15 @@ Sunpreetsingh Arora, CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc. 
 Get Started Automating Your Network with Cisco NSO - DEVNET-4805
 Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
 
+
 Building a Career Through Disruption: How to Drive Change Rather Than Watch It Happen - CTHGEN-1001
 Lee Sudduth, Solutions Integration Architect, Cisco Systems
 
 5 Key Technology Transitions That You Need to be Making Now - BRKSPV-2201
 Stephen Tallamy, Cloud Solutions Architect, Cisco
 
-
-
-TO READ/WATCH
--------------
 Deconstructing Micro-Service Application Architecture and Design - BRKCLD-1009
 Hank Preston, Network Programmability and Cloud Evangelist, Cisco
-
-
-Introduction to Python Network Programming for Network Architects and Engineers - Part 3: Building Additional Tools - DEVNET-1042
-Vince Kelly, Solutions Architect, Cisco
-Introduction to Python Network Programming for Network Architects and Engineers - Part 2: Python OS, File and Network Programming Modules - DEVNET-1041
-Vince Kelly, Solutions Architect, Cisco
 
 Designing Cloud Native Applications with Microservices and Containers - DEVNET-1230
 Hector Morales, Technology Solutions Architect, Cisco
@@ -91,12 +93,25 @@ Jason Bomar , Chief Network Architect, LA Networks
 Calvin Chow, Systems Engineer, Cisco Systems
 
 
-Everybody Can Automate Now - BRKPRG-1798
-Jean-Benoit Aubin, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
-Siming Yuan, TECHNICAL LEADER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
 
-How to Be a Network Engineer in a Programmable Age - DEVNET-1725
-Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+TO READ/WATCH
+-------------
+DevNet Workshop - Dive into Leveraging Python on IOS-XE - DEVWKS-2556
+Bryan Byrne, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
+
+
+DevNet Workshop - Python for Enterprise Network Elements - DEVWKS-2449
+Bartosz Luraniec, CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc.
+https://github.com/bluraniec/devnet-2449/blob/master/DEVNET-2449.ipynb
+
+
+Devnet Workshop - Introduction to Python Network Programming for Network Architects and Engineers - Part 1: The Basics - DEVNET-1040
+Vince Kelly, Solutions Architect, Cisco
+Introduction to Python Network Programming for Network Architects and Engineers - Part 2: Python OS, File and Network Programming Modules - DEVNET-1041
+Vince Kelly, Solutions Architect, Cisco
+Introduction to Python Network Programming for Network Architects and Engineers - Part 3: Building Additional Tools - DEVNET-1042
+Vince Kelly, Solutions Architect, Cisco
+
 
 Infrastructure as Code and DevOps for Network Engineers - BRKACI-2503
 Chris Gascoigne, Technical Solutions Architect, Cisco
@@ -131,19 +146,7 @@ DevNet Workshop: pyATS Intro - creating parsers with GENIE - DEVWKS-2601
 Simon Hart, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
 
 
-Devnet Workshop - Introduction to Python Network Programming for Network Architects and Engineers - Part 1: The Basics - DEVNET-1040
-Vince Kelly, Solutions Architect, Cisco
 
-DevNet Workshop - Dive into Leveraging Python on IOS-XE - DEVWKS-2556
-Bryan Byrne, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
-
-
-DevNet Workshop - Python for Enterprise Network Elements - DEVWKS-2449
-Bartosz Luraniec, CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc.
-
-
-DevNet Workshop - NetDevOps for the Network Dude - How to get started with API's, Ansible and Python - DEVNET-1002
-Francois Caen, SE, Cisco
 
 DevNet Workshop - Network Programmability with NXOS using Guest Shell - DEVWKS-2102
 Adrian Iliesiu, ENGINEER.CORPORATE DEVELOPMENT TECHNOLOGY, Cisco Systems, Inc. - Distinguished Speaker
@@ -154,6 +157,13 @@ Sanjeev Rampal, Principal Engineer, Cisco Systems
 
 Demystifying Container Networking - DEVNET-1195
 Rohit Agarwalla, Senior Technical Leader, Cisco
+
+Container Networking Deep Dive with Docker Enterprise Edition and Cisco Contiv - BRKSDN-2256
+Sanjeev Rampal, Principal Engineer, Cisco
+Mark Church, Solutions Architect, DOCKER
+
+Introduction to Containers and Container Networking - BRKSDN-2115
+Frank Brockners, Distinguished Engineer, Cisco - Distinguished Speaker
 
 Container Stack and Microservices Evolution - BRKCLD-2550
 Carlos Pereira, Distinguished Systems Engineer, Cisco
@@ -5735,6 +5745,14 @@ or
 
 NETCONF
 -------
+https://nbviewer.jupyter.org/github/bluraniec/devnet-2449/blob/master/DEVNET-2449.ipynb
+
+Reasons why NETCONF is awesome in terms of Network Automation?
+- Scalability!
+- Transactions (all or nothing!)
+- Separation of configuration and operational data
+- Validation of the configuration
+
 The IANA-assigned port for NETCONF-over-SSH sessions is 830.
 Python client: ncclient (pip install ncclient)
 
@@ -5759,6 +5777,7 @@ Python client: ncclient (pip install ncclient)
 	interface = interface_python["interfaces"]["interface"]["name"]["#text"]
 
 
+
 RESTCONF
 -------
 RESTCONF: HTTP-based Representational State Transfer Configuration Protocol
@@ -5768,6 +5787,13 @@ RESTCONF ~ NETCONF/YANG + HTTP(S)
 Subset of NETCONF
 Exposes YANG models via a REST API
 HTTP(S) transport; XML or JSON encoding
+
+
+So what differentiates RESTCONF from NETCONF?
+- No more SSH, now HTTP(S)
+- No more connection establishment, now only requests
+- No more XML, now XML and JSON
+
 
 RESTCONF uses same utilities and tools as REST, e.g.:
 - curl
