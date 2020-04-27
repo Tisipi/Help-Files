@@ -47,6 +47,14 @@ Shweta Palande, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
 Coding 1003 – Useful Python Libraries, Frameworks, and Features to Master - DEVNET-2895
 Matthew DeNapoli – Developer Advocate DevNet
 
+Python for Enterprise Network Elements - DEVWKS-2449
+Bartosz Luraniec, CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc.
+https://github.com/bluraniec/devnet-2449/blob/master/DEVNET-2449.ipynb
+
+Dive into Leveraging Python on IOS-XE - DEVWKS-2556
+Bryan Byrne, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
+
+
 Coding 1001 - Intro to APIs and REST - DEVNET-1897.a
 Kareem Iskander, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
 Coding 1001 - Intro to APIs and REST - DEVNET-1897.b
@@ -59,7 +67,7 @@ Shweta Palande, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
 Coding 102 - REST API Basics using APIC-EM - DEVNET-2003
 Matthew Denapoli, DevNet Engineer, Cisco
 
-DevNet Workshop - NetDevOps for the Network Dude - How to get started with API's, Ansible and Python - DEVNET-1002
+NetDevOps for the Network Dude - How to get started with API's, Ansible and Python - DEVNET-1002
 Francois Caen, SE, Cisco
 
 Everybody Can Automate Now - BRKPRG-1798
@@ -87,25 +95,25 @@ Hank Preston, Network Programmability and Cloud Evangelist, Cisco
 Designing Cloud Native Applications with Microservices and Containers - DEVNET-1230
 Hector Morales, Technology Solutions Architect, Cisco
 
+DevNet Workshop - Messaging and Broker Services - DEVNET-2105
+Kareem Iskander, Software Engineer, Cisco
+
 
 Automated VPC Connection Using a Transitive Hub in AWS - CCSCLD-2003
 Jason Bomar , Chief Network Architect, LA Networks
 Calvin Chow, Systems Engineer, Cisco Systems
 
 
+DevNet Workshop - Network Programmability with NXOS using Guest Shell - DEVWKS-2102
+Adrian Iliesiu, ENGINEER.CORPORATE DEVELOPMENT TECHNOLOGY, Cisco Systems, Inc. - Distinguished Speaker
+
+
+
 
 TO READ/WATCH
 -------------
-DevNet Workshop - Dive into Leveraging Python on IOS-XE - DEVWKS-2556
-Bryan Byrne, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
 
-
-DevNet Workshop - Python for Enterprise Network Elements - DEVWKS-2449
-Bartosz Luraniec, CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc.
-https://github.com/bluraniec/devnet-2449/blob/master/DEVNET-2449.ipynb
-
-
-Devnet Workshop - Introduction to Python Network Programming for Network Architects and Engineers - Part 1: The Basics - DEVNET-1040
+Introduction to Python Network Programming for Network Architects and Engineers - Part 1: The Basics - DEVNET-1040
 Vince Kelly, Solutions Architect, Cisco
 Introduction to Python Network Programming for Network Architects and Engineers - Part 2: Python OS, File and Network Programming Modules - DEVNET-1041
 Vince Kelly, Solutions Architect, Cisco
@@ -139,17 +147,11 @@ Gabriel Zapodeanu, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Di
 DevNet Workshop-Creating a REST API Microservice using OpenAPI Spec - DEVNET-2587
 Ashley Roach, API and Cloud Evangelist, Cisco
 
-DevNet Workshop - Messaging and Broker Services - DEVNET-2105
-Kareem Iskander, Software Engineer, Cisco
+
 
 DevNet Workshop: pyATS Intro - creating parsers with GENIE - DEVWKS-2601
 Simon Hart, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
 
-
-
-
-DevNet Workshop - Network Programmability with NXOS using Guest Shell - DEVWKS-2102
-Adrian Iliesiu, ENGINEER.CORPORATE DEVELOPMENT TECHNOLOGY, Cisco Systems, Inc. - Distinguished Speaker
 
 
 Containers made easy with Cisco - CTHCLD-1761
@@ -1009,6 +1011,7 @@ MODULE 6 - NetDevOps
 =============================================
 
 
++++ check +++
 Cisco Live Presentations
 ------------------------
 https://developer.cisco.com/learning/lab/why-mdp/step/7
@@ -5747,15 +5750,27 @@ NETCONF
 -------
 https://nbviewer.jupyter.org/github/bluraniec/devnet-2449/blob/master/DEVNET-2449.ipynb
 
+Transport protol: SSH, port 830
+
+Netconf Messages:
+- rpc
+- rpc-reply
+
+Netconf Operations:
+- get
+- get-config
+- edit-config
+
+Netconf Content: XML (based on YANG)
+
 Reasons why NETCONF is awesome in terms of Network Automation?
 - Scalability!
 - Transactions (all or nothing!)
 - Separation of configuration and operational data
 - Validation of the configuration
 
-The IANA-assigned port for NETCONF-over-SSH sessions is 830.
-Python client: ncclient (pip install ncclient)
 
+Python client: ncclient (pip install ncclient)
 
 	from ncclient import manager
 	import xmltodict
@@ -5770,11 +5785,92 @@ Python client: ncclient (pip install ncclient)
 	</filter>
 	"""
 
-	m = manager.connect(host=host, port=port, username=username, password=password, hostkey_verify=False)
+	device_connection = manager.connect(host=host, port=port, username=username, password=password, hostkey_verify=False)
 
-	interface_netconf = m.get_config("running", netconf_filter)
+	interface_netconf = device_connection.get_config("running", netconf_filter)
 	interface_python = xmltodict.parse(interface_netconf.xml)["rpc-reply"]["data"]
 	interface = interface_python["interfaces"]["interface"]["name"]["#text"]
+
+
+An alternative to xmltodict: xml.dom.minidom
+
+	import xml.dom.minidom
+	netconf_output_pretty = xml.dom.minidom.parseString(interface_netconf.xml).toprettyxml()
+
+
+Example NETCONF Update (from https://nbviewer.jupyter.org/github/bluraniec/devnet-2449/blob/master/DEVNET-2449.ipynb):
+
+	update_interface_config_string = '''
+	    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+	        <interface>
+	            <name>%s</name>
+	            <ipv4 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip">
+	                <address>
+	                    <ip>%s</ip>
+	                    <netmask>%s</netmask>
+	                </address>
+	            </ipv4>
+	            <enabled>true</enabled>
+	        </interface>
+	    </interfaces>
+	'''
+
+	device_connection = ncclient.manager.connect(host=host, port=port, username=username, password=password, hostkey_verify=False)
+
+	configuration = ''
+	configuration += "<config>"
+	for change in range(0, len(changes)):
+	    configuration += update_interface_config_string % (changes[change]['Interface'], changes[change]['IP'], changes[change]['Mask'])
+	configuration += "</config>"
+
+	device_connection.edit_config(target='running', config=configuration)
+
+
+Another example (from https://github.com/rshoemak/DevNet2556/blob/master/Modules/Module6.md):
+
+	from ncclient import manager
+	import xml.dom.minidom
+
+	with manager.connect(host=HOST, port=PORT, username=USER,
+	                     password=PASS, hostkey_verify=False,
+	                     device_params={'name': 'default'},
+	                     allow_agent=False, look_for_keys=False) as m:
+
+	    hostname_filter = """
+	                    <filter>
+	                        <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+	                        </native>
+	                    </filter>
+	                    """
+
+	    result = m.get_config('running', hostname_filter)
+	    xml_doc = xml.dom.minidom.parseString(result.xml)
+	    hostname_obj = xml_doc.getElementsByTagName("hostname")
+	    hostname = hostname_obj[0].firstChild.nodeValue
+	    print(hostname)
+
+
+Another example (from https://github.com/rshoemak/DevNet2556/blob/master/Modules/Module7.md)
+
+	from ncclient import manager
+	import xml.dom.minidom as DOM
+
+
+    with manager.connect(host=HOST, port=PORT, username=USER,
+                         password=PASS, hostkey_verify=False,
+                         device_params={'name': 'default'},
+                         allow_agent=False, look_for_keys=False) as m:
+
+        hostname_filter = """
+                        <filter>
+                            <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+                                <interface></interface>
+                            </native>
+                        </filter>
+                        """
+
+        result = m.get_config('running', hostname_filter)
+        print(DOM.parseString(result.xml).toprettyxml())
 
 
 
@@ -5783,11 +5879,14 @@ RESTCONF
 RESTCONF: HTTP-based Representational State Transfer Configuration Protocol
 
 RESTCONF ~ NETCONF/YANG + HTTP(S)
-
 Subset of NETCONF
 Exposes YANG models via a REST API
 HTTP(S) transport; XML or JSON encoding
 
+Transport protol: HTTP(S)
+Restconf Messages: N/A
+Restconf Operations: GET, POST, PUT, PATCH, DELETE
+Restconf Content: XML or JSON; (based on YANG)
 
 So what differentiates RESTCONF from NETCONF?
 - No more SSH, now HTTP(S)
@@ -6682,9 +6781,11 @@ router = {"device_type": ,
           "user": "cisco",
           "pass": "C1sco1234"}
 
-net_connect = ConnectHandler(ip=ip, username=router["user"], password=password, device_type="cisco_ios")
-interface_config = net_connect.send_command("show run int Gig0/1")
+device_connection = ConnectHandler(ip=ip, username=router["user"], password=password, device_type="cisco_ios")
+interface_config = device_connection.send_command("show run int Gig0/1")
 print(interface_config)
+
+device_connection.disconnect()
 
 
 Linux
