@@ -11,6 +11,7 @@ TO BE CHECKED
 UCS
 	https://github.com/CiscoUcs/ucsmsdk
 	https://ciscoucs.github.io/ucsmsdk_docs/ucsmsdk_ug.html#overview
+	https://github.com/movinalot/ucs-code/tree/master/ucs-python
 
 
 
@@ -19,7 +20,6 @@ SEEN/READ
 Automating Your Cisco UCS with Python - Managing Your Infrastructure as Code - DEVNET-1611
 Event:2020 Barcelona
 Miguel Barajas, TECHNICAL SOLUTIONS ARCHITECT.SALES - Distinguished Speaker
-
 
 How to Be a Network Engineer in a Programmable Age - DEVNET-1725
 Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
@@ -54,6 +54,20 @@ https://github.com/bluraniec/devnet-2449/blob/master/DEVNET-2449.ipynb
 Dive into Leveraging Python on IOS-XE - DEVWKS-2556
 Bryan Byrne, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
 
+[Introduction to Python Network Programming for Network Architects and Engineers - Part 1: The Basics - DEVNET-1040]
+[Introduction to Python Network Programming for Network Architects and Engineers - Part 2: Python OS, File and Network Programming Modules - DEVNET-1041]
+[Introduction to Python Network Programming for Network Architects and Engineers - Part 3: Building Additional Tools - DEVNET-1042]
+[Vince Kelly, Solutions Architect, Cisco]
+
+EN Device + On-Box Programmability - BRKRST-2672
+Jeffery McLaughlin, DIRECTOR.TECHNICAL MARKETING, Cisco Systems, Inc. - Distinguished Speaker
+
+Scripting Catalyst switches—tools and techniques beyond the basics - BRKCRS-2451
+Jeffery McLaughlin, Principal Technical Marketing Engineer, Cisco - Distinguished Speaker
+
+Brave New World: Web Scale Network Automation goes Mainstream - BRKSPG-2013
+Akshat Sharma, ENGINEER.TECHNICAL MARKETING, Cisco Systems, Inc. - Distinguished Speaker
+
 
 Coding 1001 - Intro to APIs and REST - DEVNET-1897.a
 Kareem Iskander, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
@@ -73,6 +87,29 @@ Francois Caen, SE, Cisco
 Everybody Can Automate Now - BRKPRG-1798
 Jean-Benoit Aubin, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
 Siming Yuan, TECHNICAL LEADER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+
+How We Do IT with Automation and Orchestration? - BRKNMS-2512
+Jason Davis, DISTINGUISHED ENGINEER.SERVICES, Cisco Systems, Inc. - Distinguished Speaker
+
+Inside Cisco IT: Accelerating Cloud Development using Containerized Micro Services - BRKCOC-2871
+Mani Kesavan, IT Architect, Cisco Systems Inc
+Manny Garcia, Member of Technical Staff, Software Engineering, Cisco Systems
+
+Infrastructure as Code and DevOps for Network Engineers - BRKACI-2503
+Chris Gascoigne, Technical Solutions Architect, Cisco
+
+Enhancing Network Operations Through Automation & Workflow - BRKNMS-2600
+Jason Coleman, TECHNICAL LEADER.CUSTOMER DELIVERY, Cisco Systems, Inc.
+
+A Complete Data Center or Private Cloud in One Line of Code - BRKCLD-2406
+Matthew Garrett, Data Center TSA, Cisco Systems - Distinguished Speaker
+
+Building Digitally Transformative Apps That Use APIs and Network Infrastructure - PSOSDN-2701
+Chris Oggerino, Technical Marketing Engineer, Cisco
+
+DevNet Workshop - Working with Tropo APIs - DEVNET-2019
+Phil Bellanti, Developer Evangelist, Cisco
+
 
 
 
@@ -95,6 +132,9 @@ Hank Preston, Network Programmability and Cloud Evangelist, Cisco
 Designing Cloud Native Applications with Microservices and Containers - DEVNET-1230
 Hector Morales, Technology Solutions Architect, Cisco
 
+DevNet Workshop-Creating a REST API Microservice using OpenAPI Spec - DEVNET-2587
+Ashley Roach, API and Cloud Evangelist, Cisco
+
 DevNet Workshop - Messaging and Broker Services - DEVNET-2105
 Kareem Iskander, Software Engineer, Cisco
 
@@ -108,44 +148,47 @@ DevNet Workshop - Network Programmability with NXOS using Guest Shell - DEVWKS-2
 Adrian Iliesiu, ENGINEER.CORPORATE DEVELOPMENT TECHNOLOGY, Cisco Systems, Inc. - Distinguished Speaker
 
 
+Containers made easy with Cisco - CTHCLD-1761
+Sanjeev Rampal, Principal Engineer, Cisco Systems
+
+Demystifying Container Networking - DEVNET-1195
+Rohit Agarwalla, Senior Technical Leader, Cisco
+
+Container Cluster Technology across the Data Center - FLPCLD-1225
+Michael Doherty, TSA, Cisco Systems
+
+
+
 
 
 TO READ/WATCH
 -------------
+Cisco Catalyst 9000 Switches, A new era of networking
+http://cs.co/cat9000book
+https://www.cisco.com/c/dam/en/us/products/collateral/switches/catalyst-9000/nb-06-cat9k-ebook-cte-en.pdf
 
-Introduction to Python Network Programming for Network Architects and Engineers - Part 1: The Basics - DEVNET-1040
-Vince Kelly, Solutions Architect, Cisco
-Introduction to Python Network Programming for Network Architects and Engineers - Part 2: Python OS, File and Network Programming Modules - DEVNET-1041
-Vince Kelly, Solutions Architect, Cisco
-Introduction to Python Network Programming for Network Architects and Engineers - Part 3: Building Additional Tools - DEVNET-1042
-Vince Kelly, Solutions Architect, Cisco
+Cisco Software-Defined Access, Enabling intent-based networking
+http://cs.co/sdabook
+https://www.cisco.com/c/dam/en/us/products/se/2018/1/Collateral/nb-06-software-defined-access-ebook-en.pdf
 
+Cisco IOS XE Programmability, Automating Device Lifecycle Management
+http://cs.co/programmabilitybook
+https://www.cisco.com/c/dam/en/us/products/collateral/enterprise-networks/nb-06-ios-xe-prog-ebook-cte-en.pdf
 
-Infrastructure as Code and DevOps for Network Engineers - BRKACI-2503
-Chris Gascoigne, Technical Solutions Architect, Cisco
-
-How We Do IT with Automation and Orchestration? - BRKNMS-2512
-Jason Davis, DISTINGUISHED ENGINEER.SERVICES, Cisco Systems, Inc. - Distinguished Speaker
-
-Inside Cisco IT: Accelerating Cloud Development using Containerized Micro Services - BRKCOC-2871
-Mani Kesavan, IT Architect, Cisco Systems Inc
-Manny Garcia, Member of Technical Staff, Software Engineering, Cisco Systems
+Cisco DNA Assurance, Unlocking the Power of Data
+http://cs.co/assurancebook
+https://www.cisco.com/c/dam/en/us/solutions/collateral/enterprise-networks/digital-network-architecture/nb-06-cisco-dna-assurance-technical-ebook-cte-en.pdf
 
 
 
-EN Device + On-Box Programmability - BRKRST-2672
-Jeffery McLaughlin, DIRECTOR.TECHNICAL MARKETING, Cisco Systems, Inc. - Distinguished Speaker
+OAUTH-2 		https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2
 
-Enhancing Network Operations Through Automation & Workflow - BRKNMS-2600
-Jason Coleman, TECHNICAL LEADER.CUSTOMER DELIVERY, Cisco Systems, Inc.
+Coding Class - Intro to API Authentication Types (Oauth, token HTTP Basic) - DEVNET-1060
+Matthew Denapoli, Systems Manager, Cisco
+
 
 From Zero to Network Programmability in 90 minutes – Cisco DNA Center, IOS XE Programmability, Webex Teams and ServiceNow - BRKSDN-2935
 Gabriel Zapodeanu, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
-
-
-
-DevNet Workshop-Creating a REST API Microservice using OpenAPI Spec - DEVNET-2587
-Ashley Roach, API and Cloud Evangelist, Cisco
 
 
 
@@ -154,59 +197,12 @@ Simon Hart, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
 
 
 
-Containers made easy with Cisco - CTHCLD-1761
-Sanjeev Rampal, Principal Engineer, Cisco Systems
 
-Demystifying Container Networking - DEVNET-1195
-Rohit Agarwalla, Senior Technical Leader, Cisco
-
-Container Networking Deep Dive with Docker Enterprise Edition and Cisco Contiv - BRKSDN-2256
-Sanjeev Rampal, Principal Engineer, Cisco
-Mark Church, Solutions Architect, DOCKER
-
-Introduction to Containers and Container Networking - BRKSDN-2115
-Frank Brockners, Distinguished Engineer, Cisco - Distinguished Speaker
-
-Container Stack and Microservices Evolution - BRKCLD-2550
-Carlos Pereira, Distinguished Systems Engineer, Cisco
-
-DevNet Workshop - Getting Started with Containers - DEVNET-2042
-Matt Johnson, Technical Leader, Cisco DevNet, Cisco
-
-ACI and Container Networking - BRKACI-3403
-Andres Vega, Product Manager, Cisco Systems, Inc
-
-Container Networking and Cisco ACI - BRKACI-1024
-Andres Vega, Product Manager, Cisco
-https://www.ciscolive.com/global/on-demand-library.html?search=&search.technology=scpsTechnology_programmability&search.technology=scpsTechnology_automation&search.technology=scpsTechnology_applicationDevelopment&search.technology=1538390420915004wqGK#/video/1533846810283001DoDX
-
-Container Cluster Technology across the Data Center - FLPCLD-1225
-Michael Doherty, TSA, Cisco Systems
-
-Containers on routers and switches: Run your apps and tools natively on Cisco boxes - BRKSDN-2116
-Frank Brockners, Distinguished Engineer, Cisco
-
-
-Building Digitally Transformative Apps That Use APIs and Network Infrastructure - PSOSDN-2701
-Chris Oggerino, Technical Marketing Engineer, Cisco
-
-Building Intent-Based Networks with NSO and programmable NXOS - BRKDCN-2498
-Shankar Varanasy, Product Manager, Cisco Systems
-Aseem Srivastava, Sr. Product Manager, Cisco Systems
-
-Coding Class - Intro to API Authentication Types (Oauth, token HTTP Basic) - DEVNET-1060
-Matthew Denapoli, Systems Manager, Cisco
-
-
-DevNet Workshop - Working with Tropo APIs - DEVNET-2019
-Phil Bellanti, Developer Evangelist, Cisco
 
 
 Beyond the command line: Programming Network Devices with gRPC and OpenConfig - BRKPRG-1611
 Nicolas Leiva, CUSTOMER SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
 
-Brave New World: Web Scale Network Automation goes Mainstream - BRKSPG-2013
-Akshat Sharma, ENGINEER.TECHNICAL MARKETING, Cisco Systems, Inc. - Distinguished Speaker
 
 Building a Healthy Cloud Strategy - BSOCLD-2000
 Ronnie Scott, Technology Solutions Architect, Cisco
@@ -232,6 +228,10 @@ Automated NSO Delivery with CI/CD - LTRNMS-2984
 Paulo Oliveira, SOFTWARE CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc.
 Yftach Herzog, SOFTWARE CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc.
 Marisol Palmero Amador, SOFTWARE TECHNICAL LEADER.CUSTOMER DELIVERY, Cisco Systems, Inc.
+
+Building Intent-Based Networks with NSO and programmable NXOS - BRKDCN-2498
+Shankar Varanasy, Product Manager, Cisco Systems
+Aseem Srivastava, Sr. Product Manager, Cisco Systems
 
 DevNet Workshop: Automating Services with Cisco NSO and Model-Driven Telemetry - DEVWKS-2312
 Bartosz Luraniec, CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc.
@@ -758,8 +758,6 @@ Juulia Santala, TECHNICAL SOLUTIONS SPECIALIST.SALES, Cisco Systems, Inc.
 Christina Skoglund, TECHNICAL SOLUTIONS SPECIALIST.SALES, Cisco Systems, Inc.
 Pieter-Jan Nefkens, Consultant, NEFKENS ADVIES
 
-A Complete Data Center or Private Cloud in One Line of Code - BRKCLD-2406
-Matthew Garrett, Data Center TSA, Cisco Systems - Distinguished Speaker
 
 Goodbye to Manual Configuration: Service Centric SDN, NFV and Orchestration - BRKSPG-2380
 Bilal Alam, Solutions Architect, Software Sales, Cisco
@@ -791,12 +789,44 @@ Blue Thunder Somogyi, Sr Software Architect, Cisco
 
 DevNet Workshop - Introduction to Using gRPC-based Protocol for Model-Driven Management of IOS-XR - DEVWKS-1381
 S Suprita, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
-
 Michael Cho, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
 
 
 How to programmatically migrate from traditional network to ACI with Terraform - DEVNET-2585
 Nicolas Vermande, Product Management Engineer, Cisco Systems, Inc. - Distinguished Speaker
+
+Implementing a Network Automation Framework to Continuously Reduce MTTR - PAR-1974
+Jason Baudreau, VP, Global Marketing, NETBRAIN
+
+Implementing Application Container Platforms on Cisco ACI: Openshift and Cloudfoundry - BRKDCN-2627
+Andres Vega, Product Manager, Engineering, Cisco
+
+
+====
+
+DevNet Workshop - Getting Started with Containers - DEVNET-2042
+Matt Johnson, Technical Leader, Cisco DevNet, Cisco
+
+Introduction to Containers and Container Networking - BRKSDN-2115 									<<< 170 pages
+Frank Brockners, Distinguished Engineer, Cisco - Distinguished Speaker
+
+Containers on routers and switches: Run your apps and tools natively on Cisco boxes - BRKSDN-2116 	<<< 141 pages
+Frank Brockners, Distinguished Engineer, Cisco
+
+Container Stack and Microservices Evolution - BRKCLD-2550 											<<< 103 pages
+Carlos Pereira, Distinguished Systems Engineer, Cisco
+
+Container Networking Deep Dive with Docker Enterprise Edition and Cisco Contiv - BRKSDN-2256  		<<< 80+ pages
+Sanjeev Rampal, Principal Engineer, Cisco
+Mark Church, Solutions Architect, DOCKER
+
+ACI and Container Networking - BRKACI-3403
+Andres Vega, Product Manager, Cisco Systems, Inc
+
+Container Networking and Cisco ACI - BRKACI-1024
+Andres Vega, Product Manager, Cisco
+https://www.ciscolive.com/global/on-demand-library.html?search=&search.technology=scpsTechnology_programmability&search.technology=scpsTechnology_automation&search.technology=scpsTechnology_applicationDevelopment&search.technology=1538390420915004wqGK#/video/1533846810283001DoDX
+
 
 ====
 
@@ -5166,6 +5196,7 @@ DELETE: Remove a User-Created Object
 YANG
 ====
 YANG:	Yet Another Next Generation
+
 RFC 6020 YANG, a data modeling language for NETCONF.
 More recently, independently of NETCONF and for protocols such as RESTCONF and gRPC.
 
@@ -5769,6 +5800,11 @@ Reasons why NETCONF is awesome in terms of Network Automation?
 - Separation of configuration and operational data
 - Validation of the configuration
 
+Enabling NETCONF (3 Steps):
+- Enable AAA
+- Enable SSH
+- Enable NETCONF: netconf-yang
+
 
 Python client: ncclient (pip install ncclient)
 
@@ -6173,6 +6209,59 @@ Refer restconf.py for examples with python requests library. Some basics:
 
 
 
+
+YANG Developer Kit (YDK)
+------------------------
+<interface>
+  <GigabitEthernet>
+    <name>1/0/14</name>
+    <description>To_Core_Switch</description>
+    <ip>
+      <address>
+        <primary>
+          <address>15.10.1.1</address>
+          <mask>255.255.255.0</mask>
+        </primary>
+      </address>
+    </ip>
+    </GigabitEthernet>
+</interface>
+
+vs.
+
+gigabitethernet= interface.Gigabitethernet()
+gigabitethernet.name = "1/0/14"
+gigabitethernet.description = "To_Core_Switch"
+gigabitethernet.ip.address.primary.address = "15.10.1.1"
+gigabitethernet.ip.address.primary.mask = "255.255.255.0"
+ip_add.gigabitethernet.append(gigabitethernet)
+
+
+
+YangExplorer
+------------
+A Cisco tool for exploring models
+https://github.com/CiscoDevNet/yang-explorer
+
+
+
+On-box / Off-box Scripting
+---------------------------
+Off-box scripts run on an external server and communicate with the switch over the network using NETCONF or other protocols.
+
+On-box Python scripts run in a container on the device itself. They can communicate with the network or the device itself.
+
+Advantages On-Box
+• Access CLI directly on device
+• Trigger syslog messages
+• Interact with Embedded Event Manager
+• Access device bootflash
+• Zero Touch Provisioning
+• Use interactive Python shell
+
+
+
+
 Model-Driven Telemetry
 ----------------------
 MDT: Model-Driven Telemetry
@@ -6193,7 +6282,7 @@ Transport:		Protocols:
 Encoding:		- JSON
 				- GPB (Google Protocol Buffers) (compiled .proto files metadata; describe the GPB message format)
 				  - Compact GPB encoding
-				  - KV-GPB encoding (Key-value or self-describing”)
+				  - kvGPB (KV-GPB) encoding (Key-value or self-describing”)
 
 
 Streaming Telemetry with gNMI
@@ -6786,6 +6875,16 @@ interface_config = device_connection.send_command("show run int Gig0/1")
 print(interface_config)
 
 device_connection.disconnect()
+
+
+Base64 Authorization String
+---------------------------
+HTTP Basic authentication (Authorization: Basic <Base64 encoded password> )
+
+Generation of Base64 authorization string:
+- With Postman client ("Authorization" tab and change Type to "Basic Auth"
+- Using OpenSSL: echo –n ‘USERNAME:PASSWORD’ | openssl base64
+- Base64 encoding utility (preferably an off-line one!)
 
 
 Linux
