@@ -66,6 +66,14 @@ https://github.com/zapodeanu/BRKSDN-2935-Barcelona-2019
 [Introduction to Python Network Programming for Network Architects and Engineers - Part 2: Python OS, File and Network Programming Modules - DEVNET-1041]
 [Introduction to Python Network Programming for Network Architects and Engineers - Part 3: Building Additional Tools - DEVNET-1042]
 [Vince Kelly, Solutions Architect, Cisco]
+[How does the Python Interpreter interpret my Python? - DEVLIT-4056]
+[Conor Murphy, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.]
+
+DevNet Workshop: Becoming the Jinja Ninja: Using YAML and Jinja Templates to Create Reusable Code - DEVWKS-1512
+Alexey Borisenko, Program Specialist, Cisco Systems, Inc.
+https://github.com/CiscoDevNet/byrne-workshops/blob/master/README.md
+
+
 
 EN Device + On-Box Programmability - BRKRST-2672
 Jeffery McLaughlin, DIRECTOR.TECHNICAL MARKETING, Cisco Systems, Inc. - Distinguished Speaker
@@ -93,6 +101,13 @@ Matthew Denapoli, Systems Manager, Cisco
 
 NetDevOps for the Network Dude - How to get started with API's, Ansible and Python - DEVNET-1002
 Francois Caen, SE, Cisco
+
+APIs for Automating Network Element Deployment - DEVNET-2323
+Ryan Shoemaker, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
+
+API Metadata Why You Should Care! - DEVLIT-4012
+John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+
 
 Everybody Can Automate Now - BRKPRG-1798
 Jean-Benoit Aubin, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
@@ -129,6 +144,11 @@ Sunpreetsingh Arora, CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc. 
 Get Started Automating Your Network with Cisco NSO - DEVNET-4805
 Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
 
+Cisco NSO the proper Path to a DevOps Culture - PSOSPM-3422
+Mario Sanchez Meraz, Business Development Manager, Cisco
+
+DevNet Workshop- Python for Automation with Cisco Network Service Orchestrator (NSO) - DEVNET-2059
+Roque Gagliano, Software Solutions Architect EMEAR - Tail-f NSO , Cisco
 
 Building a Career Through Disruption: How to Drive Change Rather Than Watch It Happen - CTHGEN-1001
 Lee Sudduth, Solutions Integration Architect, Cisco Systems
@@ -144,6 +164,9 @@ Hector Morales, Technology Solutions Architect, Cisco
 
 DevNet Workshop-Creating a REST API Microservice using OpenAPI Spec - DEVNET-2587
 Ashley Roach, API and Cloud Evangelist, Cisco
+
+Building a Healthy Cloud Strategy - BSOCLD-2000
+Ronnie Scott, Technology Solutions Architect, Cisco
 
 DevNet Workshop - Messaging and Broker Services - DEVNET-2105
 Kareem Iskander, Software Engineer, Cisco
@@ -169,10 +192,12 @@ Michael Doherty, TSA, Cisco Systems
 
 
 
-
-
 TO READ/WATCH
 -------------
+Cisco IOS XE Programmability, Automating Device Lifecycle Management
+http://cs.co/programmabilitybook
+https://www.cisco.com/c/dam/en/us/products/collateral/enterprise-networks/nb-06-ios-xe-prog-ebook-cte-en.pdf
+
 Cisco Catalyst 9000 Switches, A new era of networking
 http://cs.co/cat9000book
 https://www.cisco.com/c/dam/en/us/products/collateral/switches/catalyst-9000/nb-06-cat9k-ebook-cte-en.pdf
@@ -180,10 +205,6 @@ https://www.cisco.com/c/dam/en/us/products/collateral/switches/catalyst-9000/nb-
 Cisco Software-Defined Access, Enabling intent-based networking
 http://cs.co/sdabook
 https://www.cisco.com/c/dam/en/us/products/se/2018/1/Collateral/nb-06-software-defined-access-ebook-en.pdf
-
-Cisco IOS XE Programmability, Automating Device Lifecycle Management
-http://cs.co/programmabilitybook
-https://www.cisco.com/c/dam/en/us/products/collateral/enterprise-networks/nb-06-ios-xe-prog-ebook-cte-en.pdf
 
 Cisco DNA Assurance, Unlocking the Power of Data
 http://cs.co/assurancebook
@@ -195,38 +216,61 @@ OAUTH-2 		https://www.digitalocean.com/community/tutorials/an-introduction-to-oa
 
 
 
+Beyond the command line: Programming Network Devices with gRPC and OpenConfig - BRKPRG-1611
+Nicolas Leiva, CUSTOMER SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
+
 
 DevNet Workshop: pyATS Intro - creating parsers with GENIE - DEVWKS-2601
 Simon Hart, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
 
 
 
+Introduction to Data Models and Cisco's NextGen Device Level APIs - DEVNET-1082 (YANG)
+Einar Nilsen-Nygaard, Principal Engineer, Cisco
 
+Coding Class - Using YANG to Define Device and Service Configuration and Operations - DEVNET-1070
+Giles Heron, Principal Engineer, Cisco Systems
 
+Get your YANG on with Catalyst Programmability - BRKCRS-2450
+Jeffery McLaughlin, Principal Engineer, Cisco Systems
 
-Beyond the command line: Programming Network Devices with gRPC and OpenConfig - BRKPRG-1611
-Nicolas Leiva, CUSTOMER SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
+DevNet Workshop - NETCONF and YANG Enablement of Network Devices - DEVNET-1219
+John Lawitzke, ConfD Product Manager, Cisco
 
+DevNet Workshop - NETCONF/RESTCONF/YANG API - DEVNET-2044
+Ralph Schmieder, Technical Leader, Cisco
 
-Building a Healthy Cloud Strategy - BSOCLD-2000
-Ronnie Scott, Technology Solutions Architect, Cisco
+Introduction to NETCONF, RESTCONF and YANG - DEVNET-1721
+Bryan Byrne, Technical Solutions Architect, Cisco
 
-
-How does the Python Interpreter interpret my Python? - DEVLIT-4056
-Conor Murphy, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
-
-
-Get Started Automating Your Network with Cisco NSO - DEVNET-4805
+Effectively Understand and Leverage YANG with NETCONF and RESTCONF for Model Driven Programmability - BRKDEV-1368
 Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+https://www.ciscolive.com/global/on-demand-library.html?search=BRKDEV&search.event=ciscoliveemea2020#/session/1564610722292001c6xS
 
-Cisco NSO the proper Path to a DevOps Culture - PSOSPM-3422
-Mario Sanchez Meraz, Business Development Manager, Cisco
+DevNet Workshop: Hands-on Exploration of NETCONF and YANG - DEVWKS-2561
+Dmitry Figol, Systems Engineer - Programmability, Cisco Systems, Inc. - Distinguished Speaker
+
+DevNet Workshop: Understand NETCONF/YANG and build your first NETCONF client with Python to interwork with IOS-XR - DEVWKS-2336
+Cristina Precup, TECHNICAL SOLUTIONS SPECIALIST.SALES, Cisco Systems, Inc.
+Guillaume Ladhuie, TECHNICAL SOLUTIONS SPECIALIST.SALES, Cisco Systems, Inc.
+
+DevNet Workshop- Get Hands On with YDK for Network Device Programmability the Pythonic Way! - DEVNET-3619
+Giles Heron, Principal Engineer, Cisco; YANG Development Kit (YDK)
+
+DevNet Workshop - Using YANG Models and Telemetry for Closed-Loop Applications - DEVWKS-2077
+Craig Hill, Distinguished Systems Engineer, Cisco Systems, Inc. - Distinguished Speaker
+
+
+
+
+
+
+
+
+
 
 Agilifing NSO Delivery - BRKNMS-2059
 Ahmed Hashem, SOFTWARE ARCHITECT.CUSTOMER DELIVERY, Cisco Systems, Inc.
-
-DevNet Workshop- Python for Automation with Cisco Network Service Orchestrator (NSO) - DEVNET-2059
-Roque Gagliano, Software Solutions Architect EMEAR - Tail-f NSO , Cisco
 
 Automated NSO Delivery with CI/CD - LTRNMS-2984
 Paulo Oliveira, SOFTWARE CONSULTING ENGINEER.CUSTOMER DELIVERY, Cisco Systems, Inc.
@@ -296,51 +340,6 @@ Yatin Wadhavkar, Manager, IT, Cisco
 Clement Joseph, Sr. Engineer IT, Cisco
 
 
-APIs for Automating Network Element Deployment - DEVNET-2323
-Ryan Shoemaker, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
-
-API Metadata Why You Should Care! - DEVLIT-4012
-John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
-
-DevNet Workshop: Becoming the Jinja Ninja: Using YAML and Jinja Templates to Create Reusable Code - DEVWKS-1512
-Alexey Borisenko, Program Specialist, Cisco Systems, Inc.
-
-
-
-Introduction to Data Models and Cisco's NextGen Device Level APIs - DEVNET-1082 (YANG)
-Einar Nilsen-Nygaard, Principal Engineer, Cisco
-
-Coding Class - Using YANG to Define Device and Service Configuration and Operations - DEVNET-1070
-Giles Heron, Principal Engineer, Cisco Systems
-
-Get your YANG on with Catalyst Programmability - BRKCRS-2450
-Jeffery McLaughlin, Principal Engineer, Cisco Systems
-
-DevNet Workshop - NETCONF and YANG Enablement of Network Devices - DEVNET-1219
-John Lawitzke, ConfD Product Manager, Cisco
-
-DevNet Workshop - NETCONF/RESTCONF/YANG API - DEVNET-2044
-Ralph Schmieder, Technical Leader, Cisco
-
-Introduction to NETCONF, RESTCONF and YANG - DEVNET-1721
-Bryan Byrne, Technical Solutions Architect, Cisco
-
-Effectively Understand and Leverage YANG with NETCONF and RESTCONF for Model Driven Programmability - BRKDEV-1368
-Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
-https://www.ciscolive.com/global/on-demand-library.html?search=BRKDEV&search.event=ciscoliveemea2020#/session/1564610722292001c6xS
-
-DevNet Workshop: Hands-on Exploration of NETCONF and YANG - DEVWKS-2561
-Dmitry Figol, Systems Engineer - Programmability, Cisco Systems, Inc. - Distinguished Speaker
-
-DevNet Workshop: Understand NETCONF/YANG and build your first NETCONF client with Python to interwork with IOS-XR - DEVWKS-2336
-Cristina Precup, TECHNICAL SOLUTIONS SPECIALIST.SALES, Cisco Systems, Inc.
-Guillaume Ladhuie, TECHNICAL SOLUTIONS SPECIALIST.SALES, Cisco Systems, Inc.
-
-DevNet Workshop- Get Hands On with YDK for Network Device Programmability the Pythonic Way! - DEVNET-3619
-Giles Heron, Principal Engineer, Cisco; YANG Development Kit (YDK)
-
-DevNet Workshop - Using YANG Models and Telemetry for Closed-Loop Applications - DEVWKS-2077
-Craig Hill, Distinguished Systems Engineer, Cisco Systems, Inc. - Distinguished Speaker
 
 
 DevNet Workshop - Introduction to programming the Firepower Threat Defense device API - DEVWKS-2643
@@ -4927,7 +4926,7 @@ JSON:
 YAML:
 
 	import yaml
-	yaml_dict = yaml.load(yaml_data)
+	yaml_dict = yaml.load(yaml_data) 			<<< Better: yaml.safe_load()
 	yaml.dump(yaml_dict)
 
 
