@@ -13,6 +13,10 @@ UCS
 	https://ciscoucs.github.io/ucsmsdk_docs/ucsmsdk_ug.html#overview
 	https://github.com/movinalot/ucs-code/tree/master/ucs-python
 
+https://github.com/hpreston
+https://github.com/CiscoDevNet/coding-skills-sample-code
+https://github.com/zapodeanu
+
 
 
 SEEN/READ
@@ -54,6 +58,10 @@ https://github.com/bluraniec/devnet-2449/blob/master/DEVNET-2449.ipynb
 Dive into Leveraging Python on IOS-XE - DEVWKS-2556
 Bryan Byrne, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
 
+From Zero to Network Programmability in 90 minutes – Cisco DNA Center, IOS XE Programmability, Webex Teams and ServiceNow - BRKSDN-2935   <<< many examples !!
+Gabriel Zapodeanu, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
+https://github.com/zapodeanu/BRKSDN-2935-Barcelona-2019
+
 [Introduction to Python Network Programming for Network Architects and Engineers - Part 1: The Basics - DEVNET-1040]
 [Introduction to Python Network Programming for Network Architects and Engineers - Part 2: Python OS, File and Network Programming Modules - DEVNET-1041]
 [Introduction to Python Network Programming for Network Architects and Engineers - Part 3: Building Additional Tools - DEVNET-1042]
@@ -80,6 +88,8 @@ Shweta Palande, ENGINEER.SOFTWARE ENGINEERING, Cisco Systems, Inc.
 
 Coding 102 - REST API Basics using APIC-EM - DEVNET-2003
 Matthew Denapoli, DevNet Engineer, Cisco
+Coding Class - Intro to API Authentication Types (Oauth, token HTTP Basic) - DEVNET-1060
+Matthew Denapoli, Systems Manager, Cisco
 
 NetDevOps for the Network Dude - How to get started with API's, Ansible and Python - DEVNET-1002
 Francois Caen, SE, Cisco
@@ -183,12 +193,6 @@ https://www.cisco.com/c/dam/en/us/solutions/collateral/enterprise-networks/digit
 
 OAUTH-2 		https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2
 
-Coding Class - Intro to API Authentication Types (Oauth, token HTTP Basic) - DEVNET-1060
-Matthew Denapoli, Systems Manager, Cisco
-
-
-From Zero to Network Programmability in 90 minutes – Cisco DNA Center, IOS XE Programmability, Webex Teams and ServiceNow - BRKSDN-2935
-Gabriel Zapodeanu, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc. - Distinguished Speaker
 
 
 
@@ -2051,7 +2055,10 @@ WTF = WTForms
 
 OAuth
 -----
+https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2
+
 RFC6749: OAuth 2.0 Authorization Framework
+
 
 OAuth roles:
 - Resource owner 			(typically the end user who owns a protected resource; who grants access)
@@ -5897,7 +5904,7 @@ Another example (from https://github.com/rshoemak/DevNet2556/blob/master/Modules
                          device_params={'name': 'default'},
                          allow_agent=False, look_for_keys=False) as m:
 
-        hostname_filter = """
+        interface_filter = """
                         <filter>
                             <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
                                 <interface></interface>
@@ -5905,7 +5912,7 @@ Another example (from https://github.com/rshoemak/DevNet2556/blob/master/Modules
                         </filter>
                         """
 
-        result = m.get_config('running', hostname_filter)
+        result = m.get_config('running', interface_filter)
         print(DOM.parseString(result.xml).toprettyxml())
 
 
