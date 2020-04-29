@@ -1,10 +1,3 @@
-+++
-Cisco developer blog : https://blogs.cisco.com/developer
-+++
-
-
-https://www.ciscolive.com/global/on-demand-library.html?search=ucs&search.program=cloDevNet#/
-
 
 TO BE CHECKED
 -------------
@@ -13,14 +6,28 @@ UCS
 	https://ciscoucs.github.io/ucsmsdk_docs/ucsmsdk_ug.html#overview
 	https://github.com/movinalot/ucs-code/tree/master/ucs-python
 
+Devnet Docs
+	https://developer.cisco.com/docs/
+
+Cisco developer blog
+	https://blogs.cisco.com/developer
+
+
 https://github.com/hpreston
 https://github.com/CiscoDevNet/coding-skills-sample-code
 https://github.com/zapodeanu
 
 
+NSO 					https://community.cisco.com/t5/nso-developer-hub-documents/rest-api-basics/ta-p/3635342
+Webex Teams API Docs 	https://developer.webex.com/docs/api/v1/teams
 
-SEEN/READ
----------
+
+
+SEEN/READ - ciscolive
+---------------------
+https://www.ciscolive.com/global/on-demand-library.html?search=ucs&search.program=cloDevNet#/
+
+
 Automating Your Cisco UCS with Python - Managing Your Infrastructure as Code - DEVNET-1611
 Event:2020 Barcelona
 Miguel Barajas, TECHNICAL SOLUTIONS ARCHITECT.SALES - Distinguished Speaker
@@ -191,6 +198,11 @@ Container Cluster Technology across the Data Center - FLPCLD-1225
 Michael Doherty, TSA, Cisco Systems
 
 
+Beyond the command line: Programming Network Devices with gRPC and OpenConfig - BRKPRG-1611
+Nicolas Leiva, CUSTOMER SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
+
+
+
 
 TO READ/WATCH
 -------------
@@ -214,10 +226,6 @@ https://www.cisco.com/c/dam/en/us/solutions/collateral/enterprise-networks/digit
 
 OAUTH-2 		https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2
 
-
-
-Beyond the command line: Programming Network Devices with gRPC and OpenConfig - BRKPRG-1611
-Nicolas Leiva, CUSTOMER SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
 
 
 DevNet Workshop: pyATS Intro - creating parsers with GENIE - DEVWKS-2601
@@ -259,11 +267,6 @@ Giles Heron, Principal Engineer, Cisco; YANG Development Kit (YDK)
 
 DevNet Workshop - Using YANG Models and Telemetry for Closed-Loop Applications - DEVWKS-2077
 Craig Hill, Distinguished Systems Engineer, Cisco Systems, Inc. - Distinguished Speaker
-
-
-
-
-
 
 
 
