@@ -9,6 +9,9 @@ UCS
 Devnet Docs
 	https://developer.cisco.com/docs/
 
+OAUTH-2
+	https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2
+
 Cisco developer blog
 	https://blogs.cisco.com/developer
 
@@ -23,7 +26,7 @@ Webex Teams API Docs 	https://developer.webex.com/docs/api/v1/teams
 
 
 
-SEEN/READ - ciscolive
+SEEN/READ - Ciscolive
 ---------------------
 https://www.ciscolive.com/global/on-demand-library.html?search=ucs&search.program=cloDevNet#/
 
@@ -80,6 +83,8 @@ DevNet Workshop: Becoming the Jinja Ninja: Using YAML and Jinja Templates to Cre
 Alexey Borisenko, Program Specialist, Cisco Systems, Inc.
 https://github.com/CiscoDevNet/byrne-workshops/blob/master/README.md
 
+DevNet Workshop: pyATS Intro - creating parsers with GENIE - DEVWKS-2601
+Simon Hart, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
 
 
 EN Device + On-Box Programmability - BRKRST-2672
@@ -203,7 +208,6 @@ Nicolas Leiva, CUSTOMER SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
 
 
 
-
 TO READ/WATCH
 -------------
 Cisco IOS XE Programmability, Automating Device Lifecycle Management
@@ -224,14 +228,8 @@ https://www.cisco.com/c/dam/en/us/solutions/collateral/enterprise-networks/digit
 
 
 
-OAUTH-2 		https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2
-
-
-
-DevNet Workshop: pyATS Intro - creating parsers with GENIE - DEVWKS-2601
-Simon Hart, TECHNICAL SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
-
-
+----
+Seen:
 
 Introduction to Data Models and Cisco's NextGen Device Level APIs - DEVNET-1082 (YANG)
 Einar Nilsen-Nygaard, Principal Engineer, Cisco
@@ -241,6 +239,7 @@ Giles Heron, Principal Engineer, Cisco Systems
 
 Get your YANG on with Catalyst Programmability - BRKCRS-2450
 Jeffery McLaughlin, Principal Engineer, Cisco Systems
+----
 
 DevNet Workshop - NETCONF and YANG Enablement of Network Devices - DEVNET-1219
 John Lawitzke, ConfD Product Manager, Cisco
