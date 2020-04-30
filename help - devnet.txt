@@ -239,7 +239,6 @@ Giles Heron, Principal Engineer, Cisco Systems
 
 Get your YANG on with Catalyst Programmability - BRKCRS-2450
 Jeffery McLaughlin, Principal Engineer, Cisco Systems
-----
 
 DevNet Workshop - NETCONF and YANG Enablement of Network Devices - DEVNET-1219
 John Lawitzke, ConfD Product Manager, Cisco
@@ -249,6 +248,8 @@ Ralph Schmieder, Technical Leader, Cisco
 
 Introduction to NETCONF, RESTCONF and YANG - DEVNET-1721
 Bryan Byrne, Technical Solutions Architect, Cisco
+
+----
 
 Effectively Understand and Leverage YANG with NETCONF and RESTCONF for Model Driven Programmability - BRKDEV-1368
 Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
@@ -5829,11 +5830,13 @@ Python client: ncclient (pip install ncclient)
 	</filter>
 	"""
 
-	device_connection = manager.connect(host=host, port=port, username=username, password=password, hostkey_verify=False)
+	m = manager.connect(host=host, port=port, username=username, password=password, hostkey_verify=False)
 
-	interface_netconf = device_connection.get_config("running", netconf_filter)
+	interface_netconf = m.get_config("running", netconf_filter)
 	interface_python = xmltodict.parse(interface_netconf.xml)["rpc-reply"]["data"]
 	interface = interface_python["interfaces"]["interface"]["name"]["#text"]
+
+	m.close_session()
 
 
 An alternative to xmltodict: xml.dom.minidom
@@ -5859,7 +5862,7 @@ Example NETCONF Update (from https://nbviewer.jupyter.org/github/bluraniec/devne
 	    </interfaces>
 	'''
 
-	device_connection = ncclient.manager.connect(host=host, port=port, username=username, password=password, hostkey_verify=False)
+	m = ncclient.manager.connect(host=host, port=port, username=username, password=password, hostkey_verify=False)
 
 	configuration = ''
 	configuration += "<config>"
@@ -5867,7 +5870,8 @@ Example NETCONF Update (from https://nbviewer.jupyter.org/github/bluraniec/devne
 	    configuration += update_interface_config_string % (changes[change]['Interface'], changes[change]['IP'], changes[change]['Mask'])
 	configuration += "</config>"
 
-	device_connection.edit_config(target='running', config=configuration)
+	m.edit_config(target='running', config=configuration)
+	m.close_session()
 
 
 Another example (from https://github.com/rshoemak/DevNet2556/blob/master/Modules/Module6.md):
@@ -6127,6 +6131,24 @@ Get interface attributes of GigabitEthernet0/0/2 (note the %2F for /):
 
 Get the primary IP address of the GigabitEthernet interfaces:
 	GET https://172.16.10.66:443/restconf/data/native/interface/GigabitEthernet?fields=ip/address/primary
+
+
+
+Constructing RESTCONF URIs
+--------------------------
+
+https://<ADDRESS>/<ROOT>/<DATA STORE>/<[YANG MODULE:]CONTAINER>/<LEAF>[?<OPTIONS>]
+
+http://192.168.27.218:8008/api/running/interfaces/interface/GigabitEthernet2?deep
+
+module: ietf-interfaces
++--rw interfaces
+|  +--rw interface* [name]
+|     +--rw name string
+|     +--rw description?                string
+|     +--rw type 						identityref
+|     +--rw enabled?                    boolean
+|     +--rw link-up-down-trap-enable?   enumeration {if-mib}?
 
 
 
