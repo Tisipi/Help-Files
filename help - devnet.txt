@@ -251,7 +251,7 @@ Bryan Byrne, Technical Solutions Architect, Cisco
 
 ----
 
-Effectively Understand and Leverage YANG with NETCONF and RESTCONF for Model Driven Programmability - BRKDEV-1368
+Effectively Understand and Leverage YANG with NETCONF and RESTCONF for Model Driven Programmability - BRKDEV-1368  <<< 123 pages !!
 Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
 https://www.ciscolive.com/global/on-demand-library.html?search=BRKDEV&search.event=ciscoliveemea2020#/session/1564610722292001c6xS
 
@@ -5825,6 +5825,12 @@ Enabling NETCONF (3 Steps):
 
 
 Python client: ncclient (pip install ncclient)
+  m = manager.connect(...)
+  m.get_config(...)
+  m.edit_config(...)
+  m.server_capabilities
+  m.close_session()
+
 
 	from ncclient import manager
 	import xmltodict
