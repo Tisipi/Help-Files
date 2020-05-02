@@ -5937,6 +5937,87 @@ Another example (from https://github.com/rshoemak/DevNet2556/blob/master/Modules
 
 
 
+XPath Example (https://github.com/CiscoDevNet/BRKDEV-1368/blob/master/netconf/example3.py)
+
+	<filter>
+	  <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+	    <interface>
+	      <name>GigabitEthernet2</name>
+	    </interface>
+	  </interfaces>
+	  <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+	    <interface>
+	      <name>GigabitEthernet2</name>
+	    </interface>
+	  </interfaces-state>
+	</filter>
+
+    with manager.connect(host=ios_xe1["address"],
+                         port=ios_xe1["port"],
+                         username=ios_xe1["username"],
+                         password=ios_xe1["password"],
+                         hostkey_verify=False) as m:
+
+        # Get Configuration and State Info for Interface
+        netconf_reply = m.get(filter=('xpath' ,
+                                      "/interfaces-state/interface[name='GigabitEthernet2']"
+                                      "/statistics/out-unicast-pkts"))
+
+        intf_details = xmltodict.parse(netconf_reply.xml)["rpc-reply"]["data"]
+        intf_info = intf_details["interfaces-state"]["interface"]
+
+        print("")
+        print("Interface Details:")
+        print("  Name: {}".format(intf_info["name"]))
+        print("  Packets Output: {}".format(intf_info["statistics"]["out-unicast-pkts"]))
+
+
+Another example (https://github.com/CiscoDevNet/BRKDEV-1368/blob/master/netconf/example4.py):
+
+	config-temp-ietf-interfaces.xml:
+
+		<config>
+		  <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+			<interface>
+			  <name>{int_name}</name>
+			  <description>{int_desc}</description>
+			  <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+			  <enabled>true</enabled>
+			  <ipv4 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip">
+				<address>
+				  <ip>{ip_address}</ip>
+				  <netmask>{subnet_mask}</netmask>
+				</address>
+			  </ipv4>
+			</interface>
+		  </interfaces>
+		</config>
+
+
+	from device_info import ios_xe1
+	from ncclient import manager
+
+    # NETCONF Config Template to use
+    netconf_template = open("config-temp-ietf-interfaces.xml").read()
+
+    # Build the XML Configuration to Send
+    netconf_payload = netconf_template.format(int_name="GigabitEthernet2",
+                                              int_desc="Configured by NETCONF",
+                                              ip_address="10.255.255.1",
+                                              subnet_mask="255.255.255.0"
+                                              )
+
+    with manager.connect(host=ios_xe1["address"], port=ios_xe1["port"],
+                         username=ios_xe1["username"],
+                         password=ios_xe1["password"],
+                         hostkey_verify=False) as m:
+
+        netconf_reply = m.edit_config(netconf_payload, target="running")
+
+        print(netconf_reply)
+
+
+
 RESTCONF
 -------
 RESTCONF: HTTP-based Representational State Transfer Configuration Protocol
