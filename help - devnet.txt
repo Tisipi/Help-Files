@@ -16,6 +16,7 @@ Cisco developer blog
 	https://blogs.cisco.com/developer
 
 
+https://developer.cisco.com/site/standard-network-devices/?utm_source=blog&utm_medium=Hank&utm_campaign=IOS-XE&utm_term=NETCONF
 https://github.com/hpreston
 https://github.com/CiscoDevNet/coding-skills-sample-code
 https://github.com/zapodeanu
@@ -23,6 +24,9 @@ https://github.com/zapodeanu
 
 NSO 					https://community.cisco.com/t5/nso-developer-hub-documents/rest-api-basics/ta-p/3635342
 Webex Teams API Docs 	https://developer.webex.com/docs/api/v1/teams
+
+
+https://github.com/CiscoSE ?
 
 
 
@@ -249,11 +253,11 @@ Ralph Schmieder, Technical Leader, Cisco
 Introduction to NETCONF, RESTCONF and YANG - DEVNET-1721
 Bryan Byrne, Technical Solutions Architect, Cisco
 
-----
-
 Effectively Understand and Leverage YANG with NETCONF and RESTCONF for Model Driven Programmability - BRKDEV-1368  <<< 123 pages !!
 Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
 https://www.ciscolive.com/global/on-demand-library.html?search=BRKDEV&search.event=ciscoliveemea2020#/session/1564610722292001c6xS
+
+----
 
 DevNet Workshop: Hands-on Exploration of NETCONF and YANG - DEVWKS-2561
 Dmitry Figol, Systems Engineer - Programmability, Cisco Systems, Inc. - Distinguished Speaker
@@ -5829,6 +5833,7 @@ Python client: ncclient (pip install ncclient)
   m.get_config(...)
   m.edit_config(...)
   m.server_capabilities
+  m.dispatch(xml_.to_ele(save_body))
   m.close_session()
 
 
@@ -5997,25 +6002,39 @@ Another example (https://github.com/CiscoDevNet/BRKDEV-1368/blob/master/netconf/
 	from device_info import ios_xe1
 	from ncclient import manager
 
-    # NETCONF Config Template to use
     netconf_template = open("config-temp-ietf-interfaces.xml").read()
-
-    # Build the XML Configuration to Send
     netconf_payload = netconf_template.format(int_name="GigabitEthernet2",
                                               int_desc="Configured by NETCONF",
                                               ip_address="10.255.255.1",
                                               subnet_mask="255.255.255.0"
                                               )
 
-    with manager.connect(host=ios_xe1["address"], port=ios_xe1["port"],
+    with manager.connect(host=ios_xe1["address"],
+    					 port=ios_xe1["port"],
                          username=ios_xe1["username"],
                          password=ios_xe1["password"],
                          hostkey_verify=False) as m:
 
         netconf_reply = m.edit_config(netconf_payload, target="running")
 
-        print(netconf_reply)
 
+
+Another example (https://github.com/CiscoDevNet/BRKDEV-1368/blob/master/netconf/example5.py):
+
+	from device_info import ios_xe1
+	from ncclient import manager, xml_
+
+    with manager.connect(host=ios_xe1["address"],
+                         port=ios_xe1["port"],
+                         username=ios_xe1["username"],
+                         password=ios_xe1["password"],
+                         hostkey_verify=False) as m:
+
+        # Build XML Payload for the RPC
+        save_body = '<cisco-ia:save-config xmlns:cisco-ia="http://cisco.com/yang/cisco-ia"/>'
+
+        # Send the RPC to the Device
+        save_rpc = m.dispatch(xml_.to_ele(save_body))
 
 
 RESTCONF
@@ -6229,13 +6248,27 @@ Get the primary IP address of the GigabitEthernet interfaces:
 	GET https://172.16.10.66:443/restconf/data/native/interface/GigabitEthernet?fields=ip/address/primary
 
 
+Get YANG Modules List via RESTCONF:
+GET https://172.16.10.66:443/restconf/data/ietf-yang-library:modules-state
+
+Getting Interface Details:
+GET https://172.16.10.66:443/restconf/data/ietf-interfaces:interfaces/interface=GigabitEthernet2
+
+
+Save Running Configuration to Startup RPC Operation:
+POST https://172.16.10.66:443/restconf/operations/cisco-ia:save-config/
+
+
 
 Constructing RESTCONF URIs
 --------------------------
 
 https://<ADDRESS>/<ROOT>/<DATA STORE>/<[YANG MODULE:]CONTAINER>/<LEAF>[?<OPTIONS>]
 
-http://192.168.27.218:8008/api/running/interfaces/interface/GigabitEthernet2?deep
+https://192.168.27.218:8008/api/running/interfaces/interface/GigabitEthernet2?deep
+
+https://192.168.27.218:8008/restconf/data/ietf-interfaces:interfaces/interface=GigabitEthernet1?depth=unbounded
+
 
 module: ietf-interfaces
 +--rw interfaces
@@ -6332,6 +6365,39 @@ Refer restconf.py for examples with python requests library. Some basics:
 
     response = requests.put(url_gig2, auth=(USER, PASS), headers=headers, verify=False, data=json.dumps(payload))
 	response.status_code
+
+
+Example (from https://github.com/CiscoDevNet/BRKDEV-1368/blob/master/restconf/example1.py):
+
+	def configure_ip_address(interface, ip):
+
+	    url = url_base + "/data/ietf-interfaces:interfaces/interface={i}".format(i=interface)
+
+	    # Use OrderedDicts to maintain the order of elements
+
+	    data = OrderedDict([('ietf-interfaces:interface',
+	              OrderedDict([
+	                            ('name', interface),
+	                            ('type', 'iana-if-type:ethernetCsmacd'),
+	                            ('ietf-ip:ipv4',
+	                                OrderedDict([
+	                                  ('address', [OrderedDict([
+	                                      ('ip', ip["address"]),
+	                                      ('netmask', ip["mask"])
+	                                  ])]
+	                                  )
+	                                ])
+	                            ),
+	                          ])
+	                        )])
+
+	    response = requests.put(url,
+	                            auth=(USER, PASS),
+	                            headers=headers,
+	                            verify=False,
+	                            json=data
+	                            )
+	    print(response.text)
 
 
 
