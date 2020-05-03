@@ -287,7 +287,6 @@ Jose Martinez, Technical Solution Architect, CISCO
 
 ---
 
-
 Cisco UCS Python SDKs - DEVNET-2063
 John McDonough, Technical Leader, Cisco
 
