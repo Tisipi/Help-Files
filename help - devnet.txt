@@ -270,6 +270,77 @@ http://cs.co/assurancebook
 https://www.cisco.com/c/dam/en/us/solutions/collateral/enterprise-networks/digital-network-architecture/nb-06-cisco-dna-assurance-technical-ebook-cte-en.pdf
 
 
+---
+UCS Seen
+
+UCS Programmability for the Rest of Us - DEVNET-2298
+Event:2020 Barcelona
+SPEAKERS
+Michael Lally, TECHNICAL SOLUTIONS ARCHITECT.SALES
+
+Cisco UCS: 100% Programmatic Infrastructure from Anywhere! - DEVNET-4652
+Eric Williams, TECHNICAL LEADER.ENGINEERING, Cisco Systems, Inc.
+
+Intent-Based Data Centre Management of Cisco UCS Servers - BRKINI-2600
+Matthew Wronkowski, Technical Leader.Services, CISCO
+Jose Martinez, Technical Solution Architect, CISCO
+
+---
+
+
+Cisco UCS Python SDKs - DEVNET-2063
+John McDonough, Technical Leader, Cisco
+
+Start Now with Cisco UCS programmability and automation: From the data center to converged to the cloud - DEVNET-3212
+Event:2020 Barcelona
+SPEAKERS
+John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
+
+DevNet Workshop: Managing Cisco UCS with the Python SDK - DEVWKS-2060
+Event:2020 Barcelona
+SPEAKERS
+David Soper, ENGINEER.TECHNICAL MARKETING - Distinguished Speaker
+
+Getting Started: Cisco UCS Python SDK for UCS Manager Lab, https://www.ciscolive.com/c/dam/r/ciscolive/us/docs/2016/pdf/LTRINI%202020-LG.pdf
+
+
+
+DevNet Workshop - Creating Plugins with the UCS Director Open Automation SDK - DEVNET-2065
+John McDonough, Technical Leader, Cisco Systems
+
+Extending the Cisco UCS Director with Orchestrator, APIs and the Open Automation Framework - BRKNMS-1456
+Ikramullah Mohammad, TECHNICAL MARKETING ENGINEER, CISCO SYSTEMS
+
+Building an agile development environment with FlexPod and Cisco UCS Director - CCSDCN-2004
+Jeff Drury, Technical Solutions Architect, Cisco
+Erich Kleditz, Systems Integration Architech, PGE
+
+DevNet Workshop: Managing Cisco UCS with Ansible - DEVWKS-2171
+John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+
+
+DevNet Workshop: Cisco Intersight REST API Introduction - Postman - Python - DEVWKS-1474
+Event:2020 Barcelona
+SPEAKERS
+John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
+
+Powering Data Center Infrastructure Programmability and Automation: Cisco Intersight's API and Integrations - DEVNET-3214
+David Soper, ENGINEER.TECHNICAL MARKETING, Cisco Systems, Inc. - Distinguished Speaker
+
+Cisco UCS & Cisco Intersight - Programmability Automation & Orchestration Overview - DEVNET-1481
+Event:2020 Barcelona
+SPEAKERS
+John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
+
+Cisco UCS & Cisco Intersight - Programmability Automation & Orchestration Overview - BRKDEV-2432
+John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
+
+
+
+
+
+
+
 
 Agilifing NSO Delivery - BRKNMS-2059
 Ahmed Hashem, SOFTWARE ARCHITECT.CUSTOMER DELIVERY, Cisco Systems, Inc.
@@ -381,64 +452,6 @@ Fyllon Papadopoulos, Distinguished Architect, VERIZON BUSINESS UK
 
 NetDevOps Style Configuration Management for the Network - DEVNET-1616
 Stuart Clark, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
-
-
-DevNet Workshop: Managing Cisco UCS with the Python SDK - DEVWKS-2060
-Event:2020 Barcelona
-SPEAKERS
-David Soper, ENGINEER.TECHNICAL MARKETING - Distinguished Speaker
-
-Getting Started: Cisco UCS Python SDK for UCS Manager Lab, https://www.ciscolive.com/c/dam/r/ciscolive/us/docs/2016/pdf/LTRINI%202020-LG.pdf
-
-Cisco UCS Python SDKs - DEVNET-2063
-John McDonough, Technical Leader, Cisco
-
-DevNet Workshop - Creating Plugins with the UCS Director Open Automation SDK - DEVNET-2065
-John McDonough, Technical Leader, Cisco Systems
-
-Extending the Cisco UCS Director with Orchestrator, APIs and the Open Automation Framework - BRKNMS-1456
-Ikramullah Mohammad, TECHNICAL MARKETING ENGINEER, CISCO SYSTEMS
-
-Cisco UCS: 100% Programmatic Infrastructure from Anywhere! - DEVNET-4652
-Eric Williams, TECHNICAL LEADER.ENGINEERING, Cisco Systems, Inc.
-
-Start Now with Cisco UCS programmability and automation: From the data center to converged to the cloud - DEVNET-3212
-Event:2020 Barcelona
-SPEAKERS
-John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
-
-Intent-Based Data Centre Management of Cisco UCS Servers - BRKINI-2600
-Matthew Wronkowski, Technical Leader.Services, CISCO
-Jose Martinez, Technical Solution Architect, CISCO
-
-UCS Programmability for the Rest of Us - DEVNET-2298
-Event:2020 Barcelona
-SPEAKERS
-Michael Lally, TECHNICAL SOLUTIONS ARCHITECT.SALES
-
-Building an agile development environment with FlexPod and Cisco UCS Director - CCSDCN-2004
-Jeff Drury, Technical Solutions Architect, Cisco
-Erich Kleditz, Systems Integration Architech, PGE
-
-DevNet Workshop: Managing Cisco UCS with Ansible - DEVWKS-2171
-John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
-
-
-DevNet Workshop: Cisco Intersight REST API Introduction - Postman - Python - DEVWKS-1474
-Event:2020 Barcelona
-SPEAKERS
-John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
-
-Powering Data Center Infrastructure Programmability and Automation: Cisco Intersight's API and Integrations - DEVNET-3214
-David Soper, ENGINEER.TECHNICAL MARKETING, Cisco Systems, Inc. - Distinguished Speaker
-
-Cisco UCS & Cisco Intersight - Programmability Automation & Orchestration Overview - DEVNET-1481
-Event:2020 Barcelona
-SPEAKERS
-John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
-
-Cisco UCS & Cisco Intersight - Programmability Automation & Orchestration Overview - BRKDEV-2432
-John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
 
 
 Cisco DNA Center 101: Getting started with Cisco DNA Center Platform - DEVNET-1234
