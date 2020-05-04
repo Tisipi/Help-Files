@@ -4166,8 +4166,9 @@ Example Cisco UCS Manager API: see UCS.py
 
 UCS SDK
 -------
-https://github.com/CiscoUcs/ucsmsdk
 https://ciscoucs.github.io/ucsmsdk_docs/ucsmsdk_ug.html
+https://github.com/CiscoUcs/ucsmsdk
+https://github.com/CiscoUcs/ucsmsdk_samples/tree/master/ucsmsdk_samples <<<
 
 https://ucsmsdk.readthedocs.io/en/latest/ucsmsdk_ug.html
 https://buildmedia.readthedocs.org/media/pdf/ucsmsdk/latest/ucsmsdk.pdf
