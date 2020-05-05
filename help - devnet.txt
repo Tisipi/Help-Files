@@ -4224,6 +4224,7 @@ UCS SDK Examples:
 	# Querying Objects via Distinguished Name (DN)
 
 	object = handle.query_dn("org-root/ls-sp_demo")
+	blade_by_dn = handle.query_dn("sys/chassis-5/blade-2")
 
 
 	# Querying Multiple Objects via Multiple Distinguished Names (DNs)
@@ -4231,9 +4232,10 @@ UCS SDK Examples:
 	object_dict = handle.query_dns("org-root/ls-sp_demo1", "org-root/ls-sp_demo2")
 
 
-	# Querying Objects via class Id. Returns all objects of type orgOrg
+	# Querying Objects via class Id. Returns all objects of class/type
 
 	object_array = handle.query_classid("orgOrg")
+	blades = handle.query_classid("ComputeBlade")
 
 
 	# Querying Objects via multiple class Ids. Return all objects of type orgOrg and fabricVlan.
@@ -4266,6 +4268,23 @@ UCS SDK Examples:
 
 	sp = handle.query_dn("org-root/ls-sp_demo")
 	handle.remove_mo(sp)
+
+
+	# Retrieving Meta Information about a Managed object
+
+	from ucsmsdk.ucscoreutils import get_meta_info
+	class_meta = get_meta_info("FabricVlan")
+
+
+	# Watch Ucs Events, Wait Until Condition
+
+	sp_mo = handle.query_dn("org-root/ls-sp_demo")
+	# call handle_callback_event when (sp_mo.descr == "demo")
+	handle.wait_for_event(sp_mo, "descr", "demo", handle_callback_event)
+
+	def handle_callback_event(mo_change_event):
+		print('mo_change_event.mo')
+
 
 
 
