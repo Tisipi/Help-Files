@@ -1,6 +1,12 @@
 
 TO BE CHECKED
 -------------
+Introduction to DevNet
+	https://developer.cisco.com/learning/tracks/devnet-beginner
+
+Network Programmability for Network Engineers
+	https://developer.cisco.com/learning/tracks/netprog-eng
+
 UCS
 	https://github.com/CiscoUcs/ucsmsdk
 	https://ciscoucs.github.io/ucsmsdk_docs/ucsmsdk_ug.html#overview
@@ -27,6 +33,7 @@ Webex Teams API Docs 	https://developer.webex.com/docs/api/v1/teams
 
 
 https://github.com/CiscoSE ?
+
 
 
 
@@ -333,9 +340,6 @@ John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
 
 Cisco UCS & Cisco Intersight - Programmability Automation & Orchestration Overview - BRKDEV-2432
 John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
-
-
-
 
 
 
@@ -4166,15 +4170,14 @@ Example Cisco UCS Manager API: see UCS.py
 
 UCS SDK
 -------
-https://ciscoucs.github.io/ucsmsdk_docs/ucsmsdk_ug.html
-https://github.com/CiscoUcs/ucsmsdk
-https://github.com/CiscoUcs/ucsmsdk_samples/tree/master/ucsmsdk_samples <<<
-
+https://ciscoucs.github.io/ucsmsdk_docs
 https://ucsmsdk.readthedocs.io/en/latest/ucsmsdk_ug.html
 https://buildmedia.readthedocs.org/media/pdf/ucsmsdk/latest/ucsmsdk.pdf
 
 https://developer.cisco.com/learning/tracks/ucs-compute-prog 		<<<<
 
+https://github.com/CiscoUcs/ucsmsdk
+https://github.com/CiscoUcs/ucsmsdk_samples/tree/master/ucsmsdk_samples <<<
 
 
 UCS SDK boilerplate:
@@ -4196,16 +4199,74 @@ UCS SDK boilerplate:
 Some UcsHandle() Methods:
 	handle.login()
 	handle.logout()
-	handle.commit()
+	handle.commit() 			Commits operations in the transaction
 
-	handle.query_dn()
-	handle.query_classid()
-	handle.query_dns()
-	handle.query_classids()
+	handle.query_dn() 			Query a Specific DN
+	handle.query_dns()			Query a group of DNs
+	handle.query_classid() 		Query a Specific ClassId
+	handle.query_classids()		Query a group of ClassIds
+	handle.query_children()		Query a DN children or Specific ClassId children of a DN
 
-	handle.add_mo()
-	handle.set_mo()
-	handle.delete_mo()
+	handle.add_mo()		 		Create an object
+	handle.set_mo() 	 		Update an object
+	handle.delete_mo()	 		Delete an object
+
+
+UCS SDK Examples:
+
+	# Create a new Service Proﬁle(LsServer) Object under the parent org-root:
+
+	from ucsmsdk.mometa.ls.LsServer import LsServer
+	sp = LsServer(parent_mo_or_dn="org-root", name="sp_demo")
+	handle.add_mo(sp)
+
+
+	# Querying Objects via Distinguished Name (DN)
+
+	object = handle.query_dn("org-root/ls-sp_demo")
+
+
+	# Querying Multiple Objects via Multiple Distinguished Names (DNs)
+
+	object_dict = handle.query_dns("org-root/ls-sp_demo1", "org-root/ls-sp_demo2")
+
+
+	# Querying Objects via class Id. Returns all objects of type orgOrg
+
+	object_array = handle.query_classid("orgOrg")
+
+
+	# Querying Objects via multiple class Ids. Return all objects of type orgOrg and fabricVlan.
+	# Returns a dictionary of format {classId: [objects]}
+
+	object_dict = handle.query_classids("orgOrg", "fabricVlan")
+
+
+	# Querying Objects With Filters
+
+	filter_str = '(name, "demo_1")'
+	sp = handle.query_classid(class_id="LsServer", filter_str=filter_str)
+
+	filter_str = '(name, "demo_1", type="eq")'
+	sp = handle.query_classid(class_id="LsServer", filter_str=filter_str)
+
+	filter_str = '''(name, "demo", type="eq") or ((name, "demo_1") and
+												  (name, "[0-9]_1"))'''
+	sp = handle.query_classid(class_id="LsServer", filter_str=filter_str)
+
+
+	# Updating an existing object
+
+	sp = handle.query_dn("org-root/ls-sp_demo")
+	sp.descr = "demo_descr"
+	handle.set_mo(sp)
+
+
+	# Removing an object
+
+	sp = handle.query_dn("org-root/ls-sp_demo")
+	handle.remove_mo(sp)
+
 
 
 UCS SDK Example:
