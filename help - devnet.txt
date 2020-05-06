@@ -9,7 +9,7 @@ Network Programmability for Network Engineers
 
 UCS
 	https://github.com/CiscoUcs/ucsmsdk
-	https://ciscoucs.github.io/ucsmsdk_docs/ucsmsdk_ug.html#overview
+	https://ciscoucs.github.io/ucsmsdk_docs/ucsmsdk_ug.html#overview 	<<< DONE
 	https://github.com/movinalot/ucs-code/tree/master/ucs-python
 
 Devnet Docs
@@ -4276,7 +4276,7 @@ UCS SDK Examples:
 	class_meta = get_meta_info("FabricVlan")
 
 
-	# Watch Ucs Events, Wait Until Condition
+	# Watch UCS Events, Wait Until Condition
 
 	sp_mo = handle.query_dn("org-root/ls-sp_demo")
 	# call handle_callback_event when (sp_mo.descr == "demo")
@@ -4285,6 +4285,41 @@ UCS SDK Examples:
 	def handle_callback_event(mo_change_event):
 		print('mo_change_event.mo')
 
+
+	# Compare And Sync UCS
+	# Compare objects with same DN across different Ucs Domains.
+
+	dn_to_compare = ”org-root/ls-sp”
+	ref_mo = [ref_handle.query_dn(dn=dn_to_compare)]
+	diff_mo = [diff_handle.query_dn(dn=dn_to_compare)]
+	difference = compare_ucs_mo(ref_mo, diff_mo)
+
+	# Sync changes that are found using compare_ucs_mo (difference parameter is the output of compare_ucs_mo)
+	sync_ucs_mo(ref_handle, difference=difference, delete_not_present=True)
+
+
+	# Multiple parallel transactions
+
+	handle.add_mo(mo1, tag="trans_1")
+	handle.add_mo(mo2, tag="trans_2")
+	handle.add_mo(mo3, tag="trans_1")
+	handle.remove_mo(mo4, tag="trans_2")
+
+	# Commit transaction 2
+	handle.commit(tag="trans_2")
+
+	# Commit transaction 1
+	handle.commit(tag="trans_1")
+
+
+	# Threading Mode - Enable threaded mode
+	# Thread names are automatically used as tag parameter internally.
+
+	handle.set_mode_threading()
+
+	# Threading Mode - Disable threaded mode
+
+	handle.unset_mode_threading()
 
 
 
