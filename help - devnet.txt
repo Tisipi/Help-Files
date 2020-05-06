@@ -4231,8 +4231,13 @@ UCS SDK Examples:
 
 	object_dict = handle.query_dns("org-root/ls-sp_demo1", "org-root/ls-sp_demo2")
 
+	---
+	blade_and_chassis = handle.query_dns('sys/chassis-3/blade-1','sys/chassis-3')
+	print(blade_and_chassis['sys/chassis-3/blade-1'].dn)
+	---
 
-	# Querying Objects via class Id. Returns all objects of class/type
+
+	# Querying Objects via class Id. Returns all objects of specific class/type
 
 	object_array = handle.query_classid("orgOrg")
 	blades = handle.query_classid("ComputeBlade")
@@ -4242,6 +4247,15 @@ UCS SDK Examples:
 	# Returns a dictionary of format {classId: [objects]}
 
 	object_dict = handle.query_classids("orgOrg", "fabricVlan")
+
+	---
+	blades_and_chassis = handle.query_classids("ComputeBlade","EquipmentChassis")
+	for blade in blades_and_chassis['ComputeBlade']:
+		print(blade.dn)
+	for chassis in blades_and_chassis['EquipmentChassis']:
+		print(chassis.dn)
+	---
+
 
 
 	# Querying Objects With Filters
