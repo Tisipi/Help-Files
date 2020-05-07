@@ -292,10 +292,10 @@ Intent-Based Data Centre Management of Cisco UCS Servers - BRKINI-2600
 Matthew Wronkowski, Technical Leader.Services, CISCO
 Jose Martinez, Technical Solution Architect, CISCO
 
----
-
 Cisco UCS Python SDKs - DEVNET-2063
 John McDonough, Technical Leader, Cisco
+
+---
 
 Start Now with Cisco UCS programmability and automation: From the data center to converged to the cloud - DEVNET-3212
 Event:2020 Barcelona
@@ -340,7 +340,6 @@ John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING - Distinguished Speaker
 
 Cisco UCS & Cisco Intersight - Programmability Automation & Orchestration Overview - BRKDEV-2432
 John McDonough, TECHNICAL LEADER.SOFTWARE ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
-
 
 
 
@@ -4271,6 +4270,16 @@ UCS SDK Examples:
 	sp = handle.query_classid(class_id="LsServer", filter_str=filter_str)
 
 
+	filter_exp='(model,"UCS*", type="re")'
+	compute_blades = handle.query_classid("ComputeBlade",filter_str=filter_exp)
+
+	filter_exp='(model,"UCSB-B420-M4", type="ne")'
+	compute_blades = handle.query_classid("ComputeBlade",filter_str=filter_exp)
+
+	filter_exp='(model,"ucsb-b420-m4", type="re", flag="I")'
+	compute_blades = handle.query_classid("ComputeBlade",filter_str=filter_exp)
+
+
 	# Updating an existing object
 
 	sp = handle.query_dn("org-root/ls-sp_demo")
@@ -4311,6 +4320,26 @@ UCS SDK Examples:
 	# Sync changes that are found using compare_ucs_mo (difference parameter is the output of compare_ucs_mo)
 	sync_ucs_mo(ref_handle, difference=difference, delete_not_present=True)
 
+	---
+	from ucsmsdk.ucshandle import UcsHandle
+	from ucsmsdk.utils import comparesyncmo
+
+	source_ucs=UcsHandle("192.168.0.1", "admin", "password")
+	target_ucs=UcsHandle("192.168.0.2", "admin", "password")
+	source_ucs.login()
+	target_ucs.login()
+	source_ucs_vlans=source_ucs.query_classid("fabricVlan")
+	target_ucs_vlans=target_ucs.query_classid("fabricVlan")
+
+	difference_vlans=comparesyncmo.compare_ucs_mo(target_ucs_vlans, source_ucs_vlans)
+
+	# print the difference to the console
+	comparesyncmo.write_mo_diff(difference_vlans)
+
+	# delete_not_present=True: removes VLANs from target_ucs that are not present in source_ucs
+	comparesyncmo.sync_ucs_mo(target_ucs, difference_vlans, delete_not_present=True)
+	---
+
 
 	# Multiple parallel transactions
 
@@ -4335,6 +4364,12 @@ UCS SDK Examples:
 
 	handle.unset_mode_threading()
 
+
+	# Enable the logging of xml requests and responses.
+
+	set_dump_xml()
+	... UCS SDK actions ...
+	unset_dump_xml()
 
 
 UCS SDK Example:
