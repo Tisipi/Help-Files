@@ -4020,6 +4020,8 @@ The API entities:
 
 dn = "sys/chassis-4/blade-1/adaptor-1/host-eth-1"
 
+UCS Manager Object Browser:	http://<ucs-manager-ip>/visore.html
+
 
 UCS API Methods:
 
@@ -4599,6 +4601,48 @@ AWS example:
 	        Name = "myvpc_public_subnet"
 	    }
 	}
+
+
+Intersight
+----------
+https://intersight.com/apidocs/introduction/overview/
+
+- Cloud-based RESTful API to manage Cisco UCS and HyperFlex® systems across multiple Data Centers.
+- HTTPS
+- JSON encoding
+- Based on OpenAPI specification (Swagger)
+- Intersight SDKs available
+- Supported HTTP methods:
+	- GET
+	- POST
+	- PATCH
+	- DELETE
+- POST and DELETE methods are idempotent.
+- GET method is nullipotent.
+- PATCH method may or may not be idempotent:
+	- When the Content-Type header is set to application/json, the PATCH method is idempotent.
+	- When the Content-Type header is set to application/json-patch+json, the PATCH method may not be idempotent (see RFC 5789).
+- As an exception to the above rules, the Intersight search suggester API uses the POST method for complex read-only queries, in which case the POST method is nullipotent.
+- The HTTP response to a GET, POST and PATCH request always includes the updated JSON representation of the underlying resource.
+- The HTTP response to a DELETE request only includes the HTTP status code.
+- A generic Intersight URI is of the form: https://intersight.com/path[?query]
+- Intersight uses Hypermedia as the Engine of Application State (HATEOAS) conventions to represent Object Relationships.
+
+
+GET https://intersight.com/api/v1/compute/PhysicalSummaries?$apply=groupby((Firmware), aggregate($count as count))
+accept: \*/\*
+accept-encoding: gzip, deflate, br
+accept-language: en-US,en;q=0.9,fr-FR;q=0.8,fr;q=0.7
+user-agent: Mozilla/5.0 (Macintosh; ...)
+
+
+POST https://intersight.com/api/v1/Server/Profiles/5a5f30237a6d67337212e705
+Content-Type: application/json
+Body:
+{
+  "Name": "hyperflex-node-2",
+  "Description": "HyperFlex node for the VDI application"
+}
 
 
 
