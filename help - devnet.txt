@@ -4640,6 +4640,11 @@ GET https://intersight.com/api/v1/compute/RackUnits?$filter=contains(Model,'C240
 GET https://intersight.com/api/v1/aaa/AuditRecords?$filter=CreateTime gt 2018-06-20T05:31:38.862Z
 GET https://intersight.com/api/v1/compute/RackUnits?$filter=Tags/any(t:t/Key eq 'Site' and t/Value eq 'London')
 
+GET https://intersight.com/api/v1/compute/RackUnits?$select=Vendor,Model,Serial
+
+GET https://intersight.com/api/v1/compute/RackUnits?$top=20&skip=100
+
+
 GET https://intersight.com/api/v1/compute/PhysicalSummaries?$apply=groupby((Firmware), aggregate($count as count))
 accept: \*/\*
 accept-encoding: gzip, deflate, br
@@ -5154,6 +5159,7 @@ JSON:
 	Remarks:
 	- JSON strings themselves must be delineated using double quotes " "
 	- JSON uses an all-lowercase convention of true and false (Python uppercase).
+	- json.loads expects a string; use json.load() to load for example a file.
 
 
 YAML:
@@ -7333,6 +7339,19 @@ ssh-keygen -t rsa
 # Copy public keys to clients
 #
 ssh-copy-id -p <port> <username>@<server IP>
+
+
+# Environment variables
+env
+echo $PATH
+
+export USER=SillyUser
+export PASSWORD=DoNotDoThis
+echo $USER
+echo $PASSWORD
+unset USER
+unset PASSWORD
+
 
 
 NSO API
