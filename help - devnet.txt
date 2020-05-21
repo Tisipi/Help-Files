@@ -2487,6 +2487,9 @@ git pull: combines git fetch and git merge
 git push -u <remote> <branch name> com
 +++
 
+# Pull from remote, prune deleted branches  ??
+git pull -p
+
 
 # Check the content of a git object
 #
