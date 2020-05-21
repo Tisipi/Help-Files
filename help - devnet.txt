@@ -2277,7 +2277,7 @@ git fetch
 # This discard changes in working directory
 git checkout <changed file>
 
-# Discard all changes in wqrking directory
+# Discard all changes in working directory
 git checkout -- .
 
 
