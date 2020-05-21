@@ -2252,6 +2252,78 @@ Changelog:
 
 
 
++++++
+
+Git
+---
+git clone https://github.com/CiscoDevNet/dnav3-code
+
+git help <command>
+
+git status
+git diff
+
+
+# Create your own branch locally (called mycode)
+git checkout -b mycode
+
+# Refresh your local repository from the one on GitHub.
+# Update your local repository with the remote updates.
+git fetch
+
+
+# Rollback all changes in a specific file.
+# Checkout the last version of the file.
+# This discard changes in working directory
+git checkout <changed file>
+
+# Discard all changes in wqrking directory
+git checkout -- .
+
+
+# Reset staged file
+git reset HEAD <staged file>
+
+# Reset committed files
+git reset <commit id>
+
+
+
+# Revert all files.
+# Reset your working directory to the last commit.
+git reset --hard
+
+# Delete a branch.
+git branch --delete --force <branch name>
+
+git branch -d <branch name>
+
+
+# Set global settings
+git config --global user.name "Tisipi"
+git config --global user.email "Tisipi@tisipi.nl"
+
+# List global configured settings
+git config --list
+
+
+# Add a specific file to staging area
+git add <file>
+
+# Add files from current directory to staging area
+git add .
+
+
+# Commit files in staging area
+git commit -m "Initial commit"
+
+
+# Express commit: Combined add and commit
+git commit -am "msg"
+
+++++++
+
+
 Git
 ---
 https://linuxacademy.com/blog/linux/git-terms-explained
@@ -2343,6 +2415,11 @@ git log
 git log --oneline
 
 
+git log --all --decorate --oneline --graph
+# Create an alias "git hist" for this command
+git config --global alias.hist "git log --all --decorate --oneline --graph"
+
+
 # Create a local branch called my_test_branch
 git branch my_test_branch
 
@@ -2394,6 +2471,10 @@ git revert <hash>
 git reset --hard 	(working directory and staging area are overwritten/synchronized)
 git reset --mixed	(preserves staging area)
 git reset --soft 	(preserves staging area and working directory)
+
+
+git reset HEAD
+
 
 
 # View information about remote repository
@@ -7148,57 +7229,6 @@ sudo usermod -aG docker <user>
 sudo systemctl status docker
 docker run busybox
 docker ps -a
-
-
-Git
----
-git clone https://github.com/CiscoDevNet/dnav3-code
-
-git status
-git diff
-
-
-# Create your own branch locally (called mycode)
-git checkout -b mycode
-
-# Refresh your local repository from the one on GitHub.
-# Update your local repository with the remote updates.
-git fetch
-
-
-# Rollback all changes in a specific file.
-# Checkout the last version of the file.
-git checkout <changed file>
-
-# Revert all files.
-# Reset your working directory to the last commit.
-git reset --hard
-
-# Delete a branch.
-git branch --delete --force <branch name>
-
-
-# Set global settings
-git config --global user.name "Tisipi"
-git config --global user.email "Tisipi@tisipi.nl"
-
-# List global configured settings
-git config --list
-
-
-# Add a specific file to staging area
-git add <file>
-
-# Add files from current directory to staging area
-git add .
-
-
-# Commit files in staging area
-git commit -m "Initial commit"
-
-
-# Combined add and commit
-git commit -am "msg"
 
 
 
