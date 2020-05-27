@@ -1074,6 +1074,8 @@ https://developer.cisco.com/learning/lab/why-mdp/step/7
 -	Introduction to RESTCONF - DEVNET-1081
 
 
+DNACenterSDK
+
 =============================================
 
 
@@ -1836,7 +1838,7 @@ Cache-Control header specifies caching behaviour of HTTP responses:
 HTTP ETag Validation
 -------------------
 - ETag = Entity Tag.
-- HTTP header.
+- HTTP header (in response)
 - Kind of a fingerprint.
 - Used for web cache validation.
 - Can also be used for concurrent resource modification control.
@@ -7196,6 +7198,7 @@ installed via Software installer...
 # install OpenConnect (open source VPN client)
 sudo apt-get install openconnect
 openconnect -b <ipAddress>
+sudo openconnect -bq <ipAddress>
 
 sudo ps -ax | grep openconnect
 sudo kill <openconnect PID>
@@ -7394,3 +7397,44 @@ curl -u admin:admin http://localhost:8080/api/running/devices/device/PE11/config
 
 # JSON response
 curl -u admin:admin -H "Accept: application/vnd.yang.data+json" http://localhost:8080/api/running/devices/device/PE11/config/ios:router/bgp?deep
+
+
+++++++++++++++
+
+ROUTER_AUTH = HTTPBasicAuth(USER, PASS)
+
+def get_restconf_int_oper_status(interface):
+	url = 'https://' + RO_HOST + '/restconf/data/interfaces-state/interface='  + interface
+	header = {'Content-type': 'application/yang-data+json’,
+			  'accept': 'application/yang-data+json’}
+	response = requests.get(url, headers=header, verify=False, auth=ROUTER_AUTH)
+
+	interface_info = response.json()
+	oper_data = interface_info['ietf-interfaces:interface’]
+	return oper_data
+
+----
+
+Disabling Insecure SSL Warnings from urllib
+
+
+import requests
+import urllib3
+
+# Disable SSL Warnings
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# Device Information
+host = "ios-xe-mgmt.cisco.com"
+port = "9443"
+username = "root"
+password = "D_Vay!_10&"
+
+url = "https://{host}:{port}/.well-known/host-meta".format(host=host, port=port)
+
+response = requests.get(url,
+                        auth = (username, password),
+                        verify = False
+                       )
+
+print(response.text)
