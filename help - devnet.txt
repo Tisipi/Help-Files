@@ -1838,7 +1838,7 @@ Cache-Control header specifies caching behaviour of HTTP responses:
 HTTP ETag Validation
 -------------------
 - ETag = Entity Tag.
-- HTTP header (in response)
+- HTTP header (initially sent in response from server; later included by client)
 - Kind of a fingerprint.
 - Used for web cache validation.
 - Can also be used for concurrent resource modification control.
@@ -1855,12 +1855,17 @@ HTTP ETag Validation
 
 
 Cache control:
-- HTTP 304 Not Modified header
+- Server sends response with ETag.
+- Client sends request with If-None-Match header and ETag.
+	- If-None-Match ==> send me the new object if the ETAG has changed.
+- Server responds with HTTP 304 Not Modified header.
 - Cached copy is still up-to-date.
 - Client redirection response code indicates that there is no need to retransmit the requested resources.
 - Implicit redirection to a cached resource.
 
 Concurrent resource control
+- Client sends request with If-Match header and ETag.
+	If-Match ==> update the object if the ETag matches; otherwise server sends back 412.
 - HTTP 412 Precondition Failed.
 - Client error response code indicates that access to the target resource has been denied.
 
