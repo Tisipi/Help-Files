@@ -1653,6 +1653,8 @@ Another example:
 	}
 
 The rel attribute specifies the relationship between the current document and the linked document.
+rel is short for relation. It specifies the relation between the tag and href.
+href stands for hypertext reference. It's the source of the file used by the tag.
 
 
 
