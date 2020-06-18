@@ -2374,7 +2374,10 @@ Cherry-picking a commit:
 - Taking an older commit, and rerunning it at a defined location.
 - Git copies the changes from the original commit, and then adds them to the current location.
 
-HEAD: This is a reference variable used to denote the most current commit of the repository in which you are working. When you add a new commit, HEAD will then become that new commit.
+HEAD:
+- This is a reference variable used to denote the most current commit of the repository in which you are working. When you add a new commit, HEAD will then become that new commit.
+- HEAD is pointing to the checked out branch
+- or HEAD is pointing to a checked out commit (detached HEAD).
 
 Detached HEAD: HEAD pointing to a commit rather than branch (detached state).
 
