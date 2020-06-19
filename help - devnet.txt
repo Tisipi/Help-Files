@@ -2350,7 +2350,7 @@ Origin: The original remote repository (default name).
 
 Master: Is a local branch (default branch that git creates when first creating a repository).
 
-Origin/master: Is a remote branch (it's a local copy of the "master" branch on the remote "origin").
+Origin/master: Is a remote branch (it's a local copy on your machine of the "master" branch on the remote "origin").
 
 	# Since origin/master is a branch, you can merge it. Here's a pull in two steps:
 	#
@@ -2494,13 +2494,17 @@ git remote -v
 
 git remote add origin https://github.com/Tisipi/Help-Files.git
 
-+++
-git pull: combines git fetch and git merge
-git push -u <remote> <branch name> com
-+++
+# Fetch from remote and do a git merge
+# Combined git fetch and git merge
+git pull
 
 # Pull from remote, prune deleted branches  ??
 git pull -p
+
+
++++
+git push -u <remote> <branch name> com
++++
 
 
 # Check the content of a git object
