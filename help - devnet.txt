@@ -2398,6 +2398,11 @@ git clone <url> .
 # Get the status (local working directory, staging area, etc.)
 git status
 
+# Short git status
+git status -s
+git status --short
+
+
 # Check diffs with staging area
 git diff
 git diff --staged
