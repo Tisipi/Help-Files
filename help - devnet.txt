@@ -2335,6 +2335,8 @@ git commit -am "msg"
 
 Git
 ---
+https://git-school.github.io/visualizing-git/
+
 https://linuxacademy.com/blog/linux/git-terms-explained
 
 VCS	Version Control Software
@@ -2342,7 +2344,7 @@ VCS	Version Control Software
 Main git concepts:
 - Remote repository
 - Local repository
-- Staging area
+- Staging area (index)
 - Working directory
 
 
@@ -2438,6 +2440,12 @@ git log --oneline
 git log -1
 git log -3
 
+# Detailed history log
+git log --stat
+
+
+# Detailed history log incl. diffs
+git log --patch
 
 
 git log --all --decorate --oneline --graph
@@ -2492,10 +2500,10 @@ git stash pop
 git revert <hash>
 
 
-# Reset
-git reset --hard 	(working directory and staging area are overwritten/synchronized)
-git reset --mixed	(preserves staging area)
-git reset --soft 	(preserves staging area and working directory)
+# Reset (remove commits)
+git reset --soft 	Remove commits. Move commits back to staging area (preserves staging area and working directory)
+git reset --mixed	Move commits back to working directory. (preserves staging area) (default git reset)
+git reset --hard 	Move commits to trash (working directory and staging area are overwritten/synchronized)
 
 
 git reset HEAD
@@ -2539,6 +2547,15 @@ git ls-files --modified
 git ls-files --stage
 
 
+# Remove file from the working tree and from the index.
+git rm <file>
+
+# Unstage file only from the index (i.e. untrack the file)
+git rm --cached <file>
+
+
+# Rename file
+git mv <file> <new file name>
 
 Branching
 ---------
