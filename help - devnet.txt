@@ -1833,8 +1833,8 @@ Cache-Control header specifies caching behaviour of HTTP responses:
 - No-store: 	Disable caching
 - No-cache: 	Always verify if resource is still valid
 - Max-age: 		Validity time of cached copy (in secs)
-- Public: 		Anyone may cache
-- Private: 		Only browser/client may cache
+- Public: 		Anyone may cache 							(a response for everyone)
+- Private: 		Only browser/client may cache 				(a response for a single user)
 
 
 HTTP ETag Validation
