@@ -7424,6 +7424,7 @@ ssh-copy-id -p <port> <username>@<server IP>
 # Environment variables
 env
 echo $PATH
+echo $BASH
 
 export USER=SillyUser
 export PASSWORD=DoNotDoThis
@@ -7432,6 +7433,19 @@ echo $PASSWORD
 unset USER
 unset PASSWORD
 
+# List dir recursively
+ls -R
+
+# Copy dir recursively
+cp -R dir newDir
+cp -iR dir newDir
+
+# Remove empty dir
+rmdir dir
+
+# Remove dir recursively
+rm -r dir
+rm -ir dir
 
 
 NSO API
