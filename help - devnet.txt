@@ -2017,8 +2017,9 @@ OWASP top 10 (2017)
 
 Mitigation SQL injection:
 - Blacklist / whitelist characters (filter malicious characters).
-- Fortify SQL statements (Parameterized queries or prepared statements; escape dangerous characters).
+- Fortify SQL statements (Parameterized queries or prepared statements; escape dangerous characters; typecast parameter).
 - Catch/remove SQL error messages (don't show to user).
+- Fine tune DB permissions (least privilege).
 - IPS
 - Firewall (layer 7 inspection).
 
