@@ -2082,6 +2082,7 @@ WTF = WTForms
 OAuth
 -----
 https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2
+https://auth0.com/docs/protocols/oauth2
 
 RFC6749: OAuth 2.0 Authorization Framework
 
@@ -2096,9 +2097,16 @@ Authorization and resource server are often co-located.
 
 OAuth interaction models:
 - Client Credentials flow 						(two-legged)
-- Authorization Code Grant flow 				(three-legged; autho. code & access token)
-- Implicit flow 								(three-legged; only access token, no autho. code)
+- Authorization Code Grant flow 				(three-legged; autho. code & access token; for confidential clients)
+- Implicit flow 								(three-legged; only access token, no autho. code; for public clients)
 - Resource Owner Password Credentials flow
+
++++
+https://auth0.com/docs/flows
+Use of CORS+PKCE make
+Cross Origin Requests
+Proof Key for Code Exchange
++++
 
 OAuth 2.0 grant types (the way an application gets an access token):
 - Authorization Code grant 		(three-legged)
@@ -2113,9 +2121,9 @@ Two-Legged authorization flow:
 - Two-Legged authorization flow is mostly used for APIs
 
 Three-Legged authorization flow:
-- Tree flows
+- Three flows
 - Resource owner, client application, authorization server and a resource server
-- Three-Legged authorization flow is mostly used for end-user authentication.
+- Three-Legged authorization flow is mostly used for end-user authentication.	(explicit user and client authent.)
 
 Three-Legged authorization steps:
 - Retrieve authorization code.
@@ -7361,7 +7369,12 @@ YANG
 pyang ietf-interfaces.yang
 
 # Generate tree view of Yang model.
+# option f means format into
 pyang -f tree ietf-interfaces.yang
+
+# To output only part of the yang tree use tree-path option.
+pyang -f tree --tree-path=interfaces/interface ietf-interfaces.yang
+
 
 
 Netmiko
