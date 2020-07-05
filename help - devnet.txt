@@ -2812,6 +2812,12 @@ Exec mode is preferred. It starts the specified command process as PID 1. Ensure
 
 
 
+# Check docker is installed/running correctly
+docker version
+docker info
+docker run hello-world
+
+
 # Build an image from the dockerfile
 #
 docker build -t <image-tag> .
@@ -2900,6 +2906,11 @@ docker pull debian:jessie
 docker images
 docker image ls
 
+# Remove image
+docker rmi <image>
+
+
+
 
 #  Create a container without starting it
 #
@@ -2926,9 +2937,28 @@ docker stop <container id>
 docker kill <container id>
 
 
+# Remove a container
+#
+docker rm <container id>
+
+
 # Help
 #
 docker --help.
+
+
+# Leaving container bash/shell
+exit or ctrl P+Q
+
+
+# Stopping and removing all running containers
+docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
+
+# Remove all images
+docker rmi $(docker images -q)
+
+
 
 
 # New docker syntax available:

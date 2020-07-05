@@ -122,3 +122,26 @@ sudo prime-select intel
 and for nvidia use
 
 sudo prime-select nvidia
+
+
+
+Manjaro
+-------
+
+# Update Manjaro
+sudo pacman -Syu
+
+# Install Docker
+sudo pacman -S docker
+
+
+# Run and enable Docker on startup.
+sudo systemctl start docker
+sudo systemctl enable docker
+
+
+# Configure Docker user
+
+By default, only user with root or sudo privileges can run or manage Docker. If you want to run docker without root privileges or without having to add sudo everytime, do the following
+
+sudo usermod -aG docker $USER
