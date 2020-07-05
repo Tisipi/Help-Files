@@ -7510,3 +7510,44 @@ response = requests.get(url,
                        )
 
 print(response.text)
+
+
+++++++++++++++
+
+ROUTER_AUTH = HTTPBasicAuth(USER, PASS)
+
+def get_restconf_int_oper_status(interface):
+	url = 'https://' + RO_HOST + '/restconf/data/interfaces-state/interface='  + interface
+	header = {'Content-type': 'application/yang-data+json’,
+			  'accept': 'application/yang-data+json’}
+	response = requests.get(url, headers=header, verify=False, auth=ROUTER_AUTH)
+
+	interface_info = response.json()
+	oper_data = interface_info['ietf-interfaces:interface’]
+	return oper_data
+
+----
+
+Disabling Insecure SSL Warnings from urllib
+
+
+import requests
+import urllib3
+
+# Disable SSL Warnings
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# Device Information
+host = "ios-xe-mgmt.cisco.com"
+port = "9443"
+username = "root"
+password = "D_Vay!_10&"
+
+url = "https://{host}:{port}/.well-known/host-meta".format(host=host, port=port)
+
+response = requests.get(url,
+                        auth = (username, password),
+                        verify = False
+                       )
+
+print(response.text)

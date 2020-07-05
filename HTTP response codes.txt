@@ -1,0 +1,44 @@
+HTTP response codes:
+1xx		Informational
+2xx		Success
+3xx		Redirect
+4xx		Client error
+5xx		Server Error
+
+
+200 OK
+201 Created
+204 No Content			(e.g. successful DELETE. But also for PATCH, PUT; API dependent)
+
+
+304 Not Modified  		(Cache control; ETag too?)
+
+
+500 Internal Error
+501 Not Implemented
+503 Unavailable
+
+
+
+
+REST API Unrecoverable Errors:
+- 400 Bad Request
+- 401 Unauthorized
+- 403 Forbidden
+
+REST API Retryable Errors:
+- 405 Method Not Allowed 	(HTTP "Allow" header: lists valid methods)
+- 408 Request Timeout
+- 411 Length Required 		(Content-Length header missing)
+- 429 Too Many Requests 	(Throttling, rate-limiting; Webex responds with HTTP "Retry-After" header, in secs)
+
+
+- 412 Precondition Failed 	(Etag, Concurrent resource control)
+
+
+
+
+404 Not Found
+406 Not Acceptable header
+409 Conflict
+415 Unsupported Media Type
