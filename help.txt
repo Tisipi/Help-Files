@@ -145,3 +145,9 @@ sudo systemctl enable docker
 By default, only user with root or sudo privileges can run or manage Docker. If you want to run docker without root privileges or without having to add sudo everytime, do the following
 
 sudo usermod -aG docker $USER
+
+
+# Install Plank Dock
+sudo pacman -S plank
+# Edit preferences
+plank --preferences
