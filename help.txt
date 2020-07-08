@@ -124,6 +124,8 @@ and for nvidia use
 sudo prime-select nvidia
 
 
+===============================================
+
 
 Manjaro
 -------
@@ -151,3 +153,25 @@ sudo usermod -aG docker $USER
 sudo pacman -S plank
 # Edit preferences
 plank --preferences
+
+
+
+# Kubernetes - Minikube
+# NOT for production use!
+# Install via PacMan; incl. dependcy on kubectl and Virtualbox
+#
+# Check cubectl 
+kubectl version --client
+kubectl version
+kubectl config current-context
+
+# Start minikube
+minikube start
+minikube version
+minikube stop
+minikube delete
+
+minikube dashboard
+
+kubectl get nodes
+kubectl get pods --all-namespaces
