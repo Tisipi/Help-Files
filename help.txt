@@ -158,7 +158,7 @@ plank --preferences
 
 # Kubernetes - Minikube
 # NOT for production use!
-# Install via PacMan; incl. dependcy on kubectl and Virtualbox
+# Install via PacMan; incl. dependency on kubectl and Virtualbox
 #
 # Check cubectl 
 kubectl version --client
@@ -181,3 +181,11 @@ kubectl get pods
 kubectl get pods/hello-pod
 kubectl logs <pod>
 kubectl describe pods
+
+
+kubectl create -f rc.yml
+kubectl apply -f rc.yml
+
+kubectl get rc
+kubectl get rc -o wide
+kubectl describe rc
