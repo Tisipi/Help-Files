@@ -154,3 +154,5 @@ sudo pacman -S plank
 # Edit preferences
 plank --preferences
 
+
+# Installed LibreOffice via snap (uninstalled Softmaker's FreeOffice)

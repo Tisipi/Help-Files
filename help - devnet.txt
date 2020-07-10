@@ -3254,10 +3254,12 @@ Pods:
 
 Service object expose the application to other pods (internally) or to the outside world.
 Types of Service objects:
-- ClusterIP 	(internal; default service)
-- NodePort  	(external; opens a specific IP address and a port on all the Nodes (VMs); traffic sent to this port is forwarded to the service)
-- LoadBalancer 	(external; external --> LB --> NodePort --?--> ClusterIP)
-- ExternalName 	(external; maps the Service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME record)
+- ClusterIP 	Internal; default service
+- NodePort  	External; opens a specific IP address and a port on all the Nodes (VMs); traffic sent to this port is forwarded to the service
+				Exposes the application outside of the cluster by adding a cluster-wide port on top of ClusterIP.
+- LoadBalancer 	External; external --> LB --> NodePort --?--> ClusterIP
+				Integrates NodePort with cloud-based load balancer.
+- ExternalName 	External; maps the Service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME record
 
 
 ClusterIP service:
@@ -3405,6 +3407,9 @@ Type of kubectl commands:
 - Declarative. Using the kubectl apply command.
 
 
+Note: Use "kubectl apply --record" to get a version history of your deploys.
+
+
 kubectl run my-example --image=gcr.io/devnet-756111/my-flask-example:latest --port=4200 --replicas=3
 
 
@@ -3469,10 +3474,13 @@ kubectl set image deployment/my-nginx my-nginx=nginx:1.12.0
 kubectl rollout status deployment my-nginx
 kubectl rollout status deployment/my-nginx
 
+# Check the history of deployments
+kubectl rollout history deployment my-nginx
 
 # Rollback to the previous version
 #
 kubectl rollout undo deployment my-nginx
+kubectl rollout undo deployment my-nginx --to-revision=1
 
 
 
@@ -3550,12 +3558,14 @@ kubectl delete services my-service
 kubectl delete deployment hello-world
 
 
+---
+
 
 # Kubernetes - Minikube
 # NOT for production use!
 # Install via PacMan; incl. dependency on kubectl and Virtualbox
 #
-# Check cubectl 
+# Check cubectl
 kubectl version --client
 kubectl version
 kubectl config current-context
@@ -3568,6 +3578,15 @@ minikube delete
 
 minikube dashboard
 
+
+# Get the IP address of Minikube
+minikube ip
+# Generate URL for the service
+minikube service hello-svc --url
+# Open the service in local browser directly
+minikube service hello-svc
+
+
 kubectl get nodes
 kubectl get pods --all-namespaces
 
@@ -3575,7 +3594,9 @@ kubectl create -f pod.yml
 kubectl get pods
 kubectl get pods/hello-pod
 kubectl logs <pod>
+
 kubectl describe pods
+kubectl describe pods | grep app
 
 
 kubectl create -f rc.yml
@@ -3589,6 +3610,26 @@ kubectl describe rc
 kubectl expose rc hello-rc --name=hello-svc -- target-port=8080 --type=NodePort
 kubectl describe svc hello-svc
 
+kubectl get svc
+kubectl delete svc hello-svc
+
+kubectl create -f svc.yml
+
+# Get endpoints
+kubectl get ep
+kubectl describe ep hello-svc
+
+
+kubectl create -f deploy.yml
+
+kubectl get deploy
+kubectl get deployments.apps
+kubectl describe deploy
+kubectl describe deployments.apps
+
+# Deploys use replica sets instead of the old replica controllers
+kubectl get rs
+kubectl describe rs
 
 
 CI/CD
