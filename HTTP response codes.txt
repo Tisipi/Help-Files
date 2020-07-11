@@ -25,6 +25,8 @@ REST API Unrecoverable Errors:
 - 400 Bad Request
 - 401 Unauthorized
 - 403 Forbidden
+- 404 Not Found ?
+
 
 REST API Retryable Errors:
 - 405 Method Not Allowed 	(HTTP "Allow" header: lists valid methods)
@@ -38,7 +40,6 @@ REST API Retryable Errors:
 
 
 
-404 Not Found
 406 Not Acceptable header
 409 Conflict
 415 Unsupported Media Type
