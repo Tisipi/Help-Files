@@ -1381,6 +1381,10 @@ https://developer.cisco.com/meraki/api/
 https://developer.cisco.com/meraki 			Credentials always-on public sandbox
 https://dashboard.meraki.com/				Manage your Meraki devices from the cloud
 
+Always on Sandbox:
+- api.meraki.com/api/v0/organizations
+- X-Cisco-Meraki-API-Key: 6bec40cf957de430a6f1f2baa056b99a4fac9ea0
+
 
 Cisco Meraki APIs:
 - Dashboard API

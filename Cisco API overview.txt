@@ -30,6 +30,9 @@ curl -X GET \
   -H 'Accept: application/json'
 
 
+The API returns 404 (rather than a 403) in response to a request with a missing or incorrect API key.
+
+
 
 Meraki Location Scanning API
 ----------------------------
