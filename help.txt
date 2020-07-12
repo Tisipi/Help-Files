@@ -155,6 +155,6 @@ sudo pacman -S plank
 plank --preferences
 
 
-# Installed LibreOffice via snap (uninstalled Softmaker's FreeOffice)
+# Installed LibreOffice (uninstalled Softmaker's FreeOffice)
 # Installed Google Chrome via AUR repository
 # Installed Postman via Snap repository
