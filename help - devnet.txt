@@ -1463,6 +1463,20 @@ Location/Scanning API:
 - The Meraki cloud will then begin performing JSON posts (using the defined secret).
 
 
+
+Meraki Dashboard API Python Library
+-----------------------------------
+Replaces deprecated Meraki SDK
+
+import meraki
+
+API_KEY = '6bec40cf957de430a6f1f2baa056b99a4fac9ea0'
+
+dashboard = meraki.DashboardAPI(API_KEY)
+response = dashboard.organizations.getOrganizations()
+
+
+
 UML
 ---
 Unified Modeling Language
