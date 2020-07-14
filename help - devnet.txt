@@ -1418,13 +1418,24 @@ Dashboard API:
 -Base URI: https://api.meraki.com/api/v0
 
 
+Some basic URLs:
+- GET {{baseUrl}}/organizations
+- GET {{baseUrl}}/organizations/{{organizationId}}
+- GET {{baseUrl}}/organizations/{{organizationId}}/networks
+- GET {{baseUrl}}/networks/{{networkId}}
+- GET {{baseUrl}}/networks/{{networkId}}/vlans
+- GET {{baseUrl}}/networks/{{networkId}}/staticRoutes
+- GET {{baseUrl}}/networks/{{networkId}}/devices
+- GET {{baseUrl}}/networks/{{networkId}}/devices/{{serial}}
+- GET {{baseUrl}}/networks/{{networkId}}/ssids
+
+
 Steps to update an SSID:
 - Get the API key from the Meraki Dashboard
 - GET /organizations
 - GET /organizations/{{organizationId}}/networks
 - GET /networks/{{networkId}}/ssids
 - PUT /networks/{{networkId}}/ssids
-
 
 
 Get Network Ssid:	GET /networks/{networkId}/ssids/{number}
@@ -7480,6 +7491,18 @@ Cisco DNA Center workflow:
 - Assure (via Network telemetry and sensor capabilities)
 
 SDA??
+
+
+Meraki Labs
+-----------
+$ git clone https://github.com/CiscoDevNet/meraki-code
+$ cd meraki-code
+$ python3.6 -m venv venv
+$ source venv/bin/activate
+
+(venv)$ pip install -r requirements.txt
+(venv)$ cd ~/code/meraki-code/meraki_cloud_simulator
+(venv)$ python meraki_cloud_simulator.py
 
 
 DNA lab
