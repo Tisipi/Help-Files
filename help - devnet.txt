@@ -1428,6 +1428,7 @@ Some basic URLs:
 - GET {{baseUrl}}/networks/{{networkId}}/devices
 - GET {{baseUrl}}/networks/{{networkId}}/devices/{{serial}}
 - GET {{baseUrl}}/networks/{{networkId}}/ssids
+- GET {{baseUrl}}/networks/{{networkId}}/connectionStats?t0={{t0}}&t1={{t1}}
 
 
 Steps to update an SSID:
