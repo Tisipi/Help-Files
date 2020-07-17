@@ -7615,6 +7615,74 @@ rm -r dir
 rm -ir dir
 
 
+nmap
+----
+# Discover IP's in a subnet
+nmap -sP 192.168.0.0/24
+
+# Scan for open ports (1000 most common ports)
+nmap 192.168.0.0/24
+
+# Fast Scan (the most popular 100 ports)
+nmap -F <hostname>
+
+# Port scan; Service detection (-sV)
+nmap -sV -p 21,22,25,80,110,143,443,445 <hostname>
+
+# Scan All TCP Ports with Range (TCP is standaard)
+nmap -p0-65535 <hostname>
+nmap -p- <hostname>
+
+# Scan All UDP Ports
+nmap -sU -p0-65535 <hostname>
+nmap -sU -p- <hostname>
+
+# Scan All TCP and UDP Ports
+nmap -sU -sT -p0-65535 <hostname>
+
+
+# TCP Syn and UDP Scan (requires root)
+# Checks about 2000 common tcp and udp ports.
+# Use the -Pn flag to skip the ping scan and assume the host is up. This can be useful when there is a firewall that might be preventing icmp replies.
+nmap -sS -sU -Pn <hostname>
+
+
+# Scan OS information and Traceroute
+nmap -A <hostname>
+
+# OS Detection
+nmap -O <hostname>
+
+# Determining Firewall Rules
+nmap -sA <hostname>
+
+# Scan most popular ports (Scan the top [x] most common ports)
+nmap --top-ports [x] <hostname>
+
+# TCP scanning:
+nmap -sT <hostname>
+
+# UDP scanning:
+nmap -sU <hostname>
+
+
+# Detecting malware infections
+nmap -sV --script=http-malware-host <hostname>
+
+# Using Google’s Malware check:
+nmap -p80 --script http-google-malware <hostname>
+
+
+# CVE detection using Nmap
+
+nmap -Pn --script vuln <hostname>
+
+
+# Check the available encryption and DoS vulnerability (without causing DoS to the service) and obtains NTLM Windows info (versions).
+nmap --script "rdp-enum-encryption or rdp-vuln-ms12-020 or rdp-ntlm-info" -p 3389 -T4 <IP>
+
+
+
 NSO API
 -------
 # Default XML response
