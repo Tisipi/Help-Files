@@ -7772,3 +7772,82 @@ response = requests.get(url,
                        )
 
 print(response.text)
+
+
+
+==========
+
+
+Python Requests Examples
+------------------------
+import requests
+
+requests.post('url', data={'key':'value'})
+requests.put('url', data={'key':'value'})
+requests.delete('url')
+requests.head('url')
+requests.patch('url', data={'key':'value'})
+requests.options('url')
+
+
+# Basic Authentication header
+r = requests.get(url, auth=(USER, PASS), verify=False)
+
+
+# Basic Authentication header plus other headers
+r = requests.get(url, auth=(USER, PASS), headers=headers, verify=False)
+
+
+# Parameters in URL (url/get?key1=value1&key2=value2)
+r = requests.get(url, params=params)
+
+
+# Data in body
+r = requests.post(url, data = {'key':'value'})
+r = requests.put(url, auth=(USER, PASS), headers=headers, verify=False, data=json.dumps(my_payload))
+r = requests.put(url, auth=(USER, PASS), headers=headers, verify=False, json=data)
+
+
+# Data as a dictionary (automatically form-encoded)
+r = requests.post('https://httpbin.org/post', data={'key':'value'})
+
+# Data as a list of tuples (automatically form-encoded)
+r = requests.post('https://httpbin.org/post', data=[('key', 'value')])
+
+# Use json parameter for JSON data (requests serializes your data and adds Content-Type application/json)
+r = requests.post('https://httpbin.org/post', json={'key':'value'})
+
+
+r.text 						Response (tith educated guesses about the encoding of the response)
+r.json() 					Response with JSON decoded by builtin JSON decoder
+r.status_code
+r.raise_for_status()
+r.headers
+r.headers['Content-Type']
+r.headers.get('content-type')
+r.request.headers 			Headers sent to the server
+r.url 						Gives the submitter URL and its parameters
+r.content 					Binary Response Content (response body as bytes)
+r.encoding 					Check or set the encoding used
+
+if r: 						Successful response (evaluates to True if the status code was between 200 and 400)
+if r.ok: 					Successful response
+if r.status_code == 200:
+
+
+
+params = {'key1': 'value1', 'key2': 'value2'}
+
+headers = {
+    "Authorization": "Bearer ACCESS_TOKEN",
+    "Content-Type": "application/json"
+}
+
+my_payload = {
+    "Cisco-IOS-XE-native:address": {
+        "primary": {
+            "address": "192.168.0.66",
+            "mask": "255.255.255.0"
+        }
+    }
+}

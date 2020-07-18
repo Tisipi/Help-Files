@@ -51,7 +51,7 @@ Base URI: 	<cluster-ip>/dna/intent/api/v1/
 Auth. URL:	<cluster-ip>/dna/system/api/v1/auth/token
 
 Authentication:
-	1. Get a token using POST (basic authentication)
+	1. Get a token using POST (using basic authentication)
 	2. X-Auth-Token header in subsequent requests
 
 	POST <cluster-ip>/dna/system/api/v1/auth/token
