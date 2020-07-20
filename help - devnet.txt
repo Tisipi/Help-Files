@@ -4460,6 +4460,9 @@ https://developer.cisco.com/learning/tracks/ucs-compute-prog 		<<<<
 https://github.com/CiscoUcs/ucsmsdk
 https://github.com/CiscoUcs/ucsmsdk_samples/tree/master/ucsmsdk_samples <<<
 
+https://github.com/ciscoucs/ucsm_apis
+https://ucsm-apis.readthedocs.io/en/latest/
+
 
 UCS SDK boilerplate:
 
@@ -4713,6 +4716,65 @@ UCS SDK Example:
 	handle.logout()
 
 
+
+watch_ucs.py
+------------
+https://github.com/CiscoUcs/ucsmsdk/blob/master/bin/watch_ucs.py
+
+try:
+    handle = UcsHandle(host, user, password)
+    handle.login()
+
+    ucs_gui_launch(handle)
+
+    time.sleep(5)
+    print("================================================")
+    print("Hit an Enter here AFTER the Java UI is up and running...")
+    print("================================================")
+    wait = input()
+    convert_to_ucs_python()
+
+except:
+    handle.logout()
+    raise
+
+finally:
+    handle.logout()
+
+
+
+UCS PowerTool
+-------------
+# Connect, get PowerShell details, Disconnect
+#
+Connect-Ucs -Name <ip-address-ucs-manager>
+Get-UcsPSSession
+Disconnect-Ucs
+
+Get-Help
+Get-Help -Name Get-UcsRackUnit
+Get-Help -Name Get-UcsBlade
+Get-Help Get-UcsServer
+
+
+Get-UcsBlade
+Get-UcsBlade | Select-Object Dn
+Get-UcsBlade -Dn sys/chassis-3/blade-1
+
+Get-UcsBlade | Select-Object Dn, TotalMemory, NumOfCpus, Serial
+Get-UcsBlade | Select-Object Dn, TotalMemory, NumOfCpus, Serial, SlotId | Format-Table
+Get-UcsBlade | Select-Object Dn, TotalMemory, NumOfCpus, Serial, SlotId | Out-GridView
+
+Get-UcsBlade -NumOfCpus 4 | Select-Object Dn, TotalMemory, NumOfCpus, Serial, SlotId | Format-Table
+Get-UcsBlade | Where-Object {$_.NumOfCpus -eq 4} | Select-Object Dn, TotalMemory, NumOfCpus, Serial, SlotId | Format-Table
+
+
+Get-UcsRackUnit
+Get-UcsRackUnit -Dn sys/rack-unit-1
+Get-UcsServer
+
+
+
 UCS Ansible Examples
 --------------------
 - name: Configure NTP server
@@ -4938,6 +5000,8 @@ Body:
   "Name": "hyperflex-node-2",
   "Description": "HyperFlex node for the VDI application"
 }
+
++++ add some code examples +++
 
 
 
