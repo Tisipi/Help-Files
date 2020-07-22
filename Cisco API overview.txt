@@ -119,6 +119,10 @@ Intersight API
 Requires request signing
 KEYFILE
 
+API key ID
+Secret key (RSA Private Key)
+
+
 	from intersight.intersight_api_client import IntersightApiClient
 	import intersight.apis.network_element_summary_api as summary_api
 
