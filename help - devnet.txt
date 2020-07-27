@@ -1289,6 +1289,7 @@ Cisco Webex Teams
 -----------------
 https://developer.webex.com/docs/api/getting-started.
 https://developer.webex.com/login
+https://github.com/CiscoDevNet/webexteamssdk
 
 Secure collaboration platform.
 REST API.
@@ -1310,8 +1311,8 @@ Example webhook:
 	{
 	      "name": "My_Nice_Webhook",
 	      "filter": "roomId=101",
-	      "resource": "messages,"
-	      "event": "created,"
+	      "resource": "messages",
+	      "event": "created",
 	      "targetUrl": "https://my.apigateway/events"
 	}
 
@@ -1372,6 +1373,51 @@ headers = {
 requests.get('https://api.ciscospark.com/v1/messages', headers=headers)
 
 curl -X GET https://api.ciscospark.com/v1/messages -H "Authorization:Bearer <ACCESS_TOKEN>"
+
+
+
+Example, sending a message to a room:
+
+	def send_it(token, room_id, message):
+
+	        headers = {"Authorization": "Bearer %s" % token,
+	                  "Content-Type": "application/json"}
+
+	        data = {"roomId": room_id,
+	                "text": message}
+
+	        return requests.post("https://api.ciscospark.com/v1/messages/", headers=headers, data=json.dumps(data), verify=True)
+
+
+
+Webex Teams SDK
+---------------
+https://github.com/CiscoDevNet/webexteamssdk
+https://github.com/CiscoDevNet/webexteamssdk/tree/master/examples
+
+	from webexteamssdk import WebexTeamsAPI
+
+	api = WebexTeamsAPI()
+
+	# Find all rooms that have 'webexteamssdk Demo' in their title
+	all_rooms = api.rooms.list()
+	demo_rooms = [room for room in all_rooms if 'webexteamssdk Demo' in room.title]
+
+	# Delete all of the demo rooms
+	for room in demo_rooms:
+	    api.rooms.delete(room.id)
+
+	# Create a new demo room
+	demo_room = api.rooms.create('webexteamssdk Demo')
+
+	# Add people to the new demo room
+	email_addresses = ["test01@cmlccie.com", "test02@cmlccie.com"]
+	for email in email_addresses:
+	    api.memberships.create(demo_room.id, personEmail=email)
+
+	# Post a message to the new room, and upload a file
+	api.messages.create(demo_room.id, text="Welcome to the room!",
+	                    files=["https://www.webex.com/content/dam/wbx/us/images/dg-integ/teams_icon.png"])
 
 
 
@@ -7447,6 +7493,9 @@ sudo mv ngrok /usr/local/bin
 
 # Start an ngrok tunnel.
 ngrok http 6767
+
+# ngrok request inspector
+http://localhost:4040
 
 
 # Google Chrome
