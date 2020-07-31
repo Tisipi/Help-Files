@@ -111,8 +111,7 @@ sudo powertop --auto-tune
 
 
 +++ check nvidia ++++
-lspci -k | grep -A 2 -i "VGA"
-
+lspci -k | grep -A 2 -E "(VGA|3D)"
 
 You can check in System Settings -> Details which graphic card you are using.
 

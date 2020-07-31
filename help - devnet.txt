@@ -3804,6 +3804,10 @@ Cisco IOx application hosting features:
 - Centralized application life cycle management.
 - Cloud-based developer experience.
 
+Application hosting examples:
+- iPerfv3
+- TRex (open source traffic generator tool used to benchmark platforms)
+
 
 Applications have no access to the internal device flash.
 Applications must reside on External storage.
@@ -3855,7 +3859,7 @@ So, two types of networking apps:
 
 AppGigabitEthernet interface:
 - Internal hardware data port
-- hardware-switched to the front panel data ports
+- Hardware-switched to the front panel data ports
 - Same features as front-panel GigabitEthernet ports (e.g.switchport mode trunk, switchport trunk allowed vlan).
 - Avoid using switchport mode access, because it limits the containers to only one VLAN.
 - Single app (IOS XE Release 16): Either vlan-access or trunk mode; no mixing of the modes
@@ -3904,7 +3908,7 @@ Enabling Application Hosting
 -----------------------------
 Prerequisites:
 - Release >= 16.12
-- Cisco certified USB3.0 Flash Drive
+- Cisco certified USB3.0 Flash Drive (back-panel USB3.0)
 - Smart License for the Catalyst 9000 series
 - DNA-Advantage license
 
@@ -3926,6 +3930,11 @@ iox
 show iox-service
 
 
+# Wait until the infrastructure is ready
+!
+show app-hosting list
+
+
 CAF:	Cisco Application Hosting Framework
 
 
@@ -3942,15 +3951,52 @@ Deploying Application
 docker pull myapp
 docker save myapp:latest -o myapp.tar
 
-! Interface config etc.
+
+! Interface config, access VLAN example
 !
-...
+interface AppGigabitEthernet1/0/1
+  description Uplink to Sandbox Pod Network
+  switchport access vlan 4000
+  switchport mode
+
+app-hosting appid myapp
+ app-vnic AppGigEthernet vlan-access
+  vlan 4000 guest-interface 0
+   guest-ipaddress 10.10.20.101 netmask 255.255.255.0
+ app-default-gateway 10.10.20.254 guest-interface 0
+ app-resource docker
+  run-opts "--restart=unless-stopped -p 5201:5201/tcp -p 5201:5201/udp"
+
+
+! Interface config, trunk VLAN example
+!
+interface AppGigabitEthernet1/0/1
+ switchport trunk allowed vlan 500, 700
+ switchport mode trunk
+
+app-hosting appid trex
+ app-vnic AppGigEthernet vlan-access
+  vlan 500 guest-interface 1
+   guest-ipaddress 10.0.1.2 netmask 255.255.255.0
+  vlan 700 guest-interface 0
+   guest-ipaddress 10.0.0.2 netmask 255.255.255.0
+ app-default-gateway 10.0.1.1 guest-interface 1
+ app-default-gateway 10.0.0.1 guest-interface 0
+ app-resource docker
+  run-opts "--cap-add=NET_ADMIN --ulimit memlock=100000000:100000000 --entrypoint '/bin/sleep 10000'"
+
 
 ! Copy Docker tar to the switch (usbflash1)
 !
-! ++ Check this cmd ++
 !
 copy scp:<path> usbflash1:myapp.tar vrf Mgmt-vrf
+
+! Or interactively
+copy scp: usbflash1: vrf Mgmt-vrf
+	Address or name of remote host [10.10.20.20]?
+	Source username [developer]?
+	Source filename [myapp.tar]?
+	Destination filename [myapp.tar]?
 
 
 ! Install the app on the switch
@@ -3967,6 +4013,13 @@ show app-hosting list
 app-hosting stop appid myapp
 app-hosting deactivate appid myapp
 app-hosting uninstall appid myapp
+
+
+
+! To connect to a container and start for example a TRex server.
+!
+app-hosting connect appid trex session
+
 
 
 Guest Shell (on IOS-XE)
@@ -5837,6 +5890,9 @@ More recently, independently of NETCONF and for protocols such as RESTCONF and g
 
 http://www.yang-central.org/twiki/pub/Main/YangDocuments/Instant_YANG_NB.pdf
 
+YANG Tree Diagrams 	https://tools.ietf.org/html/rfc8340
+
+
 Characteristics YANG:
 - Data modeling language (RFC 6020).
 - Analogous to XML schema and SMI for SNMP.
@@ -6676,7 +6732,7 @@ Restconf Content: XML or JSON; (based on YANG)
 
 So what differentiates RESTCONF from NETCONF?
 - No more SSH, now HTTP(S)
-- No more connection establishment, now only requests
+- No more connection establishment, now only requests (stateless)
 - No more XML, now XML and JSON
 
 
@@ -7511,6 +7567,10 @@ sudo ps -ax | grep openconnect
 sudo kill <openconnect PID>
 
 
+openconnect -b devnetsandbox-usw1-reservation.cisco.com:20194
+Username: ericbrouwe
+Password: YYBZTMRK
+
 
 # Docker
 #
@@ -7637,6 +7697,7 @@ pyang ietf-interfaces.yang
 # Generate tree view of Yang model.
 # option f means format into
 pyang -f tree ietf-interfaces.yang
+pyang --format tree ietf-interfaces.yang
 
 # To output only part of the yang tree use tree-path option.
 pyang -f tree --tree-path=interfaces/interface ietf-interfaces.yang
