@@ -128,13 +128,18 @@ sudo prime-select nvidia
 
 Manjaro
 -------
+https://wiki.archlinux.org/index.php/Dell_XPS_15_7590
 
-# Update Manjaro
+
+# Update Manjaro (update the entire system)
 sudo pacman -Syu
+
+# Update a package
+pacman -S <package>
+
 
 # Install Docker
 sudo pacman -S docker
-
 
 # Run and enable Docker on startup.
 sudo systemctl start docker

@@ -6718,17 +6718,21 @@ Another example (https://github.com/CiscoDevNet/BRKDEV-1368/blob/master/netconf/
 
 RESTCONF
 -------
+RFC 8040 - January 2017.
 RESTCONF: HTTP-based Representational State Transfer Configuration Protocol
 
 RESTCONF ~ NETCONF/YANG + HTTP(S)
+	Since RFC 8040 only HTTPS
 Subset of NETCONF
 Exposes YANG models via a REST API
 HTTP(S) transport; XML or JSON encoding
+The server is a RESTCONF agent
 
 Transport protol: HTTP(S)
 Restconf Messages: N/A
 Restconf Operations: GET, POST, PUT, PATCH, DELETE
 Restconf Content: XML or JSON; (based on YANG)
+Typically Basic Authentication
 
 So what differentiates RESTCONF from NETCONF?
 - No more SSH, now HTTP(S)
@@ -6742,11 +6746,11 @@ RESTCONF uses same utilities and tools as REST, e.g.:
 - Firefox RESTClient
 - Python requests module
 
-Uses common HTTP verbs in REST APIs:
+RESTCONF uses common HTTP verbs in REST APIs:
 GET			Read 	(NOT used for Operations!)
-PATCH		Update
-PUT			Create or Replace
 POST		Create or Operations (reload, default)
+PUT			Create or Replace
+PATCH		Update (merge)
 DELETE		Deletes the targeted resource
 HEAD		Header metadata (no response body)
 
@@ -6754,9 +6758,83 @@ Note:
 - PATCH adds configuration.
 - PUT replaces configuration (declarative)
 
+MIME types in Content-Type and Accept headers:
+- application/yang-data+json
+- application/yang-data+xml
+- application/vnd.yang.data+json ?
 
-RESTCONF URI for config:		/restconf/data/<module name>:interfaces
-RESTCONF URI for operations:	/restconf/operations/<module name>:flapinterface
+
+RESTCONF URI format:
+	https://<ADDRESS>/<ROOT>/data/<[YANG MODULE:]CONTAINER>/<LEAF>[?<OPTIONS>]
+
+	ADDRESS The IP (or DNS Name) and port.
+	ROOT 	The main entry point for RESTCONF requests.
+			Discovery of root via: /.well-known/host-meta
+	data 	"data" is the RESTCONF API resource type for data.
+			"operations" is the resource type for RPC operations.
+
+
+	RESTCONF URI for config:		/restconf/data/<module name>:interfaces
+	RESTCONF URI for operations:	/restconf/operations/<module name>:flapinterface
+
+
+Read the top level REST resource:	https://{{host}}:{{port}}/.well-known/host-meta
+Read the top level RESTCONF:		https://{{host}}:{{port}}/restconf
+Models implemented by the device:	https://{{host}}:{{port}}/restconf/data/netconf-state/capabilities
+Read ietf-yang-library:				https://{{host}}:{{port}}/restconf/data/ietf-yang-library:modules-state
+
+Save running config (POST:			https://{{host}}:{{port}}/restconf/operations/cisco-ia:save-config/
+
+
+https://<ADDRESS>/restconf/data/ietf-interfaces:interfaces
+https://<ADDRESS>/restconf/data/ietf-interfaces:interfaces/interface=<INTERFACE NAME>
+https://<ADDRESS>/restconf/data/ietf-interfaces:interfaces/interface=<INTERFACE NAME>?fields=name&fields=description
+
+
+	{
+	  "ietf-interfaces:interfaces": {
+	    "interface": [
+	      {
+	        "name": "GigabitEthernet1",
+	        "description": "MANAGEMENT INTERFACE - DON'T TOUCH ME",
+	        "type": "iana-if-type:ethernetCsmacd",
+	        "enabled": true,
+	        "ietf-ip:ipv4": {
+	          "address": [
+	            {
+	              "ip": "10.10.20.48",
+	              "netmask": "255.255.255.0"
+	            }
+	          ]
+	        },
+	        "ietf-ip:ipv6": {}
+	      },
+	      {
+	        "name": "GigabitEthernet2",
+	        "description": "Network Interface",
+	        "type": "iana-if-type:ethernetCsmacd",
+	        "enabled": false,
+	        "ietf-ip:ipv4": {},
+	        "ietf-ip:ipv6": {}
+	      },
+	      {
+	        "name": "Loopback66",
+	        "type": "iana-if-type:softwareLoopback",
+	        "enabled": true,
+	        "ietf-ip:ipv4": {
+	          "address": [
+	            {
+	              "ip": "66.66.66.66",
+	              "netmask": "255.255.255.255"
+	            }
+	          ]
+	        },
+	        "ietf-ip:ipv6": {}
+	      }
+	    ]
+	  }
+	}
+
 
 
 Examples - RESTCONF
