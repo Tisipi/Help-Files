@@ -5557,9 +5557,21 @@ routes_ntp.yml:
 
 
 
+# To verify YAML syntax
+#
+ansible-playbook configure_servers.yml --syntax-check
+
+
 # Run a playbook
 #
 ansible-playbook -i hosts configure_servers.yml
+
+
+# Dry run a playbook (use the --check or -C argument)
+# Ansible reports changes, but the modules do not apply them to remote hosts
+#
+ansible-playbook -i hosts --check configure_servers.yml
+
 
 
 # Create a reusable Ansible role
@@ -5570,6 +5582,24 @@ ansible-galaxy init roles/ntp
 # Ping hosts
 #
 ansible all -i hosts -m ping
+
+
+
+# Ad-hoc commands using the Ansible CLI tool
+#
+# Ping
+#
+ansible -m ping sandbox-servers
+
+# Review the default Ansible facts on each host
+#
+ansible -m setup sandbox-servers
+
+
+# Show ansible documentation
+#
+ansible-doc file
+ansible-doc copy
 
 
 
