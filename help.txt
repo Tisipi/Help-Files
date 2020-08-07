@@ -145,6 +145,10 @@ sudo pacman-mirrors -f5 && sudo pacman -Syyu
 # Settings - Appearance - settings - style - adwaita dark
 # Settings - Firewall - Enable firewall
 # Settings - windows manager tweaks - cycling - raise windows; no draw frame
+# Remove labels from panel (only shiw icons):
+#	Right-click on the panel > Panel > Panel Preferences > Items (tab) > 
+#	double-click the Window Buttons item > under Appearance disable the option Show button labels.
+
 
 # Selected LibreOffice (instead of Softmaker's FreeOffice)
 # Installed Sublime text (Snap repository)
@@ -155,13 +159,18 @@ sudo pacman-mirrors -f5 && sudo pacman -Syyu
 
 # Install Plank Dock
 sudo pacman -S plank
+
 # Edit preferences
-# plank --preferences
+# plank --preferences << doesn't work that well...
 #
 # Remove horizontal line caused by plank: 
 #  Setting > Window manager Tweaks > Compositor: uncheck “Show shadows under dock windows"
 
 # What about latte dock? dockbarx?
+
+check:
+	cp usr/share/icons/default/index.theme ~/.icons/default/index.theme
+	cp: cannot stat 'usr/share/icons/default/index.theme': No such file or directory
 
 
 

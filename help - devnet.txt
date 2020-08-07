@@ -7882,6 +7882,11 @@ echo $PASSWORD
 unset USER
 unset PASSWORD
 
+
+# Check last bash error code (0 is ok)
+echo $?
+
+
 # List dir recursively
 ls -R
 
