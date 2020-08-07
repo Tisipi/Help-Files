@@ -130,12 +130,39 @@ Manjaro
 -------
 https://wiki.archlinux.org/index.php/Dell_XPS_15_7590
 
-
 # Update Manjaro (update the entire system)
 sudo pacman -Syu
 
 # Update a package
 pacman -S <package>
+
+# ChecK: update mirrors ??
+sudo pacman-mirrors -f5 && sudo pacman -Syyu
+
+
+# Settings - Mouse, inverse scrolling
+# Settings - Appearance - settings - windows scaling 2x
+# Settings - Appearance - settings - style - adwaita dark
+# Settings - Firewall - Enable firewall
+# Settings - windows manager tweaks - cycling - raise windows; no draw frame
+
+# Selected LibreOffice (instead of Softmaker's FreeOffice)
+# Installed Sublime text (Snap repository)
+# Installed Google Chrome (google-chrome, AUR repository)
+# Installed Postman (Snap repository)
+# Installed tree
+
+
+# Install Plank Dock
+sudo pacman -S plank
+# Edit preferences
+# plank --preferences
+#
+# Remove horizontal line caused by plank: 
+#  Setting > Window manager Tweaks > Compositor: uncheck “Show shadows under dock windows"
+
+# What about latte dock? dockbarx?
+
 
 
 # Install Docker
@@ -151,16 +178,3 @@ sudo systemctl enable docker
 By default, only user with root or sudo privileges can run or manage Docker. If you want to run docker without root privileges or without having to add sudo everytime, do the following
 
 sudo usermod -aG docker $USER
-
-
-# Install Plank Dock
-sudo pacman -S plank
-# Edit preferences
-plank --preferences
-
-
-# Installed LibreOffice (uninstalled Softmaker's FreeOffice)
-# Installed Google Chrome via AUR repository
-# Installed Postman via Snap repository
-
-# Installed tree
