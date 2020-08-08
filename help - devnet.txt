@@ -5148,6 +5148,8 @@ Playbook needs to revert	|	Executes periodically: manual changes will be reverte
 
 Puppet
 ------
+forge.puppet.comp 	 catalogue of modules
+
 Puppet Concepts:
 - Resource: Describes particular aspect of a system. Unit of configuration.
 - Class: 	Collection of resources.
@@ -5313,10 +5315,14 @@ puppet agent
 service puppetserver status
 puppetserver start
 
+# Print config
+puppet config print
+
 # Pull configuration every 2 minutes (default is 30 min)
 # Or modify /etc/puppetlabs/puppet/puppet.conf
 #
 puppet config set --section agent runinterval 120
+
 
 # Check logs on master
 #
@@ -5331,6 +5337,13 @@ puppetserver ca list --all
 #
 puppet module install puppetlabs-ntp
 puppet module list
+
+
+# Validate manifest file
+sudo puppet parser validate helloworld.pp
+
+# Apply manifest file manually
+sudo puppet apply helloworld.pp
 
 
 
@@ -7900,6 +7913,12 @@ rmdir dir
 # Remove dir recursively
 rm -r dir
 rm -ir dir
+
+
+MD5 - Markdown
+--------------
+https://dillinger.io/
+
 
 
 nmap
