@@ -7276,6 +7276,51 @@ Encoding:		- JSON
 				  - Compact GPB encoding
 				  - kvGPB (KV-GPB) encoding (Key-value or self-describing”)
 
+IOS XE publication types:
+- On-Change
+- Periodic
+
+
+Example: IOS XE --> Cisco_telemetry_mdt plugin within Telegraf -- convert gRPC protobuf into JSON --> InfluxDB
+
+TIG software stack:
+- Telegraf	 Receiver/Collection			Cisco_telemetry_mdt plugin that decodes the gRPC data
+- InfluxDB	 Collector/Storage				Time series database
+- Grafana	 Monitoring and visualization
+
+
+Example CLI configuration to enable MDT:
+
+	telemetry ietf subscription 101
+	 encoding encode-kvgpb
+	 filter xpath /process-cpu-ios-xe-oper:cpu-usage/cpu-utilization/five-seconds
+	 stream yang-push
+	 update-policy periodic 500
+	 receiver ip address 10.10.20.50 57500 protocol grpc-tcp
+
+	show telemetry ietf subscription all
+	show telemetry ietf subscription 101
+
+
+Example XML configuration to enable MDT:
+
+	"mdt-config-data": {
+	    "mdt-subscription":[ {
+	        "subscription-id": "101",
+	        "base": {
+	            "stream": "yang-push",
+	            "encoding": "encode-kvgpb",
+	             "period": "500",
+	            "xpath": "/process-cpu-ios-xe-oper:cpu-usage/cpu-utilization/five-seconds"
+	            }
+	        "mdt-receivers": {
+	            "address": ”10.10.20.50"
+	            "port": "57500" }
+	        }
+	    ]
+	}
+
+
 
 Streaming Telemetry with gNMI
 -----------------------------
