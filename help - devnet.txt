@@ -4274,9 +4274,9 @@ Distributed logging stages:
 
 
 ELK stack:
-- Elasticsearch
-- Logstash
-- Kibana
+- Elasticsearch		(log search and extraction of specific data fields)
+- Logstash 			(log collection)
+- Kibana 			(dashboard, visualization)
 Beats is used as collector agent
 
 Distributed tracing frameworks: OpenTracing and OpenCensus (merged into OpenTelemetry)
@@ -7262,7 +7262,7 @@ Streaming data
 
 Session:	 	Specifies destinations to collect streamed data.
 				Two Modes:
-				- Dial-in: Subscribed receiver dials in to the router. Router is server; receiver is client. Dynamic subscription terminates when the receiver cancels the subscription or when the session terminates.
+				- Dial-in: Subscribed receiver dials in to the router. Router is server; receiver is client. Dynamic subscription terminates when the receiver cancels the subscription or when the session terminates. Dial-in is dynamic.
 				- Dial-out: Router dials out to the subscribed receivers (default mode). Router is client; receiver is server. Dial-out mode is persistent. If a session terminates, the router continually attempts to re-establish every 30 seconds.
 Sensor path:	YANG path to data definitions.
 Subscription:	Links sensor-paths and destinations. Specifies streaming criteria.
@@ -7295,11 +7295,11 @@ Example CLI configuration to enable MDT:
 	 encoding encode-kvgpb
 	 filter xpath /process-cpu-ios-xe-oper:cpu-usage/cpu-utilization/five-seconds
 	 stream yang-push
-	 update-policy periodic 500
+	 update-policy periodic 500 								<<< in centi-seconds
 	 receiver ip address 10.10.20.50 57500 protocol grpc-tcp
 
 	show telemetry ietf subscription all
-	show telemetry ietf subscription 101
+	show telemetry ietf subscription 101 [detail]
 
 
 Example XML configuration to enable MDT:
