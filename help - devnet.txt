@@ -7869,6 +7869,9 @@ pyang --format tree ietf-interfaces.yang
 pyang -f tree --tree-path=interfaces/interface ietf-interfaces.yang
 
 
+Remark:
+PyangBind is a plugin for Pyang that generates a Python class hierarchy from a YANG data model. The resulting classes can be directly interacted with in Python.
+
 
 Netmiko
 -------
