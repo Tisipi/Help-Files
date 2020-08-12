@@ -7962,6 +7962,66 @@ rmdir dir
 rm -r dir
 rm -ir dir
 
+# Create mulptiple files using brace expansion (list)
+touch {a,b,c}.txt
+
+# Create mulptiple files using brace expansion (ranges)
+touch {a..c}{1..3}.txt
+
+
+# Move multiple files using brace expansions.
+mv fil.{txt,jpg} dir/
+
+# Test brace expansions before applying
+echo {a,b,c}.txt
+echo {a..c}{1..3}.txt
+
+# Redirection to file (replace)
+ls > listings.txt
+
+# Use ctrl-d to leave here:
+cat > mySimpleEditor.txt
+
+# Redirection to file (append)
+echo "Tolkien" >> toRead.txt
+echo "History of Mankind" >> toRead.txt
+
+
+# Command substitution
+echo "hello $(whoami)"
+echo "you are on server $(hostname)"
+
+
+# Command substitution with backticks (deprecated)
+echo "you are on server `hostname`"
+
+# Movement and deletion keys
+ctrl-a	start of line
+ctrl-e	end of line
+ctrl-f	move forward 1 char
+ctrl-b	move back 1 char
+alt-f	move forward 1 word
+alt-b	move back 1 word
+
+ctrl-h	delete a char backwards (backspace)
+ctrl-d	delete a char
+alt-d	delete a word
+ctrl-w	delete a word backwards (alt backspace)
+
+ctrl-k	delete rest of line
+ctrl-u	delete from start of line
+
+ctrl-p	previous line in history
+ctrl-n	next line in history
+ctrl-r	search back in history
+
+
+
+ctrl-c	break
+ctrl-d	end of transmission (exit bash, exit commands)
+
+
+
 
 MD5 - Markdown
 --------------
