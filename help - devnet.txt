@@ -35,6 +35,17 @@ Webex Teams API Docs 	https://developer.webex.com/docs/api/v1/teams
 https://github.com/CiscoSE ?
 
 
+https://developer.cisco.com/learning/lab/why-mdp/step/7
+
+-	Device APIs: The Force Awakens - BRKSDN-1119
+-	Model Driven Approach to SDN with NETCONF - BRKSDN-1903
+-	YANG Data Modeling and NETFCONF: Cisco and Industry Developments - BRKNMS- 2032
+-	Network programming using Yang service models with Cisco Network Services Orchestrator - DEVNET-1177
+-	Introduction to RESTCONF - DEVNET-1081
+
+
+DNACenterSDK
+
 
 
 SEEN/READ - Ciscolive
@@ -1061,20 +1072,6 @@ MODULE 6 - NetDevOps
 =============================================
 
 
-+++ check +++
-Cisco Live Presentations
-------------------------
-https://developer.cisco.com/learning/lab/why-mdp/step/7
-
--	Device APIs: The Force Awakens - BRKSDN-1119
--	Model Driven Approach to SDN with NETCONF - BRKSDN-1903
--	YANG Data Modeling and NETFCONF: Cisco and Industry Developments - BRKNMS- 2032
--	Network programming using Yang service models with Cisco Network Services Orchestrator - DEVNET-1177
--	Introduction to Data Models and Cisco's NextGen Device Level APIs - DEVNET-1082
--	Introduction to RESTCONF - DEVNET-1081
-
-
-DNACenterSDK
 
 =============================================
 
@@ -1156,10 +1153,12 @@ Pros DI: 													Cons DI:
 =============================================
 
 
+Serviceability: Easy to install, configure, monitor and providing the service it was intended to.
+
 Observability in Application Design:
-- Logging
-- Monitoring
-- Documentation
+- Logging 			What is the application doing
+- monitoring 		What are the supporting systems doing
+- Documentation 	What are the users doing
 
 
 Log4j log levels (DIWEF / DIWEC; compare to DINWECAE):
@@ -1239,8 +1238,26 @@ RTT between two points on the opposite sides of the globe: 200 ms.
 In practice much higher, because only fiber is considered in calculation...
 
 
-SOA
----
+Architectural patterns:
+- Monolith
+- Service-Oriented Architecture
+- Microservices
+- Event Driven Architecture
+- Message Queues
+
+
+Monolith
+--------
+Single-tier.
+Up to a point easy to scale vertically.
+Horizontal scaling possible if application suitable (multiple identical monoliths behind an LB).
+Commonly developed in a single programming stack.
+Deployed as a single file or a directory.
+Initial development quite simple. Later maintenance and deploys cumbersome.
+
+
+SOA / Microservices
+-------------------
 SOA  	Service-Oriented Architecture
 SOAP 	Simple Object Access Protocol
 WSDL 	Web-Service Description Language
@@ -1250,18 +1267,32 @@ ESB  	Enterprise Service Bus
 EDA  	Event-driven Architecture
 MQ 	 	Message Queue
 
+
+SOA General principles:
+- Standardized service contract: WSDL document or XML schema.
+- Loose coupling and statelessness
+- Reusability
+- Abstraction
+- Autonomy
+- Discoverability
+
 SOA service types:
 - Business
 - Enterprise
 - Application
 - Infrastructure
 
+
 Microservice service types:
 - Functional
 - Infrastructure
 
-Microservice is more granular.
-SOA uses a shared communication channel, while microservices communicate independently...
+
+SOA uses a shared communication channel. Communication between services via ESB.
+Microservices are more granular. Microservices communicate independently... mmmhhh...
+
+Microservices commonly run inside containers. Communicate using APIs.
+Granular microservice architecture increases the complexity (distributed system).
 
 
 Event-Driven Architecture:
@@ -1538,6 +1569,18 @@ response = dashboard.organizations.getOrganizations()
 UML
 ---
 Unified Modeling Language
+
+Sequence diagrams:
+Participants, ObjectName:className, actors, boundary, control, entity
+Lifelines, activated, deactivated
+Messages:
+Synchronous
+Return (dotted)
+Asynchronous
+Lost, Found
+Create, Delete
+Self-Message (reflexive)
+
 
 UML tools:
 - PlantUML
