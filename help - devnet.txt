@@ -1072,10 +1072,6 @@ MODULE 6 - NetDevOps
 =============================================
 
 
-
-=============================================
-
-
 Functional requirements:
 - Specify what the software should do.
 - Can be measured in "yes" or "no" terms.
@@ -1311,6 +1307,91 @@ MVC  Model View Controller
 Entity   	-  Model
 Control 	-  Controller
 Boundary  	-  View
+
+
+
+UML
+---
+Unified Modeling Language
+
+Sequence diagrams:
+Participants, ObjectName:className, actors, boundary, control, entity
+Lifelines, activated, deactivated
+Messages:
+Synchronous
+Return (dotted)
+Asynchronous
+Lost, Found
+Create, Delete
+Self-Message (reflexive)
+Combined fragments (option with guard expression, alternative with guard, loop/break, parallel grouping)
+
+UML tools:
+- PlantUML
+- GitUML
+- Lucidchart
+- Smartdraw
+- WebSequenceDiagrams
+
+
+Example using PlantUML text language:
+
+	@startuml
+
+	actor writer
+	participant CMS
+	actor reviewer
+	participant Web
+
+	-> writer : Get topic
+
+	activate writer
+	writer -> writer : Research topic
+	writer -> writer : Create draft
+
+	writer -> CMS : Submit draft
+
+	activate CMS
+	CMS -> reviewer : Send draft
+
+	activate reviewer
+	reviewer -> reviewer : Review draft
+	reviewer -> CMS : Provide feedback
+	deactivate reviewer
+
+	CMS -> writer : Send feedback
+	deactivate CMS
+
+	alt Draft not OK
+	   writer -> writer : Implement feedback
+	   writer -> CMS : Submit draft
+
+	   activate CMS
+	   CMS -> reviewer : Send draft
+
+	   activate reviewer
+	   reviewer -> reviewer : Review draft
+	else Draft OK
+	   reviewer -> CMS : Approve draft
+	   deactivate reviewer
+	   CMS -> writer : Send approval
+	   deactivate CMS
+	end
+
+	writer -\ CMS : Publish document
+	deactivate writer
+
+	activate CMS
+	      CMS -> Web : Publish document
+	      activate Web
+	        CMS <- Web : Document published
+	      deactivate Web
+	deactivate CMS
+
+	Web -\ : Notify Subscribers
+
+	@enduml
+
 
 
 =============================================
@@ -1563,91 +1644,6 @@ API_KEY = '6bec40cf957de430a6f1f2baa056b99a4fac9ea0'
 
 dashboard = meraki.DashboardAPI(API_KEY)
 response = dashboard.organizations.getOrganizations()
-
-
-
-UML
----
-Unified Modeling Language
-
-Sequence diagrams:
-Participants, ObjectName:className, actors, boundary, control, entity
-Lifelines, activated, deactivated
-Messages:
-Synchronous
-Return (dotted)
-Asynchronous
-Lost, Found
-Create, Delete
-Self-Message (reflexive)
-
-
-UML tools:
-- PlantUML
-- GitUML
-- Lucidchart
-- Smartdraw
-- WebSequenceDiagrams
-
-
-Example using PlantUML text language:
-
-	@startuml
-
-	actor writer
-	participant CMS
-	actor reviewer
-	participant Web
-
-	-> writer : Get topic
-
-	activate writer
-	writer -> writer : Research topic
-	writer -> writer : Create draft
-
-	writer -> CMS : Submit draft
-
-	activate CMS
-	CMS -> reviewer : Send draft
-
-	activate reviewer
-	reviewer -> reviewer : Review draft
-	reviewer -> CMS : Provide feedback
-	deactivate reviewer
-
-	CMS -> writer : Send feedback
-	deactivate CMS
-
-	alt Draft not OK
-	   writer -> writer : Implement feedback
-	   writer -> CMS : Submit draft
-
-	   activate CMS
-	   CMS -> reviewer : Send draft
-
-	   activate reviewer
-	   reviewer -> reviewer : Review draft
-	else Draft OK
-	   reviewer -> CMS : Approve draft
-	   deactivate reviewer
-	   CMS -> writer : Send approval
-	   deactivate CMS
-	end
-
-	writer -\ CMS : Publish document
-	deactivate writer
-
-	activate CMS
-	      CMS -> Web : Publish document
-	      activate Web
-	        CMS <- Web : Document published
-	      deactivate Web
-	deactivate CMS
-
-	Web -\ : Notify Subscribers
-
-	@enduml
-
 
 
 =============================================
@@ -8308,3 +8304,17 @@ my_payload = {
         }
     }
 }
+
+
+
+urllib
+------
+from urllib.request import Request, urlopen
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
+req = Request('https://cmxlocationsandbox.cisco.com/api/config/v1/maps/info/DevNetCampus/DevNetBuilding/DevNetZone')
+req.add_header('Authorization', 'Basic bGVhcm5pbmc6bGVhcm5pbmc=')
+response = urlopen(req)
+response_string = response.read().decode('utf-8')
+response.close()
