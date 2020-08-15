@@ -2975,7 +2975,7 @@ docker run busybox echo hello, world
 docker run busybox pwd
 docker run busybox ping 8.8.8.8
 
-# Run Ubuntu; open bash
+# Run Ubuntu container with bash
 docker run -it ubuntu /bin/bash
 
 
