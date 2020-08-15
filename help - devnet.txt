@@ -2909,21 +2909,35 @@ Dockerfile example:
 	CMD 	python3 myApp.py
 
 
+Dockerfile example:
+
+	FROM ubuntu
+	RUN apt-get update
+	RUN apt-get -y install python
+	EXPOSE 8000
+	ENTRYPOINT ["python", "-m", "SimpleHTTPServer", "8000"]
+
+
 FROM 		Creates a layer from the ubuntu:18.04 Docker image.
 COPY 		Adds files from your Docker client’s current directory.
 RUN 		Builds your application with make.
 CMD 		Specifies what command to run within the container.
+			CMD executes the command our container will run by default when instantiated.
 
 WORKDIR		Changes working directory for any consecutive commands.
 EXPOSE 		Exposed port (only for documentation; must use --publish)
 ENV 		Environment variables (key value)
-ENTRYPOINT
+
+ENTRYPOINT 	Like CMD, the ENTRYPOINT command runs a program, but it also does
+			something else: it enables us to pass arguments to the program.
+
 
 If you don't use RUN either ENTRYPOINT or CMD must be defined.
 Two modes: shell and exec.
 Exec format: Arguments are inside square brackets.
 
-Exec mode is preferred. It starts the specified command process as PID 1. Ensures that Unix signals sent to the container are sent to your spawned process.
+Exec mode is preferred. It starts the specified command process as PID 1.
+Ensures that Unix signals sent to the container are sent to your spawned process.
 
 
 
@@ -2961,6 +2975,10 @@ docker run busybox echo hello, world
 docker run busybox pwd
 docker run busybox ping 8.8.8.8
 
+# Run Ubuntu; open bash
+docker run -it ubuntu /bin/bash
+
+
 # Run Apache httpd web server
 #
 docker run -dit -p 8080:80 httpd
@@ -2987,7 +3005,6 @@ docker run -dit --name MyApacheWeb -p 8080:80 httpd:2.4 bash
 docker exec -it <containerid> bash
 
 
-
 # List running containers:
 #
 docker ps
@@ -2997,6 +3014,11 @@ docker container ls
 #
 docker ps --all
 docker container ls -a
+
+
+# Inspect a container, for example to find out container's IP address
+docker inspect <container ID>.
+
 
 # Check logs of container
 #
@@ -3325,6 +3347,73 @@ Start the lb container on the appnet network with .10 IP address:
 
 Access the application via the LB:
 	http://localhost:8080
+
+
+
+Docker Compose
+--------------
+The docker-compose tool defines and runs Docker applications.
+
+docker-compose version
+docker-compose up
+
+
+docker-compose.yml:
+
+	version: '2'
+	services:
+	  myhero-data:
+	    build: .
+	    image: juliocisco/myhero-data
+	    ports:
+	     - "15000:5000" 					<<< HOST:CONTAINER ports
+	    volumes:
+	     - .:/app/data
+	    environment:
+	     -  myhero_data_key=${MYHERO_DATA_KEY}
+	     -  myhero_data_dir=/app/data/
+
+
+Remark port syntax:
+	Above is the short syntax. If only one port is specified it concerns the container port only
+	The long form syntax allows the configuration of additional fields.
+
+	ports:
+	  - target: 80
+	    published: 8080
+	    protocol: tcp
+	    mode: host
+
+	target: 	the port inside the container
+	published: 	the publicly exposed port
+
+
+Dockerfile:
+
+	FROM alpine:3.11
+	EXPOSE 5000
+	MAINTAINER Julio Gomez "jgomez2@cisco.com"
+
+	VOLUME ["/app/data"]
+
+	# Install python, pip and basic utilities
+	RUN apk add -U \
+	        python \
+	        py-pip \
+	        ca-certificates \
+	  && rm -rf /var/cache/apk/* \
+	  && pip install --no-cache-dir \
+	          setuptools \
+	          wheel
+
+	# This is failing for some odd pip upgrade error commenting out for now
+	#RUN pip install --upgrade pip
+
+	ADD . /app
+	WORKDIR /app
+	RUN pip install --requirement ./requirements.txt
+
+	CMD [ "python", "./myhero_data/myhero_data.py" ]
 
 
 
