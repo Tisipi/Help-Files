@@ -1428,6 +1428,17 @@ Example webhook (triggered after new message in room):
 	      "targetUrl": "https://my.apigateway/events"
 	}
 
+curl -X POST \
+  https://api.ciscospark.com/v1/webhooks \
+  -H 'Authorization: Bearer Token' \
+  -H 'Content-Type: application/json' \
+  -d '{
+      "name": "Webhook to ChatBot",
+      "resource": "all",
+      "event": "all",
+      "targetUrl": "ngrok_url"		<<< targetUrl
+    }'
+
 
 ChatOps Benefits:
 - Centralization 	Centralized infrastructure management
@@ -7973,7 +7984,7 @@ curl https://deckofcardsapi.com/api/deck/9ujz1q9z2hnk/draw/?count=3 | python -m 
 https://deckofcardsapi.com/api/deck/{{deck_id}}/draw/?count=3
 
 
-curl https://api.ciscospark.com/v1/people/me
+curl https://api.ciscospark.com/v1/people/me 	<<< bot ID
 
 curl https://api.ciscospark.com/v1/messages -X POST -H "Authorization:Bearer NDc0OWI3NWMtNjc3ZS00ZDM4LWE3MzktNWYyYmMxYWY2YjIxMWQ0ZjI5ZjAtM2Yz_PF84_e1a492ed-2b3b-4ab5-b37e-e7a31a6a4d57" --data "toPersonEmail=myEmail@email.nl" --data "text=Hi%20from%20DevNet"
 
