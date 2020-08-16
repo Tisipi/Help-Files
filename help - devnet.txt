@@ -1419,7 +1419,7 @@ Do a callback to Webex Teams REST API to get more detailed information.
 
 Webhooks that do not respond with the HTTP status code 2xx (100 times/five minutes) are disabled. Manually re-enable.
 
-Example webhook:
+Example webhook (triggered after new message in room):
 	{
 	      "name": "My_Nice_Webhook",
 	      "filter": "roomId=101",
@@ -1471,6 +1471,7 @@ Example of 'components' of ChatOps Gateway:
 Webex REST API
 --------------
 https://developer.webex.com/docs/api/basics
+https://developer.webex.com/docs/api/getting-started
 
 # Webex Teams REST API:
 # Set Authorization HTTP header to "Bearer ACCESS_TOKEN" where ACCESS_TOKEN is your Webex Access Token
