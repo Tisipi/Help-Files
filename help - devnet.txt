@@ -1569,9 +1569,28 @@ Cisco Meraki APIs:
 import requests
 requests.get('https://api.meraki.com/api/v0', headers={'X-Cisco-Meraki-API-Key': 'MERAKI-API-KEY'})
 
-	+++ add some examples like requests.get(url, headers=headers).json()  +++
 
-Note: missing/invalid access token results in HTTP 404 (Not Found).
+	Some examples:
+
+	org_id = '123456'
+	network_id = 'L_123456789'
+
+	base_url = 'https://api.meraki.com/api/v0'
+	api_key = '...0cf12a6f...'
+	headers = {'X-Cisco-Meraki-API-Key': f"{api_key}"}
+
+
+	url = f'{base_url}/organizations/{org_id}/networks'
+	networks = requests.get(url, headers=headers).json()
+
+
+	url = f"{base_url}/networks/{network_id}/ssids"
+	ssids = requests.get(url, headers=headers).json()
+
+
+Note:
+- Missing/invalid access token results in HTTP 404 (Not Found).
+- Meraki Dashboard API accepts PUT requests for partial modifications (PUT behaves like a PATCH).
 
 
 Dashboard API:
@@ -1646,6 +1665,16 @@ Location/Scanning API:
 
 
 
++++ Location Scanning API
+	start scanning
+
+	get location data
++++
+
+
+
+
+
 Meraki Dashboard API Python Library
 -----------------------------------
 Replaces deprecated Meraki SDK
@@ -1658,7 +1687,9 @@ dashboard = meraki.DashboardAPI(API_KEY)
 response = dashboard.organizations.getOrganizations()
 
 
+
 =============================================
+
 
 
 Advanced REST API Integration

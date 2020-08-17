@@ -9,9 +9,46 @@ Access Token at bot creation.
 Base URI:		https://api.ciscospark.com/v1/
 Authentication:	Authorization: Bearer <ACCESS_TOKEN>
 
-requests.get('https://api.ciscospark.com/v1/messages', headers={'Authorization': 'Bearer ACCESS_TOKEN')
 
-curl -X GET https://api.ciscospark.com/v1/messages -H "Authorization:Bearer <ACCESS_TOKEN>"
+	requests.get('https://api.ciscospark.com/v1/messages', headers={'Authorization': 'Bearer ACCESS_TOKEN')
+
+	curl -X GET https://api.ciscospark.com/v1/messages -H "Authorization:Bearer <ACCESS_TOKEN>"
+
+
+	base_url = 'https://api.ciscospark.com/v1/'
+
+	headers = {
+	    "Authorization": f"Bearer {api_key}",
+	    "Content-Type": "application/json"
+	}
+
+	bot_id = requests.get(f'{base_url}/people/me', headers=headers).json().get('id')
+
+
+	received_message_url = f'{base_url}/messages/{message_id}'
+	message_text = requests.get(received_message_url, headers=headers).json().get('text')
+
+
+	data = {
+	    "roomId": room_id,
+	    "text": message,
+	    }
+	post_message_url = f'{base_url}/messages'
+	post_message = requests.post(post_message_url,headers=headers,data=json.dumps(data))
+
+
+	webhooks_url = f'{base_url}/webhooks'
+	webhooks = requests.get(webhooks_url, headers=headers).json()['items']
+    for webhook in webhooks:
+        print(webhook['targetUrl'])
+
+    data = {
+        "name": "Webhook to MyChatBot",
+        "resource": "all",
+        "event": "all",
+        "targetUrl": "https://my.apigateway/events"
+    }
+    webhook = requests.post(webhooks_url, headers=headers, data=json.dumps(data))
 
 
 
@@ -22,15 +59,25 @@ API key is generated when enabling API in dashboard.
 Base URI:		https://api.meraki.com/api/v0
 Authentication:	X-Cisco-Meraki-API-Key: <secret key>
 
-requests.get('https://api.meraki.com/api/v0', headers={'X-Cisco-Meraki-API-Key': 'MERAKI-API-KEY'})
-
-curl -X GET \
-  --url 'https://api.meraki.com/api/v0/networks/networkId3/ssids/number2' \
-  -H 'X-Cisco-Meraki-API-Key: MERAKI-API-KEY'\
-  -H 'Accept: application/json'
-
-
 The API returns 404 (rather than a 403) in response to a request with a missing or incorrect API key.
+
+
+	requests.get('https://api.meraki.com/api/v0', headers={'X-Cisco-Meraki-API-Key': 'MERAKI-API-KEY'})
+
+	curl -X GET \
+	  --url 'https://api.meraki.com/api/v0/networks/networkId3/ssids/number2' \
+	  -H 'X-Cisco-Meraki-API-Key: MERAKI-API-KEY'\
+	  -H 'Accept: application/json'
+
+
+	GET {{baseUrl}}/organizations
+	GET {{baseUrl}}/organizations/{{organizationId}}
+	GET {{baseUrl}}/organizations/{{organizationId}}/networks
+	GET {{baseUrl}}/networks/{{networkId}}
+	GET {{baseUrl}}/networks/{{networkId}}/vlans
+	GET {{baseUrl}}/networks/{{networkId}}/staticRoutes
+	GET {{baseUrl}}/networks/{{networkId}}/devices
+	GET {{baseUrl}}/networks/{{networkId}}/ssids
 
 
 
