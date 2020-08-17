@@ -1411,7 +1411,8 @@ Space has a roomId.
 
 Bot creation:
 - Provide: Name, Username, Icon, Description.
-- Properties assigned to your bot: Bot ID and Bot Webex Access Token.
+- Properties assigned to your bot: Bot ID and Bot Webex Access Token (valid for 100 ? years)
+- Add bots email id to Webex Teams room: {your-bot-name}@webex.bot
 
 To respond to events register a webhook (e.g. to external ChatOps Gateway).
 Registered targetUrl gets called after a specific event occurs inside Webex Teams.
@@ -1521,7 +1522,10 @@ https://github.com/CiscoDevNet/webexteamssdk/tree/master/examples
 
 	from webexteamssdk import WebexTeamsAPI
 
-	api = WebexTeamsAPI()
+	api = WebexTeamsAPI(access_token="{your access token}")
+
+	# Retrieve information about the user whose access token we specified.
+	api.people.me()
 
 	# Find all rooms that have 'webexteamssdk Demo' in their title
 	all_rooms = api.rooms.list()
