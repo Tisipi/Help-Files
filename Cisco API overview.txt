@@ -180,3 +180,23 @@ Secret key (RSA Private Key)
 	)
 	api = summary_api.NetworkElementSummaryApi(client)
 	summary = api.network_element_summaries_get()
+
+
+
+Prime API
+---------
+https://developer.cisco.com/site/prime-infrastructure/documents/api-reference/rest-api-v3-8/
+
+User: Part of NBI Read group
+
+Prime Landing page: https://{prime-server}/webacs/api/v1
+
+Get overview of alarms:		https://my_server/webacs/api/v1/data/Alarms
+Get overview of alarms:		https://my_server/webacs/api/v1/data/Alarms.json
+Get details of all alarms:	https://my_server/webacs/api/v1/data/Alarms?.full=true
+							https://my_server/webacs/api/v1/data/Alarms?.full=true&.sort=severity
+Filtering alarms:			https://my_server/webacs/api/v1/data/Alarms?.full=true&.sort=severity&category.value=AP&message=contains("interface")
+Paging alarms:				https://my_server/webacs/api/v1/data/Alarms?.full=true&.sort=severity&category.value=AP&message=contains("interface")&.maxResults=5
+
+Get details of one alarm:	https://my_server/webacs/api/v1/data/Alarms/{entityID}
+

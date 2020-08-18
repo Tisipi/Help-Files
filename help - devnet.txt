@@ -1440,6 +1440,7 @@ curl -X POST \
       "targetUrl": "ngrok_url"		<<< targetUrl
     }'
 
+	FYI: cURL means "Client for URLs" or "cURL URL Request Library".
 
 ChatOps Benefits:
 - Centralization 	Centralized infrastructure management
