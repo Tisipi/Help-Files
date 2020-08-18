@@ -1563,7 +1563,28 @@ Always on Sandbox:
 Cisco Meraki APIs:
 - Dashboard API
 - Location/Scanning API
-- Captive Portal API
+- Webhook Alerts
+- Captive Portal API (splash page)
+- Meraki MV Sense
+
+
+Meraki Dashboard API
+--------------------
+- To use the Meraki Dashboard API:
+	- Enable the API
+	- Generate an API key
+- Only two API keys are valid at the same time.
+- API hierarchy mirrors the structure of the Meraki Dashboard:
+	organizations
+	  networks
+	  - devices
+	  - SSIDs
+	  - clients
+-Base URI: https://api.meraki.com/api/v0
+
+Note:
+- Missing/invalid access token results in HTTP 404 (Not Found).
+- Meraki Dashboard API accepts PUT requests for partial modifications (PUT behaves like a PATCH).
 
 
 # Meraki REST API:
@@ -1592,25 +1613,6 @@ requests.get('https://api.meraki.com/api/v0', headers={'X-Cisco-Meraki-API-Key':
 	ssids = requests.get(url, headers=headers).json()
 
 
-Note:
-- Missing/invalid access token results in HTTP 404 (Not Found).
-- Meraki Dashboard API accepts PUT requests for partial modifications (PUT behaves like a PATCH).
-
-
-Dashboard API:
-- To use the Meraki Dashboard API:
-	- Enable the API
-	- Generate an API key
-- Only two API keys are valid at the same time.
-- API hierarchy mirrors the structure of the Meraki Dashboard:
-	organizations
-	  networks
-	  - devices
-	  - SSIDs
-	  - clients
--Base URI: https://api.meraki.com/api/v0
-
-
 Some basic URLs:
 - GET {{baseUrl}}/organizations
 - GET {{baseUrl}}/organizations/{{organizationId}}
@@ -1622,6 +1624,8 @@ Some basic URLs:
 - GET {{baseUrl}}/networks/{{networkId}}/devices/{{serial}}
 - GET {{baseUrl}}/networks/{{networkId}}/ssids
 - GET {{baseUrl}}/networks/{{networkId}}/connectionStats?t0={{t0}}&t1={{t1}}
+
+  where baseUrl is: https://api.meraki.com/api/v0
 
 
 Steps to update an SSID:
@@ -1655,7 +1659,18 @@ Update the attributes of an SSID: 	PUT /networks/{networkId}/ssids/{number}
 	}'
 
 
-Location/Scanning API:
+List organizations:
+
+	curl --request GET -L \
+	  --url https://api.meraki.com/api/v0/organizations \
+	  --header 'X-Cisco-Meraki-API-Key: 6bec40cf957de430a6f1f2baa056b99a4fac9ea0'
+
+	Note: To follow redirects you can use the location flag -L or --location:
+
+
+
+Meraki Location/Scanning API
+----------------------------
 - https://developer.cisco.com/meraki/scanning-api/#!introduction
 - To use the API:
 	- Enable the API:
@@ -1676,6 +1691,23 @@ Location/Scanning API:
 +++
 
 
+Meraki Webhook Alerts
+---------------------
+Two ways:
+
+1. Webhooks Dashboard Setup.
+
+   Network-Wide > Configure > Alerts
+     > Add an HTTP server
+     > Configure the server URLs.
+
+2. Webhooks Setup via API v0.
+   Using a combination of POST to alertSettings and httpServers API endpoints:
+   - PUT  /networks/{networkId}/alertSettings
+   - POST /networks/{networkId}/httpServers
+
+   Note: In API v1 a new endpoint seems to be available:
+         POST /networks/{networkId}/webhooks/httpServers
 
 
 
