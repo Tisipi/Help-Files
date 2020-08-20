@@ -7,6 +7,7 @@ Webex Teams API
 Access Token at bot creation.
 
 Base URI:		https://api.ciscospark.com/v1/
+				https://webexapis.com/v1/
 Authentication:	Authorization: Bearer <ACCESS_TOKEN>
 
 
@@ -49,6 +50,11 @@ Authentication:	Authorization: Bearer <ACCESS_TOKEN>
         "targetUrl": "https://my.apigateway/events"
     }
     webhook = requests.post(webhooks_url, headers=headers, data=json.dumps(data))
+
+
+
+Web Linking (link, rel) standard for pagination.
+Default page size: 50.
 
 
 
