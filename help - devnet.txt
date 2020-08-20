@@ -34,10 +34,6 @@ Webex Teams API Docs 	https://developer.webex.com/docs/api/v1/teams
 
 https://github.com/CiscoSE ?
 
-
-https://developer.cisco.com/learning/lab/why-mdp/step/7
-
--	Device APIs: The Force Awakens - BRKSDN-1119
 -	Model Driven Approach to SDN with NETCONF - BRKSDN-1903
 -	YANG Data Modeling and NETFCONF: Cisco and Industry Developments - BRKNMS- 2032
 -	Network programming using Yang service models with Cisco Network Services Orchestrator - DEVNET-1177
@@ -53,9 +49,28 @@ SEEN/READ - Ciscolive
 https://www.ciscolive.com/global/on-demand-library.html?search=ucs&search.program=cloDevNet#/
 
 
+Device APIs: The Force Awakens - BRKSDN-1119
+https://www.ciscolive.com/c/dam/r/ciscolive/us/docs/2016/pdf/BRKSDN-1119.pdf
+
 Automating Your Cisco UCS with Python - Managing Your Infrastructure as Code - DEVNET-1611
 Event:2020 Barcelona
 Miguel Barajas, TECHNICAL SOLUTIONS ARCHITECT.SALES - Distinguished Speaker
+
+UCS Programmability for the Rest of Us - DEVNET-2298
+Event:2020 Barcelona
+SPEAKERS
+Michael Lally, TECHNICAL SOLUTIONS ARCHITECT.SALES
+
+Cisco UCS: 100% Programmatic Infrastructure from Anywhere! - DEVNET-4652
+Eric Williams, TECHNICAL LEADER.ENGINEERING, Cisco Systems, Inc.
+
+Intent-Based Data Centre Management of Cisco UCS Servers - BRKINI-2600
+Matthew Wronkowski, Technical Leader.Services, CISCO
+Jose Martinez, Technical Solution Architect, CISCO
+
+Cisco UCS Python SDKs - DEVNET-2063
+John McDonough, Technical Leader, Cisco
+
 
 How to Be a Network Engineer in a Programmable Age - DEVNET-1725
 Hank Preston III, PRINCIPAL ENGINEER.ENGINEERING, Cisco Systems, Inc. - Distinguished Speaker
@@ -269,6 +284,7 @@ Nicolas Leiva, CUSTOMER SOLUTIONS ARCHITECT.SALES, Cisco Systems, Inc.
 
 
 
+
 TO READ/WATCH
 -------------
 Cisco IOS XE Programmability, Automating Device Lifecycle Management
@@ -288,25 +304,7 @@ http://cs.co/assurancebook
 https://www.cisco.com/c/dam/en/us/solutions/collateral/enterprise-networks/digital-network-architecture/nb-06-cisco-dna-assurance-technical-ebook-cte-en.pdf
 
 
----
-UCS Seen
 
-UCS Programmability for the Rest of Us - DEVNET-2298
-Event:2020 Barcelona
-SPEAKERS
-Michael Lally, TECHNICAL SOLUTIONS ARCHITECT.SALES
-
-Cisco UCS: 100% Programmatic Infrastructure from Anywhere! - DEVNET-4652
-Eric Williams, TECHNICAL LEADER.ENGINEERING, Cisco Systems, Inc.
-
-Intent-Based Data Centre Management of Cisco UCS Servers - BRKINI-2600
-Matthew Wronkowski, Technical Leader.Services, CISCO
-Jose Martinez, Technical Solution Architect, CISCO
-
-Cisco UCS Python SDKs - DEVNET-2063
-John McDonough, Technical Leader, Cisco
-
----
 
 Start Now with Cisco UCS programmability and automation: From the data center to converged to the cloud - DEVNET-3212
 Event:2020 Barcelona
@@ -1887,7 +1885,7 @@ Example Request:
 
 	from requests import request
 
-	first_page = request('GET', '/devices?page=3')
+	first_page = request('GET', '/devices?page=1')
 	last_page_link = first_page.json()['_metadata']['links']['last']
 	last_page = request('GET',last_page_link)
 
@@ -6747,13 +6745,10 @@ XPath Functions (Number):
 
 Yang Models
 -----------
-For YANG modules from standard organizations such as the IETF, open source such as Open Daylight or vendor specific modules”
-https://github.com/YangModels/yang
-
-For OpenConfig models
-https://github.com/openconfig/public
-
-YANG  Catalog: 	https://yangcatalog.org
+For YANG modules from standard organizations such as the IETF, open source such as Open Daylight or vendor specific modules:
+						https://github.com/YangModels/yang
+OpenConfig models: 		https://github.com/openconfig/public
+YANG  Catalog: 			https://yangcatalog.org
 
 
 Cisco IOS XE Data Model
@@ -6779,9 +6774,17 @@ Netconf Messages:
 - rpc-reply
 
 Netconf Operations:
-- get
-- get-config
-- edit-config
+- get				Retrieve running configuration and device state information
+- get-config		Retrieve all or part of specified configuration datastore
+- edit-config		Loads all or part of a configuration to the specified configuration datastore
+- copy-config		Replace an entire configuration datastore with another
+- delete-config		Delete a configuration datastore
+- commit			Copy candidate datastore to running datastore
+- lock 				Lock the entire configuration datastore system
+- unlock			Unlock the entire configuration datastore system
+- close-session		Graceful termination of NETCONF session
+- kill-session		Forced termination of NETCONF session
+
 
 Netconf Content: XML (based on YANG)
 
@@ -7519,7 +7522,7 @@ Transport:		Protocols:
 				- gNMI				(dial-in and dial-out)
 				- gRPC				(dial-in and dial-out)
 Encoding:		- JSON
-				- GPB (Google Protocol Buffers) (compiled .proto files metadata; describe the GPB message format)
+				- GPB (Google Protocol Buffers; “protobufs”) (compiled .proto files metadata; describe the GPB message format)
 				  - Compact GPB encoding
 				  - kvGPB (KV-GPB) encoding (Key-value or self-describing”)
 
@@ -7567,6 +7570,25 @@ Example XML configuration to enable MDT:
 	    ]
 	}
 
+
+Example MDT on IOS XR:
+
+	show run telemetry
+	 telemetry
+	  destination 1
+	  encoding self-describing-gpb
+	  protocol grp
+	  destination-address ipv4 172.30.8.4 2122
+	!
+	sensor-group 1
+	 sensor-path Cisco-IOS-XR-infra-statsd-oper:infrastatistics/interfaces/interface/latest/generic-counters
+	!
+	subscription 1
+	 sensor-group-id 1 sample-interval 30000
+	 destination-id 1
+
+
+https://blogs.cisco.com/sp/streaming-telemetry-with-google-protocol-buffers
 
 
 Streaming Telemetry with gNMI
