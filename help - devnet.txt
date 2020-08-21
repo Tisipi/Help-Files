@@ -1877,7 +1877,7 @@ Example Webex parse_header_links:
 	import requests
 	from urllib.parse import urlparse, parse_qs
 
-    link_header = self.response.headers["Link"]
+    link_header = response.headers["Link"] 								<<< response.headers.get('Link')
     rel = requests.utils.parse_header_links(link_header)[0]["rel"]
     url = requests.utils.parse_header_links(link_header)[0]["url"]
     params = parse_qs(urlparse(url).query)
