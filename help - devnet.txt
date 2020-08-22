@@ -2137,9 +2137,29 @@ SCEP 	Simple Certificate Enrollment Protocol
 FDE 	Full Disk Encryption
 HSM 	Hardware Security Module
 
-Pseudonymization:
+
+Some GDPR definitions essential to managing PII:
+- Consent of the data subject
+- Personal data breach
+- Filing system
+
+The main principles for processing PII are:
+- Transparency
+- Legality
+- Minimal data gathering
+- Time bounded
+
 - Anonymization
-- Deidentification
+	- Data subject cannot be re-identified.
+	- Irreversibly destroys any way of identifying the data subject.
+	- Anonymization is an irreversible process.
+- Pseudonymization:
+	- Data subject can be re-identified.
+	- Pseudonymization is a reversible process, unlike anonymization.
+	- Personal data can not be attributed to a data subject without the use of additional information.
+	- Pseudonymization substitutes the identity of the data subject in such a way that additional information is required to re-identify the data subject.
+- Deidentification.
+
 
 RFC 8446	TLS version 1.3
 
