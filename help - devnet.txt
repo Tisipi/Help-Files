@@ -2137,6 +2137,10 @@ SCEP 	Simple Certificate Enrollment Protocol
 FDE 	Full Disk Encryption
 HSM 	Hardware Security Module
 
+KMS 	Key Management Service
+
+
+Data handled according to the GDPR: Any PII data collected in the EU wherever stored or processed.
 
 Some GDPR definitions essential to managing PII:
 - Consent of the data subject
@@ -2173,7 +2177,11 @@ Create a Public Key Certificate:
 - Generate Certificate Signing Request: 	openssl req -new -key PRIVATEKEY.key -out CSR.csr
 - Check the CSR:							cat CSR.csr; Digicert CSR Check: https://ssltools.digicert.com/checker/views/csrCheck.jsp
 - Enroll CSR with CA
-- Install certificate
+- Install certificate 						commonly in PEM format (extensions: cer, crt or pem)
+
+PEM (privacy-enhanced mail) format is the most common format for certificates (Base64 encoded ASCII file).
+DER format is the binary form of the certificate (does not contain the "BEGIN CERTIFICATE/END CERTIFICATE" statements; der extension).
+
 
 Note: Public/private-key encryption is one-way encryption. Only the server can decrypt with private key.
 
@@ -2182,6 +2190,24 @@ Certificate Signing Request: PKCS #10
 Certificate revocation check methods:
 - CRL
 - OCSP
+
++++
+certificate bundle
+The client needs to know the whole certificate chain when intermediate certificates are used.
+
+An effective way to inform the client of the whole chain is using certificate bundles and distributing them during the TLS handshake.
+
+A certificate bundle may contain:
+
+Root CA Certificate
+
+Certificate used to create a digital signature
+
+Intermediate CA certificates
+
+CRL
++++
+
 
 
 Protect east-west traffic:
@@ -2201,8 +2227,9 @@ Secret/key handling by applications:
 - In environment variables
 - In Database
 - API key syncing services
-- Cloud-based secret services (direct request)
+- Cloud-based secret services (direct request), like AWS KMS, Azure Key Vault, Google Cloud KMS
 - Cloud-based secret services accessed through an API gateway
+
 
 
 =============================================
