@@ -2191,24 +2191,25 @@ Certificate revocation check methods:
 - CRL
 - OCSP
 
-+++
-certificate bundle
-The client needs to know the whole certificate chain when intermediate certificates are used.
 
-An effective way to inform the client of the whole chain is using certificate bundles and distributing them during the TLS handshake.
-
-A certificate bundle may contain:
-
-Root CA Certificate
-
-Certificate used to create a digital signature
-
-Intermediate CA certificates
-
-CRL
-+++
+Certificate bundle:
+- A bundle of root and intermediate CA certificates.
+- Informs the client of the whole certificate chain.
+- A certificate bundle may contain:
+	- Root CA Certificate
+	- Intermediate CA certificates
+	- CRL (not recommended)
+- Create a bundle in Linux:
+  cat Intermediate2.crt Intermediate1.crt Root.crt > mychain.pem
+- Create a bundle in Windows:
+  copy Intermediate2.crt + Intermediate1.crt + Root.crt mychain.pem
 
 
+Protecting north-south traffic:
+- TLS or MTLS
+- IPsec to FW or API gateway
+- Cloud-based VPN service
+- Dedicated/private cloud connection
 
 Protect east-west traffic:
 - TLS or MTLS between services
