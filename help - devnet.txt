@@ -2221,6 +2221,8 @@ Service meshes using TLS (inter-container):
 - Istio
 Note: TCP only (ICMP and UDP are not supported).
 
+- HashiCorp Consul
+
 
 Secret/key handling by applications:
 - Directly in code
