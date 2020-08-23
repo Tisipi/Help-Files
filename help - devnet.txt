@@ -2816,6 +2816,16 @@ git stash pop
 - git cherry-pick <commit-hash>
 
 
+# Change last commit message
+# Changes the commit history!
+git commit --amend -m "This is the correct message"
+
+# Forgot to include file in last commit
+# Changes the commit history!
+git add <file>
+git commit --amend
+
+
 # Revert a specific commit.
 # Does not discard any commits that came after that one.
 # It creates a new revision that reverts the effects of a specified commit.
@@ -2830,6 +2840,10 @@ git reset --hard 	Move commits to trash (working directory and staging area are 
 
 
 git reset HEAD
+
+
+# Remove untracked dirs and files from working directory
+git clean -df
 
 
 
@@ -2879,6 +2893,7 @@ git rm --cached <file>
 
 # Rename file
 git mv <file> <new file name>
+
 
 Branching
 ---------
