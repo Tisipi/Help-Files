@@ -2347,7 +2347,7 @@ Cross-Site Request Forgery (CSRF) is an attack that forces an end user to execut
 
 
 Mitigation CSRF:
-- Use of CSRF token (unique, unpredictable value).
+- Use of CSRF token (unique, unpredictable value) = Use secret data in requests.
 - Use a framework has built-in CSRF protection (using CSRF tokens).
 
 Python frameworks supporting CSRF tokens:
@@ -2436,8 +2436,14 @@ Use the access token:
 - Client application accesses the resource server (Authorization: Bearer <ACCESS_TOKEN>)
 - Resource server verifies the access token with the authorization server and permits access to the resources.
 - When the access token is due to be expired:
-  - Client send refresh token and client secret to the authorization server.
-  - Authorization server issues a new access token without authentication.
+  - Client sends refresh token, client id and secret to the authorization server.
+  - Authorization server issues a new access token without authentication (reuse of refresh token).
+  - In case of expired refresh token: Complete new OAuth authorization code grant flow.
+
+
++++ Check Trust relations ++
+- Client application has been registered with authorization server (OAuth provider) ==> client_id, client_secret !!
+- Resource server registered with the authorization server ??? ==>  verification of the access token
 
 
 
