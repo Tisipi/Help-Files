@@ -2256,7 +2256,7 @@ OWASP Risk Rating Methodology:
 	- Weakness Detectability
 
 
-OWASP top 10 (2017)
+OWASP top 10 (2017), https://owasp.org/www-project-top-ten/
 1.  Injection
 2.  Broken Authentication
 3.  Sensitive Data Exposure			<== most prevalent and impactful
@@ -2269,14 +2269,27 @@ OWASP top 10 (2017)
 10. Insufficient Logging & Monitoring
 
 
+Mitigation injection attacks:
+- Keep user data separate from commands and queries.
+- Source code review.
+- Automated testing of all parameters, headers, URL, cookies, JSON, SOAP and XML data inputs.
+- Detect vulnerabilities with code analysis tools:
+	- SAST tools (Static Application Security Testing)
+	- DAST tools (Dynamic Application Security Testing)
+- Positive or whitelist server-side input validation.
+- Use a safe API, which avoids the use of the interpreter entirely or provides a parameterized interface, or migrate to use Object Relational Mapping Tools (ORMs).
+- For any residual dynamic queries, escape special characters using the specific escape syntax for that interpreter.
+
+
 Mitigation SQL injection:
-- Blacklist / whitelist characters (filter malicious characters).
+- Input sanitization: Blacklist / whitelist characters (filter malicious characters).
 - Fortify SQL statements (Parameterized queries or prepared statements; escape dangerous characters; typecast parameter).
 - Catch/remove SQL error messages (don't show to user).
 - Fine tune DB permissions (least privilege).
+- Use LIMIT and other SQL controls within queries to prevent mass disclosure of records.
 - IPS
 - Firewall (layer 7 inspection).
-
+(- Encrypt sensitive data in database.)
 
 Python library to validate user data:
 Cerberus data validator:	https://docs.python-cerberus.org/en/stable/
@@ -2294,6 +2307,10 @@ Cross-site scripting (XSS):
 - Typically via persistent storage.
 - XSS enables attackers to inject client-side scripts into web pages viewed by other users.
 - XSS exploits the trust a user has for a particular web site.
+- Three forms of XSS, usually targeting users’ browsers:
+	* Reflected XSS
+	* Stored XSS
+	* DOM XSS
 
 Mitigation XSS:
 - Escape any untrusted input.
@@ -2301,7 +2318,7 @@ Mitigation XSS:
 - HTML escaping.
 - Input sanitization.
 - Separate untrusted data from active browser content.
-
+- Automated tools can detect and exploit all three forms of XSS, and there are freely available exploitation frameworks.
 
 Python:
 - HTML.Escape to escape HTML (HTML Core library)
@@ -2314,14 +2331,24 @@ Python:
 	sanitize.HTML('safe<meta http-equiv="Refresh" content="0; URL=/">')
 
 
+
 Cross-Site Request Forgery (CSRF/XSRF):
 - Attack on state-changing requests.
-- Also known as one-click attack or session riding.
+- Also known as:
+	- Sea Surf
+	- One-click attack
+	- Session riding
+	- Cross-Site Reference Forgery
+	- Hostile Linking
 - Malicious exploit of a website where unauthorized commands are transmitted from a user (without the user's interaction or knowledge).
 - CSRF exploits the trust that a web site has in a user's browser.
 
+Cross-Site Request Forgery (CSRF) is an attack that forces an end user to execute unwanted actions on a web application in which they’re currently authenticated. With a little help of social engineering (such as sending a link via email or chat), an attacker may trick the users of a web application into executing actions of the attacker’s choosing. If the victim is a normal user, a successful CSRF attack can force the user to perform state changing requests like transferring funds, changing their email address, and so forth. If the victim is an administrative account, CSRF can compromise the entire web application.
+
+
 Mitigation CSRF:
-- Use of CSRF token (unique, unpredictable value)
+- Use of CSRF token (unique, unpredictable value).
+- Use a framework has built-in CSRF protection (using CSRF tokens).
 
 Python frameworks supporting CSRF tokens:
 - Django
@@ -2348,9 +2375,10 @@ OAuth roles:
 - Resource server 			(holds the protected resource)
 
 Authorization and resource server are often co-located.
+OAuth provider = authorization server
 
 OAuth interaction models:
-- Client Credentials flow 						(two-legged)
+- Client Credentials flow 						(two-legged; no user; client id and secret; access token)
 - Authorization Code Grant flow 				(three-legged; autho. code & access token; for confidential clients)
 - Implicit flow 								(three-legged; only access token, no autho. code; for public clients)
 - Resource Owner Password Credentials flow
@@ -2363,28 +2391,54 @@ Proof Key for Code Exchange
 +++
 
 OAuth 2.0 grant types (the way an application gets an access token):
-- Authorization Code grant 		(three-legged)
-- Client Credentials grant 		(two-legged)
+- Client Credentials grant 		(two-legged)	Clients obtaining an access token without a user (providing client_id and client_secret)
+- Authorization Code grant 		(three-legged)	Exchange autho code for an access token
+- Device Code grant 							Browserless/input-constrained devices (trade a device code for an access token)
 - Refresh Token grant
-- Device Code grant
-- Password grant (Legacy)
+- Password grant (Legacy) 						Exchange user's credentials for an access token
+
 
 Two-Legged authorization flow:
 - Two flows
 - Client application, authorization server and a resource server
-- Two-Legged authorization flow is mostly used for APIs
+- Two-Legged authorization flow is mostly used for APIs!
 
 Three-Legged authorization flow:
 - Three flows
 - Resource owner, client application, authorization server and a resource server
 - Three-Legged authorization flow is mostly used for end-user authentication.	(explicit user and client authent.)
 
+
 Three-Legged authorization steps:
 - Retrieve authorization code.
 - Exchange authorization code for an access token.
 - Use the access token.
 
-Complete OAuth sequence: refer text. +++ What kind of Oauth flow is this ? +++
+Retrieve authorization code:
+1. The resource owner (user) tells the client application to perform an OAuth action eg login to Github account.
+2. The client application responds to the resource owner with a redirect to the authorization server (OAuth provider).
+   In this redirect is:
+   - the client ID
+   - the redirect URI callback of the client
+3. The resource owner (user) follows the redirect and communicates directly with the authorization server (OAuth provider).
+4. The authorization server (OAuth provider) validates that the client ID is valid.
+   - The OAuth provider prompts the user to login (if not logged in yet)
+   - The OAuth provider ask the user for permission to access the resources.
+5. The authorization server (OAuth provider) will redirect the user to the redirect URI (the URI callback of the client).
+   The redirect includes the authorization code and the state parameter.
+
+Exchange authorization code for an access token:
+1. The client application requests the authorization server (OAuth provider) for an access token
+   (GET or POST request includes: grant_type is authorization_code, client_id, client_secret, authorization_code).
+2. The authorization server returns access and refresh tokens.
+
+Use the access token:
+- Client application accesses the resource server (Authorization: Bearer <ACCESS_TOKEN>)
+- Resource server verifies the access token with the authorization server and permits access to the resources.
+- When the access token is due to be expired:
+  - Client send refresh token and client secret to the authorization server.
+  - Authorization server issues a new access token without authentication.
+
 
 
 Grant type used in the two-legged authorization flow: client_credentials
