@@ -2626,9 +2626,18 @@ git reset <commit id>
 git reset --hard
 
 # Delete a branch.
+git branch -d <branch name>
+  or
+git branch --delete  <branch name>
+
+# Delete a branch, forced
+#
+git branch -D <branch name>
+  or
+git branch -d --force <branch name>
+  or
 git branch --delete --force <branch name>
 
-git branch -d <branch name>
 
 
 # Set global settings
@@ -2781,12 +2790,16 @@ git branch my_test_branch
 
 # List the branches
 git branch
-git branch -all
+git branch -a
+git branch --all
 
 # Jump to branch (git put files in your working directory).
-# Switch branches.
+# Switch branches. Checkout the branch.
 #
 git checkout my_test_branch
+
+# Create and checkout a branch in one step.
+git checkout -b my_test_branch
 
 
 # Merge my_test_branch with master
@@ -2805,6 +2818,8 @@ git merge --abort
 
 
 # Stash away unfinished branch
+git stash
+  or
 git stash push -m "Store temporary"
 
 # Restore unfinished branch
@@ -2834,12 +2849,18 @@ git revert <hash>
 
 
 # Reset (remove commits)
-git reset --soft 	Remove commits. Move commits back to staging area (preserves staging area and working directory)
+git reset --soft 	Move commits back to staging area 		(preserves staging area and working directory)
 git reset --mixed	Move commits back to working directory. (preserves staging area) (default git reset)
 git reset --hard 	Move commits to trash (working directory and staging area are overwritten/synchronized)
 
 
+# Reset, remove from staging area
 git reset HEAD
+ or
+git restore --staged <file>
+
+# Unstage file only from the index (i.e. untrack the file)
+git rm --cached <file>
 
 
 # Remove untracked dirs and files from working directory
@@ -2853,16 +2874,20 @@ git remote -v
 git remote add origin https://github.com/Tisipi/Help-Files.git
 
 # Fetch from remote and do a git merge
-# Combined git fetch and git merge
+# Pull = Combined git fetch and git merge
 git pull
 
 # Pull from remote, prune deleted branches  ??
 git pull -p
 
 
-+++
-git push -u <remote> <branch name> com
-+++
+# Push an existing repository to a remote server
+# - Define an alias for the remote server with: git remote add
+# - Push repo to remote server with: git push -u <remote> <branch name>
+#   You can see that 'origin' is just an alias for the remote server.
+#
+git remote add origin https://github.com/Tisipi/Help-Files.git
+git push -u origin master
 
 
 # Check the content of a git object
