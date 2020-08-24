@@ -2584,87 +2584,6 @@ Changelog:
 
 
 
-+++++
-
-Git
----
-git clone https://github.com/CiscoDevNet/dnav3-code
-
-git help <command>
-
-git status
-git diff
-
-
-# Create your own branch locally (called mycode)
-git checkout -b mycode
-
-# Refresh your local repository from the one on GitHub.
-# Update your local repository with the remote updates.
-git fetch
-
-
-# Rollback all changes in a specific file.
-# Checkout the last version of the file.
-# This discard changes in working directory
-git checkout <changed file>
-
-# Discard all changes in working directory
-git checkout -- .
-
-
-# Reset staged file
-git reset HEAD <staged file>
-
-# Reset committed files
-git reset <commit id>
-
-
-
-# Revert all files.
-# Reset your working directory to the last commit.
-git reset --hard
-
-# Delete a branch.
-git branch -d <branch name>
-  or
-git branch --delete  <branch name>
-
-# Delete a branch, forced
-#
-git branch -D <branch name>
-  or
-git branch -d --force <branch name>
-  or
-git branch --delete --force <branch name>
-
-
-
-# Set global settings
-git config --global user.name "Tisipi"
-git config --global user.email "Tisipi@tisipi.nl"
-
-# List global configured settings
-git config --list
-
-
-# Add a specific file to staging area
-git add <file>
-
-# Add files from current directory to staging area
-git add .
-
-
-# Commit files in staging area
-git commit -m "Initial commit"
-
-
-# Express commit: Combined add and commit
-git commit -am "msg"
-
-+++++
-
-
 Git
 ---
 https://git-school.github.io/visualizing-git/
@@ -2724,9 +2643,22 @@ Nice to now:
 # Initialize a git repository (creates .git directory)
 git init
 
+# Set global settings
+git config --global user.name "Tisipi"
+git config --global user.email "Tisipi@tisipi.nl"
+
+# List global configured settings
+git config --list
+
+
+# Help functions
+git help <command>
+
+
 # Cloning a remote repository
 git clone <url> <local dir>
 git clone <url> .
+git clone https://github.com/CiscoDevNet/dnav3-code
 
 
 # Get the status (local working directory, staging area, etc.)
@@ -2737,28 +2669,26 @@ git status -s
 git status --short
 
 
+# Add a specific file to staging area
+git add <file>
+
+# Add files from current directory to staging area
+git add .
+
+
+# Commit files in staging area
+git commit -m "My first commit"
+
+# Express commit: Combined add and commit
+git commit -am "My message"
+
+
 # Check diffs with working directory
 git diff
 
 # Check diffs with staging area
 git diff --staged
 
-
-# Add a file to staging area
-git add <file>
-git add .
-
-# Remove a file from staging area
-git reset <file>
-
-# Remove all file from staging area
-git reset
-
-# Commit files in staging area
-git commit -m "My first commit"
-
-# Combine: add to staging area & commmit
-git commit -am "Caching"
 
 # Push changes
 git push
@@ -2802,6 +2732,20 @@ git checkout my_test_branch
 git checkout -b my_test_branch
 
 
+# Delete a branch.
+git branch -d <branch name>
+  or
+git branch --delete  <branch name>
+
+# Delete a branch, forced
+#
+git branch -D <branch name>
+  or
+git branch -d --force <branch name>
+  or
+git branch --delete --force <branch name>
+
+
 # Merge my_test_branch with master
 git checkout master
 git merge my_test_branch
@@ -2841,6 +2785,17 @@ git add <file>
 git commit --amend
 
 
+
+# Rollback all changes in a specific file.
+# Checkout the last version of the file.
+# This discard changes in working directory
+#
+git checkout <changed file>
+
+# Discard all changes in working directory
+git checkout -- .
+
+
 # Revert a specific commit.
 # Does not discard any commits that came after that one.
 # It creates a new revision that reverts the effects of a specified commit.
@@ -2854,10 +2809,30 @@ git reset --mixed	Move commits back to working directory. (preserves staging are
 git reset --hard 	Move commits to trash (working directory and staging area are overwritten/synchronized)
 
 
-# Reset, remove from staging area
+
+# Revert all files.
+# Reset your working directory to the last commit.
+git reset --hard
+
+
+
+# Reset committed files
+git reset <commit id>
+
+
+# Reset all staged files; remove all files from staging area
 git reset HEAD
+  or
+git reset
+
+
+# Reset staged file; remove file from staging area
+git reset HEAD <file>
+ or
+git reset <file>
  or
 git restore --staged <file>
+
 
 # Unstage file only from the index (i.e. untrack the file)
 git rm --cached <file>
@@ -2871,23 +2846,33 @@ git clean -df
 # View information about remote repository
 git remote -v
 
-git remote add origin https://github.com/Tisipi/Help-Files.git
 
-# Fetch from remote and do a git merge
-# Pull = Combined git fetch and git merge
-git pull
-
-# Pull from remote, prune deleted branches  ??
-git pull -p
-
-
-# Push an existing repository to a remote server
+# Push a repository to a remote server
 # - Define an alias for the remote server with: git remote add
 # - Push repo to remote server with: git push -u <remote> <branch name>
-#   You can see that 'origin' is just an alias for the remote server.
+#   Note that 'origin' is just an alias for the remote server.
 #
 git remote add origin https://github.com/Tisipi/Help-Files.git
 git push -u origin master
+
+
+# Refresh your local repository from the one on GitHub.
+# Update your local repository with the remote updates.
+#
+git fetch
+
+# Pull = Combined git fetch and git merge
+# - Fetch from remote (into local repo)
+# - and perform a git merge into working directory
+#
+git pull
+
+
+# Pull from remote, prune deleted branches  ??
+#
+git pull -p
+
+
 
 
 # Check the content of a git object
@@ -2918,6 +2903,7 @@ git rm --cached <file>
 
 # Rename file
 git mv <file> <new file name>
+
 
 
 Branching
