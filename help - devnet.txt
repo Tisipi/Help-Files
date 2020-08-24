@@ -2539,10 +2539,21 @@ Creating packages with setuptools library. Example setup.py script:
 python3 -m pip install --user --upgrade setuptools wheel
 
 # Generate distribution archive(s):
-# - .tar.gz file is a source archive
-# - .whl file is a built distribution (a wheel)
+# - source distribution (an archive; .tar.gz file)
+# - built distribution (a wheel; .whl file)
 #
-python3 setup.py sdist bdist_wheel
+# To create a source distribution:
+python3 setup.py sdist
+
+# To create a wheel (a built distribution):
+python3 setup.py bdist_wheel
+
+
+Source distribution:
+- Contains source code.
+- May include source code of extension modules (usually in C or C++).
+- Extension modules are compiled on the user’s side rather than the developer’s.
+
 
 
 Dependency management
