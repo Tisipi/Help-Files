@@ -2539,8 +2539,8 @@ Creating packages with setuptools library. Example setup.py script:
 python3 -m pip install --user --upgrade setuptools wheel
 
 # Generate distribution archive(s):
-# - source distribution (an archive; .tar.gz file)
-# - built distribution (a wheel; .whl file)
+# - Source distribution (an archive: .tar.gz file)
+# - Built distribution (a wheel: .whl file)
 #
 # To create a source distribution:
 python3 setup.py sdist
@@ -2694,14 +2694,14 @@ git commit -m "My first commit"
 git commit -am "My message"
 
 
-# Check diffs with working directory
+# Check diffs between working directory and local repository
 git diff
 
-# Check diffs with staging area
+# Check diffs between working directory and staging area
 git diff --staged
 
 
-# Push changes
+# Push changes to remote repository
 git push
 
 
@@ -2772,7 +2772,9 @@ git checkout --ours my_network.py
 git merge --abort
 
 
-# Stash away unfinished branch
+# Stash away unfinished branch.
+# Saves both modified and staged files.
+#
 git stash
   or
 git stash push -m "Store temporary"
@@ -2786,12 +2788,12 @@ git stash pop
 - git cherry-pick <commit-hash>
 
 
-# Change last commit message
-# Changes the commit history!
+# Change last commit message.
+# This changes the commit history!
 git commit --amend -m "This is the correct message"
 
-# Forgot to include file in last commit
-# Changes the commit history!
+# Forgot to include file in last commit.
+# This changes the commit history!
 git add <file>
 git commit --amend
 
@@ -2914,6 +2916,12 @@ git rm --cached <file>
 
 # Rename file
 git mv <file> <new file name>
+
+
+# Tag a commmit with a name
+#
+git tag -a <name> <hash>
+git tag -a v1.2.2 ed89440
 
 
 
