@@ -2645,6 +2645,17 @@ HEAD:
 
 Detached HEAD: HEAD pointing to a commit rather than branch (detached state).
 
+HEAD 'positions':
+
+ 	HEAD
+ 	HEAD~1 / HEAD^
+ 	HEAD~2
+
+ 	HEAD@{0}
+ 	HEAD@{1}
+ 	HEAD@{2}
+
+
 Nice to now:
 - Git commit --amend can be used only with the last commit.
 - Git revert does not rewrite the Git history. It adds a new commit...
@@ -2652,14 +2663,15 @@ Nice to now:
 
 
 
+
 Merge markers:
 
 	<<<<<<<
-	Changes made on current branch (HEAD).
+	Changes made on current branch (HEAD). 			<< This is the target branch
 	|||||||
 	Common ancestor.
 	=======
-	Changes on merging branch.
+	Changes on merging branch.		 				<< This is the source branch
 	>>>>>>>
 
 
@@ -2782,6 +2794,16 @@ git merge my_test_branch
 # Merge my_test_branch with master, but do not commit,
 # even if there are no conflicts
 git merge my_test_branch --no-commit
+
+
+# Merge my_test_branch with master, but prevent a "fast-forward"
+#
+# The --no-ff flag causes the merge to always create a new commit object,
+# even if the merge could be performed with a fast-forward.
+# This avoids losing information about the historical existence of a feature
+# branch and groups together all commits that together added the feature.
+#
+git merge --no-ff my_test_branch
 
 
 # Show the conflicting commits of the merging branches.
@@ -2964,6 +2986,20 @@ git tag -a v1.2.2 ed89440
 
 
 
+# Show git reference logs
+#
+# Reflogs record when the tips of branches and other references were updated in the local repository.
+# Reflogs are useful in various Git commands, to specify the old value of a reference. For example:
+# HEAD@{2} means "where HEAD used to be two moves ago",
+# master@{one.week.ago} means "where master used to point to one week ago.
+
+git reflog
+git reset --soft HEAD~1 /  HEAD^ / HEAD@{1}
+git reset --hard f414f31
+git commit -m "Reverting to the state of the project at f414f31"
+
+
+
 Branching
 ---------
 Two opposite collaboration approaches:
@@ -2987,6 +3023,27 @@ Master branch
 		Feature branch
 		Release branch
 	Hotfix/maintenance branch
+
+
+Example (Incorporating a finished feature on develop):
+
+	https://nvie.com/posts/a-successful-git-branching-model/
+
+	# Create a feature branch from develop
+	# Switch to the new branch myfeature
+	git checkout -b myfeature develop
+
+	...feature development...
+
+	# Switch to branch develop and merge feature branch into it
+	git checkout develop
+	git merge --no-ff myfeature
+
+	# Deleted branch myfeature
+	git branch -d myfeature
+
+	# Push changes
+	git push origin develop
 
 
 
