@@ -2606,8 +2606,8 @@ VCS	Version Control Software
 Main git concepts:
 - Remote repository
 - Local repository
-- Staging area (index)
-- Working directory
+- Staging area 			(index file)
+- Working directory		(working tree)
 
 
 Origin: The original remote repository (default name).
@@ -2649,6 +2649,24 @@ Nice to now:
 - Git commit --amend can be used only with the last commit.
 - Git revert does not rewrite the Git history. It adds a new commit...
 - Git checkout can be used to copy a desired version of a file into the working directory.
+
+
+
+Merge markers:
+
+	<<<<<<<
+	Changes made on current branch (HEAD).
+	|||||||
+	Common ancestor.
+	=======
+	Changes on merging branch.
+	>>>>>>>
+
+
+After resolving conflicts:
+- Stage the unmerged files (git add).
+- Commit the staged files which finalizes the merge (git commit).
+
 
 
 # Initialize a git repository (creates .git directory)
@@ -2761,6 +2779,14 @@ git branch --delete --force <branch name>
 git checkout master
 git merge my_test_branch
 
+# Merge my_test_branch with master, but do not commit,
+# even if there are no conflicts
+git merge my_test_branch --no-commit
+
+
+# Show the conflicting commits of the merging branches.
+git log --merge
+
 
 # If you don't want to merge and prefer one file over the other, choose
 # one of the versions: either "ours" (HEAD) or "theirs" (branch).
@@ -2785,7 +2811,7 @@ git stash pop
 
 # Other git 'merge' options:
 - git rebase <dev branch> 				(Note: This forges history)
-- git cherry-pick <commit-hash>
+- git cherry-pick <commit-hash>			(only a single commit from another branch is applied)
 
 
 # Change last commit message.
@@ -2818,15 +2844,13 @@ git revert <hash>
 
 # Reset (remove commits)
 git reset --soft 	Move commits back to staging area 		(preserves staging area and working directory)
-git reset --mixed	Move commits back to working directory. (preserves staging area) (default git reset)
-git reset --hard 	Move commits to trash (working directory and staging area are overwritten/synchronized)
-
+git reset --mixed	Move commits back to working directory  (preserves working directory; default git reset)
+git reset --hard 	Move commits to trash 					(working directory and staging area are overwritten/synchronized)
 
 
 # Revert all files.
 # Reset your working directory to the last commit.
 git reset --hard
-
 
 
 # Reset committed files
@@ -2859,14 +2883,29 @@ git clean -df
 # View information about remote repository
 git remote -v
 
-
-# Push a repository to a remote server
+# Push a new repository to a remote server
 # - Define an alias for the remote server with: git remote add
 # - Push repo to remote server with: git push -u <remote> <branch name>
-#   Note that 'origin' is just an alias for the remote server.
+#   Note that 'origin' is just an alias for the remote server; by default Git names the server 'origin'.
+#
+# Remark: Option -u sets the tracking relationship between the local branch and the new remote branch.
 #
 git remote add origin https://github.com/Tisipi/Help-Files.git
 git push -u origin master
+
+
+# Workflow to contribute to another existing remote branch
+#
+git remote add customer https://github.com/customer/
+#
+# Create a new local branch based on the remote branch.
+# Track option creates a tracking relationship between the new local branch and the remote branch.
+#
+git checkout --track customer/feature
+...
+git fetch / git pull
+...
+git push
 
 
 # Refresh your local repository from the one on GitHub.
