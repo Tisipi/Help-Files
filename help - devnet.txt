@@ -6503,6 +6503,22 @@ DELETE: Remove a User-Created Object
 	'https://ftd.example.com/api/fdm/latest/object/networks/f6d8da49-7ed5-11e7-9bfd-27136f5686ad'
 
 
+
+Firepower Management Center (FMC)
+---------------------------------
+- Has an API as well.
+- FMC REST API is enabled by default
+- Check via https://<FMC_hostname_or_address>:
+  System menu > Configuration tab > REST API Preferences > Enable REST API
+- API Explorer resides https://<FMC_hostname_or_address>/api/api-explorer/
+
+- Token-based authentication: X-auth-access-token
+- To get token: POST, Basic Auth, https://<management_center_IP_or_name>/api/fmc_platform/v1/auth/generatetoken
+  Returns:
+	- X-auth-access-token
+	- X-auth-refresh-token
+
+
 =============================================
 
 
@@ -8419,6 +8435,11 @@ curl https://api.ciscospark.com/v1/teams -X GET -H "Authorization:Bearer M2RiZWQ
 
 curl -X GET https://api.ciscospark.com/v1/teams -H "Authorization:Bearer M2RiZWQyMDItMDdhYi00NTA1LTgwOTQtMjUzMTc4YThhZDI4YjU4NmJmNmMtZWQ3_PF84_e1a492ed-2b3b-4ab5-b37e-e7a31a6a4d57"
 
+
+To pass data in curl:
+- form urlencoded: -d "param1=value1&param2=value2" 		or 	-d @data.txt
+- json: 		   -d '{"key1":"value1", "key2":"value2"}' 	or 	-d @data.json
+where @ precedes a file name with data.
 
 
 DNA - Digital Network Architecture
