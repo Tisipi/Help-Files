@@ -1861,7 +1861,12 @@ HTTP Link Header
 - "rel" parameter: Defines type of relationships (relation type) between the resources.
 - Common relation values: first, last, previous, next.
 - Client should use the URL provided in the Link header.
+
 - Link can be parsed for example with Python requests utility method: requests.utils.parse_header_links
+
+- Link header can also be accessed via Requests response.links (a dictionary of link header values):
+  response.links['next']['url']
+
 
 Pagination example:
 	HTTP/1.1 200 OK
@@ -8906,3 +8911,51 @@ req.add_header('Authorization', 'Basic bGVhcm5pbmc6bGVhcm5pbmc=')
 response = urlopen(req)
 response_string = response.read().decode('utf-8')
 response.close()
+
+
+Python Threading
+----------------
+http://learnpy.cisco.com/learn/basics/threads
+
+Function without parameters:
+
+	import threading
+
+	def background():
+	    ....
+
+	t_1 = threading.Thread(name='t_1', target=background)
+	t_1.start()
+	...
+	t_1.join()
+
+
+Function with parameters:
+
+	import threading
+
+	def background(username, password):
+	    ...
+
+	user = 'test'
+	pwd = 'test.123'
+	t_1 = threading.Thread(name='t_1', target=background, args={'username' : user, 'password' : pwd})
+	t_1.start()
+	...
+	t_1.join()
+
+
+
+https://realpython.com/intro-to-python-threading/
+
+	import threading
+
+	def thread_function(name):
+	    ...
+
+	if __name__ == "__main__":
+
+	    x = threading.Thread(target=thread_function, args=(1,))
+	    x.start()
+	    ...
+	    x.join()

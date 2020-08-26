@@ -11,7 +11,7 @@ HTTP response codes:
 204 No Content			(e.g. successful DELETE. But also for PATCH, PUT; API dependent)
 
 
-304 Not Modified  		(Cache control; ETag too?)
+304 Not Modified  		(Cache control; ETag too)
 
 
 500 Internal Error
