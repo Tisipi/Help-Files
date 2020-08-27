@@ -3221,7 +3221,7 @@ Deploying Applications
 Adam Wiggins, 2012, Heroku; https://12factor.net
 
 The Twelve Factors:
- 1. Codebase				One codebase tracked in revision control, many deploys
+ 1. Codebase				One codebase per App tracked in revision control, many deploys
  2. Dependencies			Explicitly declare and isolate dependencies
  3. Config					Store configuration in the environment
  4. Backing services		Treat backing services as attached resources
@@ -3231,7 +3231,7 @@ The Twelve Factors:
  8. Concurrency				Scale out via the process model
  9. Disposability			Maximize robustness with fast startup and graceful shutdown
 10. Dev/prod parity			Keep development, staging, and production as similar as possible
-11. Logs					Treat logs as event streams
+11. Logs					Treat logs as event streams (unbuffered to stdout)
 12. Admin processes			Run admin/management tasks as one-off processes
 
 
@@ -3364,7 +3364,7 @@ EXPOSE 		Exposed port (only for documentation; must use --publish)
 ENV 		Environment variables (key value)
 
 ENTRYPOINT 	Like CMD, the ENTRYPOINT command runs a program, but it also does
-			something else: it enables us to pass arguments to the program.
+			something else: it enables us to pass arguments to the program.   << !!
 
 
 If you don't use RUN either ENTRYPOINT or CMD must be defined.
@@ -3375,6 +3375,8 @@ Exec mode is preferred. It starts the specified command process as PID 1.
 Ensures that Unix signals sent to the container are sent to your spawned process.
 
 
+Dockerfile, ENTRYPOINT vs CMD: 		https://www.ctl.io/developers/blog/post/dockerfile-entrypoint-vs-cmd/
+Docker RUN vs CMD vs ENTRYPOINT:	https://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/
 
 # Check docker is installed/running correctly
 docker version
@@ -4308,6 +4310,94 @@ kubectl describe deployments.apps
 # Deploys use replica sets instead of the old replica controllers
 kubectl get rs
 kubectl describe rs
+
+
+Cluster Access Using kubeconfig Files
+-------------------------------------
+https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/
+https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
+
+Use kubeconfig files to organize information about clusters, users, namespaces, and authentication mechanisms.
+The kubectl command-line tool uses kubeconfig files to find the information it needs to choose a cluster and communicate with the API server of a cluster.
+
+A context element in a kubeconfig file is used to group access parameters under a convenient name.
+Each context has three parameters: cluster, namespace, and user.
+
+
+Example:
+
+	apiVersion: v1
+	kind: Config
+	preferences: {}
+
+	clusters:
+	- cluster:
+	  name: development
+	- cluster:
+	  name: scratch
+
+	users:
+	- name: developer
+	- name: experimenter
+
+	contexts:
+	- context:
+	  name: dev-frontend
+	- context:
+	  name: dev-storage
+	- context:
+	  name: exp-scratch
+
+	kubectl config --kubeconfig=config-demo set-cluster development --server=https://1.2.3.4 --certificate-authority=fake-ca-file
+	kubectl config --kubeconfig=config-demo set-cluster scratch --server=https://5.6.7.8 --insecure-skip-tls-verify
+
+	kubectl config --kubeconfig=config-demo set-credentials developer --client-certificate=fake-cert-file --client-key=fake-key-seefile
+	kubectl config --kubeconfig=config-demo set-credentials experimenter --username=exp --password=some-password
+
+	kubectl config --kubeconfig=config-demo set-context dev-frontend --cluster=development --namespace=frontend --user=developer
+	kubectl config --kubeconfig=config-demo set-context dev-storage --cluster=development --namespace=storage --user=developer
+	kubectl config --kubeconfig=config-demo set-context exp-scratch --cluster=scratch --namespace=default --user=experimenter
+
+	kubectl config --kubeconfig=config-demo view
+
+	apiVersion: v1
+	clusters:
+	- cluster:
+	    certificate-authority: fake-ca-file
+	    server: https://1.2.3.4
+	  name: development
+	- cluster:
+	    insecure-skip-tls-verify: true
+	    server: https://5.6.7.8
+	  name: scratch
+	contexts:
+	- context:
+	    cluster: development
+	    namespace: frontend
+	    user: developer
+	  name: dev-frontend
+	- context:
+	    cluster: development
+	    namespace: storage
+	    user: developer
+	  name: dev-storage
+	- context:
+	    cluster: scratch
+	    namespace: default
+	    user: experimenter
+	  name: exp-scratch
+	current-context: ""
+	kind: Config
+	preferences: {}
+	users:
+	- name: developer
+	  user:
+	    client-certificate: fake-cert-file
+	    client-key: fake-key-file
+	- name: experimenter
+	  user:
+	    password: some-password
+	    username: exp
 
 
 CI/CD
@@ -5988,11 +6078,10 @@ https://developer.cisco.com/codeexchange/github/repo/cisco/cisco-yang-puppet-mod
 - Allows configuration of IOS-XR through Cisco supported YANG data models in JSON/XML format.
 - cisco_yang and cisco_yang_netconf Puppet types and providers.
 
-- mode: 	config setting mode
-			replace
-			merge 	(DEFAULT)
+- mode: 	replace (ReplaceConfig)
+			merge 	(MergeConfig, DEFAULT)
 
-- force:	True 	replaces config
+- force:	True 	forced replace of config
 			False   only sets the config if different from the running configuration (DEFAULT)
 
 - Example manifest to configure two VRF instances on a Cisco IOS-XR device:
@@ -6380,6 +6469,41 @@ ansible -m setup sandbox-servers
 #
 ansible-doc file
 ansible-doc copy
+
+
+
+Ansible ios_vrf_module
+----------------------
+https://docs.ansible.com/ansible/latest/modules/ios_vrf_module.html
+
+ name: configure a vrf named management
+  ios_vrf:
+    name: management
+    description: oob mgmt vrf
+    interfaces:
+      - Management1
+
+- name: remove a vrf named test
+  ios_vrf:
+    name: test
+    state: absent
+
+- name: configure set of VRFs and purge any others
+  ios_vrf:
+    vrfs:
+      - red
+      - blue
+      - green
+    purge: yes
+
+- name: Creates a list of import RTs for the VRF with the same parameters
+  ios_vrf:
+    name: test_import
+    rd: 1:100
+    route_import:
+      - 1:100
+      - 3:100
+
 
 
 
@@ -9139,3 +9263,74 @@ https://realpython.com/intro-to-python-threading/
 	    x.start()
 	    ...
 	    x.join()
+
+
+Python Try Except
+-----------------
+https://www.w3schools.com/python/python_try_except.asp:
+
+	- The try block lets you test a block of code for errors.
+	- The except block lets you handle the error.
+	- You can use the else keyword to define a block of code to be executed if no errors were raised
+	- The finally block lets you execute code, regardless of the result of the try- and except blocks.
+
+
+https://realpython.com/python-exceptions/
+
+	- In the try clause, all statements are executed until an exception is encountered.
+	- except is used to catch and handle the exception(s) that are encountered in the try clause.
+	- else lets you code sections that should run only when no exceptions are encountered in the try clause.
+	- finally enables you to execute sections of code that should always run, with or without any previously encountered exceptions.
+	- raise allows you to throw an exception at any time.
+	- assert enables you to verify if a certain condition is met and throw an exception if it isn’t.
+
+try:
+  print(x)
+except:
+  print("An exception occurred")
+
+try:
+    with open('file.log') as file:
+        read_data = file.read()
+except FileNotFoundError as fnf_error:
+    print(fnf_error)
+
+
+try:
+  print(x)
+except NameError:
+  print("Variable x is not defined")
+except:
+  print("Something else went wrong")
+
+
+try:
+  print("Hello")
+except:
+  print("Something went wrong")
+else:
+  print("Nothing went wrong")
+
+try:
+    linux_interaction()
+except AssertionError as error:
+    print(error)
+else:
+    print('Executing the else clause.')
+
+
+try:
+  print(x)
+except:
+  print("Something went wrong")
+finally:
+  print("The 'try except' is finished")
+
+try:
+  f = open("demofile.txt")
+  f.write("Lorum Ipsum")
+except:
+  print("Something went wrong when writing to the file")
+finally:
+  f.close()
+
