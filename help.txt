@@ -146,7 +146,7 @@ sudo pacman-mirrors -f5 && sudo pacman -Syyu
 # Settings - Firewall - Enable firewall
 # Settings - windows manager tweaks - cycling - raise windows; no draw frame
 # Remove labels from panel (only shiw icons):
-#	Right-click on the panel > Panel > Panel Preferences > Items (tab) > 
+#	Right-click on the panel > Panel > Panel Preferences > Items (tab) >
 #	double-click the Window Buttons item > under Appearance disable the option Show button labels.
 
 
@@ -163,7 +163,7 @@ sudo pacman -S plank
 # Edit preferences
 # plank --preferences << doesn't work that well...
 #
-# Remove horizontal line caused by plank: 
+# Remove horizontal line caused by plank:
 #  Setting > Window manager Tweaks > Compositor: uncheck “Show shadows under dock windows"
 
 # What about latte dock? dockbarx?
@@ -187,3 +187,8 @@ sudo systemctl enable docker
 By default, only user with root or sudo privileges can run or manage Docker. If you want to run docker without root privileges or without having to add sudo everytime, do the following
 
 sudo usermod -aG docker $USER
+
+
+
+# Visual Studio Code
+sudo pacman -S code

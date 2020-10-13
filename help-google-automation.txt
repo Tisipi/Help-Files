@@ -1,0 +1,118 @@
+Print LSB (Linux Standard Base) and Distribution information.
+
+lsb_release -a
+
+
+python --version
+python -V
+python2 --version
+python3 --version
+
+
+shebang line examples
+#!/usr/bin/env python3
+#!/usr/bin/python
+
+
+Ubuntu:
+ls /usr/lib/python3.8/dist-packages
+Manjaro:
+ls /usr/lib/python3.8
+
+
+__init__.py
+
+
+
+read /write files
+-----------------
+file = open('test.txt')
+file.close()
+
+with open('test.txt') as file:
+    for line in file:
+        print(line.strip())
+
+line = file.readline()
+next_line = file.readline()
+rest_of_file = file.read()
+
+lines = file.readlines()
+
+
+modes:
+'r'	open for reading (default)
+'w'	open for writing, truncating the file first !!!
+'x'	open for exclusive creation, failing if the file already exists
+'a'	open for writing, appending to the end of the file if it exists
+'b'	binary mode
+'t'	text mode (default)
+'+'	open for updating (reading and writing)
+
+
+os
+--
+os.remove('my.txt')
+os.rename('draft.txt', 'final.txt')
+os.path.exists('draft.txt')
+
+os.path.abspath('test_math.py')
+
+os.path.isfile(file)
+os.path.isdir(file)
+os.path.join(dir, name)
+
+# File size in bytes
+os.path.getsize('draft.txt')
+
+# Last modified time (unix time)
+os.path.getmtime('draft.txt')
+
+
+os.getcwd()
+os.mkdir('temp_dir')
+os.chdir('temp_dir')
+os.rmdir('temp_dir')
+os.listdir('/')
+
+
+
+math
+----
+math.pi
+
+
+datetime
+--------
+unixtime = os.path.getmtime('test_math.py')
+datetime.datetime.fromtimestamp(unixtime)
+#datetime.datetime(2020, 10, 9, 17, 30, 52, 145723)
+
+
+shutil
+------
+du = shutil.disk_usage("/")
+du.free / du.total
+du.used / du.total
+
+
+psutil
+------
+psutil.cpu_percent(0.1)
+
+
+requests
+--------
+# sudo apt install python3-requests
+request = requests.get("http://www.google.com")
+request.status_code == 200
+
+
+socket
+------
+localhost = socket.gethostbyname('localhost') # Returns '127.0.0.1'
+
+
+
+
+
