@@ -52,15 +52,40 @@ modes:
 
 os
 --
+# https://docs.python.org/3/library/os.html
+# https://docs.python.org/3/library/os.path.html
+
+os.getcwd()
+os.mkdir('temp_dir')
+os.chdir('temp_dir')
+os.rmdir('temp_dir')
+os.listdir('/')
+os.listdir(path='.')
+
+os.scandir(path='.')
+	Returns an iterator
+
+	Using scandir() instead of listdir() can significantly increase the performance of code that also needs file type or file attribute information
+
+
+	with os.scandir(path) as it:
+	    for entry in it:
+	        if not entry.name.startswith('.') and entry.is_file():
+	            print(entry.name)
+
+
 os.remove('my.txt')
 os.rename('draft.txt', 'final.txt')
 os.path.exists('draft.txt')
 
 os.path.abspath('test_math.py')
-
 os.path.isfile(file)
 os.path.isdir(file)
 os.path.join(dir, name)
+os.path.dirname(path)
+
+os.stat('somefile.txt')
+
 
 # File size in bytes
 os.path.getsize('draft.txt')
@@ -68,12 +93,34 @@ os.path.getsize('draft.txt')
 # Last modified time (unix time)
 os.path.getmtime('draft.txt')
 
+# Return the time of last access of path
+os.path.getatime(path)
 
-os.getcwd()
-os.mkdir('temp_dir')
-os.chdir('temp_dir')
-os.rmdir('temp_dir')
-os.listdir('/')
+
+
+os.environ
+os.environ['HOME']
+os.environ['PATH']
+
+os.getenv('HOME')
+os.getenv('PATH')
+os.putenv(key, value)
+
+
+os.getpid()
+os.getppid()
+os.uname()
+
+os.sep
+os.linesep
+
+
+csv
+---
+with open('person.csv', 'r') as f:
+    csv_file = csv.reader(f)
+    for row in csv_file:
+        name, gender, age = row
 
 
 
@@ -116,3 +163,11 @@ localhost = socket.gethostbyname('localhost') # Returns '127.0.0.1'
 
 
 
+----
+split()
+strip()
+word.lower()
+word.isalpha()
+
+punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+new_file_contents = ''.join(char for char in file_contents if char not in punctuations)
