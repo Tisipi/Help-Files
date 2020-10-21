@@ -52,8 +52,8 @@ modes:
 
 os
 --
-# https://docs.python.org/3/library/os.html
-# https://docs.python.org/3/library/os.path.html
+https://docs.python.org/3/library/os.html
+https://docs.python.org/3/library/os.path.html
 
 os.getcwd()
 os.mkdir('temp_dir')
@@ -117,10 +117,34 @@ os.linesep
 
 csv
 ---
+https://docs.python.org/3/library/csv.html
+https://realpython.com/python-csv/
+
 with open('person.csv', 'r') as f:
     csv_file = csv.reader(f)
     for row in csv_file:
         name, gender, age = row
+
+persons = [['Jan', 'Man', 32], ['Piet', 'Man' ,45], ['Joke' ,'Vrouw', 34]]
+with open('my_persons.csv', 'w') as f:
+    csv_file = csv.writer(f)
+    csv_file.writerows(persons)
+
+
+with open('personHeader.csv', 'r') as f:
+    csv_file = csv.DictReader(f)
+    for row in csv_file:
+        print(row['Name'], row['Age'])
+
+
+persons = [{'Name': 'Jan', 'Gender': 'Man', 'Age': 27},
+           {'Name': 'Piet', 'Gender': 'Man' ,'Age': 45},
+           {'Name': 'Joke' ,'Gender': 'Vrouw', 'Age':34}]
+with open('my_persons_header.csv', 'w') as f:
+    keys = ['Name', 'Gender', 'Age']
+    csv_file = csv.DictWriter(f, fieldnames=keys)
+    csv_file.writeheader()
+    csv_file.writerows(persons)
 
 
 
