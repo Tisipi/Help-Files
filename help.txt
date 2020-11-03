@@ -174,6 +174,17 @@ check:
 
 
 
+# Swapfile for hibernate
+# https://wiki.manjaro.org/index.php/Swap
+#
+sudo fallocate -l 32G /swapfile
+sudo mkswap /swapfile
+sudo chmod u=rw,go= /swapfile
+sudo swapon /swapfile
+swapon --show
+sudo bash -c "echo /swapfile none swap defaults 0 0 >> /etc/fstab"
+
+
 # Install Docker
 sudo pacman -S docker
 
@@ -192,3 +203,23 @@ sudo usermod -aG docker $USER
 
 # Visual Studio Code
 sudo pacman -S code
+
+
+=================
+
+
+iptables -nvL
+journalctl
+sudo journalctl --no-pager
+sudo journalctl -f
+
+
+
+# https://www.howtogeek.com/499623/how-to-use-journalctl-to-read-linux-system-logs/
+sudo journalctl -n 10 -o short-full
+sudo journalctl -n 10 -o verbose
+sudo journalctl -n 10 -o json
+sudo journalctl -n 10 -o json-pretty
+
+sudo journalctl -S "2020-11-22 07:00:00"
+sudo journalctl -S "2020-11-22 07:00:00" -U "2020-11-22 07:15:00"

@@ -24,6 +24,25 @@ __init__.py
 
 
 
+
+
+
+
+Misc
+----
+split()
+strip()
+word.lower()
+word.isalpha()
+
+punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+new_file_contents = ''.join(char for char in file_contents if char not in punctuations)
+
+
+department_list.count("IT")
+
+
+
 read /write files
 -----------------
 file = open('test.txt')
@@ -120,6 +139,10 @@ csv
 https://docs.python.org/3/library/csv.html
 https://realpython.com/python-csv/
 
+Note: Files below should be opened with newline=''
+		with open('person.csv', newline='') as csvfile:
+
+
 with open('person.csv', 'r') as f:
     csv_file = csv.reader(f)
     for row in csv_file:
@@ -145,6 +168,10 @@ with open('my_persons_header.csv', 'w') as f:
     csv_file = csv.DictWriter(f, fieldnames=keys)
     csv_file.writeheader()
     csv_file.writerows(persons)
+
+
+csv.register_dialect('myDialect', skipinitialspace=True, strict=True)
+csv.DictReader(f, dialect = 'myDialect')
 
 
 
@@ -184,14 +211,84 @@ socket
 localhost = socket.gethostbyname('localhost') # Returns '127.0.0.1'
 
 
+re
+--
+https://www.regex101.com
+https://docs.python.org/3/howto/regex.html
+https://docs.python.org/3/library/re.html
+https://docs.python.org/3/howto/regex.html#greedy-versus-non-greedy
+
+Metacharacters: . ^ $ * + ? { } [ ] \ | ( )
+Metacharacters must be escaped.
+
+.		Any char except a newline character (in alternate mode (re.DOTALL) it matches even a newline)
+?		Optional char (0 or 1 char)
+*		0 or more instances
++		1 or more instances
+^		Matches at the beginning of string/line (re.MULTILINE flag)
+$		Matches at the end of a string/line
+[]		Character class (a set of characters). For example:
+			[a-z]
+			[A-Z]
+			[0-9]
+			[a-zA-Z]
+			[^a-zA-Z]
+			[a-zA-Z0-9]
+			[\s,.] 		match any whitespace character or ',' or '.'.
+
+|		Alternation, “or” operator, e.g. [man|woman]
+{n}		Repetition, n times
+{n,m}	Repetition, n to m times (incl.)
+{n,}	Repetition, n or more times
+{,m}	Repetition, zero up to m times.
+
+
+\d		Matches any decimal digit; this is equivalent to the class [0-9].
+\D		Matches any non-digit character; this is equivalent to the class [^0-9].
+\s		Matches any whitespace character; this is equivalent to the class [ \t\n\r\f\v].
+\S		Matches any non-whitespace character; this is equivalent to the class [^ \t\n\r\f\v].
+\w		Matches any alphanumeric character; this is equivalent to the class [a-zA-Z0-9_].
+\W		Matches any non-alphanumeric character; this is equivalent to the class [^a-zA-Z0-9_].
+
+\b		Word boundary. Matches only at the beginning or end of a word.
+
+
+match()		Determine if the RE matches at the beginning of the string.
+search()	Scan through a string, looking for any location where this RE matches.
+findall()	Find all substrings where the RE matches, and returns them as a list.
+finditer()	Find all substrings where the RE matches, and returns them as an iterator.
+
+split()		Split the string into a list, splitting it wherever the RE matches.
+sub()		Find all substrings where the RE matches, and replace them with a different string.
+subn()		Does the same thing as sub(), but returns the new string and the number of replacements.
+
+
+re.search(r"man", "mankind")
+re.search(r"man", "Mankind", re.IGNORECASE)
+re.search(r"\.nl", "tisipi.nl")
+
+re.findall(r"man|woman", "Both man and woman")
+
+pattern = re.compile(r"man|woman")
+pattern.findall("Both man and woman")
+
+mo = re.search(r"\[(\d+)\]", "This is a PID [1234] maestro")
+mo.group()
+mo.group(0)
+
+re.split(r"[.!]", "Split my sentence. This one too! Is it working?")
+
+p = re.compile('(blue|white|red)')
+p.sub('colour', 'blue socks and red shoes')
+p.sub('colour', 'blue socks and red shoes', count=1)
 
 
 
-----
-split()
-strip()
-word.lower()
-word.isalpha()
 
-punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
-new_file_contents = ''.join(char for char in file_contents if char not in punctuations)
+
+SSH Access with PEM file
+------------------------
+download PEM key file
+chmod 600 <keyfile>.pem
+ssh -i <keyfile>.pem username@<IP Address>
+
