@@ -24,7 +24,41 @@ __init__.py
 
 
 
+Basic I/O
+---------
+print("Hello")
+print("Hello {}".format(name))
 
+name = input("Please type your name: ")
+
+
+Remark
+- In Python 2 raw_input should be used to input a string
+- input(x) is eval(raw_input(x)).
+
+
+# Linux env variables
+env
+env | grep PATH
+echo $PATH
+export TEST_VAR="Yes Yes"
+
+os.environ["PATH"]
+os.environ.get("PATH")
+os.environ.get("PATH", "")
+
+
+# Status code last Linux command (0 is ok)
+echo $?
+
+sys.exit(0)		default exit code python script
+sys.exit(1)		exit code error
+
+
+sys
+---
+import sys
+sys.argv
 
 
 
@@ -34,6 +68,7 @@ split()
 strip()
 word.lower()
 word.isalpha()
+replace()
 
 punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
 new_file_contents = ''.join(char for char in file_contents if char not in punctuations)
@@ -214,9 +249,9 @@ localhost = socket.gethostbyname('localhost') # Returns '127.0.0.1'
 re
 --
 https://www.regex101.com
+https://regexcrossword.com/
 https://docs.python.org/3/howto/regex.html
 https://docs.python.org/3/library/re.html
-https://docs.python.org/3/howto/regex.html#greedy-versus-non-greedy
 
 Metacharacters: . ^ $ * + ? { } [ ] \ | ( )
 Metacharacters must be escaped.
@@ -275,15 +310,16 @@ pattern.findall("Both man and woman")
 mo = re.search(r"\[(\d+)\]", "This is a PID [1234] maestro")
 mo.group()
 mo.group(0)
+mo.groups()
 
 re.split(r"[.!]", "Split my sentence. This one too! Is it working?")
+re.split(r"([.!])", "Split my sentence. This one too! Is it working?")
 
 p = re.compile('(blue|white|red)')
 p.sub('colour', 'blue socks and red shoes')
 p.sub('colour', 'blue socks and red shoes', count=1)
 
-
-
+re.sub(r"\d+.\d+.\d+.\d+", "[HIDDEN]", "The customers IP address 11.6.6.7 must not be visible")
 
 
 SSH Access with PEM file
