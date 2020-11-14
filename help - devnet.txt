@@ -1052,7 +1052,7 @@ MODULE 4 - Network Controllers
 3	Network Control in the Cloud - Developing with Cisco Meraki 	16:16	DONE
 4	Cisco DNA Center Platform APIs Part 1: Exploring Apps and Tools 19:39	DONE
 5	Cisco DNA Center Platform APIs Part 2: Network Troubleshooting 	23:47	DONE
-6	ACI Programmability Part 1: The ACI Object Model 				19:08	-
+6	ACI Programmability Part 1: The ACI Object Model 				19:08	DONE
 7	ACI Programmability Part 2: Using the ACI Toolkit 				29:24	-
 
 MODULE 5 - Application Hosting and the Network

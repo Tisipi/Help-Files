@@ -47,6 +47,9 @@ os.environ["PATH"]
 os.environ.get("PATH")
 os.environ.get("PATH", "")
 
+my_env = os.environ.copy()
+my_env['PATH'] = os.pathsep.join(["/opt/niceapp", my_env['PATH']])
+
 
 # Status code last Linux command (0 is ok)
 echo $?
@@ -60,6 +63,26 @@ sys
 import sys
 sys.argv
 
+sys.argv[0], sys.argv[1], etc.
+
+
+subprocess
+----------
+https://docs.python.org/3/library/subprocess.html
+
+subprocess.run(["ls"])
+subprocess.run(["ps"])
+subprocess.run(["date"])
+subprocess.run(["sleep", "5"])
+subprocess.run(["ping", "8.8.8.8"])
+
+result = subprocess.run(["ls"])
+result.returncode
+
+result = subprocess.run(["ls"], capture_output=True)
+result.stdout
+result.stdout.decode().split('\n')
+result.stderr
 
 
 Misc
@@ -137,6 +160,7 @@ os.path.isfile(file)
 os.path.isdir(file)
 os.path.join(dir, name)
 os.path.dirname(path)
+os.path.expanduser('~')
 
 os.stat('somefile.txt')
 
@@ -149,7 +173,6 @@ os.path.getmtime('draft.txt')
 
 # Return the time of last access of path
 os.path.getatime(path)
-
 
 
 os.environ
@@ -167,6 +190,7 @@ os.uname()
 
 os.sep
 os.linesep
+os.pathsep
 
 
 csv
