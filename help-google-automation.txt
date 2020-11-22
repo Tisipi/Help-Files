@@ -336,6 +336,12 @@ mo.group()
 mo.group(0)
 mo.groups()
 
+
+result = re.search(r" () () ", <string>)
+result[1]
+result[2]
+
+
 re.split(r"[.!]", "Split my sentence. This one too! Is it working?")
 re.split(r"([.!])", "Split my sentence. This one too! Is it working?")
 
@@ -344,6 +350,97 @@ p.sub('colour', 'blue socks and red shoes')
 p.sub('colour', 'blue socks and red shoes', count=1)
 
 re.sub(r"\d+.\d+.\d+.\d+", "[HIDDEN]", "The customers IP address 11.6.6.7 must not be visible")
+
+
+unittest
+--------
+https://docs.python.org/3/library/unittest.html#basic-example
+https://docs.python.org/3/library/unittest.html#command-line-interface
+https://docs.python.org/3/library/unittest.html#organizing-test-code
+https://docs.python.org/3/library/unittest.html#unittest.TestCase.assertRaises
+
+
+Create module called <module>_test.py:
+
+	import unittest
+
+	# Test Class
+	class TestWhatever(unittest.TestCase):
+
+		# Test methods
+	    def setUp(self):
+	        self.widget = Widget('The widget')
+
+	    def tearDown(self):
+	        self.widget.dispose()
+
+	    def test_whatever1(self):
+	    	self.assertEqual(..., ...)
+
+	    def test_whatever2(self):
+
+	if __name__ == '__main__':
+	    unittest.main()
+
+
+assertEqual(a, b)			a == b
+assertNotEqual(a, b)		a != b
+assertTrue(x)				bool(x) is True
+assertFalse(x)				bool(x) is False
+assertIs(a, b)				a is b
+assertIsNot(a, b)			a is not b
+assertIsNone(x)				x is None
+assertIsNotNone(x)			x is not None
+assertIn(a, b)				a in b
+assertNotIn(a, b)			a not in b
+assertIsInstance(a, b)		isinstance(a, b)
+assertNotIsInstance(a, b)	not isinstance(a, b)
+
+assertRaises(exc, fun, *args, **kwds)			fun(*args, **kwds) raises exc
+assertRaisesRegex(exc, r, fun, *args, **kwds)	fun(*args, **kwds) raises exc and the message matches regex r
+assertWarns(warn, fun, *args, **kwds)			fun(*args, **kwds) raises warn
+assertWarnsRegex(warn, r, fun, *args, **kwds)	fun(*args, **kwds) raises warn and the message matches regex r
+assertLogs(logger, level)						The with block logs on logger with minimum level
+
+assertAlmostEqual(a, b)		round(a-b, 7) == 0
+assertNotAlmostEqual(a, b)	round(a-b, 7) != 0
+assertGreater(a, b)			a > b
+assertGreaterEqual(a, b)	a >= b
+assertLess(a, b)			a < b
+assertLessEqual(a, b)		a <= b
+assertRegex(s, r)			r.search(s)
+assertNotRegex(s, r)		not r.search(s)
+assertCountEqual(a, b)		a and b have the same elements in the same number, regardless of their order.
+
+assertMultiLineEqual(a, b)	strings
+assertSequenceEqual(a, b)	sequences
+assertListEqual(a, b)		lists
+assertTupleEqual(a, b)		tuples
+assertSetEqual(a, b)		sets or frozensets
+assertDictEqual(a, b)		dicts
+
+
+
+Command line examples:
+	python -m unittest -h
+	python -m unittest test_module
+	python -m unittest -v test_module
+	python -m unittest test_module1 test_module2
+	python -m unittest test_module.TestClass
+	python -m unittest test_module.TestClass.test_method
+
+
+Jupyter Notebooks
+-----------------
+Jupyter Notebook Tutorial			https://www.datacamp.com/community/tutorials/tutorial-jupyter-notebook
+How to use Jupyter Notebooks		https://www.codecademy.com/articles/how-to-use-jupyter-notebooks
+Teaching and Learning with Jupyter 	https://jupyter4edu.github.io/jupyter-edu-book/
+
+
+unittest.main(argv = ['ignore-this-dummy-argument'], exit = False)
+	unittest.main( ) looks at sys.argv. In Jupyter the first parameter of sys.argv is what started the Jupyter kernel.
+	Passing an explicit list to unittest.main( ) prevents it from looking at sys.argv.
+	exit = False prevents unittest.main( ) from shutting down the kernel process.
 
 
 SSH Access with PEM file

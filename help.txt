@@ -140,6 +140,25 @@ pacman -S <package>
 sudo pacman-mirrors -f5 && sudo pacman -Syyu
 
 
+# Update GRUB bootloader software
+sudo pacman -S grub
+
+# Update GRUB bootloader config
+cat /etc/default/grub
+sudo nano /etc/default/grub
+ or
+sudoedit /etc/default/grub
+
+# Or via GRUB customizer (graphical GRUB config tool)
+sudo pacman -S grub-customizer
+grub-customizer
+
+# After changes of GRUB config
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+ or
+sudo update-grub
+
+
 # Settings - Mouse, inverse scrolling
 # Settings - Appearance - settings - windows scaling 2x
 # Settings - Appearance - settings - style - adwaita dark
