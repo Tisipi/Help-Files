@@ -1,3 +1,4 @@
+
 Print LSB (Linux Standard Base) and Distribution information.
 
 lsb_release -a
@@ -21,6 +22,12 @@ ls /usr/lib/python3.8
 
 
 __init__.py
+
+
+
+Python 3 Module of the Week
+---------------------------
+https://pymotw.com/3/
 
 
 
@@ -420,6 +427,8 @@ assertSetEqual(a, b)		sets or frozensets
 assertDictEqual(a, b)		dicts
 
 
+assert isinstance(item, str), "Must be a string"
+
 
 Command line examples:
 	python -m unittest -h
@@ -428,6 +437,151 @@ Command line examples:
 	python -m unittest test_module1 test_module2
 	python -m unittest test_module.TestClass
 	python -m unittest test_module.TestClass.test_method
+
+
+Exceptions
+----------
+raise ValueError
+raise NameError('This is an error')
+
+
+Built-in Exception hierarchy:
+
+	BaseException
+	 +-- SystemExit
+	 +-- KeyboardInterrupt
+	 +-- GeneratorExit
+	 +-- Exception
+	      +-- StopIteration
+	      +-- StopAsyncIteration
+	      +-- ArithmeticError
+	      |    +-- FloatingPointError
+	      |    +-- OverflowError
+	      |    +-- ZeroDivisionError
+	      +-- AssertionError
+	      +-- AttributeError
+	      +-- BufferError
+	      +-- EOFError
+	      +-- ImportError
+	      |    +-- ModuleNotFoundError
+	      +-- LookupError
+	      |    +-- IndexError
+	      |    +-- KeyError
+	      +-- MemoryError
+	      +-- NameError
+	      |    +-- UnboundLocalError
+	      +-- OSError
+	      |    +-- BlockingIOError
+	      |    +-- ChildProcessError
+	      |    +-- ConnectionError
+	      |    |    +-- BrokenPipeError
+	      |    |    +-- ConnectionAbortedError
+	      |    |    +-- ConnectionRefusedError
+	      |    |    +-- ConnectionResetError
+	      |    +-- FileExistsError
+	      |    +-- FileNotFoundError
+	      |    +-- InterruptedError
+	      |    +-- IsADirectoryError
+	      |    +-- NotADirectoryError
+	      |    +-- PermissionError
+	      |    +-- ProcessLookupError
+	      |    +-- TimeoutError
+	      +-- ReferenceError
+	      +-- RuntimeError
+	      |    +-- NotImplementedError
+	      |    +-- RecursionError
+	      +-- SyntaxError
+	      |    +-- IndentationError
+	      |         +-- TabError
+	      +-- SystemError
+	      +-- TypeError
+	      +-- ValueError
+	      |    +-- UnicodeError
+	      |         +-- UnicodeDecodeError
+	      |         +-- UnicodeEncodeError
+	      |         +-- UnicodeTranslateError
+	      +-- Warning
+	           +-- DeprecationWarning
+	           +-- PendingDeprecationWarning
+	           +-- RuntimeWarning
+	           +-- SyntaxWarning
+	           +-- UserWarning
+	           +-- FutureWarning
+	           +-- ImportWarning
+	           +-- UnicodeWarning
+	           +-- BytesWarning
+	           +-- ResourceWarning
+
+
+Python Try Except
+-----------------
+https://www.w3schools.com/python/python_try_except.asp:
+
+	- The try block lets you test a block of code for errors.
+	- The except block lets you handle the error.
+	- You can use the else keyword to define a block of code to be executed if no errors were raised
+	- The finally block lets you execute code, regardless of the result of the try- and except blocks.
+
+
+https://realpython.com/python-exceptions/
+
+	- In the try clause, all statements are executed until an exception is encountered.
+	- except is used to catch and handle the exception(s) that are encountered in the try clause.
+	- else lets you code sections that should run only when no exceptions are encountered in the try clause.
+	- finally enables you to execute sections of code that should always run, with or without any previously encountered exceptions.
+	- raise allows you to throw an exception at any time.
+	- assert enables you to verify if a certain condition is met and throw an exception if it isn’t.
+
+try:
+  print(x)
+except:
+  print("An exception occurred")
+
+try:
+    with open('file.log') as file:
+        read_data = file.read()
+except FileNotFoundError as fnf_error:
+    print(fnf_error)
+
+
+try:
+  print(x)
+except NameError:
+  print("Variable x is not defined")
+except:
+  print("Something else went wrong")
+
+
+try:
+  print("Hello")
+except:
+  print("Something went wrong")
+else:
+  print("Nothing went wrong")
+
+try:
+    linux_interaction()
+except AssertionError as error:
+    print(error)
+else:
+    print('Executing the else clause.')
+
+
+try:
+  print(x)
+except:
+  print("Something went wrong")
+finally:
+  print("The 'try except' is finished")
+
+try:
+  f = open("demofile.txt")
+  f.write("Lorum Ipsum")
+except:
+  print("Something went wrong when writing to the file")
+finally:
+  f.close()
+
 
 
 Jupyter Notebooks
