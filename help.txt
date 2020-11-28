@@ -130,6 +130,11 @@ Manjaro
 -------
 https://wiki.archlinux.org/index.php/Dell_XPS_15_7590
 
+
+# Misc system info
+inxi --full --verbosity=7 --filter --no-host
+
+
 # Update Manjaro (update the entire system)
 sudo pacman -Syu
 
@@ -222,6 +227,7 @@ sudo usermod -aG docker $USER
 
 # Visual Studio Code
 sudo pacman -S code
+
 
 
 =================

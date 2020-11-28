@@ -72,6 +72,9 @@ sys.argv
 
 sys.argv[0], sys.argv[1], etc.
 
+sys.stdin
+
+
 
 subprocess
 ----------
@@ -603,3 +606,70 @@ download PEM key file
 chmod 600 <keyfile>.pem
 ssh -i <keyfile>.pem username@<IP Address>
 
+
+
+Bash Scripting
+--------------
+STDIN	0
+STDOUT	1
+STDERR	2
+
+>	redirect STDOUT output to file
+>>	redirect STDOUT output to file (but append, iso replace)
+2>	redirect STDERR output to file
+
+<	input, for example from a file
+
+
+cat pluralsight.txt | less
+cat pluralsight.txt | tr ' ' '\n'
+cat pluralsight.txt | tr ' ' '\n' | sort
+cat pluralsight.txt | tr ' ' '\n' | sort | uniq
+cat pluralsight.txt | tr ' ' '\n' | sort | uniq -c
+cat pluralsight.txt | tr ' ' '\n' | sort | uniq -c | sort -n
+cat pluralsight.txt | tr ' ' '\n' | sort | uniq -c | sort -nr
+cat pluralsight.txt | tr ' ' '\n' | sort | uniq -c | sort -nr | head
+
+
+ps ax | grep <search>
+
+ctrl-c	SIGINT 		Terminates process cleanly
+ctrl-z	SIGSTOP		Stops process (restart/continue with "fg")
+
+kill <pid>	default is SIGTERM
+
+
+
+cd directory					Changes the current working directory to the specified one
+pwd								Prints the current working directory
+ls								Lists the contents of the current directory
+ls directory					Lists the contents of the received directory
+ls -l							Lists the additional information for the contents of the directory
+ls -a							Lists all files, including those hidden
+ls -la							Applies both the -l and the -a flags
+mkdir directory					Creates the directory with the received name
+rmdir directory					Deletes the directory with the received name (if empty)
+cp old_name new_name			Copies old_name into new_name
+mv old_name new_name			Moves old_name into new_name
+touch file_name					Creates an empty file or updates the modified time if it exists
+chmod modifiers files			Changes the permissions for the files according to the provided modifiers; we've seen +x to make the file executable
+chown user files				Changes the owner of the files to the given user
+chgrp group files				Changes the group of the files to the given group
+
+
+cat file						Shows the content of the file through standard output
+wc file							Counts the amount of characters, words, and lines in the given file; can also count the same values of whatever it receives via stdin
+file file						Prints the type of the given file, as recognized by the operating system
+head file						Shows the first 10 lines of the given file
+tail file						Shows the last 10 lines of the given file
+less file						Scrolls through the contents of the given file (press "q" to quit)
+sort file						Sorts the lines of the file alphabetically
+cut -dseparator -ffields file	For each line in the given file, splits the line according to the given separator and prints the given fields (starting from 1)
+
+
+echo "message"					Prints the message to standard output
+date							Prints the current date
+who								Prints the list of users currently logged into the computer
+man command						Shows the manual page of the given command; manual pages contain a lot of information explaining how to use each command (press "q" to quit)
+uptime							Shows how long the computer has been running
+free							Shows the amount of unused memory on the current system
