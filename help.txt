@@ -134,6 +134,12 @@ https://wiki.archlinux.org/index.php/Dell_XPS_15_7590
 # Misc system info
 inxi --full --verbosity=7 --filter --no-host
 
+# check nvidia
+lspci -k | grep -A 2 -E "(VGA|3D)"
+lspci -v
+
+mhwd --listinstalled
+
 
 # Update Manjaro (update the entire system)
 sudo pacman -Syu
@@ -157,6 +163,10 @@ sudoedit /etc/default/grub
 # Or via GRUB customizer (graphical GRUB config tool)
 sudo pacman -S grub-customizer
 grub-customizer
+
+	i915.enable_dpcd_backlight=0
+	cat grub grub.backup  | grep enable_dpcd_backlight
+	GRUB_CMDLINE_LINUX_DEFAULT="quiet apparmor=1 security=apparmor udev.log_priority=3 mem_sleep_default=deep i915.enable_dpcd_backlight=0"
 
 # After changes of GRUB config
 sudo grub-mkconfig -o /boot/grub/grub.cfg

@@ -58,9 +58,6 @@ my_env = os.environ.copy()
 my_env['PATH'] = os.pathsep.join(["/opt/niceapp", my_env['PATH']])
 
 
-# Status code last Linux command (0 is ok)
-echo $?
-
 sys.exit(0)		default exit code python script
 sys.exit(1)		exit code error
 
@@ -610,15 +607,25 @@ ssh -i <keyfile>.pem username@<IP Address>
 
 Bash Scripting
 --------------
+Bash = Bourne Again shell (Steve Bourne, Bell Labs Research)
+
+https://ryanstutorials.net/bash-scripting-tutorial/
+https://linuxconfig.org/bash-scripting-tutorial-for-beginners
+https://www.shellscript.sh
+https://wiki.bash-hackers.org/commands/classictest
+
+echo $SHELL
+
+
 STDIN	0
 STDOUT	1
 STDERR	2
 
 >	redirect STDOUT output to file
->>	redirect STDOUT output to file (but append, iso replace)
+>>	redirect STDOUT output to file (but append, iso overwrite)
 2>	redirect STDERR output to file
 
-<	input, for example from a file
+<	redirect STDIN input from file
 
 
 cat pluralsight.txt | less
@@ -639,37 +646,149 @@ ctrl-z	SIGSTOP		Stops process (restart/continue with "fg")
 kill <pid>	default is SIGTERM
 
 
-
-cd directory					Changes the current working directory to the specified one
-pwd								Prints the current working directory
-ls								Lists the contents of the current directory
-ls directory					Lists the contents of the received directory
-ls -l							Lists the additional information for the contents of the directory
-ls -a							Lists all files, including those hidden
-ls -la							Applies both the -l and the -a flags
-mkdir directory					Creates the directory with the received name
-rmdir directory					Deletes the directory with the received name (if empty)
-cp old_name new_name			Copies old_name into new_name
-mv old_name new_name			Moves old_name into new_name
-touch file_name					Creates an empty file or updates the modified time if it exists
-chmod modifiers files			Changes the permissions for the files according to the provided modifiers; we've seen +x to make the file executable
-chown user files				Changes the owner of the files to the given user
-chgrp group files				Changes the group of the files to the given group
+ps			list processes executing in current terminal for current user
+ps ax		list all processes executing for all users
+ps e		shows the environment for the processes listed
+fg			move stopped or background job to the foreground
+bg			move stopped job to the background
+jobs		lists jobs currently running or stopped
+top			list top CPU processes ("q" to quit)
 
 
-cat file						Shows the content of the file through standard output
-wc file							Counts the amount of characters, words, and lines in the given file; can also count the same values of whatever it receives via stdin
-file file						Prints the type of the given file, as recognized by the operating system
-head file						Shows the first 10 lines of the given file
-tail file						Shows the last 10 lines of the given file
-less file						Scrolls through the contents of the given file (press "q" to quit)
-sort file						Sorts the lines of the file alphabetically
-cut -dseparator -ffields file	For each line in the given file, splits the line according to the given separator and prints the given fields (starting from 1)
+cd <directory>					Change directory
+pwd								Print the current working directory
+ls								List current directory
+ls <directory>					List directory
+ls -l							List long info of current directory
+ls -a							List current directory (incl. hidden files)
+ls -la
+mkdir <directory>				Create/make directory
+rmdir <directory>				Remove directory (if empty)
+cp <old> <new>      			Copy
+mv <old> <new>      			Move
+touch <file>					Create an empty file (or update modification time if existing)
+chmod <modifiers> <file>		Change permissions
+chown <user> <file>				Changes the owner
+chgrp <group> <file>			Changes the group
+
+cat  <file>						Shows the content of the file on standard output
+wc   <file>						Word Count (characters, words, lines)
+file <file>						Print the file type
+head <file>						Head of file (first 10 lines)
+tail <file>						Tail of file (last 10 lines)
+less <file>						Scroll through file ("q" to quit)
+sort <file>						Sort the file alphabetically
+cut OPTION... [FILE]...			Cut specific fields/character from file
+
+echo "message"					Print message to standard output
+date							Print current date
+who								Print logged in users
+man <command>					Manual pages
+uptime							Uptime system
+free							Free and used memory
 
 
-echo "message"					Prints the message to standard output
-date							Prints the current date
-who								Prints the list of users currently logged into the computer
-man command						Shows the manual page of the given command; manual pages contain a lot of information explaining how to use each command (press "q" to quit)
-uptime							Shows how long the computer has been running
-free							Shows the amount of unused memory on the current system
+# Status code last Linux command (0 is success/ok)
+echo $?
+
+
+collect.sh:
+	#!/bin/bash
+	echo "START TIME $(date)"; echo
+	echo "YOU ARE $(who)"; echo
+	echo "UPTIME IS"; uptime; echo
+
+Variables:
+	# Note: no spaces!
+	name=Tisipi
+	echo $name
+
+Globs like * and ?:
+	echo *.sh
+	echo c*
+	echo P?r*
+
+Read a line from standard input:
+	echo What is your name?
+	read NAME
+	echo "Hello $NAME - How are you?"
+
+Conditional expression:
+	#!/bin/bash
+	if grep "127.0.0.1" /etc/hosts
+	then
+		echo "Loopback present"
+	else
+		echo "No Loopback"
+	fi
+
+	#!/bin/bash
+	if grep "127.0.0.1" /etc/hosts; then
+		echo "Loopback present"
+	else
+		echo "No Loopback"
+	fi
+
+
+	# https://wiki.bash-hackers.org/commands/classictest
+	#
+	# Bash test command
+	#
+	# file exists: test -e
+
+	if test -e /etc/passwd; then
+	  echo "Alright man..." >&2
+	else
+	  echo "Yuck! Where is it??" >&2
+	  exit 1
+	fi
+
+
+	# Alternative test command ("[" is a test command too; "]" is an argument)
+
+	if [ -e /etc/passwd ]; then
+	  echo "Alright man..." >&2
+	else
+	  echo "Mmh! Where is it??" >&2
+	  exit 1
+	fi
+
+
+	# Test if string is not empty
+
+	if test -n "$PATH" ; then echo "Path is not empty"; fi
+	if [ -n "$PATH" ]; then echo "Path is not empty"; fi
+
+
+File tests:
+
+	-e <FILE>			Tests if <FILE> exists.
+	-f <FILE>			Tests if <FILE> exists and is a regular file.
+	-d <FILE>			Tests if <FILE> exists and is a directory.
+	-S <FILE>			Tests if <FILE> exists and is a socket file.
+	-L <FILE>			Tests if <FILE> exists and is a symbolic link.
+	-r <FILE>			Tests if <FILE> exists and is readable.
+	-w <FILE>			Tests if <FILE> exists and is writable.
+	-x <FILE>			Tests if <FILE> exists and is executable.
+	-s <FILE>			Tests if <FILE> exists and has size bigger than 0 (not empty).
+	<FILE1> -nt <FILE2>	Tests if <FILE1> is newer than <FILE2> (mtime).
+	<FILE1> -ot <FILE2>	Tests if <FILE1> is older than <FILE2> (mtime).
+
+
+String tests:
+
+	-z <STRING>				Tests if <STRING> is empty.
+	-n <STRING>				Tests if <STRING> is not empty (default operation).
+	<STRING1> = <STRING2>	Tests if strings are equal.
+	<STRING1> != <STRING2>	Tests if strings are not equal.
+	<STRING1> < <STRING2>	Tests if <STRING1> sorts before <STRING2> lexicographically (pure ASCII, not current locale!). Remember to escape! Use \<
+	<STRING1> > <STRING2>	Tests if <STRING1> sorts after <STRING2> lexicographically (pure ASCII, not current locale!). Remember to escape! Use \>
+
+Arithmetic tests:
+
+	<INTEGER1> -eq <INTEGER2>	True, if the integers are equal.
+	<INTEGER1> -ne <INTEGER2>	True, if the integers are NOT equal.
+	<INTEGER1> -le <INTEGER2>	True, if the first integer is less than or equal second one.
+	<INTEGER1> -ge <INTEGER2>	True, if the first integer is greater than or equal second one.
+	<INTEGER1> -lt <INTEGER2>	True, if the first integer is less than second one.
+	<INTEGER1> -gt <INTEGER2>	True, if the first integer is greater than second one.
