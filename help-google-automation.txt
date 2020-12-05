@@ -792,3 +792,26 @@ Arithmetic tests:
 	<INTEGER1> -ge <INTEGER2>	True, if the first integer is greater than or equal second one.
 	<INTEGER1> -lt <INTEGER2>	True, if the first integer is less than second one.
 	<INTEGER1> -gt <INTEGER2>	True, if the first integer is greater than second one.
+
+
+While loop:
+	i=1
+	while [ $i -le 10 ]; do
+	  echo "$i"
+	  ((i+=1))
+	done
+
+	operation=$1
+	while ! $operation && [ $i -le 10 ]; do
+	  ...
+	done
+
+
+For loop:
+	for i in 1 2 3 4 5; do
+	  echo "$i"
+	done
+
+	for name in John Peter Tim Steve; do
+	  echo "$name"
+	done
