@@ -1,6 +1,6 @@
 
 Print LSB (Linux Standard Base) and Distribution information.
-
+a
 lsb_release -a
 
 
@@ -65,11 +65,23 @@ sys.exit(1)		exit code error
 sys
 ---
 import sys
-sys.argv
-
-sys.argv[0], sys.argv[1], etc.
 
 sys.stdin
+
+sys.argv
+sys.argv[0], sys.argv[1], etc.
+
+
+./myCommands.py simple_commands.txt
+
+	import sys
+	import subprocess
+
+	cmdfile = sys.argv[1]
+	with open(cmdfile) as file:
+	    for line in file:
+	        cmd = line.strip()
+	        subprocess.run([cmd])
 
 
 
@@ -82,6 +94,9 @@ subprocess.run(["ps"])
 subprocess.run(["date"])
 subprocess.run(["sleep", "5"])
 subprocess.run(["ping", "8.8.8.8"])
+subprocess.run(["echo", old_file_name, new_file_name])
+subprocess.run(["mv", old_file_name, new_file_name])
+
 
 result = subprocess.run(["ls"])
 result.returncode
@@ -597,14 +612,6 @@ unittest.main(argv = ['ignore-this-dummy-argument'], exit = False)
 	exit = False prevents unittest.main( ) from shutting down the kernel process.
 
 
-SSH Access with PEM file
-------------------------
-download PEM key file
-chmod 600 <keyfile>.pem
-ssh -i <keyfile>.pem username@<IP Address>
-
-
-
 Bash Scripting
 --------------
 Bash = Bourne Again shell (Steve Bourne, Bell Labs Research)
@@ -679,6 +686,11 @@ tail <file>						Tail of file (last 10 lines)
 less <file>						Scroll through file ("q" to quit)
 sort <file>						Sort the file alphabetically
 cut OPTION... [FILE]...			Cut specific fields/character from file
+cut -d' ' -f 6					Cut 6th field only (using space delimiter)
+cut -d' ' -f6-					Cut starting from 6th field when using space delimiter
+								e.g.: journalctl | head | cut -d' ' -f6-
+basename NAME [SUFFIX]			Strip directory and suffix from filenames
+
 
 echo "message"					Print message to standard output
 date							Print current date
@@ -703,10 +715,21 @@ Variables:
 	name=Tisipi
 	echo $name
 
+	# Store results of command in variable
+	files=$(ls)
+	echo $files
+
+
 Globs like * and ?:
 	echo *.sh
 	echo c*
 	echo P?r*
+
+Create an empty file:
+	>test.txt
+
+Append to file:
+	echo ja zeker >> test.txt
 
 Read a line from standard input:
 	echo What is your name?
@@ -777,7 +800,7 @@ File tests:
 
 String tests:
 
-	-z <STRING>				Tests if <STRING> is empty.
+	-z <STRING>				Tests if <STRING> is empty/zero.
 	-n <STRING>				Tests if <STRING> is not empty (default operation).
 	<STRING1> = <STRING2>	Tests if strings are equal.
 	<STRING1> != <STRING2>	Tests if strings are not equal.
@@ -786,15 +809,17 @@ String tests:
 
 Arithmetic tests:
 
-	<INTEGER1> -eq <INTEGER2>	True, if the integers are equal.
-	<INTEGER1> -ne <INTEGER2>	True, if the integers are NOT equal.
-	<INTEGER1> -le <INTEGER2>	True, if the first integer is less than or equal second one.
-	<INTEGER1> -ge <INTEGER2>	True, if the first integer is greater than or equal second one.
-	<INTEGER1> -lt <INTEGER2>	True, if the first integer is less than second one.
-	<INTEGER1> -gt <INTEGER2>	True, if the first integer is greater than second one.
+	<INTEGER1> -eq <INTEGER2>	Tests if the integers are equal.
+	<INTEGER1> -ne <INTEGER2>	Tests if the integers are NOT equal.
+	<INTEGER1> -le <INTEGER2>	Tests if the first integer is less than or equal second one.
+	<INTEGER1> -ge <INTEGER2>	Tests if the first integer is greater than or equal second one.
+	<INTEGER1> -lt <INTEGER2>	Tests if the first integer is less than second one.
+	<INTEGER1> -gt <INTEGER2>	Tests if the first integer is greater than second one.
+
 
 
 While loop:
+
 	i=1
 	while [ $i -le 10 ]; do
 	  echo "$i"
@@ -804,10 +829,12 @@ While loop:
 	operation=$1
 	while ! $operation && [ $i -le 10 ]; do
 	  ...
+	  ((i=i+1))
 	done
 
 
 For loop:
+
 	for i in 1 2 3 4 5; do
 	  echo "$i"
 	done
@@ -815,3 +842,17 @@ For loop:
 	for name in John Peter Tim Steve; do
 	  echo "$name"
 	done
+
+	for file in *.txt; do
+	  name=$(basename "$file" .txt)
+	  mv "$file" "$name.doc"
+	done
+
+
+SSH Access with PEM file
+------------------------
+download PEM key file
+chmod 600 <keyfile>.pem
+ssh -i <keyfile>.pem username@<IP Address>
+
+
