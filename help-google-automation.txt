@@ -849,6 +849,23 @@ For loop:
 	done
 
 
+
+operator
+--------
+import operator
+
+# Sort dictionary based on its keys.
+sorted(cars.items())
+sorted(cars.items(), key=operator.itemgetter(0))
+
+# Sort dictionary based on its values.
+sorted(cars.items(), key=operator.itemgetter(1))
+
+# Sort dictionary based on its values - Descending
+sorted(cars.items(), key=operator.itemgetter(1), reverse=True)
+
+
+
 SSH Access with PEM file
 ------------------------
 download PEM key file
