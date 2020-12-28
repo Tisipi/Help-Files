@@ -225,19 +225,19 @@ Note: Files below should be opened with newline=''
 
 
 with open('person.csv', 'r') as f:
-    csv_file = csv.reader(f)
-    for row in csv_file:
+    reader = csv.reader(f)
+    for row in reader:
         name, gender, age = row
 
 persons = [['Jan', 'Man', 32], ['Piet', 'Man' ,45], ['Joke' ,'Vrouw', 34]]
 with open('my_persons.csv', 'w') as f:
-    csv_file = csv.writer(f)
-    csv_file.writerows(persons)
+    writer = csv.writer(f)
+    writer.writerows(persons)
 
 
 with open('personHeader.csv', 'r') as f:
-    csv_file = csv.DictReader(f)
-    for row in csv_file:
+    reader = csv.DictReader(f)
+    for row in reader:
         print(row['Name'], row['Age'])
 
 
@@ -246,9 +246,9 @@ persons = [{'Name': 'Jan', 'Gender': 'Man', 'Age': 27},
            {'Name': 'Joke' ,'Gender': 'Vrouw', 'Age':34}]
 with open('my_persons_header.csv', 'w') as f:
     keys = ['Name', 'Gender', 'Age']
-    csv_file = csv.DictWriter(f, fieldnames=keys)
-    csv_file.writeheader()
-    csv_file.writerows(persons)
+    writer = csv.DictWriter(f, fieldnames=keys)
+    writer.writeheader()
+    writer.writerows(persons)
 
 
 csv.register_dialect('myDialect', skipinitialspace=True, strict=True)
@@ -863,6 +863,68 @@ sorted(cars.items(), key=operator.itemgetter(1))
 
 # Sort dictionary based on its values - Descending
 sorted(cars.items(), key=operator.itemgetter(1), reverse=True)
+
+
+
+Diff & Patch
+------------
+http://man7.org/linux/man-pages/man1/diff.1.html
+http://man7.org/linux/man-pages/man1/patch.1.html
+
+
+
+
+# Differences between text files
+diff file1 file2
+
+# Differences between text files using context
+# The -u (unified) option tells diff to also list some of the unmodified
+# text lines from before and after each of the changed sections.
+diff -u file1 file2
+diff -u file1 file2 > diffs.txt
+
+
+# Patch proposed diffs to my file
+patch my_file < diffs.txt
+
++++ patch -p1 +++
+
+
+# Difference between directories
+# Use -q to report only when files differ.
+diff -q dir1 dir2
+
+# Recursive diff
+diff -rq dir1 dir2
+
+
+# Display word differences between text files
+wdiff [ option ... ] file1 file2
+
+# GUI Diff Tools
+meld
+KDiff3
+vimdiff
+
+
+
+GIT
+---
+Pro Git book 	https://git-scm.com/book/en/v2
+Git tutorial	https://git-scm.com/docs/gittutorial
+
+https://git-scm.com/doc
+https://git-scm.com
+
+git --version
+git config --global user.name "Tisipi"
+git config --global user.email "Tisipi@tisipi.com"
+
+git init
+git status
+git add temp.py
+git commit -m 'first commit'
+
 
 
 
