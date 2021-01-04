@@ -910,20 +910,105 @@ vimdiff
 
 GIT
 ---
-Pro Git book 	https://git-scm.com/book/en/v2
-Git tutorial	https://git-scm.com/docs/gittutorial
+Pro Git book 			https://git-scm.com/book/en/v2
+Git tutorial			https://git-scm.com/docs/gittutorial
+Github Git Cheat Sheet	https://training.github.com/downloads/github-git-cheat-sheet.pdf
 
 https://git-scm.com/doc
 https://git-scm.com
 
+
+sudo apt update
+sudo apt install git
 git --version
+
 git config --global user.name "Tisipi"
 git config --global user.email "Tisipi@tisipi.com"
+git config -l
 
 git init
 git status
 git add temp.py
 git commit -m 'first commit'
+
+git commit -am "Express commit: Combined add and commit"
+
+git log
+git log -2
+git log --stat
+git show <id>
+
+
+# Git log with patches (diffs)
+git log -p
+
+
+# Check diffs between working directory and local repository
+git diff
+
+# Check diffs between working directory and staging area
+git diff --staged
+
+
+
+# Show patches add asks if you want to add file to staging area.
+git add -p
+
+
+# Remove file
+git rm <file>
+
+# Rename file
+git mv <file>
+
+
+# Create a .gitignore file, to indicate files that shouldn't be tracked
+# Helpful templates for .gitignore files at github.com/github/gitignore.
+touch .gitignore
+
+
+# Cloning a remote repository
+git clone <url> <local dir>
+git clone <url> .
+
+
+# Rollback all changes in a specific file.
+# Checkout the last version of the file.
+# This discard changes in working directory
+#
+git checkout <changed file>
+
+
+# Reset staged file; remove file from staging area
+git reset HEAD <file>
+ or
+git reset <file>
+ or
+git restore --staged <file>
+
+# Reset staged files interactively
+git reset -p
+
+
+# Change last commit message.
+# This changes the commit history!
+git commit --amend -m "This is the correct message"
+
+# Forgot to include file in last commit.
+# This changes the commit history!
+git add <file>
+git commit --amend
+
+
+# Revert commit.
+git revert HEAD
+
+
+# Revert a specific commit.
+# Does not discard any commits that came after that one.
+# It creates a new revision that reverts the effects of a specified commit.
+#
+git revert <hash>
 
 
 
