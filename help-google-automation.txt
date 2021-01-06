@@ -1011,6 +1011,34 @@ git revert HEAD
 git revert <hash>
 
 
+# Create a local branch called my_test_branch
+git branch my_test_branch
+
+# List the branches
+git branch
+git branch -a
+git branch --all
+
+# Jump to branch (git put files in your working directory).
+# Switch branches. Checkout the branch.
+#
+git checkout my_test_branch
+
+
+# Create and checkout a branch in one step.
+git checkout -b my_test_branch
+
+
+# Delete a branch.
+git branch -d <branch name>
+git branch --delete  <branch name>
+
+
+# Delete a branch, forced (in case of unmerged changes)
+#
+git branch -D <branch name>
+git branch -d --force <branch name>
+git branch --delete --force <branch name>
 
 
 SSH Access with PEM file

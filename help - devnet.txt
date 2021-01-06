@@ -2873,7 +2873,7 @@ git branch -d <branch name>
   or
 git branch --delete  <branch name>
 
-# Delete a branch, forced
+# Delete a branch, forced (in case of unmerged changes)
 #
 git branch -D <branch name>
   or
