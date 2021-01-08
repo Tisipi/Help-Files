@@ -219,6 +219,10 @@ swapon --show
 sudo bash -c "echo /swapfile none swap defaults 0 0 >> /etc/fstab"
 
 
+# In case of problems with brighness keys or steps:
+https://superuser.com/questions/1279727/xfce-change-brightness-steps-and-or-change-brightness-key-behavior/1363093#1363093
+
+
 # Install Docker
 sudo pacman -S docker
 

@@ -1041,6 +1041,68 @@ git branch -d --force <branch name>
 git branch --delete --force <branch name>
 
 
+
+# Merge my_test_branch with master
+git checkout master
+git merge my_test_branch
+
+# In case of conflicts:
+# - Edit the file
+# - Git add the updated file
+# - Git commit the updated file
+nano <conflicting file>
+git add <conflicting file>
+git commit
+
+# To see merge history graphically
+git log --graph
+git log --graph --oneline
+
+# Abort the merge, for example in case of too many conflicts.
+#
+git merge --abort
+
+
+
+# Clone a remote repository into your local workspace
+git clone URL3
+
+# Push commits from your local to a remote repository
+git push
+
+# Fetch the newest updates from a remote repository
+git pull
+
+
+# Caching your GitHub credentials (use the credential memory cache)
+git config --global credential.helper cache
+
+# Change the default password cache timeout (in seconds)
+git config --global credential.helper 'cache --timeout=3600'
+
+
+# View information about remote repository
+git remote -v
+git remote show origin
+
+# Check remote branches that git is tracking locally
+git branch -r
+
+
+# Refresh your local repository from the one on GitHub.
+# Update your local repository with the remote updates.
+#
+git fetch
+
+
+# Check log of the remote master branch (that is tracked locally)
+git log origin/master
+
+# Merge changes of remote master branch in local master
+git merge origin/master
+
+
+
 SSH Access with PEM file
 ------------------------
 download PEM key file
