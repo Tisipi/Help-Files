@@ -872,8 +872,6 @@ http://man7.org/linux/man-pages/man1/diff.1.html
 http://man7.org/linux/man-pages/man1/patch.1.html
 
 
-
-
 # Differences between text files
 diff file1 file2
 
@@ -941,6 +939,7 @@ git show <id>
 
 # Git log with patches (diffs)
 git log -p
+git log -p -2
 
 
 # Check diffs between working directory and local repository
@@ -1094,12 +1093,26 @@ git branch -r
 #
 git fetch
 
-
 # Check log of the remote master branch (that is tracked locally)
 git log origin/master
 
 # Merge changes of remote master branch in local master
 git merge origin/master
+
+
+# Git pull = Combined git fetch and git merge
+# - Fetch from remote (into local repository)
+# - Perform a git merge into working directory
+#
+git pull
+
+
+# Get the contents of a remote branch without automatically merging.
+git remote update
+
+
+# Check log of all local and remote branches
+git log --graph --oneline -all
 
 
 
