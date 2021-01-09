@@ -1115,6 +1115,29 @@ git log --graph --oneline --all
 
 
 
+# Push a new local branch to the remote server
+# - By default Git names the remote server 'origin' ('origin' is just an alias for the remote server).
+# - Option -u sets the tracking relationship between the local branch and the new remote branch.
+#
+# git push -u <remote> <branch name>
+#
+git push -u origin my_new_branch
+
+
+
++++
+# Push a new repository to a remote server
+# - Define an alias for the remote server with: git remote add
+# - Push repo to remote server with: git push -u <remote> <branch name>
+#   Note that 'origin' is just an alias for the remote server; by default Git names the server 'origin'.
+#
+# Remark: Option -u sets the tracking relationship between the local branch and the new remote branch.
+#
+git remote add origin https://github.com/Tisipi/Help-Files.git
+git push -u origin master
++++
+
+
 SSH Access with PEM file
 ------------------------
 download PEM key file
