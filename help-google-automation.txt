@@ -1,4 +1,3 @@
-+++ ff testen +++
 Print LSB (Linux Standard Base) and Distribution information.
 a
 lsb_release -a
@@ -1111,8 +1110,8 @@ git pull
 git remote update
 
 
-# Check log of all local and remote branches
-git log --graph --oneline -all
+# Check log of all local and remote branches. Meh Meh.
+git log --graph --oneline --all
 
 
 
