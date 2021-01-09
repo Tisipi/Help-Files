@@ -1110,7 +1110,7 @@ git pull
 git remote update
 
 
-# Check log of all local and remote branches. Meh Meh.
+# Check log of all local and remote branches. Meh Meh Meh.
 git log --graph --oneline --all
 
 
