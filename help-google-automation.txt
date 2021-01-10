@@ -1138,6 +1138,29 @@ git push -u origin master
 +++
 
 
+
+# Rebase replays changes in a branch onto for example master.
+# Note: This forges history
+#
+# - Checkout branch that you want to replay on master
+# - Define in the rebase command the branch the changes shoud be replayed/rebased on.
+# - Checkout master
+# - Merge your branch into the master
+#
+git checkout <feature branch>
+git rebase master
+git checkout master
+git merge <feature branch>
+
+# Delete the rebased branch (remotely)
+git push --delete origin <feature branch>
+# Delete the rebased branch (locally)
+git branch -d <feature branch>
+# Push all changes to the remote repo
+git push
+
+
+
 SSH Access with PEM file
 ------------------------
 download PEM key file

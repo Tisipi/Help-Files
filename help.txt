@@ -243,6 +243,17 @@ sudo usermod -aG docker $USER
 sudo pacman -S code
 
 
+# Pharo
+http://forum.world.st/Hi-DPI-Support-td5111907.html
+export SQUEAK_FAKEBIGCURSOR=1
+MenubarMorph reset
+
+
+
+# Dr. Racket
+/usr/racket/bin/
+
+
 
 =================
 
