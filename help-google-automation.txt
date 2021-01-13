@@ -1142,6 +1142,8 @@ git push -u origin master
 # Rebase replays changes in a branch onto for example master.
 # Note: This forges history
 #
+# https://git-scm.com/book/en/v2/Git-Branching-Rebasing
+#
 # - Checkout branch that you want to replay on master
 # - Define in the rebase command the branch the changes shoud be replayed/rebased on.
 # - Checkout master
@@ -1158,6 +1160,14 @@ git push --delete origin <feature branch>
 git branch -d <feature branch>
 # Push all changes to the remote repo
 git push
+
+
+# Another workflow (keeps history linear)
+# - Fetches remote changes into origin/master
+# - Rebase your own master changes on top of it.
+#
+git fetch
+git rebase origin/master
 
 
 
