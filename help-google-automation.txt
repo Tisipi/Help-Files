@@ -1171,7 +1171,8 @@ git rebase origin/master
 
 
 
-# Example Typical Github pull request
+# Example of a typical Github pull request
+#
 - Github repo > Fork;  creates a fork under your username
 - Clone the fork (under your username)
 - Create and checkout a new branch for your changes:
@@ -1188,6 +1189,45 @@ git rebase origin/master
     > Write description of your pull request
     > Double check the changes files and diffs
     > Create pull request
+- In case of comments to your pull request:
+  - Update your files
+  - Stage and commit your files
+    git add .
+    git commit -m "Processed project comments and added them to new feature files"
+  - Push your files again (will be added to your pull request automatically)
+    git push
+
+# Squashing changes via interactive rebase (in case of comment to your pull request)
+#
+- Do an interactive rebase:
+  git rebase -i master
+- This opens texteditor with a list of commits. The first word of each line contains a command:
+    pick		Use this commit (default command)
+    squash 		Use commit, but meld into previous commit
+    fixup		Like squash, but discard this commit's log message
+- Adapt the commands. Save file.
+- Brings you in commit message editor. Adapt the commit message(s). Save file.
+- Check the latest commit and status:
+  - git show
+  - git status
+  - git log --graph --oneline --all
+- Push the changes to the remote repo.
+  If you use git push, this will fail, because the number of commits differs.
+  Instead use a forced push to replace the remote commits by the squashed commit:
+  - git push -file
+
+
+# More info about merging pull requests
+#
+https://help.github.com/en/articles/about-pull-request-merges
+
+
+# Code reviews
+#
+http://google.github.io/styleguide/
+https://help.github.com/en/articles/about-pull-request-reviews
+https://medium.com/osedea/the-perfect-code-review-process-845e6ba5c31
+https://smartbear.com/learn/code-review/what-is-code-review/
 
 
 
