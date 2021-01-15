@@ -1171,6 +1171,26 @@ git rebase origin/master
 
 
 
+# Example Typical Github pull request
+- Github repo > Fork;  creates a fork under your username
+- Clone the fork (under your username)
+- Create and checkout a new branch for your changes:
+  git checkout -b my_new_branch
+- Create your files
+- Stage and commit your files:
+  git add .
+  git commit -m "New feature"
+- Push your new local branch to the remote server
+  git push -u origin my_new_branch
+- Test/validate your changes
+- Open a Pull request:
+  > Your Github project repo > Pull request
+    > Write description of your pull request
+    > Double check the changes files and diffs
+    > Create pull request
+
+
+
 SSH Access with PEM file
 ------------------------
 download PEM key file
