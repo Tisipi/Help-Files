@@ -1,0 +1,107 @@
+How to Design Programs, Second Edition
+--------------------------------------
+https://htdp.org/2020-8-1/Book/index.html
+
+
+Dr. Racket
+----------
+cd /usr/racket/bin/
+./drracket
+
+
+Beginning Student Language (BSL)
+--------------------------------
+; This is a comment
+
+; Arithmetic
+(+ 2 2)
+(* 3 3)
+(- 4 2)
+(/ 6 2)
+
+(sqr 3)
+(sqrt 9)
+(expt 2 3)
+(sin 0)
+(cos pi)
+
+
+"hello world"
+(string-length "hello")
+(string-append "hello " "world")
+
+(number->string 42)
+(string->number "42")
+
+
+#true
+#false
+(and #true #false)
+(or #true #false)
+(not #false)
+(> 10 9)
+(< -1 0)
+(= 42 9)
+
+
+(require 2htdp/image)
+(image-width )
+(image-height )
+(circle 10 "solid" "red")
+(rectangle 30 20 "outline" "blue")
+(empty-scene 100 60)
+
+(overlay
+  (rectangle 20 20 "solid" "blue")
+  (circle 5 "solid" "red"))
+
+
+; origin (0,0) is in the upper-left corner
+; y-coordinate is measured downward
+;
+(place-image
+    (circle 5 "solid" "blue")
+    50 80
+    (empty-scene 100 100))
+
+
+
+; Function definition
+(define (distance x y) (sqrt (+ (sqr x) (sqr y))))
+
+; Function application
+(distance 3 4)
+
+
+
+(define (sign x)
+  (cond
+    [(> x 0) 1]
+    [(= x 0) 0]
+    [(< x 0) -1]))
+
+
+
+; Flying UFO
+;
+(define UFO (overlay (circle 10 "solid" "blue")
+                     (rectangle 40 6 "solid" "blue")))
+(define MY-GRAPHIC UFO)
+(define VELOCITY 3)
+(define (distance t) (* VELOCITY t))
+(define WIDTH 100)
+(define HEIGHT 150)
+(define POSITION (/ WIDTH 2))
+(define EMPTY-SCENE (empty-scene WIDTH HEIGHT))
+(define IMAGE-CENTER-TO-TOP (- HEIGHT (/ (image-height UFO) 2)))
+
+(define (picture-of-ufo.v2 t)
+  (cond
+    [(<= (distance t) IMAGE-CENTER-TO-TOP)
+     (place-image MY-GRAPHIC POSITION (distance t) EMPTY-SCENE)]
+    [(> (distance t) IMAGE-CENTER-TO-TOP)
+     (place-image MY-GRAPHIC POSITION IMAGE-CENTER-TO-TOP EMPTY-SCENE)]
+))
+
+(require 2htdp/universe)
+(animate picture-of-ufo.v2)
