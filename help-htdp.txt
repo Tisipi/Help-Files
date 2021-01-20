@@ -9,11 +9,14 @@ cd /usr/racket/bin/
 ./drracket
 
 
+
 Beginning Student Language (BSL)
 --------------------------------
+
 ; This is a comment
 
 ; Arithmetic
+;
 (+ 2 2)
 (* 3 3)
 (- 4 2)
@@ -26,14 +29,19 @@ Beginning Student Language (BSL)
 (cos pi)
 
 
+; Strings
+;
 "hello world"
 (string-length "hello")
-(string-append "hello " "world")
+(string-append "hello" "-" "world")
+(string-ith "hello" 0)
 
 (number->string 42)
 (string->number "42")
 
 
+; Booleans and expressions
+;
 #true
 #false
 (and #true #false)
@@ -44,9 +52,11 @@ Beginning Student Language (BSL)
 (= 42 9)
 
 
+; Images
+;
 (require 2htdp/image)
-(image-width )
-(image-height )
+(image-width ...)
+(image-height ... )
 (circle 10 "solid" "red")
 (rectangle 30 20 "outline" "blue")
 (empty-scene 100 60)
@@ -66,14 +76,19 @@ Beginning Student Language (BSL)
 
 
 
-; Function definition
-(define (distance x y) (sqrt (+ (sqr x) (sqr y))))
+; Constants
+;
+(define VELOCITY 3)
 
-; Function application
+
+; Function definition and application
+;
+(define (distance x y) (sqrt (+ (sqr x) (sqr y))))
 (distance 3 4)
 
 
-
+; Condition
+;
 (define (sign x)
   (cond
     [(> x 0) 1]
@@ -82,7 +97,7 @@ Beginning Student Language (BSL)
 
 
 
-; Flying UFO
+; Flying landing UFO
 ;
 (define UFO (overlay (circle 10 "solid" "blue")
                      (rectangle 40 6 "solid" "blue")))
