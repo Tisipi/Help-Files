@@ -36,7 +36,10 @@ Beginning Student Language (BSL)
 (string-append "hello" "-" "world")
 (string-ith "hello" 0)
 
-(number->string 42)
+(string-upcase "cat")
+(string-downcase "CAT")
+
+
 (string->number "42")
 
 

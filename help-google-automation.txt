@@ -1231,6 +1231,16 @@ https://smartbear.com/learn/code-review/what-is-code-review/
 
 
 
+Troubleshooting
+===============
+# Trace system calls
+strace
+
+ltrace
+
+
+
+
 SSH Access with PEM file
 ------------------------
 download PEM key file
