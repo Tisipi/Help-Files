@@ -1233,10 +1233,35 @@ https://smartbear.com/learn/code-review/what-is-code-review/
 
 Troubleshooting
 ===============
-# Trace system calls
-strace
 
-ltrace
+# Trace system calls
+strace ./myAmazingApp.py
+strace -o output.strace ./myAmazingApp.py
+	less output.strace
+	shift-g 	# movees to end of file
+
+
+# Trace library calls
+ltrace <executable ELF>
+
+
+# Top processes
+top
+# Kill hanging process
+kill -STOP <pid>
+
+
+
+# Logfiles Linux
+/var/log/syslog
+/var/log/syslog/.xsession-errors
+
+# Logfiles MacOs
+/Library/Logs
+
+# Logfiles Windows
+Via Event Viewer tool
+
 
 
 
