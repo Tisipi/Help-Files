@@ -114,13 +114,9 @@ sudo powertop --auto-tune
 lspci -k | grep -A 2 -E "(VGA|3D)"
 
 You can check in System Settings -> Details which graphic card you are using.
-
-And to switch between graphics use:
-
-sudo prime-select intel
-and for nvidia use
-
-sudo prime-select nvidia
+To switch between graphics use:
+ sudo prime-select intel
+ sudo prime-select nvidia
 
 
 ===============================================

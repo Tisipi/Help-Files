@@ -1234,6 +1234,17 @@ https://smartbear.com/learn/code-review/what-is-code-review/
 Troubleshooting
 ===============
 
+# Logfiles Linux
+/var/log/syslog
+/var/log/syslog/.xsession-errors
+
+# Logfiles MacOs
+/Library/Logs
+
+# Logfiles Windows
+Via Event Viewer tool
+
+
 # Trace system calls
 strace ./myAmazingApp.py
 strace -o output.strace ./myAmazingApp.py
@@ -1251,16 +1262,67 @@ top
 kill -STOP <pid>
 
 
+# Top I/O processes
+sudo iotop
 
-# Logfiles Linux
-/var/log/syslog
-/var/log/syslog/.xsession-errors
+# Statistics on I/O operations
+iostat
 
-# Logfiles MacOs
-/Library/Logs
+# Statistics on virtual memory operations
+vmstat
 
-# Logfiles Windows
-Via Event Viewer tool
+
+# Network usage on interfaces
+iftop
+
+
+# Sync the contents of dir1 to dir2 on the same system, type:
+# Source: https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories
+#
+# This is recursive option.
+# Note the /
+rsync -r dir1/ dir2
+
+# Archive option. Syncs recursively and preserves symbolic links, special and device files,
+# and file attributes. More commonly used than -r and is usually what you want to use.
+# Note the /
+rsync -a dir1/ dir2
+
+# Always do a dry-run when using rsync by passing the -n or --dry-run options.
+# The -v flag (for verbose) is also necessary to get the appropriate output
+rsync -anv dir1/ dir2
+
+
+# Syncing to a remote system
+# (if you have SSH access to the remote machine and rsync installed on both sides)
+# Sync/push the dir1 folder to a remote host (we want to transfer the actual directory, so we omit the trailing slash):
+#
+rsync -a ~/dir1 username@remote_host:destination_directory
+
+This is called a “push” operation because it pushes a directory from the local system
+to a remote system. The opposite operation is
+
+# Sync/pull” a remote directory to the local system.
+rsync -a username@remote_host:/home/username/dir1 place_to_sync_on_local_machine
+
+
+# Limiting rsync bandwidth
+rsync -bwlimit
+
+# Trickle is a network bandwidth shaper tool
+# For example limiting the download speed to 1024Kbps:
+trickle -d 1024 wget -c <url>
+
+
+
+# Set or get process I/O scheduling class and priority
+#
+# Sets process with PID 89 as an idle I/O process.
+ionice -c 3 -p 89
+# Runs 'bash' as a best-effort program with highest priority.
+ionice -c 2 -n 0 bash
+# Prints the class and priority of the processes with PID 89 and 91.
+ionice -p 89 91
 
 
 

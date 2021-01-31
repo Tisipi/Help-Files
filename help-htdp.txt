@@ -38,7 +38,12 @@ Beginning Student Language (BSL)
 
 (string-upcase "cat")
 (string-downcase "CAT")
+(substring "hello world" 1 5)
+(substring "hello world" 4)
 
+(string-numeric? "123")
+(string? "hello world")
+(string? 42)
 
 (string->number "42")
 
@@ -60,8 +65,23 @@ Beginning Student Language (BSL)
 (require 2htdp/image)
 (image-width ...)
 (image-height ... )
+
 (circle 10 "solid" "red")
+(circle 10 "outline" "red")
+(ellipse 30 60 "solid" "blue")
+(ellipse 60 30 "outline" "blue")
 (rectangle 30 20 "outline" "blue")
+(triangle 40 "solid" "tan")
+
+
+;line segment that connects the points (0,0) to (x1,y1).
+(line 30 0 "yellow")
+(line 0 30 "red")
+
+
+(text "Hello" 24 "white")
+(text "Hello and\nGoodbye" 24 "red")
+
 (empty-scene 100 60)
 
 (overlay
