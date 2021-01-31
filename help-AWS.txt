@@ -4,7 +4,7 @@ Reading
 - AWS Exam Guide
 - Sample Questions
 - Practice Exam ($20)
-- FAQs EC2 
+- FAQs EC2
 - FAQs S3 !!!
 - FAQs ELB (even better: FAQs for all LBs)
 - Architecting for the Cloud: AWS Best Practices
@@ -23,7 +23,7 @@ Check
 - S3 Transfer Acceleration Tool
 
 
-Amazon EC2 || Amazon S3 || Amazon  || Amazon 
+Amazon EC2 || Amazon S3 || Amazon  || Amazon
 
 Interesting AWS Certs
 ---------------------
@@ -55,7 +55,7 @@ ECS 	EC2 Container Service
 ECU 	EC2 compute units
 EFS		Elastic File System
 EKS 	Elastic Container Service for Kubernetes
-EMR		Elastic MapReduce 
+EMR		Elastic MapReduce
 HVM 	Hardware Virtual Machine
 JWT		JSON Web Token
 KMS 	Key Management Service
@@ -78,14 +78,14 @@ Regions
 -------
 Jan 2020:
 22 geographic regions
-69 Availability Zones 
+69 Availability Zones
 
 
 S3
 --
 0-5 TB objects
-durability		11 nines 
-Availability	99.99% 
+durability		11 nines
+Availability	99.99%
 SLA 			99.9%
 default buckets	20
 
@@ -366,3 +366,35 @@ curl http://169.254.169.254/latest/meta-data/public-ipv4
 ++++++
 
 aws ec2 attach-internet-gateway --vpc-id "vpc-091a873767d93516c" --internet-gateway-id "igw-05dc6145b24b450f6" --region us-east-1
+
+
+
+
+
+AWS Certified Advanced Networking - Specialty
+=============================================
++++
+IPSpace
+Check bookmarks
+
+Refer resources:
+- Limits within AWS; double check udemy video
+
++++
+
+Rick Crisci			https://www.linkedin.com/in/rickcrisci/
+AWS landing page	https://aws.amazon.com/certification/certified-advanced-networking-specialty/
+AWS VPC Limits 		https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html
+
+
+ENI		Elastic Network Interface
+
+
+
+Reserved IP addresses in subnet:
+- base:		reserved
+- 1st:		gateway
+- 2nd:		dns
+- 3rd:		future use
+- last:		reserved
+

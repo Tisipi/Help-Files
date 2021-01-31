@@ -1238,11 +1238,19 @@ Troubleshooting
 /var/log/syslog
 /var/log/syslog/.xsession-errors
 
-# Logfiles MacOs
+# Logfiles MacOS
 /Library/Logs
 
 # Logfiles Windows
 Via Event Viewer tool
+
+
+# Performance MacOS
+Activity monitor
+
+# Performance Windows
+Resource monitor
+Performance monitor
 
 
 # Trace system calls
@@ -1307,7 +1315,7 @@ rsync -a username@remote_host:/home/username/dir1 place_to_sync_on_local_machine
 
 
 # Limiting rsync bandwidth
-rsync -bwlimit
+rsync -bwlimit ...
 
 # Trickle is a network bandwidth shaper tool
 # For example limiting the download speed to 1024Kbps:
@@ -1325,7 +1333,7 @@ ionice -c 2 -n 0 bash
 ionice -p 89 91
 
 
-
++++ check git bisect +++
 
 
 SSH Access with PEM file
