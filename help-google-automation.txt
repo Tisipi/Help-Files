@@ -1266,8 +1266,12 @@ ltrace <executable ELF>
 
 # Top processes
 top
-# Kill hanging process
+
+# Kill (e.g. hanging) process (gracefully)
 kill -STOP <pid>
+
+# Kill all httpd processes (gracefully)
+killall -STOP httpd
 
 
 # Top I/O processes
@@ -1282,6 +1286,12 @@ vmstat
 
 # Network usage on interfaces
 iftop
+
+
+# Apache benchmark to check slow web server
+ab -n <#requests> <url>
+ab -n 500 www.google.com
+
 
 
 # Sync the contents of dir1 to dir2 on the same system, type:
@@ -1331,6 +1341,40 @@ ionice -c 3 -p 89
 ionice -c 2 -n 0 bash
 # Prints the class and priority of the processes with PID 89 and 91.
 ionice -p 89 91
+
+
+# Alter priority of running processes
+# range -20 to 19
+#    0: 	base scheduling priority
+#   19: 	lowest, run only when nothing else wants to
+#   20:		highes prio (to make things go very fast).
+#
+renice 19 <pid>
+
+# Find the process ID of a running program
+pidof bash
+pidof sshd
+
+for pid in $(pidof httpd); do renice -6 $pid; done
+
+
+# Find location (directory) of a file
+#
+locate <file>
+locate help-htdp.txt
+
+
+# Monitoring Tools
+https://docs.microsoft.com/en-us/sysinternals/downloads/procmon
+http://www.brendangregg.com/linuxperf.html
+http://brendangregg.com/usemethod.html
+Activity Monitor in Mac:
+Performance Monitor on Windows
+https://www.digitalcitizen.life/how-use-resource-monitor-windows-7
+https://docs.microsoft.com/en-us/sysinternals/downloads/process-explorer
+https://en.wikipedia.org/wiki/Cache_(computing)
+https://www.reddit.com/r/linux/comments/d7hx2c/why_nice_levels_are_a_placebo_and_have_been_for_a/
+
 
 
 +++ check git bisect +++
