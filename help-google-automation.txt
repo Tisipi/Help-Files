@@ -1234,6 +1234,18 @@ https://smartbear.com/learn/code-review/what-is-code-review/
 Troubleshooting
 ===============
 
+# Monitoring Tools
+#
+Process Monitor 				https://docs.microsoft.com/en-us/sysinternals/downloads/procmon
+Perf analysis in 60s 			http://www.brendangregg.com/linuxperf.html
+The USE Method 					http://brendangregg.com/usemethod.html
+Activity Monitor in Mac: 		https://support.apple.com/nl-nl/guide/activity-monitor/welcome/mac
+Performance Monitor on Windows 	https://www.windowscentral.com/how-use-performance-monitor-windows-10
+Resource Monitor in Windows 	https://www.digitalcitizen.life/how-use-resource-monitor-windows-7
+Process Explorer Windows 		https://docs.microsoft.com/en-us/sysinternals/downloads/process-explorer
+Linux nice levels				https://www.reddit.com/r/linux/comments/d7hx2c/why_nice_levels_are_a_placebo_and_have_been_for_a/
+
+
 # Logfiles Linux
 /var/log/syslog
 /var/log/syslog/.xsession-errors
@@ -1364,18 +1376,21 @@ locate <file>
 locate help-htdp.txt
 
 
-# Monitoring Tools
-https://docs.microsoft.com/en-us/sysinternals/downloads/procmon
-http://www.brendangregg.com/linuxperf.html
-http://brendangregg.com/usemethod.html
-Activity Monitor in Mac:
-Performance Monitor on Windows
-https://www.digitalcitizen.life/how-use-resource-monitor-windows-7
-https://docs.microsoft.com/en-us/sysinternals/downloads/process-explorer
-https://en.wikipedia.org/wiki/Cache_(computing)
-https://www.reddit.com/r/linux/comments/d7hx2c/why_nice_levels_are_a_placebo_and_have_been_for_a/
+Linux performance analysis in 60 secs (brendangregg):
+- uptime
+- sudo dmesg | tail
+- vmstat 1
+- mpstat -P all
+- pidstat 1
+- iostat -xz 1
+- free -m
+- sar -n DEV 1
+- sar -n TCP,ETCP 1
+- top
 
-
+profilers
+gprof C
+cProfile	python
 
 +++ check git bisect +++
 
