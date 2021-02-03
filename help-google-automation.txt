@@ -1388,9 +1388,28 @@ Linux performance analysis in 60 secs (brendangregg):
 - sar -n TCP,ETCP 1
 - top
 
-profilers
-gprof C
-cProfile	python
+
+Profilers
+C 		gprof
+Python 	cProfile, pprofile3
+
+
+# Check real, user space and system time of an executed program
+time ./myProgram.py
+
+# pprofile3 outputting Callgrind Profile Format
+pprofile -f callgrind -o cachegrind.out.results ./myProgram.py
+pprofile --format callgrind --out cachegrind.out.results ./myProgram.py
+
+# Callgrind format is implicitly enabled if --out basename starts with cachegrind.out.,
+# so command can be simplified to:
+pprofile --out cachegrind.out.results demo/threads.py
+
+# Check results with graphical kcachegrind tool:
+kcachegrind cachegrind.out.results
+
+
+
 
 +++ check git bisect +++
 
