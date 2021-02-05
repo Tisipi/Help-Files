@@ -45,6 +45,10 @@ Beginning Student Language (BSL)
 (string? "hello world")
 (string? 42)
 
+(string=? "bye" "bye")
+(string<? "hello" "world")
+(string>=? "world" "hello")
+
 (string->number "42")
 
 
@@ -82,11 +86,41 @@ Beginning Student Language (BSL)
 (text "Hello" 24 "white")
 (text "Hello and\nGoodbye" 24 "red")
 
+
 (empty-scene 100 60)
 
+
+; Remark: It seems if overlay works now the other way round....
+;
 (overlay
   (rectangle 20 20 "solid" "blue")
   (circle 5 "solid" "red"))
+
+(overlay/xy (rectangle 20 20 "solid" "white")
+            10 10
+            (rectangle 20 20 "solid" "red"))
+
+
+(overlay/align "left" "middle"
+               (rectangle 30 60 "solid" "orange")
+               (ellipse 60 30 "solid" "purple"))
+
+(overlay/align "right" "bottom"
+               (rectangle 20 20 "solid" "silver")
+               (rectangle 30 30 "solid" "seagreen")
+               (rectangle 40 40 "solid" "silver")
+               (rectangle 50 50 "solid" "seagreen"))
+
+(beside/align "bottom"
+              (ellipse 20 70 "solid" "lightsteelblue")
+              (ellipse 20 50 "solid" "mediumslateblue")
+              (ellipse 20 30 "solid" "slateblue")
+              (ellipse 20 10 "solid" "navy"))
+
+(above (ellipse 70 20 "solid" "gray")
+       (ellipse 50 20 "solid" "darkgray")
+       (ellipse 30 20 "solid" "dimgray")
+       (ellipse 10 20 "solid" "black"))
 
 
 ; origin (0,0) is in the upper-left corner
@@ -112,6 +146,11 @@ Beginning Student Language (BSL)
 
 ; Condition
 ;
+; if-then-else construct
+;
+(if (= x 0) 0 (/ 1 x))
+
+
 (define (sign x)
   (cond
     [(> x 0) 1]
@@ -120,7 +159,7 @@ Beginning Student Language (BSL)
 
 
 
-; Flying landing UFO
+; Flying/landing UFO
 ;
 (define UFO (overlay (circle 10 "solid" "blue")
                      (rectangle 40 6 "solid" "blue")))
