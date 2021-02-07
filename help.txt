@@ -130,6 +130,10 @@ https://wiki.archlinux.org/index.php/Dell_XPS_15_7590
 # Misc system info
 inxi --full --verbosity=7 --filter --no-host
 
+# BIOS version
+inxi -M
+
+
 # check nvidia
 lspci -k | grep -A 2 -E "(VGA|3D)"
 lspci -v

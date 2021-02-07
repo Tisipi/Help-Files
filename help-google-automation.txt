@@ -276,7 +276,11 @@ du.used / du.total
 
 psutil
 ------
+psutil.cpu_percent()
 psutil.cpu_percent(0.1)
+
+psutil.disk_io_counters()
+psutil.net_io_counters()
 
 
 requests
@@ -670,6 +674,7 @@ ls -a							List current directory (incl. hidden files)
 ls -la
 mkdir <directory>				Create/make directory
 rmdir <directory>				Remove directory (if empty)
+rm -rf <directory>				Remove directory (if not empty)
 cp <old> <new>      			Copy
 mv <old> <new>      			Move
 touch <file>					Create an empty file (or update modification time if existing)
@@ -1414,7 +1419,7 @@ Threading and asyncio modules
 
 Threading - concurrent.futures
 ------------------------------
-- Multiprocess (ProcessPoolExecutor). Spawn multiple processes with its own Python interpreter. Bypasses Python’s global interpreter lock. Best for CPU-bound tasks.
+- Multiprocess (ProcessPoolExecutor). Spawn multiple processes with its own Python interpreter. Bypasses Python’s Global Interpreter Lock (GIL). Best for CPU-bound tasks.
 - Multithread (ThreadPoolExecutor). Uses multiple threads in the same process. Threads share the same interpreter and memory space. Best for I/O-heavy tasks. Threads are not interruptible/killable like processes are.
 
 
@@ -1455,7 +1460,51 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
             print("ConnectTimeout.")
 
 
+# Alternative
+executor = concurrent.futures.ThreadPoolExecutor()
+executor.submit(get_wiki_page_existence, wiki_page_url=url, timeout=0.00001)
+print("Wait for all threads to finish")
+executor.shutdown()
 
+# Alternative with ProcessPoolExecutor
+executor = concurrent.futures.ProcessPoolExecutor()
+executor.submit(get_wiki_page_existence, wiki_page_url=url, timeout=0.00001)
+print("Wait for all processes to finish")
+executor.shutdown()
+
+
+Python concurrency:	https://realpython.com/python-concurrency/
+Python asyncio: 	https://hackernoon.com/threaded-asynchronous-magic-and-how-to-wield-it-bba9ed602c32
+
+
++++
+#!/usr/bin/env python3
+from multiprocessing import Pool
+
+def run(task):
+  # Do something with task here
+    print("Handling {}".format(task))
+
+if __name__ == "__main__":
+  tasks = ['task1', 'task2', 'task3']
+  # Create a pool of specific number of CPUs
+  p = Pool(len(tasks))
+  # Start each task within the pool
+  p.map(run, tasks)
+
+
+++++
+
+
+src = '/home/student-04-53967dfdcf8c/data/prod'
+dst = '/home/student-04-53967dfdcf8c/data/prod_backup'
+path = '/home/student-04-53967dfdcf8c/data/prod'
+
+sync_dirs = []
+for (root,dir,files) in os.walk(path, topdown=True):
+	sync_dirs.append(dir)
+print(dirs)
++++
 
 
 
