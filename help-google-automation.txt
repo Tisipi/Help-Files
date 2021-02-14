@@ -1271,6 +1271,8 @@ Performance monitor
 
 
 # Trace system calls
+# https://www.howtoforge.com/linux-strace-command/
+#
 strace ./myAmazingApp.py
 strace -o output.strace ./myAmazingApp.py
 	less output.strace
@@ -1525,6 +1527,52 @@ if __name__ == "__main__":
 
     p = Pool(len(sync_dirs))
     p.map(run_rsync_dir, sync_dirs)
+
+
+sudo netstat -nlp | grep :80
+/etc/nginx
+/etc/nginx/sites.enabled
+/etc/uwsgi
+/etc/uwsgi/apps-enabled
+sudo servuce uwsgi reload
+
+System Log Linux 			https://www.fosslinux.com/8984/how-to-check-system-logs-on-linux-complete-usage-guide.htm
+System Log on Windows 10 	https://www.digitalmastersmag.com/magazine/tip-of-the-day-how-to-find-crash-logs-on-windows-10/
+System Log on a MacOS 		https://www.howtogeek.com/356942/how-to-view-the-system-log-on-a-mac/
+System calls MacOS 			https://etcnotes.com/posts/system-call/
+
+
+
+memtest86 and memtest86+		Test and stress test the random access memory of an x86 architecture system for errors
+Valgrind 	(Linux, MacOS) 		Memory debugger, memory leak detection and profiling.
+Dr. Memory 	(Linux, Windows) 	Memory debugger
+pdb 							Python Debugger
+
+
+# Enabling Linux core dumps
+ulimit -c unlimited
+ulimit -S -c unlimited
+
+# Disable core dumps
+ulimit -c 0
+ulimit -S -c 0
+
+# Check core dump settings
+ulimit -a
+
+
+# Load core file in gdb debugger
+ls -l core
+gdb -c core <program>
+
+	# Stacktrace/backtrace
+	backtrace
+	# Move to the calling function
+	up
+	# List more lines of code
+	list
+	# Print value of variable
+	print i
 
 
 
