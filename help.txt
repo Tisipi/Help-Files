@@ -258,6 +258,8 @@ MenubarMorph reset
 =================
 
 
+cat /proc/sys/kernel/tainted
+
 iptables -nvL
 journalctl
 sudo journalctl --no-pager

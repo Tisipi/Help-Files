@@ -147,6 +147,34 @@ modes:
 't'	text mode (default)
 '+'	open for updating (reading and writing)
 
+--
+
+Note: Byte Order Mark or BOM is used in UTF-16 to discriminate between Little-endian and Big-endian.
+If your file is in UTF-8 you don't need BOM markers. To remove them use UTF-8-sig:
+
+	with open(file_path, encoding='utf-8-sig') as csv_file:
+
+https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/
+
+
++++
+To be checked:
+https://realpython.com/python-concurrency/
+https://hackernoon.com/threaded-asynchronous-magic-and-how-to-wield-it-bba9ed602c32
+https://stackoverflow.com/questions/33047452/definitive-list-of-common-reasons-for-segmentation-faults
+https://sites.google.com/a/case.edu/hpcc/home/important-notes-for-new-users/debugging-segmentation-faults
+
+Readable Python code on GitHub:
+https://github.com/fogleman/Minecraft
+https://github.com/cherrypy/cherrypy
+https://github.com/pallets/flask
+https://github.com/tornadoweb/tornado
+https://github.com/gleitz/howdoi
+https://github.com/bottlepy/bottle/blob/master/bottle.py
+https://github.com/sqlalchemy/sqlalchemy
+
++++
+
 
 os
 --
@@ -1402,11 +1430,20 @@ Linux performance analysis in 60 secs (brendangregg):
 
 Profilers
 C 		gprof
-Python 	cProfile, pprofile3
+Python 	cProfile, pprofile3, memory_profiler
+
+
 
 
 # Check real, user space and system time of an executed program
 time ./myProgram.py
+
+
+# Use top to show all running processes and their memory usage.
+# VIRT, RES, SHR, MEM
+# Shift-m to sort on memory columns
+top
+
 
 # pprofile3 outputting Callgrind Profile Format
 pprofile -f callgrind -o cachegrind.out.results ./myProgram.py
@@ -1420,7 +1457,70 @@ pprofile --out cachegrind.out.results demo/threads.py
 kcachegrind cachegrind.out.results
 
 
+
+# Profile Size of Individual Objects
+import sys
+sys.getsizeof({})
+sys.getsizeof([])
+sys.getsizeof(set())
+
+
+
+memory_profiler
+---------------
+https://www.pluralsight.com/blog/tutorials/how-to-profile-memory-usage-in-python
+
+# Profile a Single Function or Method?
+#
+# Puttthe @profile decorator around any function or method
+#
+python -m memory_profiler <yourscript.py>
+
+
+
+guppy - python2
+---------------
+# Profile an entire Application.
+#
+# To use guppy, drop something like this in your code.
+#
+from guppy import hpy
+
+h = hpy()
+print h.heap()
+
+
+guppy - python3
+---------------
+https://github.com/zhuyifei1999/guppy3
+
+# Create the session context:
+from guppy import hpy
+h=hpy()
+
+#Show the reachable objects in the heap:
+h.heap()
+
+# Show the shortest paths from the root to the single largest object:
+h.heap().byid[0].sp
+
+# How to create and show a set of objects:
+h.iso(1,[],{})
+
+
+mprof
+-----
+# Show you memory usage over the lifetime of your application.
+# Creates a graph of your script’s memory usage which you can view by running mprof plot (requires matplotlib)
+#
+mprof run <script> <script_args>
+
+
+
 Threading and asyncio modules
+-----------------------------
+https://realpython.com/python-concurrency/
+https://hackernoon.com/threaded-asynchronous-magic-and-how-to-wield-it-bba9ed602c32
 
 
 Threading - concurrent.futures
@@ -1546,8 +1646,13 @@ System calls MacOS 			https://etcnotes.com/posts/system-call/
 memtest86 and memtest86+		Test and stress test the random access memory of an x86 architecture system for errors
 Valgrind 	(Linux, MacOS) 		Memory debugger, memory leak detection and profiling.
 Dr. Memory 	(Linux, Windows) 	Memory debugger
-pdb 							Python Debugger
+pdb3 							Python Debugger
 
+# Run Python debugger
+pdb3 my_program <args>
+	next
+	continue
+	print(var)
 
 # Enabling Linux core dumps
 ulimit -c unlimited
@@ -1575,6 +1680,12 @@ gdb -c core <program>
 	print i
 
 
+# Dump files in octal and other formats
+# /dev/random, /dev/urandom and /dev/arandom are special files that serve as pseudorandom number generators.
+# -c characters
+# -x hex
+#
+od -cx /dev/urandom
 
 
 +++ check git bisect +++
