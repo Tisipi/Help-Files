@@ -173,6 +173,10 @@ https://github.com/gleitz/howdoi
 https://github.com/bottlepy/bottle/blob/master/bottle.py
 https://github.com/sqlalchemy/sqlalchemy
 
+https://blog.rescuetime.com/how-to-prioritize/
+
+https://landing.google.com/sre/sre-book/chapters/effective-troubleshooting/
+
 +++
 
 
