@@ -47,6 +47,10 @@ Remark
 env
 env | grep PATH
 echo $PATH
+export PATH=/bin:/usr/bin
+# Expand PATH var
+export PATH=$PATH:/bin/eric
+# Define env var
 export TEST_VAR="Yes Yes"
 
 os.environ["PATH"]
@@ -59,6 +63,12 @@ my_env['PATH'] = os.pathsep.join(["/opt/niceapp", my_env['PATH']])
 
 sys.exit(0)		default exit code python script
 sys.exit(1)		exit code error
+
+
+FYI:
+/etc/profile 	This file sets the environment variables at startup of the Bash shell.
+/etc/profile.d  This directory contains application-specific startup files executed at startup of the shell.
+
 
 
 sys
@@ -714,6 +724,19 @@ chmod <modifiers> <file>		Change permissions
 chown <user> <file>				Changes the owner
 chgrp <group> <file>			Changes the group
 
+								File permissions:
+								- Special file permissions
+								- Owner permissions
+								- Group permissions
+								- Others permissions
+
+								For each group, the permissions refer to the possibility of reading, writing and executing the file:
+								- 4 for read, 2 for write and 1 for execute
+								- For example:
+									- Permission of 6 means read and write
+									- Permission of 5 means read and execute
+									- Permission of 7 means read, write and execute.
+
 cat  <file>						Shows the content of the file on standard output
 wc   <file>						Word Count (characters, words, lines)
 file <file>						Print the file type
@@ -1321,6 +1344,7 @@ ltrace <executable ELF>
 
 # Top processes
 top
+htop
 
 # Kill (e.g. hanging) process (gracefully)
 kill -STOP <pid>
@@ -1693,6 +1717,158 @@ od -cx /dev/urandom
 
 
 +++ check git bisect +++
+
+
+
+
+Puppet
+======
+https://puppet.com/docs/puppet/latest/lang_resources.html
+https://puppet.com/blog/deploy-packages-across-your-windows-estate-with-bolt-and-chocolatey/
+
+Every resource declaration has a resource type, a title, and a set of attributes:
+<resource type> { '<title>':
+	<attribute> => <value>,
+	<attribute> => <value>,
+	...
+}
+
+
+Built-in resource types:
+- package:
+- file: 	Manages files.
+- service: 	Manages running services.
+- exec: 	Executes commands.
+- cron:
+- group:
+- user: 	Manages users.
+- notify:
+
+
+File resource type:
+
+	file { '/etc/passwd':
+	  ensure => file,
+	  owner  => 'root',
+	  group  => 'root',
+	  mode   => '0600',
+	}
+
+
+Note, these are all the same:
+
+
+	file { "/tmp/foo":
+	  ensure => file,
+	}
+
+	File { "/tmp/foo":
+	  ensure => file,
+	}
+
+	Resource[File] { "/tmp/foo":
+	  ensure => file,
+	}
+
+
+Resource declaration default attributes:
+
+	file {
+	  default:
+	    ensure => file,
+	    owner  => "root",
+	    group  => "wheel",
+	    mode   => "0600",
+	  ;
+	  ['ssh_host_dsa_key', 'ssh_host_key', 'ssh_host_rsa_key']:
+	    # use all defaults
+	  ;
+	  ['ssh_config', 'ssh_host_dsa_key.pub', 'ssh_host_key.pub', 'ssh_host_rsa_key.pub', 'sshd_config']:
+	    # override mode
+	    mode => "0644",
+	  ;
+	}
+
+Setting attributes from a hash by using the splat (*) attribute:
+
+	$file_ownership = {
+	  "owner" => "root",
+	  "group" => "wheel",
+	  "mode"  => "0644",
+	}
+
+	file { "/etc/passwd":
+	  ensure => file,
+	  *      => $file_ownership,
+	}
+
+
+Arrays of titles let you create multiple resources with the same set of attributes:
+
+	$rc_dirs = [
+	  '/etc/rc.d',       '/etc/rc.d/init.d','/etc/rc.d/rc0.d',
+	  '/etc/rc.d/rc1.d', '/etc/rc.d/rc2.d', '/etc/rc.d/rc3.d',
+	  '/etc/rc.d/rc4.d', '/etc/rc.d/rc5.d', '/etc/rc.d/rc6.d',
+	]
+
+	file { $rc_dirs:
+	  ensure => directory,
+	  owner  => 'root',
+	  group  => 'root',
+	  mode   => '0755',
+	}
+
+
+Facts:
+- Puppet Facter tool collects system information, called facts.
+- Facts are assigned as values to variables.
+- Puppet also sets built-in variables, which behave a lot like facts.
+- Access facts in two ways:
+	- $fact_name
+	- $facts[fact_name].
+
+
+if $facts['is_virtual'] {
+  ...
+} else {
+  ...
+}
+
+
+exec is not idempotent; to make it idempotent use "onlyif":
+
+exec { 'move file':
+  command => 'mv /Downloads/myfile.txt /Desktop',
+  onlyif  => 'test -e myfile.txt',
+}
+
+
+# Puppet manifests directory
+cd /etc/puppet/code/environments/production/modules/profile/manifests
+cat myfile.pp
+
+# Trigger a manual run of the Puppet agent
+sudo puppet agent -v --test
+
+
+# Install puppet
+sudo apt install puppet-master
+
+
+tools.pp:
+package { 'htop':
+  ensure => present	,
+}
+
+sudo puppet apply -v tools.pp
+
+
+Bolt
+----
+https://puppet.com/docs/bolt/latest/bolt.html
+
+Bolt is an open source orchestration tool that automates the manual work it takes to maintain your infrastructure. Bolt can be installed on your local workstation and connects directly to remote targets with SSH or WinRM, so you are not required to install any agent software.
+
 
 
 SSH Access with PEM file
