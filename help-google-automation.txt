@@ -1726,6 +1726,11 @@ Puppet
 https://puppet.com/docs/puppet/latest/lang_resources.html
 https://puppet.com/blog/deploy-packages-across-your-windows-estate-with-bolt-and-chocolatey/
 
+Puppet language style guide:	https://puppet.com/docs/puppet/7.4/style_guide.html
+
+	Use puppet-lint and metadata-json-lint to check your module for compliance with the style guide.
+
+
 Every resource declaration has a resource type, a title, and a set of attributes:
 <resource type> { '<title>':
 	<attribute> => <value>,
@@ -1861,6 +1866,80 @@ package { 'htop':
 }
 
 sudo puppet apply -v tools.pp
+
+
+# Install Apache module
+sudo apt install puppet-module-puppetlabs-apache
+cd /usr/share/puppet/modules.available/puppetlabs-apache
+	manifests
+	files
+	templates
+	lib
+	metadata.json file
+
+webserver.pp:
+	# include global module
+	include ::apache
+
+
+
+Node definitions:
+- A node definition or node statement allows you to assign specific configurations to specific nodes.
+- Typically stored in site.pp
+
+	# <ENVIRONMENTS DIRECTORY>/<ENVIRONMENT>/manifests/site.pp
+	node 'www1.example.com' {
+	  include common
+	  include apache
+	  include squid
+	}
+	node 'db1.example.com' {
+	  include common
+	  include mysql
+	}
+
+
+	node 'www1.example.com', 'www2.example.com', 'www3.example.com' {
+	  include common
+	  include apache, squid
+	}
+
+
+# Install puppet agent
+sudo apt install puppet
+# Configure its pupper master
+sudo puppet config set server my.master.com
+
+# Test connectivty to master
+puppet agent -t
+puppet agent --test
+puppet agent -v --test
+
+
+
+# Main manifest or site manifest.
+# /etc/puppet/code/environments/production/manifests/site.pp
+# /etc/puppetlabs/code/environments/production/manifests/site.pp
+#
+site.pp:
+	node my.sillyweb.com {
+	  class {'apache':}
+	}
+	node default {}
+
+puppet apply /etc/puppetlabs/code/environments/production/manifests/site.pp
+
+
+
+# Enable puppet service to enable agent automatically when it boots
+sudo systemctl enable puppet
+# Start the agent
+sudo systemctl start puppet
+# Check the status of the agent
+sudo systemctl status puppet
+
+
+Puppet SSL explained: 	https://www.masterzen.fr/2010/11/14/puppet-ssl-explained/
 
 
 Bolt
