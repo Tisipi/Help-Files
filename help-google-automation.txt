@@ -1942,6 +1942,11 @@ sudo systemctl status puppet
 Puppet SSL explained: 	https://www.masterzen.fr/2010/11/14/puppet-ssl-explained/
 
 
+rspec tests 	https://rspec-puppet.com/tutorial/
+
+
+
+
 Bolt
 ----
 https://puppet.com/docs/bolt/latest/bolt.html
