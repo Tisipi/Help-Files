@@ -207,6 +207,14 @@ check:
 	cp: cannot stat 'usr/share/icons/default/index.theme': No such file or directory
 
 
+# Printer
+# sudo pacman install manjaro-printer
+# Enable printing capabilities, enter the following commands:
+sudo systemctl enable --now cups.service
+sudo systemctl enable --now cups.socket
+sudo systemctl enable --now cups.path
+
+
 
 # Swapfile for hibernate
 # https://wiki.manjaro.org/index.php/Swap
