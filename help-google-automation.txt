@@ -2134,7 +2134,21 @@ Google Cloud
 https://cloud.google.com/sdk/docs
 
 
-# initialize or reinitialize gcloud; authenticates against cloud
+
+Creating groups of unmanaged instances 	https://cloud.google.com/compute/docs/instance-groups/creating-groups-of-unmanaged-instances
+Google Cloud Load Balancer 			 	https://geekflare.com/gcp-load-balancer/
+										https://cloud.google.com/load-balancing/docs/https/
+
+
+Interesting articles about hybrid setups:
+
+https://blog.inkubate.io/create-a-centos-7-terraform-template-for-vmware-vsphere/
+https://www.terraform.io/docs/enterprise/before-installing/reference-architecture/gcp.html
+https://www.hashicorp.com/resources/terraform-on-premises-hybrid-cloud-wayfair
+
+
+
+# Initialize or reinitialize gcloud; authenticates against cloud
 gcloud init
 
 # Create three server instances from instance template
@@ -2143,6 +2157,29 @@ gcloud compute instances create --source-instance-template=SOURCE_INSTANCE_TEMPL
 gcloud compute instances create example-instance --source-instance-template example-instance \
     --machine-type e2-standard-2 --image-family debian-8 --image-project debian-cloud \
     --metadata bread=butter --disk=boot=no,name=my-override-disk
+
+
+
+GCP with Terraform
+------------------
+https://cloud.google.com/community/tutorials/getting-started-on-gcp-with-terraform
+
+Create a Google Cloud project
+	Saved the project ID
+Create a service account
+	Select JSON as the key type
+Download the JSON file with the credentials
+
+
+---
+
+Caching:
+- Varnish
+- nginx
+- Cloudfare
+- Fastly
+- Memcached (also DB caching)
+- Redis (also DB caching)
 
 
 SSH Access with PEM file
