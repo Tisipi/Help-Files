@@ -2129,24 +2129,33 @@ Bolt is an open source orchestration tool that automates the manual work it take
 
 
 
-Google Cloud
-------------
+Google Cloud Platform (GCP)
+---------------------------
 https://cloud.google.com/sdk/docs
+Google Cloud Load Balancer 	https://cloud.google.com/load-balancing/docs/https/
 
+--
 
+# Installing the latest Cloud SDK version (334.0.0)
+#
+# https://cloud.google.com/sdk/docs/quickstart
+# Download the Linux 64-bit archive file from your command-line
+#
+curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-334.0.0-linux-x86_64.tar.gz
 
-Creating groups of unmanaged instances 	https://cloud.google.com/compute/docs/instance-groups/creating-groups-of-unmanaged-instances
-Google Cloud Load Balancer 			 	https://geekflare.com/gcp-load-balancer/
-										https://cloud.google.com/load-balancing/docs/https/
+# Extract the contents of the file to any location on your file system (preferably your Home directory).
+#tar -xvf google-cloud-sdk-334.0.0-linux-x86_64.tar.gz
+tar -xvf google-cloud-sdk-334.0.0-linux-x86_64.tar.gz
 
+# Optional. Use the install script to add Cloud SDK tools to your PATH.
+#
+./google-cloud-sdk/install.sh
 
-Interesting articles about hybrid setups:
+# Run gcloud init to initialize the SDK:
+#
+./google-cloud-sdk/bin/gcloud init
 
-https://blog.inkubate.io/create-a-centos-7-terraform-template-for-vmware-vsphere/
-https://www.terraform.io/docs/enterprise/before-installing/reference-architecture/gcp.html
-https://www.hashicorp.com/resources/terraform-on-premises-hybrid-cloud-wayfair
-
-
+--
 
 # Initialize or reinitialize gcloud; authenticates against cloud
 gcloud init
@@ -2157,6 +2166,84 @@ gcloud compute instances create --source-instance-template=SOURCE_INSTANCE_TEMPL
 gcloud compute instances create example-instance --source-instance-template example-instance \
     --machine-type e2-standard-2 --image-family debian-8 --image-project debian-cloud \
     --metadata bread=butter --disk=boot=no,name=my-override-disk
+
+--
+
+# Check project-wide quotas
+gcloud compute project-info describe --project PROJECT_ID
+
+# List quotas in a region, run:
+gcloud compute regions describe REGION
+
+
+Example GCP instances
+---------------------
+sudo cp hello_cloud.py /usr/local/bin/
+sudo cp hello_cloud.service /etc/systemd/system
+sudo systemctl enable hello_cloud.service
+
+gcloud compute instances create --zone us-west1-b --source-instance-template vm1-template vm2 vm3 vm4 vm5 vm6 vm7 vm8
+gcloud compute instances list
+
+
+hello_cloud.service:
+    [Unit]
+    After=network.target
+
+    [Service]
+    ExecStart=/usr/local/bin/hello_cloud.py 80
+
+    [Install]
+    WantedBy=default.target
+
+
+hello_cloud.py:
+
+    #!/usr/bin/env python3
+    # Copyright 2019 Google LLC
+    #
+
+    """A simple Hello World type app which can serve on port 8000.
+    Optionally, a different port can be passed.
+
+    The code was inspired by:
+    https://gist.github.com/davidbgk/b10113c3779b8388e96e6d0c44e03a74
+    """
+    import http
+    import http.server
+    import socket
+    import socketserver
+    import sys
+
+    # TCP port for listening to connections, if no port is received
+    DEFAULT_PORT=8000
+
+    class Handler(http.server.SimpleHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(http.HTTPStatus.OK)
+            self.end_headers()
+            # Hello message
+            self.wfile.write(b'Hello Cloud')
+            # Now get the hostname and IP and print that as well.
+            hostname = socket.gethostname()
+            host_ip = socket.gethostbyname(hostname)
+            self.wfile.write(
+                '\n\nHostname: {} \nIP Address: {}'.format(
+                    hostname, host_ip).encode())
+
+
+    def main(argv):
+        port = DEFAULT_PORT
+        if len(argv) > 1:
+            port = int(argv[1])
+
+        web_server = socketserver.TCPServer(('', port), Handler)
+        print("Listening for connections on port {}".format(port))
+        web_server.serve_forever()
+
+
+    if __name__ == "__main__":
+        main(sys.argv)
 
 
 
@@ -2169,9 +2256,149 @@ Create a Google Cloud project
 Create a service account
 	Select JSON as the key type
 Download the JSON file with the credentials
+	Store file in a secure place
+
+Set up Terraform
+	Create a new directory for the project
+	Create a main.tf file for the Terraform config
+
+		// Configure the Google Cloud provider
+		provider "google" {
+		 credentials = file("CREDENTIALS_FILE.json")
+		 project     = "project ID"
+		 region      = "us-west1"
+		}
+
+	Run terraform init to download the latest version of the provider.
+	This build the .terraform directory.
+
+		terraform init
+
+	Create a single Compute Engine instance running Debian.
+	Add this google_compute_instance resource to the main.tf:
 
 
----
+		// Terraform plugin for creating random ids
+		resource "random_id" "instance_id" {
+		 byte_length = 8
+		}
+
+		// A single Compute Engine instance
+		resource "google_compute_instance" "default" {
+		 name         = "flask-vm-${random_id.instance_id.hex}"
+		 machine_type = "f1-micro"
+		 zone         = "us-west1-a"
+
+		 boot_disk {
+		   initialize_params {
+		     image = "debian-cloud/debian-9"
+		   }
+		 }
+
+		// Make sure flask is installed on all new instances for later steps
+		 metadata_startup_script = "sudo apt-get update; sudo apt-get install -yq build-essential python-pip rsync; pip install flask"
+
+		 network_interface {
+		   network = "default"
+
+		   access_config {
+		     // Include this section to give the VM an external ip address
+		   }
+		 }
+		}
+
+	The random_id Terraform plugin allows you to create a random instance name. This requires an additional plugin. Download and install the plugin by runing terraform init again:
+
+		terraform init
+
+	Validate the work done so far (syntax, existence credentials, preview of what will be created):
+
+		terraform plan
+
+	Create oogle Cloud resources by running terraform apply:
+
+		terraform apply
+
+
+	Check the Google Cloud VM Instances page.
+
+
+	Add a public SSH key to the Compute Engine instance to access and manage it.
+
+		Caution: Managing SSH keys in metadata is only for advanced users who are unable to use other tools such as OS Login to manually manage SSH keys
+
+		resource "google_compute_instance" "default" {
+		 ...
+		metadata = {
+		   ssh-keys = "INSERT_USERNAME:${file("~/.ssh/id_rsa.pub")}"
+		 }
+		}
+
+	Validate your changes:
+		terraform plan
+
+	Apply your changes:
+		terraform apply
+
+
+	Use a Terraform output variable to retrieve the instance's IP address:
+
+		// A variable for extracting the external IP address of the instance
+		output "ip" {
+		 value = google_compute_instance.default.network_interface.0.access_config.0.nat_ip
+		}
+
+	terraform plan
+	terraform apply
+
+	Note: The default network's default-allow-ssh firewall rule needs to be in place before you can use SSH to connect to the instance.
+
+
+	SSH to the instance:
+
+		ssh `terraform output ip`
+
+
+Build  a Flask app for your Web server:
+	Inside the VM instance, create file app.py:
+
+		from flask import Flask
+		app = Flask(__name__)
+
+		@app.route('/')
+		def hello_cloud():
+		   return 'Hello Cloud!'
+
+		app.run(host='0.0.0.0')
+
+	Run the app:
+		python app.py
+
+
+Flask serves traffic on localhost:5000 by default.
+Open port 5000 on the instance:
+
+	resource "google_compute_firewall" "default" {
+	 name    = "flask-app-firewall"
+	 network = "default"
+
+	 allow {
+	   protocol = "tcp"
+	   ports    = ["5000"]
+	 }
+	}
+
+Test the Webserver:
+
+	curl http://0.0.0.0:5000
+
+
+Cleanup: Remove all the resources with terraform:
+
+	terraform destroy
+
+
+--
 
 Caching:
 - Varnish
@@ -2181,6 +2408,13 @@ Caching:
 - Memcached (also DB caching)
 - Redis (also DB caching)
 
+
+geoDNS
+geoIP
+
+CI:
+Jenkins
+Travis CI (on Github)
 
 SSH Access with PEM file
 ------------------------
