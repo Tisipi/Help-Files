@@ -2416,6 +2416,54 @@ CI:
 Jenkins
 Travis CI (on Github)
 
+
+Debugging Problems on the Cloud:
+- https://cloud.google.com/compute/docs/troubleshooting/troubleshooting-instances
+- https://docs.microsoft.com/en-us/azure/virtual-machines/troubleshooting/
+- https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-troubleshoot.htm
+
+
+--
+
+HTTP response status codes:
+- Informational responses (100–199)
+- Successful responses (200–299)
+- Redirects (300–399)
+- Client errors (400–499)
+- Server errors (500–599)
+
+
+Check the status of the web server:
+  sudo systemctl status apache2
+  sudo journalctl -xe
+
+Restart the service:
+  sudo systemctl restart apache2
+
+Start the service:
+  sudo systemctl start apache2
+
+
+Check which process is using a particular port:
+  sudo netstat -nlp
+
+Check which python3 program this is:
+  ps -ax | grep python3
+
+Kill the process:
+  sudo kill <pid>
+
+
+Check for any service with the keywords "python":
+  sudo systemctl --type=service | grep python
+
+Stop and disable a service:
+  sudo systemctl stop <svc>
+  sudo systemctl disable <svc>
+
+
+
+
 SSH Access with PEM file
 ------------------------
 download PEM key file
