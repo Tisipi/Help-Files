@@ -10,6 +10,8 @@ curl wttr.in
 /etc/systemd/system
 
 
+---
+
 python --version
 python -V
 python2 --version
@@ -28,6 +30,9 @@ ls /usr/lib/python3.8
 
 
 __init__.py
+
+
+https://pypi.org/
 
 
 
@@ -231,6 +236,8 @@ os.path.isdir(file)
 os.path.join(dir, name)
 os.path.dirname(path)
 os.path.expanduser('~')
+
+file, ext = os.path.splitext(infile)
 
 os.stat('somefile.txt')
 
@@ -650,6 +657,72 @@ finally:
   f.close()
 
 
+PIL
+---
+Python Imaging Library (Python 2)
+Manipulation of images
+
+Recent Python 3 fork: Pillow
+- https://pypi.org/project/Pillow/
+- Packaged as pillow.
+- Module name is still PIL.
+
+Install Pillow
+- sudo apt install python3-pil (if present as native package on Linux
+- pip3 install pillow
+
+
+from PIL import Image
+
+im = Image.open("hopper.ppm")
+print(im.format, im.size, im.mode)
+im.show()
+im.rotate(45).show()
+
+
+# Geometry transforms
+out = im.resize((128, 128))
+out = im.rotate(45) # degrees counter-clockwise
+
+# Transposing an image
+out = im.transpose(Image.FLIP_LEFT_RIGHT)
+out = im.transpose(Image.FLIP_TOP_BOTTOM)
+out = im.transpose(Image.ROTATE_90)
+out = im.transpose(Image.ROTATE_180)
+out = im.transpose(Image.ROTATE_270)
+
+
+# Crop
+box = (100, 100, 400, 400)
+region = im.crop(box)
+
+# The region is defined by a 4-tuple , where coordinates are (left, upper, right, lower).
+# (0, 0) in the upper left corner.
+
+region = region.transpose(Image.ROTATE_180)
+im.paste(region, box)
+
+
+
+new_im = im.resize((1600,1000)).transpose(Image.FLIP_LEFT_RIGHT)
+new_im.save("my_new_image.jpg")
+
+
+
+# Save as jpg
+outfile = f + ".jpg"
+with Image.open(infile) as im:
+	im.save(outfile)
+
+
+# Thumbnail and jpg
+with Image.open(infile) as im:
+	im.thumbnail(size)
+	im.save(outfile, "JPEG")
+
+
+
+
 
 Jupyter Notebooks
 -----------------
@@ -662,6 +735,13 @@ unittest.main(argv = ['ignore-this-dummy-argument'], exit = False)
 	unittest.main( ) looks at sys.argv. In Jupyter the first parameter of sys.argv is what started the Jupyter kernel.
 	Passing an explicit list to unittest.main( ) prevents it from looking at sys.argv.
 	exit = False prevents unittest.main( ) from shutting down the kernel process.
+
+
+
+Semantic Versioning
+-------------------
+https://semver.org/#summary
+
 
 
 Bash Scripting
