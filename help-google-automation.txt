@@ -675,9 +675,22 @@ Install Pillow
 from PIL import Image
 
 im = Image.open("hopper.ppm")
-print(im.format, im.size, im.mode)
+
+# The file format of the source file, for example JPEG
+print(im.format)
+
+# Image size, in pixels. Returns a 2-tuple (width, height).
+print(im.size)
+
+# The pixel format. Typical values are "1", "L", "RGB", or "CMYK."
+print(im.mode)
+
+# Display image
 im.show()
+
+# Rotate image
 im.rotate(45).show()
+im.rotate(90).resize((128, 128)).convert('RGB')
 
 
 # Geometry transforms
@@ -719,6 +732,154 @@ with Image.open(infile) as im:
 with Image.open(infile) as im:
 	im.thumbnail(size)
 	im.save(outfile, "JPEG")
+
+
+
+
+Data Serialization
+------------------
+JSON is used for example for transmitting data between web services.
+YAML is mainly used for storing configuration.
+
+JSON 				https://www.json.org/json-en.html
+					https://docs.python.org/3/library/json.html#py-to-json-table
+YAML 				https://yaml.org/
+XML 				https://www.w3.org/XML/
+Pickle 				https://docs.python.org/3/library/pickle.html
+protocol-buffers	https://developers.google.com/protocol-buffers
+
+
+Remarks:
+- JSON strings themselves must be delineated using double quotes " "
+- JSON uses an all-lowercase convention of true and false (Python uppercase).
+- json.loads expects a string; use json.load() to load for example a file.
+
+
+json_dict = {
+  "employees": [
+    {
+      "name": "Pete",
+      "department": "Security",
+    },
+    {
+      "name": "Sandy",
+      "department": "Cloud",
+    }
+  ]
+}
+
+# Serialize Python object, e.g. dictionary, into a JSON file
+#
+import json
+
+with open('my_file.json', 'w') as file:
+    json.dump(json_dict, file, indent=2)
+
+
+# Serialize Python object, e.g. dictionary, into a JSON string
+#
+data = json.dumps(json_dict)
+
+
+# Deserialize JSON from a file into a Python object.
+
+with open('my_file.json', 'r') as file:
+    json_dict = json.load(file)
+
+
+# Deserialize a JSON string into a Python object.
+json_dict = json.loads(data)
+
+
+
+
+# Serialize Python object, e.g. dictionary, into a YAML file
+#
+import yaml
+
+with open('my_file.yaml', 'w') as file:
+    yaml.safe_dump(json_dict, file)
+
+
+
+
+Requests
+--------
+https://docs.python-requests.org/en/master/
+
+
+import requests
+
+requests.post('url', data={'key':'value'})
+requests.put('url', data={'key':'value'})
+requests.delete('url')
+requests.head('url')
+requests.patch('url', data={'key':'value'})
+requests.options('url')
+
+
+# Basic Authentication header
+r = requests.get(url, auth=(USER, PASS), verify=False)
+
+
+# Basic Authentication header plus other headers
+r = requests.get(url, auth=(USER, PASS), headers=headers, verify=False)
+
+
+# Parameters in URL (url/get?key1=value1&key2=value2)
+r = requests.get(url, params=params)
+
+
+# Data in body
+r = requests.post(url, data = {'key':'value'})
+r = requests.put(url, auth=(USER, PASS), headers=headers, verify=False, data=json.dumps(my_payload))
+r = requests.put(url, auth=(USER, PASS), headers=headers, verify=False, json=data)
+
+
+# Data as a dictionary (automatically form-encoded)
+r = requests.post('https://httpbin.org/post', data={'key':'value'})
+
+# Data as a list of tuples (automatically form-encoded)
+r = requests.post('https://httpbin.org/post', data=[('key', 'value')])
+
+# Use json parameter for JSON data (requests serializes your data and adds Content-Type application/json)
+r = requests.post('https://httpbin.org/post', json={'key':'value'})
+
+
+r.text 						Response (with educated guesses about the encoding of the response)
+r.json() 					Response with JSON decoded by builtin JSON decoder
+r.status_code
+r.raise_for_status()
+r.headers
+r.headers['Content-Type']
+r.headers.get('content-type')
+r.request.headers 			Headers sent to the server
+r.url 						Gives the submitter URL and its parameters
+r.content 					Binary Response Content (response body as bytes)
+r.encoding 					Check or set the encoding used
+
+if r: 						Successful response (evaluates to True if the status code was between 200 and 400)
+if r.ok: 					Successful response
+if r.status_code == 200:
+
+
+
+params = {'key1': 'value1', 'key2': 'value2'}
+
+headers = {
+    "Authorization": "Bearer ACCESS_TOKEN",
+    "Content-Type": "application/json"
+}
+
+my_payload = {
+    "Cisco-IOS-XE-native:address": {
+        "primary": {
+            "address": "192.168.0.66",
+            "mask": "255.255.255.0"
+        }
+    }
+}
+
 
 
 

@@ -9172,7 +9172,7 @@ r = requests.post('https://httpbin.org/post', data=[('key', 'value')])
 r = requests.post('https://httpbin.org/post', json={'key':'value'})
 
 
-r.text 						Response (tith educated guesses about the encoding of the response)
+r.text 						Response (with educated guesses about the encoding of the response)
 r.json() 					Response with JSON decoded by builtin JSON decoder
 r.status_code
 r.raise_for_status()
