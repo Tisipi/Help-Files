@@ -1,16 +1,6 @@
-Print LSB (Linux Standard Base) and Distribution information.
 
-lsb_release -a
-cat /etc/lsb-release
-
-# Weather report
-curl wttr.in
-
-# Linux systemd service files location
-/etc/systemd/system
-
-
----
+Python
+======
 
 python --version
 python -V
@@ -144,8 +134,8 @@ department_list.count("IT")
 
 
 
-read /write files
------------------
+read/write files
+----------------
 file = open('test.txt')
 file.close()
 
@@ -802,13 +792,20 @@ with open('my_file.yaml', 'w') as file:
 
 
 
-
 Requests
 --------
 https://docs.python-requests.org/en/master/
-
+https://docs.python-requests.org/en/master/user/quickstart/
+https://html.spec.whatwg.org/multipage/
 
 import requests
+
+resp = requests.get('https://www.github.com')
+resp.text[:50]
+
+resp = requests.get('https://www.github.com', stream=True)
+resp.raw.read()[:50]
+
 
 requests.post('url', data={'key':'value'})
 requests.put('url', data={'key':'value'})
@@ -827,6 +824,10 @@ r = requests.get(url, auth=(USER, PASS), headers=headers, verify=False)
 
 
 # Parameters in URL (url/get?key1=value1&key2=value2)
+params = {
+    "key1": "value1",
+    "key2": "value2"
+}
 r = requests.get(url, params=params)
 
 
@@ -849,11 +850,15 @@ r = requests.post('https://httpbin.org/post', json={'key':'value'})
 r.text 						Response (with educated guesses about the encoding of the response)
 r.json() 					Response with JSON decoded by builtin JSON decoder
 r.status_code
-r.raise_for_status()
+r.raise_for_status()		Raises an HTTPError exception if the response wasn’t successful
 r.headers
 r.headers['Content-Type']
+r.headers['Content-Encoding']
 r.headers.get('content-type')
 r.request.headers 			Headers sent to the server
+							r.request.headers['Accept-Encoding']
+r.request.url
+r.request.body
 r.url 						Gives the submitter URL and its parameters
 r.content 					Binary Response Content (response body as bytes)
 r.encoding 					Check or set the encoding used
@@ -880,8 +885,212 @@ my_payload = {
     }
 }
 
+Web frameworks:
+ Django		https://www.djangoproject.com/
+ Flask 		https://www.fullstackpython.com/flask.html
+ Bottle 	https://bottlepy.org/docs/dev/
+ CherryPy 	https://cherrypy.org/
+ CubicWeb 	https://www.cubicweb.org/
 
 
+
+Email & SMTP
+------------
+Valid MIME types	https://www.iana.org/assignments/media-types/media-types.xhtml
+
+# Guess the mimetype of a file
+# Note: This only check the filename extension
+#
+import mimetypes
+filename = '/home/tisipi/Downloads/TheCuisBook.pdf'
+mime_type, _ = mimetypes.guess_type(filename)
+print(mime_type)  # application/pdf
+
+
+# Better, check the mimetype of a file by reading it contents
+# pip install python-magic
+#
+import magic
+mime = magic.Magic(mime=True)
+mime.from_file('TheCuisBook')
+
+
+
+# Send an email with an attachment
+#
+from email.message import EmailMessage
+
+# From, To, Subject, Body
+#
+FROM = "he@example.com"
+TO = "she@example.com"
+SUBJECT = 'A nice email'
+BODY = "Hi! This email is sent using Python!"
+
+# Attachment
+#
+import mimetypes
+import os.path
+
+attachment_path = '/home/eric/Downloads/simple.txt'
+attachment_filename = os.path.basename(attachment_path)
+mime_type, _ = mimetypes.guess_type(attachment_path)
+# For example text/plain, application/pdf
+mime_type, mime_subtype = mime_type.split('/',1)
+print(mime_type)
+print(mime_subtype)
+
+# Create message
+msg = EmailMessage()
+msg['From'] = FROM
+msg['To'] = TO
+msg['Subject'] = SUBJECT
+msg.set_content(BODY)
+with open(attachment_path, 'rb') as ap:
+    msg.add_attachment(ap.read(), maintype=mime_type, subtype=mime_subtype, filename=attachment_filename)
+print(msg)
+
+
+# Send message using SMTP
+#
+import smtplib
+mail_server = smtplib.SMTP('localhost')
+mail_server = smtplib.SMTP_SSL('smtp.ziggo.nl')
+mail_server.set_debuglevel(1)
+#
+import getpass
+mail_password = getpass.getpass('Please give your email password: ')
+#
+try:
+    mail_server.login(sender, mail_pass)
+except smtplib.SMTPAuthenticationError:
+	print('SMTP Authentication Error my friend')
+#
+mail_server.send_message(msg)
+mail_server.quit()
+
+
++++++++++++
+server: smtp.ziggo.nl
+serverpoort: 587
+type versleuteling: STARTTLS, TLS of SSL
+
+    import smtplib
+    import ssl
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+    connection = smtplib.SMTP('smtp-mail.outlook.com', 587)
+    connection.ehlo()
+    connection.starttls(context=context)
+    connection.ehlo()
+    connection.login('now_your_real_login_data@outlook.com', 'otherwise_SMTPServerDisconnect')
++++++++++++
+
+
+
+
+ReportLab
+---------
+Generating PDF
+https://www.reportlab.com/dev/opensource/
+https://www.reportlab.com/docs/reportlab-userguide.pdf
+
+pip install reportlab
+
+PLATYPUS	Page Layout and Typography Using Scripts
+
+
+# The canvas should be thought of as a sheet of white paper with points on the sheet
+# identified using Cartesian (X,Y) coordinates
+# (0,0) origin at the lower left corner of the page.
+# x goes to the right, y goes up, by default.
+
+
+# Hello world PDF
+#
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import cm
+
+c = canvas.Canvas("hello.pdf")
+c.drawString(9*cm, 22*cm, "Hello World!")
+c.showPage()
+c.save()
+
+
+# Generate a PDF report using PLATYPUS
+#
+from reportlab.platypus import SimpleDocTemplate
+from reportlab.platypus import Paragraph, Spacer, Table, Image
+from reportlab.lib.styles import getSampleStyleSheet
+
+report = SimpleDocTemplate("report.pdf")
+
+# Use default style
+styles = getSampleStyleSheet()
+report_title = Paragraph("A Complete Inventory of My Cars", styles["h1"])
+
+report.build([report_title])
+
+
+# Add a table to the report using a Table object:
+# - Create a Table object, using a list-of-lists (a two-dimensional array).
+# - Add the table object to the report.
+# - Generate the PDF again.
+
+# Convert a dictionary into a list-of-lists
+#
+cars = {
+  "Opel": 1,
+  "VW": 1,
+  "Ferrari": 2,
+  "BMW": 2,
+  "Mercedes": 3,
+  "Renault": 2
+}
+
+# Generate the list-of-lists
+#
+table_data = []
+for key, value in cars.items():
+  table_data.append([key, value])
+print(table_data)
+
+# Add the table object to the report
+#
+report_table = Table(data=table_data)
+report.build([report_title, report_table])
+
+# Add a border around all of the cells in our table
+# Align to the left
+
+from reportlab.lib import colors
+table_style = [('GRID', (0,0), (-1,-1), 1, colors.red)]
+report_table = Table(data=table_data, style=table_style, hAlign="LEFT")
+report.build([report_title, report_table])
+
+
+# Create a Pie chart. Pie charts needs
+# - list of data,
+# - list oflabels.
+#
+from reportlab.lib.units import cm
+from reportlab.graphics.shapes import Drawing
+from reportlab.graphics.charts.piecharts import Pie
+
+report_pie = Pie(width=7*cm, height=7*cm)
+report_pie.data = []
+report_pie.labels = []
+for car in sorted(cars):
+  report_pie.data.append(cars[car])
+  report_pie.labels.append(car)
+print(report_pie.data)
+print(report_pie.labels)
+
+# Place the Pie object a Flowable Drawing.
+report_chart = Drawing()
+report_chart.add(report_pie)
+
+# Add the Drawing to the report
+report.build([report_title, report_table, report_chart])
 
 
 
@@ -2419,6 +2628,11 @@ gcloud compute regions describe REGION
 
 Example GCP instances
 ---------------------
+
+# Linux systemd service files location
+/etc/systemd/system
+
+
 sudo cp hello_cloud.py /usr/local/bin/
 sudo cp hello_cloud.service /etc/systemd/system
 sudo systemctl enable hello_cloud.service
@@ -2639,7 +2853,8 @@ Cleanup: Remove all the resources with terraform:
 	terraform destroy
 
 
---
+Misc
+----
 
 Caching:
 - Varnish
@@ -2704,11 +2919,9 @@ Stop and disable a service:
 
 
 
-
 SSH Access with PEM file
 ------------------------
 download PEM key file
 chmod 600 <keyfile>.pem
 ssh -i <keyfile>.pem username@<IP Address>
-
 
