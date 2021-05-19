@@ -238,6 +238,16 @@ sudo usermod -aG docker $USER
 
 # Visual Studio Code
 sudo pacman -S code
+	command palette: ctrl-shift-p
+	terminal: ctr-`
+	file icon theme: ayu
+    "workbench.colorTheme": "Default High Contrast",
+	"workbench.settings.editor": "json",
+    "workbench.settings.openDefaultSettings": true,
+    "workbench.settings.useSplitJSON": true,
+    "python.formatting.provider": "black"
+    "editor.formatOnSave": true
+
 
 
 # Pharo

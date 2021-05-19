@@ -102,7 +102,7 @@ S3 RRS (reduced redundancy storage) will be phased out. Similar to S3 One Zone
 EBS volume types
 ----------------
 - gp2					General Purpose SSD
-- io1					Provisioned IOPS SSD
+- io1, io2				Provisioned IOPS SSD
 - st1					Throughput Optimized HDD
 - sc1					Cold HDD
 - magnetic (standard)	Magnetic HDD
@@ -400,3 +400,234 @@ Reserved IP addresses in subnet:
 
 
 VPC with public and private subnets		https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html
+
+
+
+++++++++++++++++++++++++
+
+
+
+AWS Certified Developer - Associate 2020
+----------------------------------------
+https://www.freecodecamp.org/news/how-i-passed-the-aws-certified-developer-associate-exam/
+freeCodeCamp 	https://www.youtube.com/watch?v=RrKRN9zRBWs	12h
+https://tutorialsdojo.com/aws-certified-developer-associate/
+
+AM Policy Simulator Console		https://policysim.aws.amazon.com/
+Pricing calculator				https://calculator.aws/#/
+
+
+
+python3 -m venv venv
+
+# Activate virtual environment
+source venv/bin/activate
+
+# Deactivate virtual environment
+deactivate
+
+
+AWS CLI
+-------
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+aws --version
+
+aws configure
+	AWS Access Key ID [None]: ********************
+	AWS Secret Access Key [None]: *******************
+	Default region name [None]: eu-central-1
+	Default output format [None]: json]
+
+	Credentials file: 	~/.aws/credentials
+		[default]
+		aws_access_key_id = xxxxx
+		aws_secret_access_key = yyyy
+
+	Config file: 		~/.aws/config
+		[default]
+		output = json
+		region = eu-central-1
+
+
+Alternatively, set environment variables:
+	export AWS_ACCESS_KEY_ID=********************
+	export AWS_SECRET_ACCESS_KEY=*******************/K7MDENG/bPxRfiCYEXAMPLEKEY
+	export AWS_DEFAULT_REGION=eu-central-1
+
+
+aws configure get region
+aws configure list
+aws configure list-profiles
+
+To send only the stderr diagnostic information to debug file:
+	aws servicename commandname options --debug 2> debug.txt
+
+To send both the output and stderr diagnostic information:
+	aws servicename commandname options --debug &> debug.txt
+
+
+aws help
+aws ec2 help
+
+aws s3 ls
+
+
+
+Boto3
+-----
+AWS SDK for Python (Boto3)
+http://boto3.readthedocs.io/
+
+pip install boto3
+
+import boto3
+
+print("List all S3 buckets in your AWS account using resources:")
+s3 = boto3.resource("s3")
+for bucket in s3.buckets.all():
+    print(bucket.name)
+
+print("List all S3 buckets in your AWS account using client:")
+s3_client = boto3.client("s3")
+bucket_data = s3_client.list_buckets()
+for bucket in bucket_data["Buckets"]:
+    print(bucket["Name"])
+
+
+print("List all objects in bucket")
+s3 = boto3.resource("s3")
+bucket = s3.Bucket(MY_BUCKET)
+for obj in bucket.objects.all():
+    print(obj.key)
+
+
+print("Upload a file to your S3 bucket")
+with open(MY_FILE, "rb") as file_data:
+    s3 = boto3.resource("s3")
+    try:
+        s3.Bucket(MY_BUCKET).put_object(Key=MY_FILE, Body=file_data)
+    except:
+        print("Error. Bucket does not exist")
+
+
+print("Retrieve the website configuration of S3 bucket")
+s3 = boto3.client('s3')
+result = s3.get_bucket_website(Bucket='MY_BUCKET')
+
+
+print("Convert text to speech")
+polly = boto3.client("polly")
+voice_output = polly.synthesize_speech(
+    Text="Hi Mister Tisipi!", OutputFormat="mp3", VoiceId="Brian"
+)
+audio = voice_output["AudioStream"].read()
+with open("audio.mp3", "wb") as file:
+    file.write(audio)
+
+
+
+polly.eu-central-1.amazonaws.com/v1/speech:
+
+	POST /v1/speech HTTP/1.1 host: polly.eu-central-1.amazonaws.com
+	content-Type: application/json
+	x-amz-date: 20210516T051402Z
+	authorization: AWS4-HMAC-SHA256 Credential=AKIAIO5FODNN7EXAMPLE/20210516/eu-central-1/polly/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=d968197e88a6a8de69d1a7bcab414669eecd5f841e13dc90e4a7852c2c428038
+
+	{
+	       "OutputFormat": "mp3",
+	       "Text" : "Hi Mister Tisipi!",
+	       "VoiceId": "Brian"
+	}
+
+
+
+Expand an acronym in the generated audio file by an XML lexicon with a grapheme:
+
+aws-lexicon.xml:
+
+	<?xml version="1.0" encoding="UTF-8"?>
+	<lexicon version="1.0"
+		...
+		alphabet="ipa"
+		xml:lang="en-US">
+	<lexeme>
+		<grapheme>AWS</grapheme>
+		<alias>Amazon Web Services</alias>
+	</lexeme>
+	</lexicon>
+
+# Synthesizing speech with this custom lexicon
+# Note: regional in scope
+#
+aws polly put-lexicon --name awsLexicon --content file://aws-lexicon.xml --region us-west-2
+aws polly synthesize-speech --text 'Hello AWS!' --voice-id Brian --output-format mp3 hello.mp3 --lexicon-names="awsLexicon" --region us-west-2
+
+
+List of AWS services and their regional API endpoints:
+	https://docs.aws.amazon.com/general/latest/gr/rande.html.
+The general syntax of a Regional endpoint is as follows:
+	protocol://service-code.region-code.amazonaws.com
+for example
+	https://dynamodb.us-west-2.amazonaws.com
+
+
+Region Name					Code
+US East (Ohio)				us-east-2
+US East (N. Virginia)		us-east-1
+US West (N. California)		us-west-1
+US West (Oregon)			us-west-2
+Africa (Cape Town)			af-south-1
+Asia Pacific (Hong Kong)	ap-east-1
+Asia Pacific (Mumbai)		ap-south-1
+Asia Pacific (Osaka)		ap-northeast-3
+Asia Pacific (Seoul)		ap-northeast-2
+Asia Pacific (Singapore)	ap-southeast-1
+Asia Pacific (Sydney)		ap-southeast-2
+Asia Pacific (Tokyo)		ap-northeast-1
+Canada (Central)			ca-central-1
+China (Beijing)				cn-north-1
+China (Ningxia)				cn-northwest-1
+Europe (Frankfurt)			eu-central-1
+Europe (Ireland)			eu-west-1
+Europe (London)				eu-west-2
+Europe (Milan)				eu-south-1
+Europe (Paris)				eu-west-3
+Europe (Stockholm)			eu-north-1
+Middle East (Bahrain)		me-south-1
+South America (São Paulo)	sa-east-1
+
+---
+
+#!/bin/bash
+yum update -y
+yum install httpd -y
+cd /var/www/html
+echo "<html><body><h1>Bootstrapped web surverke :-)</h1></body></html>" > index.html
+systemctl start httpd
+systemctl enable httpd
+systemctl status httpd
+
++++
+versus: ?
+service httpd start
+chkconfig httpd on
+++++
+
+
+ALB/Network/Classic loadbalancer
+X-Forwarded-For
+
+
+HTTP response codes:
+1xx		Informational
+2xx		Success
+3xx		Redirect
+4xx		Client error
+5xx		Server Error
+
+
+200 OK
+
+504 Gateway Timeout
