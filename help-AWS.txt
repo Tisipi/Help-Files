@@ -57,6 +57,7 @@ EFS		Elastic File System
 EKS 	Elastic Container Service for Kubernetes
 EMR		Elastic MapReduce
 HVM 	Hardware Virtual Machine
+IAM		AWS Identity and Access Management
 JWT		JSON Web Token
 KMS 	Key Management Service
 PV 		Paravirtual
@@ -403,12 +404,11 @@ VPC with public and private subnets		https://docs.aws.amazon.com/vpc/latest/user
 
 
 
-++++++++++++++++++++++++
 
 
 
 AWS Certified Developer - Associate 2020
-----------------------------------------
+=======================================
 https://www.freecodecamp.org/news/how-i-passed-the-aws-certified-developer-associate-exam/
 freeCodeCamp 	https://www.youtube.com/watch?v=RrKRN9zRBWs	12h
 https://tutorialsdojo.com/aws-certified-developer-associate/
@@ -429,11 +429,17 @@ deactivate
 
 AWS CLI
 -------
+CLI command reference	https://docs.aws.amazon.com/cli/latest/index.html
+						https://awscli.amazonaws.com/v2/documentation/api/latest/index.html
+
+
+# Install AWS CLI
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
 aws --version
 
+# Configure AWS CLI and credentials
 aws configure
 	AWS Access Key ID [None]: ********************
 	AWS Secret Access Key [None]: *******************
@@ -457,9 +463,10 @@ Alternatively, set environment variables:
 	export AWS_DEFAULT_REGION=eu-central-1
 
 
-aws configure get region
 aws configure list
 aws configure list-profiles
+aws configure get region
+
 
 To send only the stderr diagnostic information to debug file:
 	aws servicename commandname options --debug 2> debug.txt
@@ -467,12 +474,35 @@ To send only the stderr diagnostic information to debug file:
 To send both the output and stderr diagnostic information:
 	aws servicename commandname options --debug &> debug.txt
 
-
+# AWS CLI help
 aws help
 aws ec2 help
 
+# List Buckets
 aws s3 ls
+aws s3 ls --region us-east-1
 
+# List contents of bucket
+aws s3 ls s3://www.tisipi.nl
+
+# Make bucket
+aws s3 mb s3://tisipi-test
+
+# Copy file to bucket
+aws s3 cp index.html s3://tisipi-com
+
+
+# Delete a single s3 object:
+aws s3 rm s3://mybucket/test2.txt
+
+# Recursively delete all objects under a specified bucket
+aws s3 rm s3://mybucket --recursive
+
+# Recursively delete all objects under a specified bucket, but exclude some objects
+aws s3 rm s3://mybucket/ --recursive --exclude "*.jpg"
+
+# Recursively delete all objects under a specified bucket, but exclude objects under prefix
+aws s3 rm s3://mybucket/ --recursive --exclude "another/*"
 
 
 Boto3
@@ -567,13 +597,14 @@ aws polly synthesize-speech --text 'Hello AWS!' --voice-id Brian --output-format
 
 List of AWS services and their regional API endpoints:
 	https://docs.aws.amazon.com/general/latest/gr/rande.html.
+
 The general syntax of a Regional endpoint is as follows:
 	protocol://service-code.region-code.amazonaws.com
-for example
+	for example
 	https://dynamodb.us-west-2.amazonaws.com
 
 
-Region Name					Code
+Region Name					Region Code
 US East (Ohio)				us-east-2
 US East (N. Virginia)		us-east-1
 US West (N. California)		us-west-1
@@ -597,6 +628,8 @@ Europe (Paris)				eu-west-3
 Europe (Stockholm)			eu-north-1
 Middle East (Bahrain)		me-south-1
 South America (São Paulo)	sa-east-1
+
+
 
 ---
 
