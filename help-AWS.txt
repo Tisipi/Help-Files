@@ -417,20 +417,36 @@ AM Policy Simulator Console		https://policysim.aws.amazon.com/
 Pricing calculator				https://calculator.aws/#/
 
 
+IAM
+---
+Root account
+IAM user
 
-python3 -m venv venv
+User/group/role
 
-# Activate virtual environment
-source venv/bin/activate
+Console Access:
+	IAM user name (plus account ID or alias)
+	Password
+	opt. MFA code
 
-# Deactivate virtual environment
-deactivate
+Programmatic access:
+	Access key ID
+	Secret access key (view or download only once)
+	Up to two active access keys 
+
+Other credentials for IAM Users:
+- X.509 certificates for SOAP APIs
+- GIT credentials (SSH keys or passwords) to interact with AWS CodeCommit
+
 
 
 AWS CLI
 -------
 CLI command reference	https://docs.aws.amazon.com/cli/latest/index.html
 						https://awscli.amazonaws.com/v2/documentation/api/latest/index.html
+
+Supported on Linux, Windows and MacOS
+Also available on AMI Linux EC2 instances.
 
 
 # Install AWS CLI
@@ -486,7 +502,10 @@ aws s3 ls --region us-east-1
 aws s3 ls s3://www.tisipi.nl
 
 # Make bucket
-aws s3 mb s3://tisipi-test
+aws s3 mb s3://tisipi-xxx
+
+# Remove bucket
+aws s3 rb s3://tisipi-xxx
 
 # Copy file to bucket
 aws s3 cp index.html s3://tisipi-com
@@ -503,6 +522,25 @@ aws s3 rm s3://mybucket/ --recursive --exclude "*.jpg"
 
 # Recursively delete all objects under a specified bucket, but exclude objects under prefix
 aws s3 rm s3://mybucket/ --recursive --exclude "another/*"
+
+
+# AWS CLI pagination
+# Default page size 1000
+# --page-size 1000
+
+aws s3api list-objects --bucket tisipi-com --page-size 100
+aws s3api list-objects --bucket tisipi-com --max-items 100
+
+
+Python virtual environment
+--------------------------
+python3 -m venv venv
+
+# Activate virtual environment
+source venv/bin/activate
+
+# Deactivate virtual environment
+deactivate
 
 
 Boto3
@@ -664,3 +702,4 @@ HTTP response codes:
 200 OK
 
 504 Gateway Timeout
+
