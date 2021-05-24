@@ -60,6 +60,8 @@ HVM 	Hardware Virtual Machine
 IAM		AWS Identity and Access Management
 JWT		JSON Web Token
 KMS 	Key Management Service
+OLAP	Online Analytics Processing
+OLTP	Online Transaction Processing
 PV 		Paravirtual
 RDS		Relational Database Service
 S3		Simple Storage Service
@@ -116,18 +118,18 @@ Databases, etc.
 RDS for OLTP
 Datawarehouse like Redshift for OLAP
 
-RDS retention up to 35 days
+RDS backup retention period: 1-35 days (default retention period: 7 days)
+
+RDS Databases:
+- SQL Server
+- Oracle
+- MySQL Server
+- PostgreSQL
+- MariaDB
+- Aurora
 
 
-SQL Server
-Oracle
-MySQL Server
-PostgreSQL
-MariaDB
-Aurora
-
-
-Multi-AZ:
+Multi-AZ (for DR):
 - SQL Server
 - Oracle
 - MySQL Server
@@ -136,7 +138,7 @@ Multi-AZ:
 (Aurora 18 copies)?
 
 
-Read Replicas:
+Read Replicas (for performance):
 - Oracle
 - MySQL Server
 - PostgreSQL
@@ -144,19 +146,65 @@ Read Replicas:
 - Aurora
 (SQL Server not supported)
 
-Five read replicas. Backup must be enable to create them.
+Five read replicas			(Backup must be enable to create them)
 	15 aurora read replicas
-Read replica in 2nd region
-Multi-AZ Read replicas
+Multi-AZ Read replicas 		(cross-AZ)
+Read replica in 2nd region	(cross-region)
+
+
+RDS Backup:
+- Automated backup  (implemented by snapshots and transaction logs)
+- Database snapshot (manually, no retention period; backup to known state)
+- Note: A restored RDS instance has a NEW RDS endpoint!
+
+RDS encryption
+- At creation time.
+- AWS KMS service using AES-256 encryption.
+- Or convert via snapshot: unencrypted DB --> unencrypted snapshot --> encrypted snapshot --> restore as encrypted DB.
+
+
+Aurora / MySQL port number	3306
 
 
 DynamoDB (no SQL)
 
-ElastiCache:
-1. Memcached
-2. Redis
 
-Aurora / MySQL port number	3306
+ElastiCache:
+- In-memory cache 
+- Two options:
+	1. Memcached	(simple, object caching, key/value; no persistence/failover, no multi-AZ)
+	2. Redis		(key/value, sorting/ranking; 'complexer' datatypes; persistence/failover, multi-AZ)
+
+ElastiCache help DB under stress when:
+- read-heavy
+- no frequent changes
+
+ElastiCache does not help DB under stress when:
+- Heavy write loads
+- Complex, long-running OLAP queries
+
+
+Boot strap script EC2 with MySQL client:
+	#!/bin/bash
+	yum update -y
+	# Install MySQL client to connect to DB
+	yum install mysql -y
+
+
+# Check installation
+mysql --version
+
+# Connect to DB using endpoint 
+# -p will prompt for password
+mysql -u <user mame> -p -h <RDS_ENDPOINT> <db name>
+
+	# Check the status of DB:
+	status
+	show databases;
+
+	# Quit the database connection:
+	exit
+
 
 
 Route53
@@ -417,6 +465,9 @@ AM Policy Simulator Console		https://policysim.aws.amazon.com/
 Pricing calculator				https://calculator.aws/#/
 
 
+Github ACloudGuru	https://github.com/ACloudGuru-Resources/course-aws-certified-developer-associate
+
+
 IAM
 ---
 Root account
@@ -438,6 +489,23 @@ Other credentials for IAM Users:
 - X.509 certificates for SOAP APIs
 - GIT credentials (SSH keys or passwords) to interact with AWS CodeCommit
 
+Roles are the preferred option from a security perspective.
+Avoid hard coding credentials: ATTACH A ROLE TO THE EC2 INSTANCE!
+
+
+
+Systems Manager Parameter Store
+-------------------------------
+Management & Governance > Systems Manager > Parameter Store
+
+- Storage of secrets and configuration data like passwords, database strings, license codes.
+- Separate your secrets from your code.
+- Parameters can be tagged and organized into hierarchies. For example: "dev/db-string” and “prod/db-string".
+- Plain text or encrypted.
+	- Integrated with AWS KMS to encrypt the data.
+- Control user and resource access to parameters using IAM.
+- Reference by name, eg. in bootstrap script
+- Integrated with AWS services like EC2, CloudFormation, Lambda, CodeBuild, CodePipeline, CodeDeploy
 
 
 AWS CLI
