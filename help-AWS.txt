@@ -474,6 +474,7 @@ Root account
 IAM user
 
 User/group/role
+Principal/resources
 
 Console Access:
 	IAM user name (plus account ID or alias)
@@ -492,6 +493,43 @@ Other credentials for IAM Users:
 Roles are the preferred option from a security perspective.
 Avoid hard coding credentials: ATTACH A ROLE TO THE EC2 INSTANCE!
 
+
+Principal that assumes a role, gets short-term credentials through AWS Security Token Service (AWS STS):
+- AccessKeyId
+- SecretAccessKey
+- SessionToken
+- Expiration
+
+Trust policy specifies which principals can assume a role. For example allow Amazon EC2 to request short-term credentials associated with an IAM role:
+
+	{
+	"Version": "2020-11-11",
+	"Statement": [
+		{
+		"Effect": "Allow",
+		"Principal": {
+			"Service": "ec2.amazonaws.com"
+		},
+		"Action": "sts:AssumeRole"
+		}
+	]
+	}
+
+
+IAM User or Role?
+
+Use roles to make AWS API calls from untrusted machines (short term credentials)
+
+
+Code Running on											Suggestion
+---------------											----------
+Local development laptop or on-premises server			IAM user
+Deploying Code to AWS									IAM role
+EC2	instance											IAM role
+An IAM user mobile device								IAM role
+Enterprise environment with external identity provider	IAM role
+Client-side code uploading data to S3					IAM role
+Client-side code interacting with DynamoDB				IAM role
 
 
 Systems Manager Parameter Store
