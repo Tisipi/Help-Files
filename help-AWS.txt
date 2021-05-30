@@ -41,6 +41,7 @@ Certified Machine Learning – Specialty
 Abbreviations
 -------------
 ACM		AWS Certificate Manager
+ALB		Application Load Balancer
 AMI		Amazon Machine Image
 ARN 	Amazon resource name
 AZ 		Availability Zone
@@ -84,6 +85,16 @@ Jan 2020:
 69 Availability Zones
 
 
+EC2 instance
+------------
+
+Pricing:
+- on demand
+- reserved (one or three years)
+- spot (price depends on supply & demand)
+- dedicated
+
+
 S3
 --
 0-5 TB objects
@@ -104,13 +115,16 @@ S3 RRS (reduced redundancy storage) will be phased out. Similar to S3 One Zone
 
 EBS volume types
 ----------------
-- gp2					General Purpose SSD
-- io1, io2				Provisioned IOPS SSD
-- st1					Throughput Optimized HDD
-- sc1					Cold HDD
-- magnetic (standard)	Magnetic HDD
+- gp2					General Purpose SSD				boot disks & general applications, < 16000 IOPS/volume, 99.9% durability
+- io1					Provisioned IOPS SSD			OLTP, latency sensitive applications, < 64000 IOPS/volume, 50 IOPS/GB, 99.9% durability
+- io2					Provisioned IOPS SSD			OLTP, latency sensitive applications, < 64000 IOPS/volume, 500 IOPS/GB, 99.999% durability
+														pricing io1 and io2 is the same; io2 is later generation
 
-root volume only on SSD or Magnetic
+- st1					Throughput Optimized HDD		big data, warehouse, ETL; 500 MB/s/volume; NO boot volume, 99.9% durability
+- sc1					Cold HDD						less frequently accessed data; lowest cost, 50 MB/s/volume; NO boot volume; 99.9% durability
+- magnetic (standard)	Magnetic HDD					obsolete?
+
+Root volume only on SSD or Magnetic
 
 
 Databases, etc.
@@ -792,9 +806,13 @@ service httpd start
 chkconfig httpd on
 ++++
 
+Loadbalancer:
+- ALB Application loadbalancer  HTTP/HTTPS, request type
+- Network loadbalancer			TCP, low latency; most expensive
+- Classic loadbalancer			HTTP/HTTPS and TCP; legacy
+- Gateway loadbalancer			3rd party virtual appliances
 
-ALB/Network/Classic loadbalancer
-X-Forwarded-For
+X-Forwarded-For HTTP header 	IPv4 address end user; ALB and Classic
 
 
 HTTP response codes:
@@ -803,7 +821,6 @@ HTTP response codes:
 3xx		Redirect
 4xx		Client error
 5xx		Server Error
-
 
 200 OK
 
