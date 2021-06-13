@@ -97,20 +97,85 @@ Pricing:
 
 S3
 --
+https://docs.aws.amazon.com/s3/index.html
+
+Unlimited storage
+Object based storage.
+Key-value store; incl. version ID and metadata (content-type, last-modified).
+	Key = object name; value = data itself
+Objects stored in buckets (folders).
+S3 doesn't not support running an OS or a DB
+Universal namespace (globally unique) !
+Availability: 99.95 - 99.99
+Durability:	  11 9's
+>= 3 AZs
+
+Tiered storage
+Lifecycle management
+Versioning
+
+Encryption
+Bucket policies on bucket level, not object level
+Bucket ACL (tied to bucket or object)
+S3 access logs (not enabled by default)
+AWS Policy Generator also for bucket policies.
+
+S3 secure by default:
+- no public acces
+- access by ownwer only
+
+
+Encryption:
+Encryption in transit, HTTPS
+Encryption at rest - Client side encryption
+Encryption at rest - Server side encryption
+	SSE-S3		S3 managed keys, AES-256
+	SSE-KMS		aws:kms
+	SSE-C		Customer provided key
+
+Enforcing Server side encryption:
+- At creation time
+- Via bucket policy (deny PUT request without x-amz-server-side-encryption)
+
+x-amz-server-side-encryption request header, e.g. in HTTP PUT
+- aes-256
+- aws:kms
+
+
+Object lock (implicitly enables versioning)
+WORM	Write-Once-Read-Many
+
+Depending on your Region, your Amazon S3 website endpoint follows one of these two formats.
+s3-website dash (-) Region	http://bucket-name.s3-website-Region.amazonaws.com
+s3-website dot (.) Region	http://bucket-name.s3-website.Region.amazonaws.com
+
+
+S3 url:	https://bucket-name.s3.region-code.amazonaws.com/key-name
+		https://tisipi.s3.eu-central-1.amazonaws.com/MY_FILE
+
+
 0-5 TB objects
-durability		11 nines
+durability		11 nines (99.999999999%)
 Availability	99.99%
 SLA 			99.9%
 default buckets	20
 
-S3 Standard (99.99%; SLA 99,9%)
-S3 Intelligent Tiering (99.9%; SLA 99%)
-S3 Standard-IA; Infrequent Access (lower fee, but retrieval fee; 99.9%; SLA 99%)
-S3 One Zone-IA; One Zone Infrequent Access (99.5%; SLA 99%)
-S3 Glacier (99.99%; SLA 99,9%)
-S3 Glacier Deep Archive
+S3 Standard 			99.99%; SLA 99,9%	Frequent access; default; highest cost, no access fee
+S3 Intelligent Tiering 	99.9%; SLA 99%		Frequent and Infrequent access; unkown access patterns
+S3 Standard-IA; 		99.9%; SLA 99%		S3-IA, Infrequent Access; not dayly access; lower fee, but retrieval fee
+S3 One Zone-IA; 		99.5%; SLA 99%		One Zone Infrequent Access; 20% less than S3-IA; non-critical data
+S3 Glacier 				99.99%; SLA 99,9%	Archiving, very infrequent access (2-3 times/year), very cheap, but pay for access; 1 min to 12 h Retrieval time
+S3 Glacier Deep Archive	99.99%				Lowest cost, long-term, retrieval time within 12 h; alternative to magnetic tape libraries
+
+Glacier 99.99% or 99.9% ??
+
+S3 Outposts
 
 S3 RRS (reduced redundancy storage) will be phased out. Similar to S3 One Zone
+
+
+Create a Static Website Using Amazon S3		https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html
+
 
 
 EBS volume types
@@ -140,7 +205,7 @@ RDS Databases:
 - MySQL Server
 - PostgreSQL
 - MariaDB
-- Aurora
+- Aurora (Amazon)
 
 
 Multi-AZ (for DR):
@@ -167,7 +232,7 @@ Read replica in 2nd region	(cross-region)
 
 
 RDS Backup:
-- Automated backup  (implemented by snapshots and transaction logs)
+- Automated backup  (enabled by default; implemented by snapshots and transaction logs)
 - Database snapshot (manually, no retention period; backup to known state)
 - Note: A restored RDS instance has a NEW RDS endpoint!
 
@@ -221,8 +286,17 @@ mysql -u <user mame> -p -h <RDS_ENDPOINT> <db name>
 
 
 
-Route53
--------
+Route 53
+--------
+DNS service. Maps domain name to:
+- EC2 instance
+- Elastic load balancer
+- S3
+
+Hosted zone
+A record
+Alias point to the zone apex (the root of the domain)
+
 50 domain names (per account). Can be lifted.
 500 hosted zones (per account)
 
@@ -429,42 +503,6 @@ curl http://169.254.169.254/latest/meta-data/public-ipv4
 ++++++
 
 aws ec2 attach-internet-gateway --vpc-id "vpc-091a873767d93516c" --internet-gateway-id "igw-05dc6145b24b450f6" --region us-east-1
-
-
-
-
-
-AWS Certified Advanced Networking - Specialty
-=============================================
-+++
-IPSpace
-Check bookmarks
-
-Refer resources:
-- Limits within AWS; double check udemy video
-
-+++
-
-Rick Crisci			https://www.linkedin.com/in/rickcrisci/
-AWS landing page	https://aws.amazon.com/certification/certified-advanced-networking-specialty/
-AWS VPC Limits 		https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html
-
-
-ENI		Elastic Network Interface
-
-
-
-Reserved IP addresses in subnet:
-- base:		reserved
-- 1st:		gateway
-- 2nd:		dns
-- 3rd:		future use
-- last:		reserved
-
-
-VPC with public and private subnets		https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html
-
-
 
 
 
@@ -806,11 +844,11 @@ service httpd start
 chkconfig httpd on
 ++++
 
-Loadbalancer:
-- ALB Application loadbalancer  HTTP/HTTPS, request type
-- Network loadbalancer			TCP, low latency; most expensive
-- Classic loadbalancer			HTTP/HTTPS and TCP; legacy
-- Gateway loadbalancer			3rd party virtual appliances
+Load balancer:
+- ALB Application load balancer  HTTP/HTTPS, request type
+- Network load balancer			TCP, low latency; most expensive
+- Classic load balancer			HTTP/HTTPS and TCP; legacy
+- Gateway load balancer			3rd party virtual appliances
 
 X-Forwarded-For HTTP header 	IPv4 address end user; ALB and Classic
 
@@ -825,4 +863,38 @@ HTTP response codes:
 200 OK
 
 504 Gateway Timeout
+
+
+
+
+
+AWS Certified Advanced Networking - Specialty
+=============================================
++++
+IPSpace
+Check bookmarks
+
+Refer resources:
+- Limits within AWS; double check udemy video
+
++++
+
+Rick Crisci			https://www.linkedin.com/in/rickcrisci/
+AWS landing page	https://aws.amazon.com/certification/certified-advanced-networking-specialty/
+AWS VPC Limits 		https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html
+
+
+ENI		Elastic Network Interface
+
+
+
+Reserved IP addresses in subnet:
+- base:		reserved
+- 1st:		gateway
+- 2nd:		dns
+- 3rd:		future use
+- last:		reserved
+
+
+VPC with public and private subnets		https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html
 
