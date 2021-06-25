@@ -43,7 +43,7 @@ Abbreviations
 ACM		AWS Certificate Manager
 ALB		Application Load Balancer
 AMI		Amazon Machine Image
-ARN 	Amazon resource name
+ARN 	Amazon Resource Name
 AZ 		Availability Zone
 CORS	Cross Origin Resource Sharing
 CRR 	Cross-region replication
@@ -134,7 +134,7 @@ Encryption at rest - Server side encryption
 	SSE-C		Customer provided key
 
 Enforcing Server side encryption:
-- At creation time
+- At creation time, or
 - Via bucket policy (deny PUT request without x-amz-server-side-encryption)
 
 x-amz-server-side-encryption request header, e.g. in HTTP PUT
@@ -176,6 +176,24 @@ S3 RRS (reduced redundancy storage) will be phased out. Similar to S3 One Zone
 
 Create a Static Website Using Amazon S3		https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html
 
+
+++++
+Same Origin Policy (SOP)
+- Two URLs have the same origin if the protocol, port (if specified) and host are the same for both.
+- A security mechanism that restricts how a document or script loaded by one origin can interact with a resource from another origin.
+
+Cross-Origin Resource Sharing (CORS) is an HTTP-header based mechanism that allows a server to indicate any other origins (domain, scheme, or port) than its own from which a browser should permit loading of resources. CORS also relies on a mechanism by which browsers make a “preflight” request to the server hosting the cross-origin resource, in order to check that the server will permit the actual request. In that preflight, the browser sends headers that indicate the HTTP method and headers that will be used in the actual request.
+
+The CORS policy defines specific HTTP headers that need to be included in the request/response interaction;
+allowing the server to communicate which origins it will allow requests from.
+The browser then enforces this by allowing or preventing scripts from accessing the response.
+
+Unlike “simple requests”, for "preflighted" requests the browser first sends an HTTP request using the OPTIONS method to the resource on the other origin, in order to determine if the actual request is safe to send. Cross-site requests are preflighted like this since they may have implications to user data.
+
+
+CORS check
+preflight check
++++++
 
 
 EBS volume types
@@ -570,18 +588,29 @@ Trust policy specifies which principals can assume a role. For example allow Ama
 
 IAM User or Role?
 
-Use roles to make AWS API calls from untrusted machines (short term credentials)
+	Use roles to make AWS API calls from untrusted machines (short term credentials)
+
+	Code Running on											Suggestion
+	---------------											----------
+	Local development laptop or on-premises server			IAM user
+	Deploying Code to AWS									IAM role
+	EC2	instance											IAM role
+	An IAM user mobile device								IAM role
+	Enterprise environment with external identity provider	IAM role
+	Client-side code uploading data to S3					IAM role
+	Client-side code interacting with DynamoDB				IAM role
 
 
-Code Running on											Suggestion
----------------											----------
-Local development laptop or on-premises server			IAM user
-Deploying Code to AWS									IAM role
-EC2	instance											IAM role
-An IAM user mobile device								IAM role
-Enterprise environment with external identity provider	IAM role
-Client-side code uploading data to S3					IAM role
-Client-side code interacting with DynamoDB				IAM role
+ARN formats:
+	arn:partition:service:region:account-id:resource
+	arn:partition:service:region:account-id:resourcetype/resource
+	arn:partition:service:region:account-id:resourcetype:resource
+
+ARN examples:
+	arn:aws:iam::0123456789:user/mike
+	arn:aws:s3:::my-bucket/my-object.png
+	arn:aws:polly:us-west-1:0123456789:lexicon/awsLexicon
+
 
 
 Systems Manager Parameter Store
@@ -703,8 +732,9 @@ deactivate
 
 Boto3
 -----
-AWS SDK for Python (Boto3)
 http://boto3.readthedocs.io/
+
+AWS SDK for Python (Boto3)
 
 pip install boto3
 
