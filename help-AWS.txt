@@ -177,7 +177,8 @@ S3 RRS (reduced redundancy storage) will be phased out. Similar to S3 One Zone
 Create a Static Website Using Amazon S3		https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html
 
 
-++++
+SOP and CORS
+------------
 Same Origin Policy (SOP)
 - Two URLs have the same origin if the protocol, port (if specified) and host are the same for both.
 - A security mechanism that restricts how a document or script loaded by one origin can interact with a resource from another origin.
@@ -191,9 +192,21 @@ The browser then enforces this by allowing or preventing scripts from accessing 
 Unlike “simple requests”, for "preflighted" requests the browser first sends an HTTP request using the OPTIONS method to the resource on the other origin, in order to determine if the actual request is safe to send. Cross-site requests are preflighted like this since they may have implications to user data.
 
 
-CORS check
-preflight check
-+++++
+How does Amazon S3 evaluate the CORS configuration on a bucket?
+When Amazon S3 receives a preflight request from a browser, it evaluates the CORS configuration for the bucket and uses the first CORSRule rule that matches the incoming browser request to enable a cross-origin request. For a rule to match, the following conditions must be met:
+- The request's Origin header must match an AllowedOrigin element.
+- The request method (for example, GET or PUT) or the Access-Control-Request-Method header in case of a preflight OPTIONS request must be one of the AllowedMethod elements.
+- Every header listed in the request's Access-Control-Request-Headers header on the preflight request must match an AllowedHeader element.
+
+	<CORSConfiguration>
+		<CORSRule>
+			<AllowedOrigin>*</AllowedOrigin>
+			<AllowedMethod>GET</AllowedMethod>
+			<MaxAgeSeconds>3000</MaxAgeSeconds>
+			<AllowedHeader>Authorization</AllowedHeader>
+		</CORSRule>
+	</CORSConfiguration>
+
 
 
 EBS volume types
