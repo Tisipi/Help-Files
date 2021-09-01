@@ -1,0 +1,357 @@
+Learn Pharo
+-----------
+http://pharo.org
+http://pharo.org/documentation
+https://pharoweekly.wordpress.com/
+
+ProfStef go.
+ProfStef next.
+ProfStef previous.
+
+Massive Open Online Course	http://mooc.pharo.org
+Pharo Books					http://books.pharo.org
+Updated Pharo by Example	https://github.com/SquareBracketAssociates/UpdatedPharoByExample
+Screencasts					https://www.youtube.com/channel/UCp3mNigANqkesFzdm058bvw
+Presentations				http://www.slideshare.net/pharoproject/
+
+
+Comments
+--------
+"This is a comment in Pharo Smalltalk"
+
+
+System info
+-----------
+SmalltalkImage current aboutThisSystem.
+SystemVersion current.
+
+
+Date and Time
+-------------
+Date today.
+Date yesterday.
+Date today + 3 weeks.
+Date today < Date yesterday.
+
+Time now.
+DateAndTime today.
+
+
+Console Output
+--------------
+Transcript open.
+Transcript show: 'Hello '.
+Transcript show: 'Pharo'.
+Transcript cr.
+Transcript clear
+
+
+"; is the cascade operator. It's useful to send message to the same receiver."
+
+Transcript
+	   show: 'Hello ';
+	   show: 'Pharo';
+	   cr.
+
+
+Separator
+---------
+. is a Separator (not a terminator)
+
+
+Booleans, Conditions
+--------------------
+true
+false
+false not.
+true | false.
+true & false.
+
+3 < 10
+	ifTrue: [Transcript show: 'Indeed, 3 is less than 10'].
+
+
+Loops
+-----
+"Loops are high-level collection iterators, implemented as regular methods. Some loops:
+  to:do:
+  to:by:do:
+  timesRepeat:
+"
+
+1 to: 100 do: [:i | Transcript show: i asString; cr].
+1 to: 100 by: 3 do: [:i | Transcript show: i asString; cr].
+100 to: 0 by: -2 do: [:i | Transcript show: i asString; cr].
+
+3 timesRepeat: [Transcript show: 'Yes yes';cr]
+
+
+
+Numbers, Floats
+---------------
+1 class.
+1 class maxVal.
+
+1/3.
+1/3 class.
+1/3) asFloat.
+(1/3) + (4/5).
+
+Float pi.
+
+9 squared.
+5 between: 4 and: 6
+1 max: 3.
+
+1 odd.
+2 even.
+-3 abs.
+3 negated.
+3 reciprocal.
+
+
+5 factorial
+	/ 4 factorial 
+		+1
+
+
+"Unary messages are executed first, then binary messages and finally keyword messages:
+ Unary > Binary > Keywords"
+
+2 + 3 squared.
+2 raisedTo: 3 + 2.
+
+"Between messages of similar precedence, expressions are executed from left to right"
+-3 abs negated reciprocal.
+
+
+"Use parentheses to change order of evaluation"
+(2 + 3) squared.
+(2 raisedTo: 3) + 2.
+
+
+"Traditional precedence rules from mathematics do not apply in Pharo."
+"Remember that all messages always follow a simple left-to-right precedence rule."
+2 * 10 + 2.
+2 + 2 * 10.
+2 + (2 * 10).
+
+
+
+Characters
+----------
+"A Character is instantiated using $ operator"
+$A.
+$A class.
+$B charCode.
+Character cr.
+Character space.
+
+"Print all 256 characters of the ASCII extended set"
+Character allByteCharacters.
+
+
+Strings
+-------
+"A String is a collection of characters. Use single quotes to create a String object."
+
+'ProfStef'.
+'ProfStef' size.
+'abc' asUppercase.
+'Hello World' reverse. 
+
+"You can access each character using at: message"
+"Index starts at 1, not at 0"
+'ProfStef' at: 1.
+
+"String concatenation uses the comma operator"
+'ProfStef', ' is cool'.
+
+
+Symbols
+-------
+"A Symbol is a String which is guaranteed to be globally unique.
+There is one and only one Symbol #ProfStef. There may be several 'ProfStef' String objects.
+(Message == returns true if the two objects are the SAME)"
+
+'ProfStef' asSymbol.
+#ProfStef asString.
+(2 asString) == (2 asString).
+(2 asString) asSymbol == (2 asString) asSymbol.
+(Smalltalk globals at: #ProfStef ProfStef) next.
+
+
+Arrays
+------
+"Arrays start at 1, not 0"
+"Literal arrays are created at parse time:"
+#(1 2 3).
+#(1 2 3 #(4 5 6)) size.
+#(1 2 4) isEmpty.
+#(1 2 3) first.
+#(1 2 3) last.
+#('hello' 'World') at: 2 put: 'Pharo'; yourself.
+
+"Dynamic Arrays are created at execution time:"
+{ (2+3) . (6*6) }. #(5 36)
+{ (2+3) . (6*6) . 'hello', ' Stef'} size 3.
+
+
+Blocks (closures)
+-----------------
+"Blocks are anonymous methods that can be stored into variables and executed on demand.
+Blocks are delimited by square brackets: [].
+Blocks are executed when they are evaluated.
+Block execution returns the value of the last expression.
+Blocks may contain temporary variables.
+Use blocks with 2 or 3 arguments maximum.
+A block encapsulates only one computation"
+
+[:x | x * x ] value:12.
+[:x :y | x + y] value:3 value:5.
+[GTPlayground open] value.
+[ProfStef next] value.
+
+|b|
+b := [:x | x+2].
+b value: 12.
+
+
+Iterators
+---------
+"The message do: is sent to a collection of objects (Array, Set, OrderedCollection), evaluating the block for each element.""
+
+#(11 38 3 -2 10) collect: [:each | each abs].
+#(11 38 3 -2 10) collect: [:each | each odd].
+
+#(11 38 3 -2 10) select: [:each | each odd].
+#(11 38 3 -2 10) select: [:each | each > 10].
+
+#(11 38 3 -2 10) reject: [:each | each > 10].
+
+
+#(11 38 3 -2 10) do: [:each |
+     Transcript show: each printString; cr].
+
+#(11 38 3 -2 10)
+     do: [:each | Transcript show: each printString]
+     separatedBy: [Transcript show: '.'].
+
+
+Instances
+---------
+"Objects are instances of their class. Usually, we send the message #new to a class for creating an instance of this class."
+
+SimpleButtonMorph new
+	label: 'A nice button';
+	openCenteredInWorld.
+
+
+"The message #allInstances sent to a class answers an Array with all instances of this class."
+
+SimpleButtonMorph allInstances size.
+
+
+SimpleButtonMorph allInstances last
+	label: 'ProfStef is cooooool !';
+	color: Color red.
+
+"Delete it and ask the system to clean the memory:"
+
+SimpleButtonMorph allInstances last delete.
+Smalltalk garbageCollect.
+SimpleButtonMorph allInstances size.
+
+
+"Click on the button to go to next lesson:"
+
+SimpleButtonMorph new
+	label: 'Go to next lesson';
+	target: [ProfStef next.
+			   SimpleButtonMorph allInstances last delete];
+	actionSelector: #value;
+	openCenteredInWorld.
+
+
+Reflection
+----------
+(Number>>#abs) definition.
+(Number>>#abs) comment.
+Number selectors.
+Number selectors select: #isUnary.
+Number respondsTo: #isNumber.
+
+(True>>#ifTrue:) definition.
+(True>>#ifTrue:) comment.
+True selectors.
+
+Date today inspect.
+Date browse.
+
+
+
+Thread
+------
+# java: new Thread (() -> this.doSomething()).start();
+
+[self doSomething] fork
+
+
++++++
+
+5 -> 3
+
+Object subclass: #TBPost
+	instanceVariableNames: 'title text date category visible'
+	classVariableNames: ''
+	package: 'TinyBlog'
+
+Object subclass: #TBPost
+	slots: { #title. #text. #date. #category. #visible }
+	classVariables: {  }
+	package: 'TinyBlog'
+
+
+initialize
+	super initialize.
+	self date: Date today.
+	self category: (self class unclassifiedTag).
+	self notVisible.
+
+
+
+title: aTitle text: aText
+	^ self new
+			title: aTitle;
+			text: aText;
+			yourself
+
+
+TBPost new.
+TBPost title: 'First post' text: 'My first post' category: 'Pharo'
+
+
+| url |.
+url := 'http://pharo.org/web/files/pharo.png'.
+(ZnEasy getPng: url) asMorph openInWorld.
+(ZnEasy getPng: url) asMorph openInWindow
+
+
+---
+
+MenubarMorph reset.
+
+
+"A Point"
+10 @ 100.
+
+
+Color red
+Color r:1 g:0 b:0.
+
+'Hello World' asMorph openInWindow .
+
+
+"Open a playground"
+GTPlayground open.
+Workspace open.

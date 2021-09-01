@@ -8898,9 +8898,13 @@ cp -iR dir newDir
 # Remove empty dir
 rmdir dir
 
-# Remove dir recursively
+# Remove non-empty dir recursively
 rm -r dir
 rm -ir dir
+
+# Remove non-empty directory and all files without being prompted
+rm -rf dir
+
 
 # Create mulptiple files using brace expansion (list)
 touch {a,b,c}.txt

@@ -252,9 +252,13 @@ sudo pacman -S code
 
 # Pharo
 http://forum.world.st/Hi-DPI-Support-td5111907.html
+https://github.com/tbrunz/pharo-support
 export SQUEAK_FAKEBIGCURSOR=1
-MenubarMorph reset
+/home/eric/Pharo/vms/80-x64/lib/pharo/5.0-202002121043/pharo '/home/eric/Pharo/images/Pharo Mooc/Pharo Mooc.image' &
+	scale 1.6
+	font huge 22
 
+MenubarMorph reset
 
 
 # Dr. Racket
