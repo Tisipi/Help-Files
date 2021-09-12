@@ -46,12 +46,12 @@ Transcript cr.
 Transcript clear
 
 
-"; is the cascade operator. It's useful to send message to the same receiver."
+; is the cascade operator. It's useful to send message to the same receiver.
 
-Transcript
-	   show: 'Hello ';
-	   show: 'Pharo';
-	   cr.
+	Transcript
+		   show: 'Hello ';
+		   show: 'Pharo';
+		   cr.
 
 
 Separator
@@ -61,23 +61,43 @@ Separator
 
 Booleans, Conditions
 --------------------
+true is the unique instance of class True
+false is the unique instance of class False
+
+& | not
+or: and: 			"lazy evaluation"
+xor:
+ifTrue:ifFalse:
+ifFalse:ifTrue: ...
+
+
 true
 false
 false not.
 true | false.
 true & false.
 
+true or: false.
+true and: false.
+
 3 < 10
 	ifTrue: [Transcript show: 'Indeed, 3 is less than 10'].
+
+myProtocol
+  ifEmpty: [ 'As yet unclassified' ]
+
+self listItems
+  ifNotEmpty: [ :aList | aList at: index ]
+
+Notice that when the receiver is not empty we get it as argument (no need to ask it again).
 
 
 Loops
 -----
-"Loops are high-level collection iterators, implemented as regular methods. Some loops:
+Loops are high-level collection iterators, implemented as regular methods. Some loops:
   to:do:
   to:by:do:
   timesRepeat:
-"
 
 1 to: 100 do: [:i | Transcript show: i asString; cr].
 1 to: 100 by: 3 do: [:i | Transcript show: i asString; cr].
@@ -85,6 +105,9 @@ Loops
 
 3 timesRepeat: [Transcript show: 'Yes yes';cr]
 
+
+whileTrue:
+whileFalse:
 
 
 Numbers, Floats
@@ -115,64 +138,64 @@ Float pi.
 		+1
 
 
-"Unary messages are executed first, then binary messages and finally keyword messages:
- Unary > Binary > Keywords"
+Unary messages are executed first, then binary messages and finally keyword messages:
+ Unary > Binary > Keywords
 
-2 + 3 squared.
-2 raisedTo: 3 + 2.
+	2 + 3 squared.
+	2 raisedTo: 3 + 2.
 
-"Between messages of similar precedence, expressions are executed from left to right"
--3 abs negated reciprocal.
-
-
-"Use parentheses to change order of evaluation"
-(2 + 3) squared.
-(2 raisedTo: 3) + 2.
+Between messages of similar precedence, expressions are executed from left to right:
+	-3 abs negated reciprocal.
 
 
-"Traditional precedence rules from mathematics do not apply in Pharo."
-"Remember that all messages always follow a simple left-to-right precedence rule."
-2 * 10 + 2.
-2 + 2 * 10.
-2 + (2 * 10).
+Use parentheses to change order of evaluation
+	(2 + 3) squared.
+	(2 raisedTo: 3) + 2.
+
+
+Traditional precedence rules from mathematics do not apply in Pharo.
+Remember that all messages always follow a simple left-to-right precedence rule.
+	2 * 10 + 2.
+	2 + 2 * 10.
+	2 + (2 * 10).
 
 
 
 Characters
 ----------
-"A Character is instantiated using $ operator"
-$A.
-$A class.
-$B charCode.
-Character cr.
-Character space.
+A Character is instantiated using $ operator.
+	$A.
+	$A class.
+	$B charCode.
+	Character cr.
+	Character space.
 
-"Print all 256 characters of the ASCII extended set"
-Character allByteCharacters.
+Print all 256 characters of the ASCII extended set:
+	Character allByteCharacters.
 
 
 Strings
 -------
-"A String is a collection of characters. Use single quotes to create a String object."
+A String is a collection of characters. Use single quotes to create a String object.
 
-'ProfStef'.
-'ProfStef' size.
-'abc' asUppercase.
-'Hello World' reverse. 
+	'ProfStef'.
+	'ProfStef' size.
+	'abc' asUppercase.
+	'Hello World' reverse.
 
-"You can access each character using at: message"
-"Index starts at 1, not at 0"
-'ProfStef' at: 1.
+You can access each character using at: message.
+Index starts at 1, not at 0.
+	'ProfStef' at: 1.
 
-"String concatenation uses the comma operator"
-'ProfStef', ' is cool'.
+String concatenation uses the comma operator:
+	'ProfStef', ' is cool'.
 
 
 Symbols
 -------
-"A Symbol is a String which is guaranteed to be globally unique.
+A Symbol is a String which is guaranteed to be globally unique.
 There is one and only one Symbol #ProfStef. There may be several 'ProfStef' String objects.
-(Message == returns true if the two objects are the SAME)"
+(Message == returns true if the two objects are the SAME).
 
 'ProfStef' asSymbol.
 #ProfStef asString.
@@ -183,29 +206,29 @@ There is one and only one Symbol #ProfStef. There may be several 'ProfStef' Stri
 
 Arrays
 ------
-"Arrays start at 1, not 0"
-"Literal arrays are created at parse time:"
-#(1 2 3).
-#(1 2 3 #(4 5 6)) size.
-#(1 2 4) isEmpty.
-#(1 2 3) first.
-#(1 2 3) last.
-#('hello' 'World') at: 2 put: 'Pharo'; yourself.
+Arrays start at 1, not 0.
+Literal arrays are created at parse time:
+	#(1 2 3).
+	#(1 2 3 #(4 5 6)) size.
+	#(1 2 4) isEmpty.
+	#(1 2 3) first.
+	#(1 2 3) last.
+	#('hello' 'World') at: 2 put: 'Pharo'; yourself.
 
-"Dynamic Arrays are created at execution time:"
-{ (2+3) . (6*6) }. #(5 36)
-{ (2+3) . (6*6) . 'hello', ' Stef'} size 3.
+Dynamic Arrays are created at execution time:
+	{ (2+3) . (6*6) }. #(5 36)
+	{ (2+3) . (6*6) . 'hello', ' Stef'} size 3.
 
 
 Blocks (closures)
 -----------------
-"Blocks are anonymous methods that can be stored into variables and executed on demand.
+Blocks are anonymous methods that can be stored into variables and executed on demand.
 Blocks are delimited by square brackets: [].
 Blocks are executed when they are evaluated.
 Block execution returns the value of the last expression.
 Blocks may contain temporary variables.
 Use blocks with 2 or 3 arguments maximum.
-A block encapsulates only one computation"
+A block encapsulates only one computation.
 
 [:x | x * x ] value:12.
 [:x :y | x + y] value:3 value:5.
@@ -217,9 +240,22 @@ b := [:x | x+2].
 b value: 12.
 
 
+( ) vs. [ ]:
+- ( ) just changes the priority of an execution but the program is executed
+- [ ] blocks program execution: the program is NOT executed
+- ( ) is about changing the order of a computation
+- [ ] is freezing the computation and controlling it
+
+
+Use [ expressions ] when:
+- expressions may not be executed at all (if, and, ...)
+- expressions may be executed multiple times (while, ...)
+
+
+
 Iterators
 ---------
-"The message do: is sent to a collection of objects (Array, Set, OrderedCollection), evaluating the block for each element.""
+The message do: is sent to a collection of objects (Array, Set, OrderedCollection), evaluating the block for each element.
 
 #(11 38 3 -2 10) collect: [:each | each abs].
 #(11 38 3 -2 10) collect: [:each | each odd].
@@ -238,39 +274,48 @@ Iterators
      separatedBy: [Transcript show: '.'].
 
 
+collect: (iterate and collect results)
+select: (select matching elements)
+reject: (reject matching elements)
+detect: (get first element matching)
+detect:ifNone: (get first element matching or a default value)
+includes: (test inclusion)
+
+
+
 Instances
 ---------
-"Objects are instances of their class. Usually, we send the message #new to a class for creating an instance of this class."
+Objects are instances of their class. Usually, we send the message #new to a class for creating an instance of this class.
 
-SimpleButtonMorph new
-	label: 'A nice button';
-	openCenteredInWorld.
-
-
-"The message #allInstances sent to a class answers an Array with all instances of this class."
-
-SimpleButtonMorph allInstances size.
+	SimpleButtonMorph new
+		label: 'A nice button';
+		openCenteredInWorld.
 
 
-SimpleButtonMorph allInstances last
-	label: 'ProfStef is cooooool !';
-	color: Color red.
+The message #allInstances sent to a class answers an Array with all instances of this class.
 
-"Delete it and ask the system to clean the memory:"
-
-SimpleButtonMorph allInstances last delete.
-Smalltalk garbageCollect.
-SimpleButtonMorph allInstances size.
+	SimpleButtonMorph allInstances size.
 
 
-"Click on the button to go to next lesson:"
+	SimpleButtonMorph allInstances last
+		label: 'ProfStef is cooooool !';
+		color: Color red.
 
-SimpleButtonMorph new
-	label: 'Go to next lesson';
-	target: [ProfStef next.
-			   SimpleButtonMorph allInstances last delete];
-	actionSelector: #value;
-	openCenteredInWorld.
+Delete it and ask the system to clean the memory:
+
+	SimpleButtonMorph allInstances last delete.
+	Smalltalk garbageCollect.
+	SimpleButtonMorph allInstances size.
+
+
+Click on the button to go to next lesson:
+
+	SimpleButtonMorph new
+		label: 'Go to next lesson';
+		target: [ProfStef next.
+				   SimpleButtonMorph allInstances last delete];
+		actionSelector: #value;
+		openCenteredInWorld.
 
 
 Reflection
@@ -287,6 +332,29 @@ True selectors.
 
 Date today inspect.
 Date browse.
+
+
+yourself
+--------
+|s|
+s := Set new.
+s add: 2.
+s
+
+Equivalent to:
+
+Set new
+  add:2;
+  yourself
+
+
+	Note: The method add: returns its argument, not the receiver.
+	  Set new add: 2
+	  >2
+	We get 2 and not the set!
+
+
+The cascade returns the value of the last message sent to the object. When creating a new object, after sending several messages to configure it with a cascade, yourself is the simplest way to get the new object as a result of the whole expression.
 
 
 
@@ -342,8 +410,8 @@ url := 'http://pharo.org/web/files/pharo.png'.
 MenubarMorph reset.
 
 
-"A Point"
-10 @ 100.
+A Point:
+	10 @ 100.
 
 
 Color red
@@ -352,6 +420,6 @@ Color r:1 g:0 b:0.
 'Hello World' asMorph openInWindow .
 
 
-"Open a playground"
-GTPlayground open.
-Workspace open.
+Open a playground:
+	GTPlayground open.
+	Workspace open.

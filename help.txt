@@ -257,8 +257,10 @@ export SQUEAK_FAKEBIGCURSOR=1
 /home/eric/Pharo/vms/80-x64/lib/pharo/5.0-202002121043/pharo '/home/eric/Pharo/images/Pharo Mooc/Pharo Mooc.image' &
 	scale 1.6
 	font huge 22
+/home/eric/Pharo/vms/80-x64/lib/pharo/5.0-202002121043/pharo '/home/eric/Pharo/images/Pharo 9.0 - 64bit (stable)/Pharo 9.0 - 64bit (stable).image' &
 
 MenubarMorph reset
+
 
 
 # Dr. Racket
