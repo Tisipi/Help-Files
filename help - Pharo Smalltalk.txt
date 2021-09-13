@@ -9,10 +9,10 @@ ProfStef next.
 ProfStef previous.
 
 Massive Open Online Course	http://mooc.pharo.org
-Pharo Books					http://books.pharo.org
-Updated Pharo by Example	https://github.com/SquareBracketAssociates/UpdatedPharoByExample
-Screencasts					https://www.youtube.com/channel/UCp3mNigANqkesFzdm058bvw
-Presentations				http://www.slideshare.net/pharoproject/
+Pharo Books									http://books.pharo.org
+Updated Pharo by Example		https://github.com/SquareBracketAssociates/UpdatedPharoByExample
+Screencasts									https://www.youtube.com/channel/UCp3mNigANqkesFzdm058bvw
+Presentations								http://www.slideshare.net/pharoproject/
 
 
 Comments
@@ -191,6 +191,13 @@ String concatenation uses the comma operator:
 	'ProfStef', ' is cool'.
 
 
+$- split: '1969-07-20'
+$/ join: ($- split: '1969-07-20') reverse
+
+Character space join: #('This' 'is' 'crazy')
+$_ join: #('This' 'is' 'crazy')
+
+
 Symbols
 -------
 A Symbol is a String which is guaranteed to be globally unique.
@@ -207,12 +214,14 @@ There is one and only one Symbol #ProfStef. There may be several 'ProfStef' Stri
 Arrays
 ------
 Arrays start at 1, not 0.
+
 Literal arrays are created at parse time:
 	#(1 2 3).
 	#(1 2 3 #(4 5 6)) size.
 	#(1 2 4) isEmpty.
 	#(1 2 3) first.
 	#(1 2 3) last.
+	#(1 2 3) at: 3.
 	#('hello' 'World') at: 2 put: 'Pharo'; yourself.
 
 Dynamic Arrays are created at execution time:
@@ -266,6 +275,10 @@ The message do: is sent to a collection of objects (Array, Set, OrderedCollectio
 #(11 38 3 -2 10) reject: [:each | each > 10].
 
 
+(1914 to: 1945) select: [:each | Year isLeapYear: each].
+(1914 to: 1945) count: [:each | Year isLeapYear: each].
+
+
 #(11 38 3 -2 10) do: [:each |
      Transcript show: each printString; cr].
 
@@ -274,12 +287,15 @@ The message do: is sent to a collection of objects (Array, Set, OrderedCollectio
      separatedBy: [Transcript show: '.'].
 
 
-collect: (iterate and collect results)
-select: (select matching elements)
-reject: (reject matching elements)
-detect: (get first element matching)
-detect:ifNone: (get first element matching or a default value)
-includes: (test inclusion)
+#(a b c d e f) includesAll: #(f d b)
+
+
+collect: 				(iterate and collect results)
+select: 				(select matching elements)
+reject: 				(reject matching elements)
+detect: 				(get first element matching)
+detect:ifNone: 	(get first element matching or a default value)
+includes: 			(test inclusion)
 
 
 
