@@ -20,6 +20,30 @@ Comments
 "This is a comment in Pharo Smalltalk"
 
 
+Messages, selectors
+-------------------
+Unary messages are executed first, then binary messages and finally keyword messages:
+ Unary > Binary > Keywords
+
+	2 + 3 squared.
+	2 raisedTo: 3 + 2.
+
+Between messages of similar precedence, expressions are executed from left to right:
+	-3 abs negated reciprocal.
+
+
+Use parentheses to change order of evaluation
+	(2 + 3) squared.
+	(2 raisedTo: 3) + 2.
+
+
+Traditional precedence rules from mathematics do not apply in Pharo.
+Remember that all messages always follow a simple left-to-right precedence rule.
+	2 * 10 + 2.
+	2 + 2 * 10.
+	2 + (2 * 10).
+
+
 System info
 -----------
 SmalltalkImage current aboutThisSystem.
@@ -137,28 +161,8 @@ Float pi.
 	/ 4 factorial 
 		+1
 
-
-Unary messages are executed first, then binary messages and finally keyword messages:
- Unary > Binary > Keywords
-
-	2 + 3 squared.
-	2 raisedTo: 3 + 2.
-
-Between messages of similar precedence, expressions are executed from left to right:
-	-3 abs negated reciprocal.
-
-
-Use parentheses to change order of evaluation
-	(2 + 3) squared.
-	(2 raisedTo: 3) + 2.
-
-
-Traditional precedence rules from mathematics do not apply in Pharo.
-Remember that all messages always follow a simple left-to-right precedence rule.
-	2 * 10 + 2.
-	2 + 2 * 10.
-	2 + (2 * 10).
-
+Integer primesUpTo: 14
+(Integer primesUpTo: 14) sum
 
 
 Characters
@@ -192,10 +196,13 @@ String concatenation uses the comma operator:
 
 
 $- split: '1969-07-20'
+Character space split: 'A Symbol is a String which is guaranteed to be globally unique'
+
 $/ join: ($- split: '1969-07-20') reverse
 
 Character space join: #('This' 'is' 'crazy')
 $_ join: #('This' 'is' 'crazy')
+
 
 
 Symbols
@@ -227,6 +234,23 @@ Literal arrays are created at parse time:
 Dynamic Arrays are created at execution time:
 	{ (2+3) . (6*6) }. #(5 36)
 	{ (2+3) . (6*6) . 'hello', ' Stef'} size 3.
+
+
+
+Collections
+-----------
+OrderedCollection new
+  add: 56;
+  add: 33;
+  yourself.
+
+
+Set newFrom: {1. 2. 3}
+{1. 2. 3} as: Set
+
+
+#(a b c d e f) asSet intersection: #(f d b) asSet
+
 
 
 Blocks (closures)
@@ -414,6 +438,9 @@ title: aTitle text: aText
 TBPost new.
 TBPost title: 'First post' text: 'My first post' category: 'Pharo'
 
+
+
+'http://www.pharo.org' asUrl retrieveContents.
 
 | url |.
 url := 'http://pharo.org/web/files/pharo.png'.
