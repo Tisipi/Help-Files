@@ -44,6 +44,67 @@ Remember that all messages always follow a simple left-to-right precedence rule.
 	2 + (2 * 10).
 
 
+
+Classes
+-------
+Classes are defined by sending the message subclass: to the class Object.
+Class names start with uppercase.
+
+Object subclass: #Counter
+ instanceVariableNames: 'count'
+
+Object subclass: #Point
+ instanceVariableNames: 'x y'
+
+
+
+Variables
+---------
+Lowercase are used for local/private/temporary variables.
+Uppercase are used for shared or global variables.
+
+Local variables start with lowercase (temporary variables, instance variables, arguments,...).
+
+	CounterTest >> testIncrement
+	 |c|
+	 c := Counter new.
+	 ...
+
+
+Shared or global variables start with uppercase (class, class variables).
+
+	Object is a class globally accessible:
+	 Object subclass: #Point
+
+	Transcript is an object that is globally accessible (a kind of stdout):
+	 Transcript cr.
+	 Transcript show: 'hello world'.
+
+
+
+ClassVariables are shared variables. To share information between all the instances of a class and subclasses use a classVariable:
+
+	Object subclass: #CombinedChar
+	 instanceVariableNames: 'codes combined'
+	 classVariableNames: 'Compositions Decompositions Diacriticals'
+	 package: 'Kernel−BasicObjects'
+
+
+Special variables cannot be changed: true, false, nil self, super, thisContext
+	- true, false are the Booleans
+		- true is the unique instance of the class True
+		- false is the unique instance of the class False
+
+ 	- nil is a global and special variable that refers to the only instance of class UndefinedObject.
+	- nil is the unique instance of the class UndefinedObject
+
+	- self refers to the receiver of the message (this in Java).
+	- super refers to the receiver but the method lookup starts in the superclass of the class defining the method.
+
+	- thisContext refers to the current execution stack (advanced)
+
+
+
 System info
 -----------
 SmalltalkImage current aboutThisSystem.
@@ -185,6 +246,7 @@ A String is a collection of characters. Use single quotes to create a String obj
 	'ProfStef'.
 	'ProfStef' size.
 	'abc' asUppercase.
+	'abc' asLowercase.
 	'Hello World' reverse.
 
 You can access each character using at: message.
@@ -232,8 +294,8 @@ Literal arrays are created at parse time:
 	#('hello' 'World') at: 2 put: 'Pharo'; yourself.
 
 Dynamic Arrays are created at execution time:
-	{ (2+3) . (6*6) }. #(5 36)
-	{ (2+3) . (6*6) . 'hello', ' Stef'} size 3.
+	{ (2+3) . (6*6) }.
+	{ (2+3) . (6*6) . 'hello', ' Stef'}
 
 
 
@@ -250,6 +312,19 @@ Set newFrom: {1. 2. 3}
 
 
 #(a b c d e f) asSet intersection: #(f d b) asSet
+
+
+Associations
+------------
+An Association defines a key/value pair:
+	'name' -> 'John'
+
+Teapot configure: { #defaultOutput −> #json. #port −> 8181 . #debugMode −> true }.
+
+
+Dictionaries
+------------
+
 
 
 
@@ -405,6 +480,67 @@ Thread
 [self doSomething] fork
 
 
+
+Zinc, Teapot
+------------
+Zinc is a HTTP client/server.
+
+
+"Get a book"
+ZnClient new
+ url: 'http://localhost:8181/books/1';
+ get
+
+
+"Add a book"
+ZnClient
+ new url: 'http://localhost:8181/books/1';
+ formAt: 'author' put: 'van Caekenberghe et al';
+ formAt: 'title' put: 'Entreprise Pharo';
+ post
+
+
+
+Teapot
+------
+Teapot is micro web framework for Pharo Smalltalk on top of the Zinc HTTP components
+Teapot	https://github.com/zeroflag/Teapot
+
+
+Simple HTTP server running on default (?) port 1701 with one route (for welcome):
+
+	Teapot on
+	    GET: '/welcome' -> 'Hello World!';
+	    start.
+
+Do it and view it at: http://localhost:1701/welcome
+
+
+	Sending message on to class Teapot returns an object.
+	The message GET: is sent to this object to configure a new route.
+	Normally, the first letter of a method name (and corresponding message) should be lower case, that's the recommended naming scheme. In this case, the author of Teapot decided to ignore this scheme to better reflect the HTTP protocol where verbs (such as GET, POST, PUT and DELETE) are typically written uppercased.
+
+
+---
+
+"The Teapot HTTP server"
+books := Dictionary new.
+teapot := Teapot configure: { #defaultOutput −> #json. #port −> 8181 }.
+teapot
+ GET: '/' −> '<h1>A simple book server</h1>';output: #html;
+ GET: '/books' −> books;
+ GET: '/books/<id:IsInteger>' −> [ :request | books at: (request at: #id) asString];
+ POST: '/books/<id>' −> [ :request | | book | book := { 'author' −> (request at: #author). 'title' −> (request at: #title) } asDictionary. books at: (request at: #id) put: book ];
+ start.
+
+
+Tealight
+--------
+https://github.com/astares/Tealight
+
+Tealight is a project defining a few extensions to the Teapot framework to make the (tea) time you spend with the Pharo Teapot system even easier.
+
+
 +++++
 
 5 -> 3
@@ -442,11 +578,23 @@ TBPost title: 'First post' text: 'My first post' category: 'Pharo'
 
 'http://www.pharo.org' asUrl retrieveContents.
 
+
 | url |.
 url := 'http://pharo.org/web/files/pharo.png'.
 (ZnEasy getPng: url) asMorph openInWorld.
 (ZnEasy getPng: url) asMorph openInWindow
 
+
+| anEmail md5Email url |.
+anEmail := 'Stephane.Ducasse@inria.fr' asLowercase.
+md5Email := (MD5 new hashMessage: anEmail) hex.
+url := 'http://www.gravatar.com/avatar/' , md5Email , '.jpg'.
+(ZnEasy getJpeg: url) asMorph openInWorld.
+
+
+Abstract Base Class:
+method
+	self subclassResponsibility
 
 ---
 
@@ -466,3 +614,15 @@ Color r:1 g:0 b:0.
 Open a playground:
 	GTPlayground open.
 	Workspace open.
+
+
+-----
+
+
+MOOC
+----
+Done:
+1, 2
+
+Todo:
+2.14.3.[Mini-projet] Chap.3 TinyBlog: Extending and Testing the Model
