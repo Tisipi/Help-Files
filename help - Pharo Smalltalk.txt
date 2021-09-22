@@ -481,47 +481,92 @@ Thread
 
 
 
-Zinc, Teapot
-------------
-Zinc is a HTTP client/server.
+ZnClient, Zinc HTTP Client
+--------------------------
+ZnClient, a full featured HTTP client.
+An object to build, execute and process HTTP client requests.
+Part of Zinc HTTP Components.
+
+Some examples:
+
+	ZnClient new
+		get: 'http://zn.stfx.eu/zn/numbers.txt'.
+
+	ZnClient new
+		url: 'http://pharo.org';
+		get.
+
+	ZnClient new
+		get: 'http://pharo.org'.
 
 
-"Get a book"
-ZnClient new
- url: 'http://localhost:8181/books/1';
- get
+An explicit constructed HTTP request:
+
+	ZnClient new
+		systemPolicy;
+		accept: ZnMimeType textPlain;
+		http;
+		host: 'zn.stfx.eu';
+		path: 'zn/numbers.txt';
+		contentReader: [ :entity | entity contents lines collect: [ :each | each asNumber ] ];
+		ifFail: [ :exception | self inform: 'I am sorry: ', exception printString ];
+		get.
 
 
-"Add a book"
-ZnClient
- new url: 'http://localhost:8181/books/1';
- formAt: 'author' put: 'van Caekenberghe et al';
- formAt: 'title' put: 'Entreprise Pharo';
- post
+
+ZnEasy, HTTP Client
+-------------------
+A simplified HTTP client for occasional use.
+It uses ZnClient.
+For most requests it returns a response object.
+
+	ZnEasy get: 'http://zn.stfx.eu/zn/small.html'.
+
+
+For a couple of messages, it returns an image Form:
+
+	ZnEasy getGif: 'http://zn.stfx.eu/zn/Hot-Air-Balloon.gif'
+
+	ZnEasy getPng: 'http://pharo.org/files/pharo.png'.
+
+	ZnEasy getJpeg: 'http://stfx.eu/sun-fire-x2100.jpg'.
 
 
 
-Teapot
-------
-Teapot is micro web framework for Pharo Smalltalk on top of the Zinc HTTP components
-Teapot	https://github.com/zeroflag/Teapot
+| url |.
+url := 'http://pharo.org/web/files/pharo.png'.
+(ZnEasy getPng: url) asMorph openInWorld.
+(ZnEasy getPng: url) asMorph openInWindow
 
 
-Simple HTTP server running on default (?) port 1701 with one route (for welcome):
-
-	Teapot on
-	    GET: '/welcome' -> 'Hello World!';
-	    start.
-
-Do it and view it at: http://localhost:1701/welcome
+| anEmail md5Email url |.
+anEmail := 'Stephane.Ducasse@inria.fr' asLowercase.
+md5Email := (MD5 new hashMessage: anEmail) hex.
+url := 'http://www.gravatar.com/avatar/' , md5Email , '.jpg'.
+(ZnEasy getJpeg: url) asMorph openInWorld.
 
 
-	Sending message on to class Teapot returns an object.
-	The message GET: is sent to this object to configure a new route.
-	Normally, the first letter of a method name (and corresponding message) should be lower case, that's the recommended naming scheme. In this case, the author of Teapot decided to ignore this scheme to better reflect the HTTP protocol where verbs (such as GET, POST, PUT and DELETE) are typically written uppercased.
+
+Teapot, Web Framework
+---------------------
+Teapot is micro web framework for Pharo Smalltalk on top of the Zinc HTTP components.
+
+Teapot source and documentation:	https://github.com/zeroflag/Teapot
 
 
----
+Example of a simple HTTP Teapot server running on (default) port 1701 with one route (for welcome):
+
+		Teapot on
+		    GET: '/welcome' -> 'Hello World!';
+		    start.
+
+		Do it and view it at: http://localhost:1701/welcome
+
+
+Please note: Normally, the first letter of a method name (and corresponding message) should be lower case, that's the recommended naming scheme.
+In this case, the author of Teapot decided to ignore this scheme to better reflect the HTTP protocol where verbs (such as GET, POST, PUT and DELETE) are typically written uppercased.
+
+
 
 "The Teapot HTTP server"
 books := Dictionary new.
@@ -529,9 +574,28 @@ teapot := Teapot configure: { #defaultOutput −> #json. #port −> 8181 }.
 teapot
  GET: '/' −> '<h1>A simple book server</h1>';output: #html;
  GET: '/books' −> books;
- GET: '/books/<id:IsInteger>' −> [ :request | books at: (request at: #id) asString];
- POST: '/books/<id>' −> [ :request | | book | book := { 'author' −> (request at: #author). 'title' −> (request at: #title) } asDictionary. books at: (request at: #id) put: book ];
+ GET: '/books/<id:IsInteger>'
+ 	−> [ :request | books at: (request at: #id) asString];
+ POST: '/books/<id>'
+ 	−> [ :request | | book |
+ 			book := { 'author' −> (request at: #author). 'title' −> (request at: #title) } asDictionary.
+ 			books at: (request at: #id) put: book ];
  start.
+
+
+"Add a book via HTTP client"
+ZnClient
+ new url: 'http://localhost:8181/books/1';
+ formAt: 'author' put: 'van Caekenberghe et al';
+ formAt: 'title' put: 'Enterprise Pharo';
+ post.
+
+
+"Get a book via HTTP client"
+ZnClient new
+ url: 'http://localhost:8181/books/1';
+ get.
+
 
 
 Tealight
@@ -539,6 +603,55 @@ Tealight
 https://github.com/astares/Tealight
 
 Tealight is a project defining a few extensions to the Teapot framework to make the (tea) time you spend with the Pharo Teapot system even easier.
+
+
+
+ZnUrl
+-----
+ZnUrl, an implementation of an interpreted URL/URI.
+URLs are used to describe/identify resources,
+Part of Zinc HTTP Components.
+
+
+Creating a ZnUrl:
+
+	'http://www.pharo.org' asUrl.
+	'http://www.pharo.org' asZnUrl.
+
+	ZnUrl fromString: 'http://www.pharo.org'.
+	ZnUrl fromString: 'http://www.google.com/search?q=Smalltalk'.
+	ZnUrl fromString: 'www.example.com' defaultScheme: #http
+
+  ZnUrl new
+    scheme: #https;
+    host: 'encrypted.google.com';
+    addPathSegment: 'search';
+    queryAt: 'q' put: 'Smalltalk';
+    yourself.
+
+
+Manipulating a ZnUrl:
+
+  'http://www.google.com/?one=1&two=2' asZnUrl
+    queryAt: 'three' put: '3';
+    queryRemoveKey: 'one';
+    yourself.
+
+
+Convenience method #retrieveContents to download the resource a ZnUrl points to:
+
+	'http://www.pharo.org' asUrl retrieveContents.
+	'http://www.pharo.org' asZnUrl retrieveContents.
+
+  'http://zn.stfx.eu/zn/numbers.txt' asZnUrl retrieveContents.
+
+
+
+ZnServer, HTTP Server
+---------------------
+
+ZnServer startDefaultOn: 8080
+
 
 
 +++++
@@ -573,23 +686,6 @@ title: aTitle text: aText
 
 TBPost new.
 TBPost title: 'First post' text: 'My first post' category: 'Pharo'
-
-
-
-'http://www.pharo.org' asUrl retrieveContents.
-
-
-| url |.
-url := 'http://pharo.org/web/files/pharo.png'.
-(ZnEasy getPng: url) asMorph openInWorld.
-(ZnEasy getPng: url) asMorph openInWindow
-
-
-| anEmail md5Email url |.
-anEmail := 'Stephane.Ducasse@inria.fr' asLowercase.
-md5Email := (MD5 new hashMessage: anEmail) hex.
-url := 'http://www.gravatar.com/avatar/' , md5Email , '.jpg'.
-(ZnEasy getJpeg: url) asMorph openInWorld.
 
 
 Abstract Base Class:
