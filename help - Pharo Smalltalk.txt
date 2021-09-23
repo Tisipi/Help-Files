@@ -15,9 +15,14 @@ Screencasts									https://www.youtube.com/channel/UCp3mNigANqkesFzdm058bvw
 Presentations								http://www.slideshare.net/pharoproject/
 
 
+Notes below are primarily learned from these resources.
+
+
+
 Comments
 --------
 "This is a comment in Pharo Smalltalk"
+
 
 
 Messages, selectors
@@ -111,6 +116,7 @@ SmalltalkImage current aboutThisSystem.
 SystemVersion current.
 
 
+
 Date and Time
 -------------
 Date today.
@@ -120,6 +126,7 @@ Date today < Date yesterday.
 
 Time now.
 DateAndTime today.
+
 
 
 Console Output
@@ -139,9 +146,11 @@ Transcript clear
 		   cr.
 
 
+
 Separator
 ---------
 . is a Separator (not a terminator)
+
 
 
 Booleans, Conditions
@@ -177,6 +186,7 @@ self listItems
 Notice that when the receiver is not empty we get it as argument (no need to ask it again).
 
 
+
 Loops
 -----
 Loops are high-level collection iterators, implemented as regular methods. Some loops:
@@ -193,6 +203,7 @@ Loops are high-level collection iterators, implemented as regular methods. Some 
 
 whileTrue:
 whileFalse:
+
 
 
 Numbers, Floats
@@ -226,6 +237,7 @@ Integer primesUpTo: 14
 (Integer primesUpTo: 14) sum
 
 
+
 Characters
 ----------
 A Character is instantiated using $ operator.
@@ -237,6 +249,7 @@ A Character is instantiated using $ operator.
 
 Print all 256 characters of the ASCII extended set:
 	Character allByteCharacters.
+
 
 
 Strings
@@ -280,9 +293,45 @@ There is one and only one Symbol #ProfStef. There may be several 'ProfStef' Stri
 (Smalltalk globals at: #ProfStef ProfStef) next.
 
 
-Arrays
-------
+
+Associations / Pairs
+--------------------
+An Association defines a key/value pair:
+	'name' -> 'John'
+
+Teapot configure: { #defaultOutput −> #json. #port −> 8181 . #debugMode −> true }.
+
+
+
+Collections
+===========
+First element is at index 1.
+Can contain any object.
+Common collections:
+- Array 							(fixed size, direct access)
+- OrderedCollection 	(dynamically growing)
+- Set 								(no duplicates)
+- Dictionary					(key-based, aka. maps)
+
+
+Common messages working on all collections:
+1. Creation: with: anElt, with:with:, withAll: aCollection
+2. Accessing: size, at: anIndex, at: anIndex put: anElt
+3. Testing: isEmpty, includes: anElt, contains: aBlock
+4. Adding: add: anElement, addAll: aCollection
+5. Removing: remove: anElt, remove: anElt ifAbsent: aBlock, removeAll: aCollection
+6. Enumerating: do: aBlock, collect: aBlock, select: aBlock, reject: aBlock, detect: aBlock, ...
+7. Converting: asBag, asSet, asOrderedCollection, asSortedCollection, asArray
+
+
+Collections - Arrays
+--------------------
 Arrays start at 1, not 0.
+
+
+Array new: 3
+> #(nil nil nil)
+
 
 Literal arrays are created at parse time:
 	#(1 2 3).
@@ -299,31 +348,49 @@ Dynamic Arrays are created at execution time:
 
 
 
-Collections
------------
+
+
+
+
+
+
+
+Collections - OrderedCollection
+-------------------------------
+OrderedCollection new: 3.
+
+OrderedCollection new: 3 withAll: 'a'
+> an OrderedCollection('a' 'a' 'a')
+
+OrderedCollection withAll: #(7 7 3 13)
+> an OrderedCollection(7 7 3 13)
+
 OrderedCollection new
   add: 56;
   add: 33;
   yourself.
 
 
+
+Set withAll: #(7 7 3 13)
+> a Set( 7 3 13)
+
+
+
+Collections - Set
+-----------------
 Set newFrom: {1. 2. 3}
-{1. 2. 3} as: Set
+
+{1. 2. 3} as: Set  (check ?)
+{1. 2. 3} asSet
 
 
 #(a b c d e f) asSet intersection: #(f d b) asSet
 
 
-Associations
-------------
-An Association defines a key/value pair:
-	'name' -> 'John'
 
-Teapot configure: { #defaultOutput −> #json. #port −> 8181 . #debugMode −> true }.
-
-
-Dictionaries
-------------
+Collections - Dictionary
+------------------------
 
 
 
