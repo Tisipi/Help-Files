@@ -36,17 +36,14 @@ Cheat-sheet                 https://files.pharo.org/media/flyer-cheat-sheet.pdf
 Notes below are primarily learned from these resources.
 
 
-
 Comments
 --------
 "This is a comment in Pharo Smalltalk"
 
 
-
 Assignment
 ----------
 :=
-
 
 
 Variable Declaration
@@ -86,6 +83,7 @@ A keyword message can take one or more arguments that are inserted in the messag
 	3 to: 10 by: 2.              Sends to:by: to 3, with arguments 10 and 2 (this returns a collection containing 3, 5, 7 and 9).
 
 
+
 Messages Precedence
 -------------------
 Unary messages are executed first, then binary messages and finally keyword messages:
@@ -98,8 +96,8 @@ Or more precise:
 	Parentheses > Unary > Binary > Keyword, and finally from left to right.
 
 
-	2 + 3 squared.
-	2 raisedTo: 3 + 2.
+	2 + 3 squared.            Returns 11.
+	2 raisedTo: 3 + 2.        Returns 32
 
 
 Between messages of similar precedence, expressions are executed from left to right:
@@ -117,6 +115,20 @@ Remember that all messages always follow a simple left-to-right precedence rule.
 	2 * 10 + 2.
 	2 + 2 * 10.
 	2 + (2 * 10).
+
+
+Cascading Messages
+------------------
+Multiple messages can be sent to the same receiver with ;.
+; is the cascade operator.
+
+	OrderedCollection new
+		add: #abc;
+		add: #def;
+		add: #ghi.
+
+The value of the whole message cascade is the value of the last message sent.
+To return the receiver of the message cascade instead, make sure to send yourself as the last message of the cascade.
 
 
 
@@ -208,7 +220,7 @@ Transcript cr.
 Transcript clear
 
 
-; is the cascade operator. It's useful to send message to the same receiver.
+Using the cascade operator:
 
 	Transcript
 		   show: 'Hello ';
@@ -367,7 +379,10 @@ There is one and only one Symbol #ProfStef. There may be several 'ProfStef' Stri
 Associations / Pairs
 --------------------
 An Association defines a key/value pair:
-	'name' -> 'John'
+	'January' -> 31.
+	('January' -> 31) key.
+	('January' -> 31) value.
+
 
 Teapot configure: { #defaultOutput −> #json. #port −> 8181 . #debugMode −> true }.
 
@@ -376,7 +391,7 @@ Teapot configure: { #defaultOutput −> #json. #port −> 8181 . #debugMode −>
 Collections
 ===========
 First element is at index 1.
-Collections can contain any sort of objects.
+Collections can contain any sort of objects (collections are heterogenous).
 Common collections:
 - Array 							(fixed size, direct access)
 - OrderedCollection 	(dynamically growing)
@@ -398,14 +413,31 @@ Collections - Arrays
 --------------------
 Collections and thus Arrays start at index 1 (so not 0).
 
-#(7 7 3 13)
-#(7 'test' 3 13)
+#(7 7 3 13).
+#(7 'test' 3 'yes yes').
 
-Array new: 3
+Array new: 3.
 > #(nil nil nil)
 
 
-Literal arrays are created at parse time:
+(Array new: 3)
+	at: 1 put: 'I';
+	at: 2 put: 'am';
+	at: 3 put: 'crazy';
+	yourself.
+
+
+#('I' 'am' 'crazy') at: 3.
+
+| me |
+me := #('I' 'am' 'crazy').
+me at: 3 put: 'not crazy'.
+
+
+Array with: 'I' with: 'am' with: 'crazy'.
+
+
+Literal arrays contain objects that have a textual (literal) representation: numbers, strings, nil, symbols. Literal arrays are created at parse time:
 	#(1 2 3).
 	#(1 2 3 #(4 5 6)) size.
 	#(1 2 4) isEmpty.
@@ -422,6 +454,13 @@ Dynamic Arrays are created at execution time:
 
 Collections - OrderedCollection
 -------------------------------
+- Sequenceable
+- Growing size
+- add:
+- remove:
+- addFirst:
+
+
 OrderedCollection new: 3.
 
 OrderedCollection new: 3 withAll: 'a'
@@ -436,20 +475,37 @@ OrderedCollection new
   yourself.
 
 
+| ordCol |
+ordCol := OrderedCollection new.
+ordCol add: 'Two'; add: 'Three'; addFirst: 'One'.
 
 
 
 Collections - Set
 -----------------
-Set newFrom: {1. 2. 3}
+- Mathematical set, so no duplicates.
+- Growing size.
+- Can contain any object including other Sets.
+- add:
+- remove:
 
-{1. 2. 3} as: Set  (check ?)
-{1. 2. 3} asSet
+
+Set newFrom: #(1 2 3).
+Set newFrom: {1. 2. 3}.
+Set withAll: #(1 2 3).
+
+Set with: 1 with:2 with 3.
 
 
-Set withAll: #(7 7 3 13)
-> a Set( 7 3 13)
+#(1 2 3) asSet.
+#(1 2 3) as: Set.
 
+{1. 2. 3} asSet.
+{1. 2. 3} as: Set.
+
+
+Set withAll: #(7 7 3 13).
+> a Set( 7 3 13).
 
 
 #(a b c d e f) asSet intersection: #(f d b) asSet
@@ -458,13 +514,51 @@ Set withAll: #(7 7 3 13)
 
 Collections - Dictionary
 ------------------------
+- Key/values.
+- Growing size.
+- Accessing: at:, at:ifAbsent:, keys, values.
+- Changing/adding: at:put:, at:ifAbsentPut:
+- Iterating: do:, keysDo:, valuesDo:, keysAndValuesDo:
 
+
+| days |
+days := Dictionary new.
+days
+	at: #January put: 31;
+	at: #February put: 28;
+	at: #March put: 31.
+
+
+| days |
+days := { #January -> 31. #February -> 28. #March -> 31} asDictionary.
+days at: #February.
+days at: #FakeMonth.
+days at: #FakeMonth ifAbsent: [0]   "Hmmm, I still get a KeyNotFound in Pharo 8 MOOC..."
+
+
+days keys.
+days values.
+
+days keysDo: [ :key | Transcript show: key; cr ].
+days valuesDo: [ :value | Transcript show: value; cr ]
+days keysAndValuesDo: [ :k :v | Transcript show: k asString, ' is having ', v asString  , ' days' ; cr].
+
+
+
+Collections - Conversion
+------------------------
+Collections can be converted simply to other collections:
+- asOrderedCollection
+- asSet
+- asArray
 
 
 
 Blocks (closures)
 -----------------
+Blocks are objects containing code that is executed on demand (anonymous functions).
 Blocks are anonymous methods that can be stored into variables and executed on demand.
+Blocks are the basis for control structures like conditionals and loops.
 Blocks are delimited by square brackets: [].
 Blocks are executed when they are evaluated.
 Block execution returns the value of the last expression.
@@ -480,6 +574,13 @@ A block encapsulates only one computation.
 |b|
 b := [:x | x+2].
 b value: 12.
+
+
+2 = 2
+	ifTrue: [Error signal: 'Help'].
+
+#('Hello World' 'I like Pharo') do: [:e | Transcript show: e].
+
 
 
 ( ) vs. [ ]:
@@ -508,27 +609,33 @@ The message do: is sent to a collection of objects (Array, Set, OrderedCollectio
 #(11 38 3 -2 10) reject: [:each | each > 10].
 
 
+(1 to: 10) asOrderedCollection collect: [ :i | i squared ].
+(1 to: 10) asOrderedCollection collect: #squared.						"Only allowed for unary messages"
+
+
 (1914 to: 1945) select: [:each | Year isLeapYear: each].
 (1914 to: 1945) count: [:each | Year isLeapYear: each].
 
 
-#(11 38 3 -2 10) do: [:each |
-     Transcript show: each printString; cr].
+#(11 38 3 -2 10)
+	do: [:each | Transcript show: each; cr].
 
 #(11 38 3 -2 10)
-     do: [:each | Transcript show: each printString]
+     do: [:each | Transcript show: each ]
      separatedBy: [Transcript show: '.'].
 
 
 #(a b c d e f) includesAll: #(f d b)
 
 
-collect: 				(iterate and collect results)
-select: 				(select matching elements)
-reject: 				(reject matching elements)
-detect: 				(get first element matching)
-detect:ifNone: 	(get first element matching or a default value)
-includes: 			(test inclusion)
+collect:         Iterate and collect results.
+select:          Select matching elements.
+reject:          Reject matching elements.
+detect:          Get first element matching.
+detect:ifNone:   Get first element matching or a default value.
+includes:        Test inclusion.
+
+
 
 
 
@@ -603,7 +710,9 @@ Set new
 	We get 2 and not the set!
 
 
-The cascade returns the value of the last message sent to the object. When creating a new object, after sending several messages to configure it with a cascade, yourself is the simplest way to get the new object as a result of the whole expression.
+The cascade returns the value of the last message sent to the object.
+When creating a new object, after sending several messages to configure it with a cascade,
+yourself is the simplest way to get the new object as a result of the whole expression.
 
 
 
@@ -785,6 +894,35 @@ ZnServer, HTTP Server
 ---------------------
 
 ZnServer startDefaultOn: 8080
+
+
+
+Unit Testing
+------------
+Pharo has a powerful framework that supports the creation and deployment of tests.
+A test must be implemented:
+- in a method whose name has a test prefix
+- in a class that subclasses TestCase.
+
+
+Example:
+
+	TestCase subclass: #TBPostTest
+		instanceVariableNames: ''
+		classVariableNames: ''
+		package: 'TinyBlog-Tests'
+
+
+	TBPostTest >> testNewPostVisible
+		| post |
+		post := TBPost title: 'First Post' text: 'My first tiny post inside Pharo' category: 'Pharo'.
+		post beVisible.
+
+		self assert: post title equals: 'First Post'.
+		self assert: post text equals: 'My first tiny post inside Pharo'.
+		self assert: post date equals: Date today.
+		self assert: post category equals: 'Pharo'.
+		self assert: post isVisible.
 
 
 
