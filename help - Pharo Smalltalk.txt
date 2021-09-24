@@ -1,19 +1,37 @@
+Pharo
+-----
+http://pharo.org
+
+A clean, innovative, open-source Smalltalk-inspired environment.
+
+Pharo has a simple dynamically-typed object model:
+- Everything is an object (an instance of a class).
+- Classes are objects too
+- Computation happens only via message sends (and variable assignment).
+- There is single inheritance between classes.
+- Instance variables are protected.
+- Methods are public.
+- Blocks are lexical closure a.k.a.anonymous methods.
+- Traits are groups of methods that can be reused orthogonally to inheritance.
+
+
 Learn Pharo
 -----------
 http://pharo.org
 http://pharo.org/documentation
 https://pharoweekly.wordpress.com/
 
-ProfStef go.
-ProfStef next.
-ProfStef previous.
+Learn Pharo in Pharo itself by using professor Stef:
+	ProfStef go.
+	ProfStef next.
+	ProfStef previous.
 
-Massive Open Online Course	http://mooc.pharo.org
-Pharo Books									http://books.pharo.org
-Updated Pharo by Example		https://github.com/SquareBracketAssociates/UpdatedPharoByExample
-Screencasts									https://www.youtube.com/channel/UCp3mNigANqkesFzdm058bvw
-Presentations								http://www.slideshare.net/pharoproject/
-
+Massive Open Online Course  http://mooc.pharo.org
+Pharo Books                 http://books.pharo.org
+Updated Pharo by Example    https://github.com/SquareBracketAssociates/UpdatedPharoByExample
+Screencasts                 https://www.youtube.com/channel/UCp3mNigANqkesFzdm058bvw
+Presentations               http://www.slideshare.net/pharoproject/
+Cheat-sheet                 https://files.pharo.org/media/flyer-cheat-sheet.pdf
 
 Notes below are primarily learned from these resources.
 
@@ -25,13 +43,64 @@ Comments
 
 
 
-Messages, selectors
+Assignment
+----------
+:=
+
+
+
+Variable Declaration
+--------------------
+| foo |			  "Declaration of one variable"
+| foo bar |	  "Declaration of tow variables"
+
+
+
+Messages, Selectors
+-------------------
+A method is called by sending a message to an object,the message receiver; the message returns an object. Messages are modeled from natural languages, with a subject, a verb and complements.
+
+There are three types of messages:
+- unary,
+- binary,
+- keyword.
+
+
+A unary message is one with no arguments:
+
+	Array new.          The message new is sent to the class Array (instance creation).
+	2 squared           The message squared is sent to an integer.
+	-3 abs.							The message absolute is sent to an integer.
+	#(1 2 3) size.			The message size is sent to an array.
+
+
+A binary message takes only one argument and is named by one or more symbol characters:
+
+	3 + 4.                The + message is sent to the object 3 with 4 as the argument.
+	’Hello’, ’ World’.    The string ’Hello’ receives the message , (comma) with ’ World’ as the argument.
+
+
+A keyword message can take one or more arguments that are inserted in the message name:
+
+	’Smalltalk’ allButFirst: 5.  Sends the message allButFirst: to a string, with the argument 5 (this returns the string ’talk’).
+	3 to: 10 by: 2.              Sends to:by: to 3, with arguments 10 and 2 (this returns a collection containing 3, 5, 7 and 9).
+
+
+Messages Precedence
 -------------------
 Unary messages are executed first, then binary messages and finally keyword messages:
- Unary > Binary > Keywords
+
+	Unary > Binary > Keyword
+
+
+Or more precise:
+
+	Parentheses > Unary > Binary > Keyword, and finally from left to right.
+
 
 	2 + 3 squared.
 	2 raisedTo: 3 + 2.
+
 
 Between messages of similar precedence, expressions are executed from left to right:
 	-3 abs negated reciprocal.
@@ -42,6 +111,7 @@ Use parentheses to change order of evaluation
 	(2 raisedTo: 3) + 2.
 
 
+The rule suffers no exception: operators are just binary messages with no notion of mathematical precedence.
 Traditional precedence rules from mathematics do not apply in Pharo.
 Remember that all messages always follow a simple left-to-right precedence rule.
 	2 * 10 + 2.
@@ -149,14 +219,14 @@ Transcript clear
 
 Separator
 ---------
-. is a Separator (not a terminator)
+. is a separator (not a terminator).
 
 
 
 Booleans, Conditions
 --------------------
-true is the unique instance of class True
-false is the unique instance of class False
+true is the unique instance of class True.
+false is the unique instance of class False.
 
 & | not
 or: and: 			"lazy evaluation"
@@ -306,7 +376,7 @@ Teapot configure: { #defaultOutput −> #json. #port −> 8181 . #debugMode −>
 Collections
 ===========
 First element is at index 1.
-Can contain any object.
+Collections can contain any sort of objects.
 Common collections:
 - Array 							(fixed size, direct access)
 - OrderedCollection 	(dynamically growing)
@@ -326,8 +396,10 @@ Common messages working on all collections:
 
 Collections - Arrays
 --------------------
-Arrays start at 1, not 0.
+Collections and thus Arrays start at index 1 (so not 0).
 
+#(7 7 3 13)
+#(7 'test' 3 13)
 
 Array new: 3
 > #(nil nil nil)
@@ -348,13 +420,6 @@ Dynamic Arrays are created at execution time:
 
 
 
-
-
-
-
-
-
-
 Collections - OrderedCollection
 -------------------------------
 OrderedCollection new: 3.
@@ -372,9 +437,6 @@ OrderedCollection new
 
 
 
-Set withAll: #(7 7 3 13)
-> a Set( 7 3 13)
-
 
 
 Collections - Set
@@ -383,6 +445,11 @@ Set newFrom: {1. 2. 3}
 
 {1. 2. 3} as: Set  (check ?)
 {1. 2. 3} asSet
+
+
+Set withAll: #(7 7 3 13)
+> a Set( 7 3 13)
+
 
 
 #(a b c d e f) asSet intersection: #(f d b) asSet
@@ -723,7 +790,18 @@ ZnServer startDefaultOn: 8080
 
 +++++
 
-5 -> 3
+12 2r1100 16rC twelve(decimal,binary,hexadecimal)
+3.14 1.2e3 floating-pointnumbers
+. expressionseparator(period)
+; messagecascade(semicolon)
+
+^ returnaresultfromamethod(caret)
+[ :p | expr] codeblockwithaparameter
+#(abc 123) literalarraywiththesymbol#abc and
+thenumber123
+{foo . 3 + 2} dynamicarraybuiltfrom2expressions
+++++
+
 
 Object subclass: #TBPost
 	instanceVariableNames: 'title text date category visible'
