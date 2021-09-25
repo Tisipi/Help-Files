@@ -610,7 +610,7 @@ The message do: is sent to a collection of objects (Array, Set, OrderedCollectio
 
 
 (1 to: 10) asOrderedCollection collect: [ :i | i squared ].
-(1 to: 10) asOrderedCollection collect: #squared.						"Only allowed for unary messages"
+(1 to: 10) asOrderedCollection collect: #squared.		"Only allowed for unary messages"
 
 
 (1914 to: 1945) select: [:each | Year isLeapYear: each].
@@ -634,9 +634,6 @@ reject:          Reject matching elements.
 detect:          Get first element matching.
 detect:ifNone:   Get first element matching or a default value.
 includes:        Test inclusion.
-
-
-
 
 
 Instances
@@ -672,6 +669,104 @@ Click on the button to go to next lesson:
 				   SimpleButtonMorph allInstances last delete];
 		actionSelector: #value;
 		openCenteredInWorld.
+
+
+Streams
+-------
+Streams iterate over a sequence of elements (e.g. collection, file, network).
+A stream can read from and write to collections, files and network.
+Streams are implemented by a.o. an Array and a position.
+A stream maintains a current position.
+The current position separates past from future.
+A stream can help create collections.
+
+Creating:
+- anObject readStream
+- anObject writeStream
+- Collection streamContents: [:stream | ... ]
+- ReadStream on: aCollection
+- WriteStream on: aCollection
+
+Reading elements:
+ - next
+ - upTo: anObject
+ - upToEnd
+
+Writing elements:
+- nextPut: anElement
+- nextPutAll: aCollection
+
+
+Create and read stream:
+
+	| stream |
+	stream := #($a $b $c $d $e $f) readStream.
+	stream next.
+	 > $a
+	stream upTo: $d.
+	 > #($b $c)
+	stream position.
+	 >4
+	stream upToEnd
+	 > #($e $f)
+
+
+Position in stream:
+
+	stream position.
+	"reset postion to 0"
+	stream reset.
+
+
+Create and write stream:
+
+	stream := (Array new: 6) writeStream.
+	stream nextPut: 1.
+	stream contents.
+	 > #(1)
+	stream nextPutAll: #(4 8 2 6 7).
+	stream contents.
+	 > #(1 4 8 2 6 7)
+
+
+It is not mandatory to reserve elements an array:
+
+	stream := Array new writeStream.
+	stream nextPut: 1.
+	stream nextPutAll: #(2 3 4 5 6).
+
+
+Writing to a File:
+
+	stream := 'hello.txt' asFileReference writeStream.
+	stream nextPutAll: 'Hello Pharo!'.
+	stream close.
+
+
+Reading from a File:
+
+	stream := 'hello.txt' asFileReference readStream.
+	stream next.
+	 > $H
+	stream next.
+	 > $e
+	stream upToEnd.
+	 > 'llo Pharo!'
+	stream close.
+
+
+Create a collection by writing to a stream:
+
+	stream := OrderedCollection new writeStream.
+	stream nextPut: 1.
+	stream contents      "Returns a collection with number 1 inside."
+
+
+Create a collection by writing to a stream (alternative):
+
+	OrderedCollection
+		streamContents: [:stream | stream nextPut: 1]
+
 
 
 Reflection
