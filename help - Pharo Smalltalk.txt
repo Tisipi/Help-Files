@@ -32,6 +32,7 @@ Updated Pharo by Example    https://github.com/SquareBracketAssociates/UpdatedPh
 Screencasts                 https://www.youtube.com/channel/UCp3mNigANqkesFzdm058bvw
 Presentations               http://www.slideshare.net/pharoproject/
 Cheat-sheet                 https://files.pharo.org/media/flyer-cheat-sheet.pdf
+Misc Articles               https://medium.com/concerning-pharo
 
 Notes below are primarily learned from these resources.
 
@@ -144,6 +145,89 @@ Object subclass: #Point
  instanceVariableNames: 'x y'
 
 
+A class is an instance of another class.
+Class X is always the unique instance of the class called "X class"
+The class called "X class" is automatically created; it is a metaclass.
+
+
+
+
+Inheritance
+-----------
+Inheritance allows a class to refine state and behavior.
+A class extends the definition of its superclass.
+A subclass can:
+- add state and behavior;
+- use superclass behavior and state;
+- specialize and redefine superclass behavior.
+A class has 1 and only 1 superclass.
+A class eventually inherits from Object.
+Object is the root of most classes.
+ProtoObject is Object’s superclass (it is for special purposes).
+
+Inheritance of state is static (i.e., during class creation).
+Inheritance of behavior is dynamic (i.e., during execution).
+
+Inheritance of Instance Variables:
+- happens during class definition
+- computed from the class own instance variables and the ones of its superclasses,
+
+Inheritance of Behavior:
+- happens at runtime;
+- the method is searched starting from the receiver’s class then going to the superclass.
+
+
+Inheritance, Lookup, self, super
+--------------------------------
+Sending a message is a two-step process:
+1. Look up the method matching the message.
+2. Execute this method on the receiver.
+
+
+Method lookup:
+- Maps a message to a method.
+- Method lookup starts in the class of the receiver
+  - if the method is defined in the class, it is returned
+  - if the method is not found the search continues in the superclass (it goes up in the hierarchy).
+
+
+self always represents the receiver of the message.
+self in Pharo, this in Java.
+The method lookup starts in the class of the receiver
+
+super refers to the receiver of the message (just like self) !!!
+super changes where the lookup starts.
+The method lookup starts in the superclass of the class containing the super expression !!!
+NOTE this WRONG definition: super looks for the method in the superclass of the receiver’s class.
+
+When no method is found during lookup in the class hierarchy:
+- doesNotUnderstand: is sent to the receiver.
+- The initial message is passed as parameter.
+- When doesNotUnderstand: arrives at Object instance, an error is raised.
+- doesNotUnderstand: is a message and any class can implement the corresponding method;
+	used for automatic delegation, proxy, distribution.
+- When no class redefines doesNotUnderstand: it is executed in Object:
+		- It raises a MessageNotUnderstood exception;
+		- When not handled, this exception opens a debugger.
+
+
+Catching MessageNotUnderstood Error:
+
+	[ self sayHi ]
+		on: MessageNotUnderstood
+		do: [ Transcript show: 'Something wrong here' ]
+
+
+
+Return Values
+-------------
+Use the caret ^ to return a value from a method.
+The caret ^ always terminates the method.
+A method returns self by default (a method with no caret ^ returns self).
+
+A block returns the result of its last expression.
+
+
 
 Variables
 ---------
@@ -189,7 +273,6 @@ Special variables cannot be changed: true, false, nil self, super, thisContext
 	- super refers to the receiver but the method lookup starts in the superclass of the class defining the method.
 
 	- thisContext refers to the current execution stack (advanced)
-
 
 
 System info
@@ -288,17 +371,10 @@ whileFalse:
 
 
 
-Numbers, Floats
----------------
+Numbers, Fractions, Floats
+--------------------------
 1 class.
 1 class maxVal.
-
-1/3.
-1/3 class.
-1/3) asFloat.
-(1/3) + (4/5).
-
-Float pi.
 
 9 squared.
 5 between: 4 and: 6
@@ -309,14 +385,22 @@ Float pi.
 -3 abs.
 3 negated.
 3 reciprocal.
-
-
 5 factorial
-	/ 4 factorial 
-		+1
 
 Integer primesUpTo: 14
 (Integer primesUpTo: 14) sum
+
+
+
+1/3.
+(1/3) class.          "This is a Fraction"
+(1/3) + (4/5).
+
+
+(1/3) asFloat.        "This is a float"
+Float pi.
+355 / 113 closeTo: Float pi
+
 
 
 
@@ -415,6 +499,9 @@ Collections and thus Arrays start at index 1 (so not 0).
 
 #(7 7 3 13).
 #(7 'test' 3 'yes yes').
+#(2 4 4 4 5 5 7 9) stdev.
+#(2 4 4 4 5 5 7 9) average.
+#(2 4 4 4 5 5 7 9) - 1.
 
 Array new: 3.
 > #(nil nil nil)
@@ -598,7 +685,23 @@ Use [ expressions ] when:
 
 Iterators
 ---------
-The message do: is sent to a collection of objects (Array, Set, OrderedCollection), evaluating the block for each element.
+With iterators we tell the collection (Array, Set, OrderedCollection) to iterate on itself.
+As a client we do not have to know the internal logic of the collection.
+
+do:              Iterate and apply the block on each element ('side effect')
+collect:         Iterate and collect results of the block evalutation.
+select:          Select matching elements (filter).
+reject:          Reject matching elements (filter; selects non-matching elements).
+detect:          Get first element matching.
+detect:ifNone:   Get first element matching or a default value.
+includes:        Test inclusion.
+
+
+NOTE: When a block is just one UNARY message, no block is needed. These are equivalent:
+
+	#(16 11 68 19) select: [ :i | i odd ]
+	#(16 11 68 19) select: #odd
+
 
 #(11 38 3 -2 10) collect: [:each | each abs].
 #(11 38 3 -2 10) collect: [:each | each odd].
@@ -610,7 +713,7 @@ The message do: is sent to a collection of objects (Array, Set, OrderedCollectio
 
 
 (1 to: 10) asOrderedCollection collect: [ :i | i squared ].
-(1 to: 10) asOrderedCollection collect: #squared.		"Only allowed for unary messages"
+(1 to: 10) asOrderedCollection collect: #squared.
 
 
 (1914 to: 1945) select: [:each | Year isLeapYear: each].
@@ -628,12 +731,11 @@ The message do: is sent to a collection of objects (Array, Set, OrderedCollectio
 #(a b c d e f) includesAll: #(f d b)
 
 
-collect:         Iterate and collect results.
-select:          Select matching elements.
-reject:          Reject matching elements.
-detect:          Get first element matching.
-detect:ifNone:   Get first element matching or a default value.
-includes:        Test inclusion.
+
+To find the first element that matches, use detect:
+
+	#(16 11 68 19) detect: [ :i | i odd ]
+
 
 
 Instances
@@ -675,10 +777,13 @@ Streams
 -------
 Streams iterate over a sequence of elements (e.g. collection, file, network).
 A stream can read from and write to collections, files and network.
-Streams are implemented by a.o. an Array and a position.
 A stream maintains a current position.
 The current position separates past from future.
+Streams are implemented for example by a.o. an Array and a position.
 A stream can help create collections.
+
+When sending readStream or writeStream to an object, always make sure to close the stream. Even better, use auto-closing messages such as readStreamDo: and writeStreamDo:.
+
 
 Creating:
 - anObject readStream
@@ -811,6 +916,42 @@ yourself is the simplest way to get the new object as a result of the whole expr
 
 
 
+File Manipulation
+-----------------
+
+FileSystem is a low-level protocol for interacting with filesystems. FileSystem instances know two methods that return a Reference object: workingDirectory and root.
+
+FileSystem disk workingDirectory.                  "FileReference on working directory"
+FileSystem disk root.                              "FileReference on root"
+
+FileSystem disk workingDirectory files.
+FileSystem disk workingDirectory directories.
+
+
+FileReference provides methods for navigating the filesystem, performing filesystem operations and opening and closing files. It is the primary mechanism for working with files and directories.
+
+
+FileLocator refers to a file or directory in relation to a well-known location on the filesystem, called an origin. When asked to perform concrete operation, I look up the current location of my origin, and resolve my path against it.
+
+FileLocator documents.
+FileLocator documents pathString.
+
+FileLocator workingDirectory
+FileLocator workingDirectory filesMatching: '*.pdf'
+
+FileLocator desktop.
+FileLocator desktop basename.
+FileLocator home basename.
+
+FileLocator image.
+FileLocator imageDirectory
+
+FileLocator vmDirectory parent pathString
+FileLocator vmBinary asAbsolute pathString
+FileLocator vmBinary pathString
+
+
+
 Thread
 ------
 # java: new Thread (() -> this.doSomething()).start();
@@ -878,10 +1019,11 @@ url := 'http://pharo.org/web/files/pharo.png'.
 
 
 | anEmail md5Email url |.
-anEmail := 'Stephane.Ducasse@inria.fr' asLowercase.
+anEmail := 'Stephane.Ducasse@inria.fr' trimBoth asLowercase.
 md5Email := (MD5 new hashMessage: anEmail) hex.
 url := 'http://www.gravatar.com/avatar/' , md5Email , '.jpg'.
 (ZnEasy getJpeg: url) asMorph openInWorld.
+
 
 
 
@@ -988,7 +1130,11 @@ Convenience method #retrieveContents to download the resource a ZnUrl points to:
 ZnServer, HTTP Server
 ---------------------
 
-ZnServer startDefaultOn: 8080
+(ZnServer startDefaultOn: 8080)
+  onRequestRespond: [ :request |
+    ZnResponse ok: (ZnEntity with: DateAndTime now printString) ]
+
+Go to http://localhost:8080 to see the current date and time
 
 
 
@@ -1091,6 +1237,63 @@ Open a playground:
 
 
 -----
+https://medium.com/concerning-pharo/elegant-pharo-code-bb590f0856d0
+Here is an implementation of a basic grep on a single file.
+
+'^.*.jpg' asRegex in: [ :regex |
+  '/tmp/foo.txt' asFileReference contents lines
+    select: [ :line | regex matches: line ] ]
+
+The pattern String is converted to an object that knows how to match lines. The file is opened by taking its contents and converting it to lines which are selected when they match.
+
+
+Which are the leap years between 1895 and 1915 ? 1896, 1904, 1908 and 1912.
+
+(1914 to: 1945) count: [ :each | Year isLeapYear: each ].
+(1895 to: 1915) select: [ :each | Year isLeapYear: each ].
+
+ Find out which server is serving a web page
+
+As a live environment, Pharo allows you to look at all objects involved in a computation. This includes the HTTP request and response objects. We can access the response object to find out which server is serving a particular web page — by consulting the identification String in the ‘Server’ header. Pharo.org is served by ‘Zinc HTTP Components 1.0'.
+
+(ZnClient new beOneShot; get: 'http://www.pharo.org'; response)
+   headers at: #Server
+
+In this case we are not interested in the result of the GET request itself, but in the response object. We also tell the HTTP client that it will only be used once — so that it can close the connections cleanly.
+
+-----
+
+| sum |
+sum := 0.
+#(21 23 53 66 87) do: [:item | sum := sum + item].
+sum.
+
+| sum |.
+sum := 0.
+numbers := #(21 23 53 66 87).
+i := 1.
+[i <= numbers size]
+	whileTrue: [ 	sum := sum + (numbers at: i). 		i := i + 1 ].
+sum.
+
+
+#(21 23 53 66 87) inject: 0 into: [ :sum :each |  sum + each ].
+
+---
+
+| array |
+array := #(2 4 4 4 5 5 7 9).
+((array - array average) squared sum / (array size - 1)) sqrt
+
+[ :input | ((input - input average) squared sum / (input size - 1))
+sqrt ] value: #(2 4 4 4 5 5 7 9)
+
+#(2 4 4 4 5 5 7 9) in: [ :input |
+((input - input average) squared sum / (input size - 1)) sqrt ]
+
+#(2 4 4 4 5 5 7 9) stdev
+
+-----
 
 
 MOOC
@@ -1100,3 +1303,4 @@ Done:
 
 Todo:
 2.14.3.[Mini-projet] Chap.3 TinyBlog: Extending and Testing the Model
+3.14.2 challenge 2
