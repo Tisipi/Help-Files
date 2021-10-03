@@ -145,10 +145,15 @@ Object subclass: #Point
  instanceVariableNames: 'x y'
 
 
-A class is an instance of another class.
+A class is an object.
+A class is an instance of another class called a metaclass.
+A metaclass is just a class whose instances are classes.
 Class X is always the unique instance of the class called "X class"
-The class called "X class" is automatically created; it is a metaclass.
+The class called "X class" is automatically created; it is the metaclass.
 
+A class can receive messages.
+Method lookup works the same.
+Sending a message to a class is handled similarly as sending a message to an instance, because a class is an instance: it is the instance of a metaclass.
 
 
 
@@ -874,13 +879,14 @@ Create a collection by writing to a stream (alternative):
 
 
 
-Reflection
-----------
+Reflection, Introspection
+-------------------------
 (Number>>#abs) definition.
 (Number>>#abs) comment.
 Number selectors.
 Number selectors select: #isUnary.
 Number respondsTo: #isNumber.
+Number allSubclasses
 
 (True>>#ifTrue:) definition.
 (True>>#ifTrue:) comment.
@@ -888,6 +894,7 @@ True selectors.
 
 Date today inspect.
 Date browse.
+
 
 
 yourself
@@ -1166,6 +1173,33 @@ Example:
 		self assert: post isVisible.
 
 
+Common Errors
+-------------
+- Missing Period; separate instructions with period.
+  Example of symptom: MessageNotUnderstood exception regarding message self
+
+- Missing brackets. Keyword messages are built out of fragments.
+  The message is the longuest sequence of fragments.
+  Use parentheses to delimit multiple keyword messages
+  Symptom: Error: Message includes:ifTrue: does not exist
+           Error: Message assert:includes: does not exist
+
+- Forgotten yourself. Send yourself after a sequence of messages if you want the receiver.
+  Symptom: you get an argument value, instead of the (created) object.
+
+- Uninitialized variable.
+  Symptom: Error: nil does not understand <message:>
+
+- Using class True/False instead of instance true/false.
+  Symptom: Error: Class True does not understand ifFalse:
+
+- Forgetting to return the result.
+  In a method, self is returned by default.
+  Do not forget the caret ^ to return something else.
+
+- Infinite loops in overridden methods.
+  Use super (instead of self) in overridden methods.
+  Symptom: Error: System is frozen
 
 +++++
 
@@ -1299,8 +1333,13 @@ sqrt ] value: #(2 4 4 4 5 5 7 9)
 MOOC
 ----
 Done:
-1, 2
+	1, 2
 
 Todo:
-2.14.3.[Mini-projet] Chap.3 TinyBlog: Extending and Testing the Model
-3.14.2 challenge 2
+	2.14.3.[Mini-projet] Chap.3 TinyBlog: Extending and Testing the Model
+	3.14.2 challenge 2
+	4.7 - 4.14
+	5.1
+
+	6
+	7
