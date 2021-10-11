@@ -923,8 +923,8 @@ yourself is the simplest way to get the new object as a result of the whole expr
 
 
 
-File Manipulation
------------------
+File Manipulation (source image)
+--------------------------------
 
 FileSystem is a low-level protocol for interacting with filesystems. FileSystem instances know two methods that return a Reference object: workingDirectory and root.
 
@@ -956,6 +956,176 @@ FileLocator imageDirectory
 FileLocator vmDirectory parent pathString
 FileLocator vmBinary asAbsolute pathString
 FileLocator vmBinary pathString
+
+
+
+Files (source MOOC)
+-------------------
+Some standard directories:
+
+	FileLocator home.          "User's home directory (~)"
+	FileLocator root.          "File system's root (/)"
+	FileLocator C.             "Windows C:\"
+
+
+Accessing the children of a directory:
+
+	FileLocator home pathString.
+	FileLocator home children.
+
+
+FileLocator home parent
+
+
+
+Exceptions
+----------
+- Can be resumed, restarted, and signaled as new exception.
+- Two important classes:
+	- Error
+	- Notification
+- defaultAction is executed when an exception occurs and it is not trapped.
+
+Types of exceptions:
+- Error:          All errors (subscript, message not understood, division by zero
+- Notification    Non fatal exceptions (deprecation, warning, timedout)
+- Halt:           To stop the execution (and get a debugger).
+- UnhandledError: When an error occurs that is not trapped.
+
+
+Raising an exception:
+- Create an instance of exception
+- Send it message signal or signal:
+
+		anException signal
+		anException signal: aMessage
+
+		Usually classes have a shortcut:
+
+			(Warning new messageText: 'Pay attention') signal
+			Warning signal: 'Pay attention'
+
+
+Handling/catching an exception (= installing an exception handler):
+
+	[ do Something ] on: ExceptionClass do: [ :ex | something ]
+
+	Example, catching an exception:
+
+		[7/0]
+			on: ZeroDivide
+			do: [ :exception | Transcript show: exception description; cr]
+
+
+	Example, catching an exception, with return value 0:
+
+		[7/0]
+			on: ZeroDivide
+			do: [ :exception | Transcript show: exception description; cr. 0]
+
+
+	Note: The message on:do: must be sent to a block. Otherwise, the error would be triggered before on:do: gets a chance to handle it!
+
+
+To test that an Exception occurs SUnit offers:
+- should:raise:
+- shouldnt:raise:
+
+	testNameOfMonth
+		self assert: (Date nameOfMonth: 1) equals: #January.
+		self
+			shouldnt: [ Date nameOfMonth: 2 ]
+			raise: SubscriptOutOfBounds.
+		self
+			should: [ Date nameOfMonth: 13 ]
+			raise: SubscriptOutOfBounds.
+
+
+Exception Sets:
+
+	[ do some work ]
+		on: ZeroDivide, Warning
+		do: [ :ex | what you want ]
+
+	or, alternatively
+
+	| exceptionSets |
+	exceptionSets := ExceptionSet with: ZeroDivide with: Warning.
+	[do some work]
+		on: exceptionSets
+		do: [ :ex | what you want ]
+
+
+
+Exception Helpers:
+
+- Message ensure: ensures that an expression is always executed (even if the program fails before).
+		[ doSomething ] ensure: [ alwaysExecuteThis ]
+
+- Message ifCurtailed: ensures that an expression is executed only if the program fails or returns.
+		[ doSomething ] ifCurtailed: [ onProblem ]
+
+
+Handling Exceptions (detailed info):
+Within an handler [ ... ] on: anExceptionClass do: [ anHandler ], we can:
+- Return an alternative result for the protected block (return:)
+- Retry the protected block or a different block (retryUsing:)
+- Resume the protected block at the failure point (resume:)
+- Pass the caught exception to the enclosing handler (pass)
+- Resignal a different exception (resignalAs:)
+
+
+	[ Notification signal. 'Value from protected block' ]
+		on: Notification
+		do: [ :ex |ex return: 'Value from handler' ]
+
+	> 'Value from handler'
+
+
+	Warning, Notification and subclasses are resumable.
+	Message resume: restores the context and the value returns normally
+	as if the notification did not occur:
+
+	[ Notification signal. 'Value from protected block' ]
+		on: Notification
+		do: [ :ex | ex resume: 'Value from handler' ]
+
+	> 'Value from protected Block'.
+
+
+
+Debugging
+----------
+The system is alive: Communicate with it.
+
+The debugger is your best friend. Don’t be afraid of it.
+- communicate with objects of the context
+- check state
+- send messages to specific objects
+- compile code on the fly
+- continue without restarting from scratch
+
+Some developers develop a lot in the debugger!
+
+
+You can set breakpoints too:
+	Halt now (or self halt)    Pauses the program and invokes the debugger.
+
+Single-Shot Halt:
+	Halt once                   If enabled pauses the program, opens a debugger, disables itself.
+                              To enable it: Halt enableHaltOnce
+
+Halt After n Iterations:
+	Halt onCount: 10
+
+Conditional Halt:
+	Halt if: aSelector          Stops when invoked from a aSelector.
+	Halt if: aBlock             Stops if the block evaluates to true.
+
+	Example, method faces will stop only when invoked from printString:
+		Dice >> faces
+		...
+		Halt if: #printString
 
 
 
@@ -1147,10 +1317,16 @@ Go to http://localhost:8080 to see the current date and time
 
 Unit Testing
 ------------
-Pharo has a powerful framework that supports the creation and deployment of tests.
+SUnit is the Unit Tests framework in Pharo.
+Extremely simple (4 classes).
+Originally developed by Kent Beck.
+
 A test must be implemented:
 - in a method whose name has a test prefix
 - in a class that subclasses TestCase.
+
+Each method starting with "test" is automatically executed.
+The results of the test are collected in a TestResult object.
 
 
 Example:
@@ -1173,8 +1349,63 @@ Example:
 		self assert: post isVisible.
 
 
-Common Errors
--------------
+To run a test manually:
+
+	<TestClass> run: #<testCaseMethod>
+
+	TBPostTest run: #testNewPostVisible
+
+
+Examples of assert/deny statements:
+
+	self assert: mySet size = 1.
+	self assert: mySet size equals: 1.
+	self assert: anInteger positive.
+
+	self assert: rootEntry isDirectory.
+	self deny: rootEntry isFile.
+
+	self assert: anObject equals: anotherObject   "if assert fails the debugger allows to compare the unequal objects."
+	self assert: anObject = anotherObject         "in this case apparently not; #TODO; test"
+	self deny: anObject ~= anotherObject
+
+
+To test that an error must be raised:
+	should:raise:
+
+	self
+		should: [ Date nameOfMonth: 13 ]
+		raise: SubscriptOutOfBounds.
+
+
+To test that an error must not be raised:
+	shouldnt:raise:
+
+	self
+		shouldnt: [ Date nameOfMonth: 2 ]
+		raise: SubscriptOutOfBounds.
+
+
+Test fixture:
+- setUp and tearDown messages.
+- Executed systematically before and after each test run.
+- setUp allows us to specify and reuse the context.
+- tearDown to clean after.
+
+
+- A TestCase represents one test.
+- A TestSuite is a group of tests.
+- A TestResult represents the test execution results.
+- A TestResource is an object which is needed by a number of Test Cases and whose instantiation is so costly in terms of time or resources that it becomes advantageous to only initialize it once for a Test Suite run.
+- A TestResource is invoked once before any test is run.
+
+
+NOTE: There exist libraries for mocking for example BabyMock.
+
+
+
+Common Pharo Coding Errors
+--------------------------
 - Missing Period; separate instructions with period.
   Example of symptom: MessageNotUnderstood exception regarding message self
 
@@ -1200,6 +1431,8 @@ Common Errors
 - Infinite loops in overridden methods.
   Use super (instead of self) in overridden methods.
   Symptom: Error: System is frozen
+
+
 
 +++++
 
