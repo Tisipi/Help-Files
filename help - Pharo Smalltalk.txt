@@ -923,8 +923,8 @@ yourself is the simplest way to get the new object as a result of the whole expr
 
 
 
-File Manipulation (source image)
---------------------------------
+File Manipulation (source Pharo image)
+--------------------------------------
 
 FileSystem is a low-level protocol for interacting with filesystems. FileSystem instances know two methods that return a Reference object: workingDirectory and root.
 
@@ -961,21 +961,68 @@ FileLocator vmBinary pathString
 
 Files (source MOOC)
 -------------------
-Some standard directories:
+Some standard directories (but still FileLocators)
 
 	FileLocator home.          "User's home directory (~)"
 	FileLocator root.          "File system's root (/)"
 	FileLocator C.             "Windows C:\"
 
 
-Accessing the children of a directory:
+Path of a directory (returns a string):
 
 	FileLocator home pathString.
+
+
+Parent of a directory (a FileLocator):
+
+	FileLocator home parent
+
+
+Children of a directory (array of FileLocators):
+
 	FileLocator home children.
 
 
-FileLocator home parent
+Use message / to build a path (pointing to a FileLocator):
 
+	| home |
+	home := FileLocator home.
+	home / 'dev'
+	(home / 'dev' / 'myhero') pathString
+
+	(home / 'dev') parent
+	(home / 'dev') parent pathString
+
+
+Create directory:
+
+	(home / 'dev' / 'tempDir') isDirectory.
+	(home / 'dev' / 'tempDir') ensureCreateDirectory.
+	"(home / 'dev' / 'tempDir') createDirectory."
+
+
+Delete directory:
+
+	(home / 'dev' / 'tempDir') delete.
+
+
+Finding children:
+
+	(home / 'dev' / 'tempDir') allChildrenMatching: '*.txt'.
+
+		is equivalent to
+
+	(home / 'dev' / 'tempDir') allChildren
+		select: [ :each | each basename endsWith: 'txt' ]
+
+
+
+#TODO:
+	createDirectory
+		"Verifies that the directory does not exist and only creates if necessary. Do not remove files contained if they exist.If the parents does not exist return an exception"
+
+	ensureCreateDirectory
+		"Verifies that the directory does not exist and only creates if necessary. Do not remove files contained if they exist.Creates the parents if needed"
 
 
 Exceptions
