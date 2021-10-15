@@ -19,6 +19,7 @@ Learn Pharo
 -----------
 http://pharo.org
 http://pharo.org/documentation
+https://github.com/pharo-open-documentation/pharo-wiki
 https://pharoweekly.wordpress.com/
 
 Learn Pharo in Pharo itself by using professor Stef:
@@ -923,42 +924,6 @@ yourself is the simplest way to get the new object as a result of the whole expr
 
 
 
-File Manipulation (source Pharo image)
---------------------------------------
-
-FileSystem is a low-level protocol for interacting with filesystems. FileSystem instances know two methods that return a Reference object: workingDirectory and root.
-
-FileSystem disk workingDirectory.                  "FileReference on working directory"
-FileSystem disk root.                              "FileReference on root"
-
-FileSystem disk workingDirectory files.
-FileSystem disk workingDirectory directories.
-
-
-FileReference provides methods for navigating the filesystem, performing filesystem operations and opening and closing files. It is the primary mechanism for working with files and directories.
-
-
-FileLocator refers to a file or directory in relation to a well-known location on the filesystem, called an origin. When asked to perform concrete operation, I look up the current location of my origin, and resolve my path against it.
-
-FileLocator documents.
-FileLocator documents pathString.
-
-FileLocator workingDirectory
-FileLocator workingDirectory filesMatching: '*.pdf'
-
-FileLocator desktop.
-FileLocator desktop basename.
-FileLocator home basename.
-
-FileLocator image.
-FileLocator imageDirectory
-
-FileLocator vmDirectory parent pathString
-FileLocator vmBinary asAbsolute pathString
-FileLocator vmBinary pathString
-
-
-
 Files (source MOOC)
 -------------------
 Some standard directories (but still FileLocators)
@@ -1017,12 +982,109 @@ Finding children:
 
 
 
-#TODO:
-	createDirectory
-		"Verifies that the directory does not exist and only creates if necessary. Do not remove files contained if they exist.If the parents does not exist return an exception"
+Collecting information about a file:
 
-	ensureCreateDirectory
-		"Verifies that the directory does not exist and only creates if necessary. Do not remove files contained if they exist.Creates the parents if needed"
+	| myFile |
+	myFile := '/home/eric/dev/tempDir/temp1.txt' asFileReference.
+	myFile exists.
+	myFile isDirectory.
+	myFile isFile.
+	myFile basename.
+	myFile extension.
+	myFile size.
+	myFile parent.
+	myFile parent pathString.
+
+
+Reading from a file:
+
+	myFile := '/home/eric/dev/tempDir/temp1.txt' asFileReference.
+	myFile exists.
+	stream := myFile readStream.
+	stream next.
+	stream next.
+	stream upToEnd.
+	stream close.
+
+
+	myFile := '/home/eric/dev/tempDir/temp1.txt' asFileReference.
+	stream := myFile readStream.
+	stream contents.
+	stream close.
+
+
+Reading from a file (automatically closing file stream):
+
+	myFile := '/home/eric/dev/tempDir/temp1.txt' asFileReference.
+	myFile readStreamDo: [ :stream | stream contents ]
+
+
+Writing to a file:
+
+	myFile := '/home/eric/dev/tempDir/temp1.txt' asFileReference.
+	myFile exists.
+	stream := myFile writeStream.
+	stream nextPutAll: 'Hello Pharo!'.
+	stream close.
+
+
+Writing to a file (automatically closing file stream):
+
+	myFile := '/home/eric/dev/tempDir/temp1.txt' asFileReference.
+	myFile writeStreamDo: [ :stream | stream nextPutAll: 'Hello Pharo World'].
+
+
+
+| file |
+file := '/home/eric/dev/tempDir/temp4.txt' asFileReference.
+(file parent / 'test') writeStream
+
+
+
+
+#TODO: Difference between these two:
+
+		createDirectory
+			"Verifies that the directory does not exist and only creates if necessary. Do not remove files contained if they exist.If the parents does not exist return an exception"
+
+		ensureCreateDirectory
+			"Verifies that the directory does not exist and only creates if necessary. Do not remove files contained if they exist.Creates the parents if needed"
+
+
+
+File Manipulation (source Pharo image)
+--------------------------------------
+
+FileSystem is a low-level protocol for interacting with filesystems. FileSystem instances know two methods that return a Reference object: workingDirectory and root.
+
+FileSystem disk workingDirectory.                  "FileReference on working directory"
+FileSystem disk root.                              "FileReference on root"
+
+FileSystem disk workingDirectory files.
+FileSystem disk workingDirectory directories.
+
+
+FileReference provides methods for navigating the filesystem, performing filesystem operations and opening and closing files. It is the primary mechanism for working with files and directories.
+
+
+FileLocator refers to a file or directory in relation to a well-known location on the filesystem, called an origin. When asked to perform concrete operation, I look up the current location of my origin, and resolve my path against it.
+
+FileLocator documents.
+FileLocator documents pathString.
+
+FileLocator workingDirectory
+FileLocator workingDirectory filesMatching: '*.pdf'
+
+FileLocator desktop.
+FileLocator desktop basename.
+FileLocator home basename.
+
+FileLocator image.
+FileLocator imageDirectory
+
+FileLocator vmDirectory parent pathString
+FileLocator vmBinary asAbsolute pathString
+FileLocator vmBinary pathString
 
 
 Exceptions
