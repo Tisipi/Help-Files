@@ -982,6 +982,14 @@ Measuring Execution Speed:
 	bench by default returns how many times the code can get executed in 5 seconds.
 
 
+Time Profiler is a sampling-based code profiler.
+At regular interval, it take information from the execution stack.
+
+	TimeProfiler
+		spyOn: [ 20 timesRepeat:
+			[ Transcript show: 1000 factorial printString ] ]
+
+
 
 
 
