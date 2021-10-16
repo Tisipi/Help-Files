@@ -882,19 +882,109 @@ Create a collection by writing to a stream (alternative):
 
 Reflection, Introspection
 -------------------------
-(Number>>#abs) definition.
-(Number>>#abs) comment.
-Number selectors.
-Number selectors select: #isUnary.
-Number respondsTo: #isNumber.
-Number allSubclasses
+Introspection is the ability for a program to observe and therefore reason about its own state.
 
-(True>>#ifTrue:) definition.
-(True>>#ifTrue:) comment.
-True selectors.
+Intercession is the ability for a program to modify its own execution state or alter its own interpretation or meaning.
 
-Date today inspect.
-Date browse.
+Accessing and setting object state:
+	Object >> instVarAt: aNumber
+	Object >> instVarAt: aNumber put: anObject
+	Object >> instVarNamed: aString
+	Object >> instVarNamed: aString put: anObject
+
+	This VIOLATES ENCAPSULATION !
+	But this is for tools and during development.
+
+	aPoint := 5@6.
+	aPoint class allInstVarNames.
+	aPoint instVarNamed: 'x'.
+	aPoint instVarNamed: 'y'.
+	aPoint instVarNamed: 'y' put: 66
+
+
+Accessing the class of an object:
+
+	'hello' class
+	(5@6) class
+	Smalltalk class
+	Class class
+	Class class class
+
+
+Querying the System:
+
+	Number allSuperclasses.
+	Number subclasses.
+	Number allSubclasses.
+	Point  allInstVarNames.
+	Point  instVarNames.
+	Number selectors.
+	Number allSelectors.
+	Number selectors select: #isUnary.
+	Number respondsTo: #isNumber.
+	Number linesOfCode.
+
+	(Number>>#abs) definition.
+	(Number>>#abs) comment.
+
+	(True>>#ifTrue:) definition.
+	(True>>#ifTrue:) comment.
+
+	Date today inspect.
+	Date browse.
+
+	SystemNavigation default browseAllImplementorsOf: #,
+	SystemNavigation default browseAllImplementorsOf: #minute
+
+
+	ctrl-b on selected text (class, object, method)			Class browser
+	ctrl-m on selected text (class, object, method) 		Implementors
+	ctrl-n on selected text (class, object, method)			Senders
+
+
+Sending a message by its name:
+
+	Object >> perform: aSymbol
+	Object >> perform: aSymbol with: arg
+
+	Asks an object to execute a message.
+	Normal lookup is performed.
+
+	 5 factorial
+	 5 perform: #factorial
+
+
+Executing a Compiled Method:
+
+	CompiledMethod >> valueWithReceiver:arguments:
+
+	No lookup performed!
+
+	(Integer>>#factorial)
+ 		valueWithReceiver: 5 arguments: #()
+
+
+Benchmarking in Pharo
+---------------------
+Check profiling applications chapter in Deep into Pharo (at http://books.pharo.org).
+
+[ anExpression ] timeToRun
+[ anExpression ] bench
+TimeProfiler spyOn: [ anExpression ]
+
+
+Measuring Execution Speed:
+
+	[ 1000 factorial ] timeToRun
+	[ 1000 factorial ] bench
+	[ 1000 factorial ] benchFor: 2 seconds
+
+	bench by default returns how many times the code can get executed in 5 seconds.
+
+
+
+
+
 
 
 
@@ -1034,12 +1124,13 @@ Writing to a file (automatically closing file stream):
 	myFile writeStreamDo: [ :stream | stream nextPutAll: 'Hello Pharo World'].
 
 
+++++
+	| file |
+	file := '/home/eric/dev/tempDir/temp4.txt' asFileReference.
+	(file parent / 'test') writeStream
 
-| file |
-file := '/home/eric/dev/tempDir/temp4.txt' asFileReference.
-(file parent / 'test') writeStream
-
-
+	file parent parent / 'test'
+++++
 
 
 #TODO: Difference between these two:
