@@ -51,7 +51,7 @@ Assignment
 Variable Declaration
 --------------------
 | foo |			  "Declaration of one variable"
-| foo bar |	  "Declaration of tow variables"
+| foo bar |	  "Declaration of two variables"
 
 
 
@@ -86,8 +86,8 @@ A keyword message can take one or more arguments that are inserted in the messag
 
 
 
-Messages Precedence
--------------------
+Message Precedence
+------------------
 Unary messages are executed first, then binary messages and finally keyword messages:
 
 	Unary > Binary > Keyword
@@ -158,6 +158,16 @@ Sending a message to a class is handled similarly as sending a message to an ins
 
 
 
+Instance Creation
+-----------------
+#TODO: new & initialize.
+
+"self class" always returns the class of the receiver.
+"self class new" returns an instance of the receiver.
+"self class new" returns an instance of a potential subclass in case of inheritance.
+
+
+
 Inheritance
 -----------
 Inheritance allows a class to refine state and behavior.
@@ -181,6 +191,7 @@ Inheritance of Instance Variables:
 Inheritance of Behavior:
 - happens at runtime;
 - the method is searched starting from the receiver’s class then going to the superclass.
+
 
 
 Inheritance, Lookup, self, super
@@ -281,6 +292,7 @@ Special variables cannot be changed: true, false, nil self, super, thisContext
 	- thisContext refers to the current execution stack (advanced)
 
 
+
 System info
 -----------
 SmalltalkImage current aboutThisSystem.
@@ -379,6 +391,8 @@ whileFalse:
 
 Numbers, Fractions, Floats
 --------------------------
+#TODO: =, ~=, ==
+
 1 class.
 1 class maxVal.
 
@@ -406,7 +420,6 @@ Integer primesUpTo: 14
 (1/3) asFloat.        "This is a float"
 Float pi.
 355 / 113 closeTo: Float pi
-
 
 
 
@@ -1642,6 +1655,93 @@ Common Pharo Coding Errors
 
 
 
+Copy - A Template Method
+------------------------
+Copy is a template method.
+Template Method is a very common design pattern.
+A template method specifies a skeleton.
+The skeleton has hooks, i.e., places to be customized.
+Hooks may or may not have a default behavior.
+
+Object Copy:
+
+	Object >> copy
+		"Answer another instance just like the receiver. Subclasses typically override postCopy. Copy is a template method in the sense of Design Patterns. So do not override it. Override postCopy instead. Pay attention that normally you should call postCopy of your superclass too."
+		^ self shallowCopy postCopy
+
+	Object >> shallowCopy
+		"Answer a copy of the receiver which shares the receiver's instance variables. Subclasses that need to specialize the copy should specialize the postCopy hook method."
+		<primitive: 148> ...
+
+
+Default hook:
+
+	Object >> postCopy
+		"I'm a hook method in the sense of Design Patterns TemplateHook/Methods. I'm called by copy. self is a shallow copy, subclasses should copy fields as necessary to complete the full copy"
+		^ self
+
+
+Example of postCopy refinement:
+
+	Collection subclass: #Bag
+		instanceVariableNames: 'contents'
+		classVariableNames: ''
+		package: 'Collections−Unordered'
+
+	Bag >> postCopy
+		super postCopy.
+		contents := contents copy
+
+
+
+printString - Another Template Method
+-------------------------------------
+printString
+	"Answer a String whose characters are a description of the receiver.
+	If you want to print without a character limit, use fullPrintString."
+
+	^ self printStringLimitedTo: 50000
+
+printStringLimitedTo: limit
+	"Answer a String whose characters are a description of the receiver.
+	If you want to print without a character limit, use fullPrintString."
+	^self printStringLimitedTo: limit using: [:s | self printOn: s]
+
+
+Default hook is printOn:
+
+	printOn: aStream
+		"Append to the argument, aStream, a sequence of characters that
+		identifies the receiver."
+
+		| title |
+		title := self class name.
+		aStream
+			nextPutAll: (title first isVowel ifTrue: ['an '] ifFalse: ['a ']);
+			nextPutAll: title
+
+
+	Example print results:
+
+		Node new
+		> a Node
+
+		Apple new
+		> an Apple
+
+
+Example printOn redefinition in class False:
+
+	False >> printOn: aStream
+		aStream nextPutAll: 'false'
+
+	Print result:
+
+		true not
+		> false
+
+
+
 +++++
 
 12 2r1100 16rC twelve(decimal,binary,hexadecimal)
@@ -1770,17 +1870,38 @@ sqrt ] value: #(2 4 4 4 5 5 7 9)
 
 -----
 
+Note this refactoring. Before:
+
+	Node >> averageRatio
+		^ 55
+
+After:
+
+	Node >> averageRatio
+		^ averageRatio ifNil: [ self defaultAverageRatio ]
+
+	Node >> defaultAverageRatio
+		^ 55
+
+	Node >> averageRatio: aNumber
+		averageRatio := aNumber
+
+Subclasses can override the value class.
+Users can set the value.
+
+-----
+
 
 MOOC
 ----
 Done:
-	1, 2
+	1, 2, 3, 4, 5
 
 Todo:
 	2.14.3.[Mini-projet] Chap.3 TinyBlog: Extending and Testing the Model
 	3.14.2 challenge 2
 	4.7 - 4.14
-	5.1
+	5.11, 5.12
 
 	6
 	7
