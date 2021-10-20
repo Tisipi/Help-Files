@@ -586,18 +586,59 @@ me at: 3 put: 'not crazy'.
 Array with: 'I' with: 'am' with: 'crazy'.
 
 
-Literal arrays contain objects that have a textual (literal) representation: numbers, strings, nil, symbols. Literal arrays are created at parse time:
+Types of arrays:
+- Literal array
+- Dynamic arrays
+
+Literal array can only contain objects that have a textual (literal) representation: numbers, strings, nil, symbols, boolean
+Literal arrays are created at parse time.
+Literal arrays are not created using messages.
+
+	Examples:
+
 	#(1 2 3).
+	#(1 2 3 #(4 5 6)).
+	#(45 'milou' 1300 true #tintin)
+
 	#(1 2 3 #(4 5 6)) size.
 	#(1 2 4) isEmpty.
 	#(1 2 3) first.
 	#(1 2 3) last.
 	#(1 2 3) at: 3.
+
+
+Dynamic arrays are created at runtime using messages.
+Literal arrays are created at compile time by the parser when the expression is read and not during the execution.
+Dynamic arrays execute expressions.
+
+	Examples:
+
+	Array with: 45 with: 38 with: 'milou' with: 8
 	#('hello' 'World') at: 2 put: 'Pharo'; yourself.
 
-Dynamic Arrays are created at execution time:
+
+Defining dynamic arrays is tedious:
+	| array |
+	array := (Array new: 2).
+	array at: 1 put: 10 @ 10 ; at: 2 put: (Point x: 100 y: 200). array
+
+{ expression1 . expression2 } is syntactic sugar to create dynamic arrays:
+
 	{ (2+3) . (6*6) }.
 	{ (2+3) . (6*6) . 'hello', ' Stef'}
+
+	{(10@20) . (100@200)}
+	{Point x: 10 y: 20 . Point x: 100 y: 200}
+
+
+{} executes expressions while #() does not!
+() inside a literal array produces a nested literal array!
+
+
+Three ways to create arrays:
+- Literal syntax: #( ) (no message)
+- Using messages: Array new: 3, Array with: 45
+- Syntactic sugar: Dynamic { . . }
 
 
 
