@@ -62,6 +62,10 @@ Variable Declaration
 
 Messages, Selectors
 -------------------
+Selector:  Name of a message.
+Message:   Selecor with parameter values.
+Method:    Code found in class for responding to message.
+
 A method is called by sending a message to an object,the message receiver; the message returns an object. Messages are modeled from natural languages, with a subject, a verb and complements.
 
 There are three types of messages:
@@ -141,6 +145,9 @@ To return the receiver of the message cascade instead, make sure to send yoursel
 
 Classes
 -------
+Object: An instance of some class.
+Class:  Defines behaviour of instances.
+
 Classes are defined by sending the message subclass: to the class Object.
 Class names start with uppercase.
 
@@ -160,6 +167,57 @@ The class called "X class" is automatically created; it is the metaclass.
 A class can receive messages.
 Method lookup works the same.
 Sending a message to a class is handled similarly as sending a message to an instance, because a class is an instance: it is the instance of a metaclass.
+
+
+Variable Class
+--------------
+A variable class defines variable size objects.
+E.g. Arrays are variable size objects:
+
+	Array new: 10
+	> #(nil nil nil nil nil nil nil nil nil nil)
+
+	Array new: 5
+	> #(nil nil nil nil nil)
+
+
+Defined by using message variableSubclass: instead of subclass:
+
+	ArrayedCollection variableSubclass: #Array
+		instanceVariableNames: ''
+		classVariableNames: ''
+		package: 'Collections-Sequenceable-Base'
+
+Instances of a variable class have a variable size (indexed) zone after the named variables.
+Only one indexed instance variable per class (always the last one).
+First element starts at index 1.
+
+Create Variable Class instances with new: aMaxValue
+	myArray := Array new: 4
+
+Access indexed values with at: and at:put:
+	myArray at: 1
+	myArray at: 2 put: 'yes yes'.
+
+size returns the number of indexed instance variables:
+	myArray size
+
+
+Possible variable classes:
+	#variableSubclass:                example: Array
+	#variableByteSubclass:            example: ByteString
+	#variableWordSubclass:            example: Bitmap
+
+Some methods related to these variable classes:
+	isPointers
+	isBits
+	isBytes
+	isFixed
+	isVariable
+
+Please note:
+- Classes defined using subclass: can have any kind of subclasses.
+- Classes defined using variableSubclass: can only have variableSubclass: subclasses
 
 
 
@@ -274,13 +332,21 @@ Shared or global variables start with uppercase (class, class variables).
 	 Transcript show: 'hello world'.
 
 
-
 ClassVariables are shared variables. To share information between all the instances of a class and subclasses use a classVariable:
 
 	Object subclass: #CombinedChar
 	 instanceVariableNames: 'codes combined'
 	 classVariableNames: 'Compositions Decompositions Diacriticals'
 	 package: 'Kernel−BasicObjects'
+
+	A class variable has one value and each instance of the class defining it or of a subclass can access this value.
+	Class and non-class methods can both access a class variable.
+
++++
+A class instance variable is an instance variable of a metaclass. It is not different from other instance variables: a class instance variable specifies one value for each instance (each class). A metaclass has one direct instance: its associated class. A metaclass has several indirect instances: the ones of its subclasses. Each subclass inherits the variable and has its own value for the variable.
+
+add other notes
++++
 
 
 Special variables cannot be changed: true, false, nil self, super, thisContext
@@ -1051,7 +1117,7 @@ Sending a message by its name:
 	 5 perform: #factorial
 
 
-Executing a Compiled Method:
+Executing a compiled method:
 
 	CompiledMethod >> valueWithReceiver:arguments:
 
@@ -1059,6 +1125,13 @@ Executing a Compiled Method:
 
 	(Integer>>#factorial)
  		valueWithReceiver: 5 arguments: #()
+
+
+Inspector on a compiled method:
+
+	(Point >> #degrees) inspect
+	(Number >> #abs) inspect
+
 
 
 Benchmarking in Pharo
@@ -1994,6 +2067,6 @@ Todo:
 	3.14.2 challenge 2
 	4.7 - 4.14
 	5.11, 5.12
+	6.10, 6.11
 
-	6
 	7
