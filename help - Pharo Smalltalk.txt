@@ -221,6 +221,36 @@ Please note:
 
 
 
+Metaclasses
+-----------
+Advanced topic, for details see MOOC or Deep Into Pharo.
+
+Metaclasses in 7 Points:
+1. Every object is an instance of a class.
+2. Every class eventually inherits from Object.
+3. Every class is an instance of a metaclass.
+4. The metaclass hierarchy parallels the class hierarchy.
+5. Every metaclass inherits from Class up to Behavior.
+6. Every metaclass is an instance of Metaclass.
+7. The metaclass of Metaclass is an instance of Metaclass.
+
+Class Object represents the common object behavior:
+- error handling, halting, announcements
+- all classes eventually inherit from Object
+
+Every class is an instance of a metaclass.
+Classes are objects too!
+Every class X is the unique instance of its metaclass, called X class.
+
+Metaclasses are automatically created when creating a class.
+Metaclass is responsible for creating and initializing a metaclass’s sole instance (a Class).
+
+Where is method new defined?
+- When not overridden, sending message new to a class executes method new defined in Behavior.
+- The class Behavior is responsible for creating new instances.
+
+
+
 Instance Creation
 -----------------
 #TODO: new & initialize.
@@ -228,6 +258,21 @@ Instance Creation
 "self class" always returns the class of the receiver.
 "self class new" returns an instance of the receiver.
 "self class new" returns an instance of a potential subclass in case of inheritance.
+
+
+
+Class Initialization
+--------------------
+How and when are classes initialized?
+An object is initialized at creation time.
+Classes are objects too.
+A class is initialized through the class method initialize.
+A class is initialized:
+- either at load time after its methods are loaded
+- or explicitly by the programmer.
+Warning:
+- Don’t write super initialize in a class initialize method !
+- This will initialize superclasses that are already initialized (at load time).
 
 
 
@@ -332,21 +377,33 @@ Shared or global variables start with uppercase (class, class variables).
 	 Transcript show: 'hello world'.
 
 
-ClassVariables are shared variables. To share information between all the instances of a class and subclasses use a classVariable:
+Class variables are shared variables:
+- Shared by the instances of the class and subclasses.
+- Accessible from instance and class methods.
+- Start with an uppercase letter.
+- Class variables are initialized at the class side.
+- Class variables are listed in the classVariableNames section:
 
-	Object subclass: #CombinedChar
-	 instanceVariableNames: 'codes combined'
-	 classVariableNames: 'Compositions Decompositions Diacriticals'
-	 package: 'Kernel−BasicObjects'
+		Object subclass: #CombinedChar
+		 instanceVariableNames: 'codes combined'
+		 classVariableNames: 'Compositions Decompositions Diacriticals'
+		 package: 'Kernel−BasicObjects'
 
-	A class variable has one value and each instance of the class defining it or of a subclass can access this value.
-	Class and non-class methods can both access a class variable.
 
-+++
-A class instance variable is an instance variable of a metaclass. It is not different from other instance variables: a class instance variable specifies one value for each instance (each class). A metaclass has one direct instance: its associated class. A metaclass has several indirect instances: the ones of its subclasses. Each subclass inherits the variable and has its own value for the variable.
+Class instance variables:
+- A class can have instance variables like any object.
+- A class is an instance of a class (its metaclass).
+- Accessible from class methods only.
+- Start with a lowercase letter.
+- A metaclass lists its class instance variables in the instanceVariableNames section:
 
-add other notes
-+++
+		RPackageSet class
+			instanceVariableNames: 'cachePackages'
+
+- A class instance variable specifies one value for each instance (each class).
+- A metaclass has one direct instance: its associated class.
+- A metaclass has several indirect instances: the ones of its subclasses.
+- Each subclass inherits the variable and has its own value for the variable.
 
 
 Special variables cannot be changed: true, false, nil self, super, thisContext
@@ -561,26 +618,6 @@ Using the cascade operator:
 		   cr.
 
 
-
-System info
------------
-SmalltalkImage current aboutThisSystem.
-SystemVersion current.
-
-
-
-Date and Time
--------------
-Date today.
-Date yesterday.
-Date today + 3 weeks.
-Date today < Date yesterday.
-
-Time now.
-DateAndTime today.
-
-
-
 Loops
 -----
 Loops are high-level collection iterators, implemented as regular methods. Some loops:
@@ -707,7 +744,6 @@ Three ways to create arrays:
 - Syntactic sugar: Dynamic { . . }
 
 
-
 Collections - OrderedCollection
 -------------------------------
 - Sequenceable
@@ -734,7 +770,6 @@ OrderedCollection new
 | ordCol |
 ordCol := OrderedCollection new.
 ordCol add: 'Two'; add: 'Three'; addFirst: 'One'.
-
 
 
 Collections - Set
@@ -767,7 +802,6 @@ Set withAll: #(7 7 3 13).
 #(a b c d e f) asSet intersection: #(f d b) asSet
 
 
-
 Collections - Dictionary
 ------------------------
 - Key/values.
@@ -798,7 +832,6 @@ days values.
 days keysDo: [ :key | Transcript show: key; cr ].
 days valuesDo: [ :value | Transcript show: value; cr ]
 days keysAndValuesDo: [ :k :v | Transcript show: k asString, ' is having ', v asString  , ' days' ; cr].
-
 
 
 Collections - Conversion
@@ -1056,7 +1089,7 @@ Accessing and setting object state:
 	Object >> instVarNamed: aString put: anObject
 
 	This VIOLATES ENCAPSULATION !
-	But this is for tools and during development.
+	But this may be useful for tools and during development.
 
 	aPoint := 5@6.
 	aPoint class allInstVarNames.
@@ -1105,6 +1138,13 @@ Querying the System:
 	ctrl-n on selected text (class, object, method)			Senders
 
 
+Getting All Instances of a class:
+	Dictionary allInstances
+
+Getting All Pointers to an Object; returns all objects that store a reference to anObject:
+ anObject pointersTo
+
+
 Sending a message by its name:
 
 	Object >> perform: aSymbol
@@ -1134,6 +1174,72 @@ Inspector on a compiled method:
 
 
 
+Symmetric Pointer Swapping:
+	anObject become: anotherObject
+
+	All the pointers to anObject point now to anotherObject
+	And "the inverse" atomically
+
+		| pt1 pt2 pt3 |
+		pt1 := 0@0.
+		pt2 := pt1.
+		pt3 := 100@100.
+		pt1 become: pt3.
+		self assert: pt2 = (100@100).
+		self assert: pt3 = (0@0).
+		self assert: pt1 = (100@100)
+
+
+Asymmetric Pointer Swapping:
+	anObject becomeForward: anotherObject
+
+	Swap all the pointers from one object to the other (asymmetric)
+
+		| pt1 pt2 pt3 |
+		pt1 := 0@0.
+		pt2 := pt1.
+		pt3 := 100@100.
+		pt1 becomeForward: pt3.
+		self assert: pt1 = (100@100).
+		self assert: pt1 == pt2.
+		self assert: pt2 == pt3.
+
+
+Changing the Class of an Object
+	Class >> adoptInstance: anInstance
+	"Change the class of anInstance to me. Returns the class rather than the modified instance"
+
+	Limited reflective feature.
+	Target class should have the same format as the original one
+
+
+Changing Instance Specific Behavior
+	primitiveChangeClassTo: anObject
+	"Change the class of the receiver into the class of the argument given that the format of the receiver matches the format of the argument's class.""
+
+For example, an Anonymous Classes For Spying (refer MOOC):
+
+	| logClass set |
+	logClass := Behavior new.
+	logClass superclass: Set;
+		setFormat: Set format.
+	logClass compile: 'add: anObject
+		Transcript show: ''adding '', anObject printString; cr.
+		^ super add: anObject'.
+	set := Set new.
+	set add: 1.
+	set class.
+	set primitiveChangeClassTo: logClass basicNew.
+	set add: 2.
+
+
+Conclusion for (advanced) reflection:
+- Reflection is a solid foundation for innovation and language extensibility.
+- Avoid using reflective operations in domain code!
+- Understand when you absolutely need reflection.
+
+
+
 Benchmarking in Pharo
 ---------------------
 Check profiling applications chapter in Deep into Pharo (at http://books.pharo.org).
@@ -1158,11 +1264,6 @@ At regular interval, it take information from the execution stack.
 	TimeProfiler
 		spyOn: [ 20 timesRepeat:
 			[ Transcript show: 1000 factorial printString ] ]
-
-
-
-
-
 
 
 
@@ -1434,7 +1535,6 @@ Exception Sets:
 		do: [ :ex | what you want ]
 
 
-
 Exception Helpers:
 
 - Message ensure: ensures that an expression is always executed (even if the program fails before).
@@ -1512,6 +1612,25 @@ Thread
 # java: new Thread (() -> this.doSomething()).start();
 
 [self doSomething] fork
+
+
+
+System info
+-----------
+SmalltalkImage current aboutThisSystem.
+SystemVersion current.
+
+
+
+Date and Time
+-------------
+Date today.
+Date yesterday.
+Date today + 3 weeks.
+Date today < Date yesterday.
+
+Time now.
+DateAndTime today.
 
 
 
@@ -1906,6 +2025,49 @@ Collection>>detect:ifFound:ifNone: and Collection>>collect: are template methods
 
 
 Collection>>do: and Collection>>add: are abstract methods: in Pharo an abstract method is defined by just sending the message subclassResponsibility to self. These methods have no behavior on their own. If executed, an abstract method throws an exception.
+
+
+
+Singleton Design Pattern
+------------------------
+Enforce that a class has only one instance.
+A solution: Keep the instance in a variable of the class.
+
+Singleton with a class instance variable:
+
+		WebServer class
+			instanceVariableNames: 'uniqueInstance'
+
+		WebServer class >> new
+			self error: 'Can''t create a new instance'
+
+		WebServer class >> uniqueInstance
+			^ uniqueInstance
+				ifNil: [ uniqueInstance := super new ]
+
+		Consequence:
+		- Each subclass has its own value for uniqueInstance.
+		- Each subclass of WebServer has its own singleton.
+
+
+Singleton with a class variable:
+
+		Object subclass: #WebServer
+			instanceVariableNames: ''
+			classVariableNames: 'UniqueInstance'
+			package: 'Web'
+
+		WebServer class >> new
+			self error: 'Can''t create a new instance'
+
+		WebServer class >> uniqueInstance
+			^ UniqueInstance
+				ifNil: [ UniqueInstance := super new ]
+
+		Consequence: Only one singleton for the complete class hierarchy (class variable values are shared)
+
+
+
 
 +++++
 
