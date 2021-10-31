@@ -14,6 +14,15 @@ Pharo has a simple dynamically-typed object model:
 - Blocks are lexical closure a.k.a.anonymous methods.
 - Traits are groups of methods that can be reused orthogonally to inheritance.
 
+Pharo is:
+- Pure & elegant
+- Fun
+- Simple
+- Highly productive
+- Excellent for teaching
+- Empowering
+- Fully accessible
+
 
 Learn Pharo
 -----------
@@ -60,8 +69,8 @@ Variable Declaration
 
 
 
-Messages, Selectors
--------------------
+Messages, Selectors, Methods
+----------------------------
 Selector:  Name of a message.
 Message:   Selecor with parameter values.
 Method:    Code found in class for responding to message.
@@ -92,6 +101,14 @@ A keyword message can take one or more arguments that are inserted in the messag
 
 	’Smalltalk’ allButFirst: 5.  Sends the message allButFirst: to a string, with the argument 5 (this returns the string ’talk’).
 	3 to: 10 by: 2.              Sends to:by: to 3, with arguments 10 and 2 (this returns a collection containing 3, 5, 7 and 9).
+
+
+
+Class methods
+-------------
+Class methods are normal methods.
+Most class methods create new instances.
+	- but they can be used for other things like parsing.
 
 
 
@@ -975,6 +992,33 @@ Click on the button to go to next lesson:
 		openCenteredInWorld.
 
 
+
+yourself
+--------
+|s|
+s := Set new.
+s add: 2.
+s
+
+Equivalent to:
+
+Set new
+  add:2;
+  yourself
+
+
+	Note: The method add: returns its argument, not the receiver.
+	  Set new add: 2
+	  >2
+	We get 2 and not the set!
+
+
+The cascade returns the value of the last message sent to the object.
+When creating a new object, after sending several messages to configure it with a cascade,
+yourself is the simplest way to get the new object as a result of the whole expression.
+
+
+
 Streams
 -------
 Streams iterate over a sequence of elements (e.g. collection, file, network).
@@ -1240,6 +1284,50 @@ Conclusion for (advanced) reflection:
 
 
 
+thisContext
+-----------
+thisContext is a pseudovariable like self and super.
+thisContext refers to the current execution stack (advanced topic).
+Returns an object that represents the method activation.
+You can walk and change the stack.
+
+The pseudo variable thisContext reifies the execution stack.
+- The context that created the current one is accessed by sending message sender to thisContext.
+- To access the method, the message method must be sent.
+
+
+thisContext sender method returns a compiled method. It is used for example in conditional halt implementation:
+
+	Halt class>> if: condition
+		"This is the typical message to use for inserting breakpoints during
+		debugging.
+		The argument can be one of the following:
+			- a block: if the Block has one arg, the calling object is bound to that.
+			- an expression
+	 		- a selector: Halt if found in the call chain"
+
+		LocalRecursionStopper during: [
+			condition isSymbol ifTrue: [
+				^ self haltIfCallChain: thisContext home sender contains: condition ].
+			condition isBlock ifTrue: [
+				^ self haltIfBlock: condition withCallingObjectFrom: thisContext home sender].
+			condition ifTrue: [self signalIn: thisContext home sender ].
+		]
+
+	Halt class>> haltIfCallChain: haltSenderContext contains: aSelector
+		| cntxt |
+		cntxt := haltSenderContext.
+		[ cntxt isNil ] whileFalse: [
+			cntxt selector = aSelector ifTrue: [ self signalIn: haltSenderContext ].
+			cntxt := cntxt sender ]
+
+
+Fetching/setting a temporary variable in the calling method:
+	thisContext sender tempAt: 1
+	thisContext sender tempAt: 1 put: 22
+
+
+
 Benchmarking in Pharo
 ---------------------
 Check profiling applications chapter in Deep into Pharo (at http://books.pharo.org).
@@ -1264,32 +1352,6 @@ At regular interval, it take information from the execution stack.
 	TimeProfiler
 		spyOn: [ 20 timesRepeat:
 			[ Transcript show: 1000 factorial printString ] ]
-
-
-
-yourself
---------
-|s|
-s := Set new.
-s add: 2.
-s
-
-Equivalent to:
-
-Set new
-  add:2;
-  yourself
-
-
-	Note: The method add: returns its argument, not the receiver.
-	  Set new add: 2
-	  >2
-	We get 2 and not the set!
-
-
-The cascade returns the value of the last message sent to the object.
-When creating a new object, after sending several messages to configure it with a cascade,
-yourself is the simplest way to get the new object as a result of the whole expression.
 
 
 
@@ -1455,6 +1517,7 @@ FileLocator imageDirectory
 FileLocator vmDirectory parent pathString
 FileLocator vmBinary asAbsolute pathString
 FileLocator vmBinary pathString
+
 
 
 Exceptions
@@ -1700,6 +1763,231 @@ url := 'http://www.gravatar.com/avatar/' , md5Email , '.jpg'.
 
 
 
+Seaside
+-------
+A Web Framework.
+
+Seaside               http://www.seaside.st
+Seaside book          http://book.seaside.st
+Seaside tutorial      http://www.swa.hpi.uni-potsdam.de/seaside/
+Seaside tutorial      http://seaside.gemtalksystems.com/tutorial.html
+TinyBlog tutorial     https://lms.fun-mooc.fr/asset-v1:inria+41024+session01+type@asset+block/TinyBlog-EN.pdf
+
+Define reusable and stateful components.
+Use a DSL for rendering components into HTML.
+Compose components:
+- Build coarser-grained components by encaspulation.
+- Schedule components with call: and answer: messages.
+A web application is just a root component.
+Debug your application on the fly.
+Use metadata to generate forms.
+
+A component is:
+- an instance of a subclass of WAComponent
+- a reusable and stateful part of a Web page
+- rendered in HTML
+
+A Web application has a root component.
+Register web application component by:
+
+	WAAdmin register: WACounter asApplicationAt: 'counter'.
+
+
+Example WACounter component:
+
+	WAComponent subclass: #WACounter
+		instanceVariableNames: 'count'
+		classVariableNames: ''
+		package: 'Seaside−Examples−Misc'.
+
+	WACounter >> initialize
+		super initialize.
+		count := 0
+
+	WACounter >> increase
+		count := count + 1
+
+	WACounter >> decrease
+		count := count − 1
+
+
+Components are converted into valid HTML by method renderContentOn:
+Seaside sends this message automatically to components.
+renderContentOn: has a parameter named html (WAHtmlCanvas).
+html defines a DSL like API to generate valid HTML.
+
+	WACounter >> renderContentOn: html
+		html heading: count.
+		html anchor callback: [ self increase ]; with: '++'.
+		html space.
+		html anchor callback: [ self decrease ]; with: '−−'
+
+
+A counter dealing with browser back button.
+Declare the component state to be preserved:
+
+	WACounter >> states
+		^ Array with: self
+
+
+Example of callback with a user value
+
+Greeter >> renderContentOn: html
+	html form: [
+		html text: 'Username:'.
+		html textInput
+			callback: [ :value | username := value ].
+		html submitButton
+			callback: [ self inform: 'Hi ', username ];
+			text: 'Say Hello'. ].
+
+
+
+Generating a Title:
+
+	<div id="title">Title</div>
+
+	html div id: 'title'; with: 'Title'
+
+
+Generating a List:
+
+	html div id: 'list';
+		with: [
+			html span class: 'item'; with: 'Item 1'.
+			html span class: 'item'; with: 'Item 2' ]
+
+	<div id="list">
+		<span class="item">Item 1</span>
+		<span class="item">Item 2</span>
+	</div>
+
+
+Generating a List with a Loop:
+
+	html unorderedList
+		id: 'list';
+		with: [
+			1 to: 5: do: [ :i |
+				html listItem
+					class: 'item';
+					with: 'Item ', i asString ]]
+
+	<ul id="list">
+		<li class="item">Item 1</li>
+		<li class="item">Item 2</li>
+		<li class="item">Item 3</li>
+		<li class="item">Item 4</li>
+		<li class="item">Item 5</li>
+	</ul>
+
+
+	html unorderedList
+		id: 'list';
+		with: [
+			1 to: 5 do: [ :i |
+				html listItem
+					class: 'itemodd' if: i odd;
+					class: 'itemeven' if: i even;
+					with: 'Item ', i asString ]]
+
+	<ul id="list">
+		<li class="itemodd" >Item 1</li>
+		<li class="itemeven">Item 2</li>
+		<li class="itemodd" >Item 3</li>
+		<li class="itemeven">Item 4</li>
+		<li class="itemodd" >Item 5</li>
+	</ul>
+
+
+
+Twitter Bootstrap, Rendering Twitter Alerts:
+
+	renderExampleOn: html
+		html heading level: 2; with: 'Examples'.
+		html tbsAlert
+			beSuccess;
+			with: [ html strong: 'Well done!'. html text: ' You successfully read this important alert message.' ].
+		html tbsAlert
+			beInfo;
+			with: [ html strong: 'Heads up!'. html text: ' This alert needs your attention, but it''s not super important.' ].
+
+
+Twitter Bootstrap, Rendering Twitter Buttons:
+
+	renderExampleOn: html
+		html tbsButtonGroup: [
+			html tbsButton beDefault; with: 'Left'.
+			html tbsButton beDefault; with: 'Middle'.
+			html tbsButton beDefault; with: 'Right' ].
+
+
+Implement a Counter using Twitter Bootstrap:
+
+	Subclass WACounter:
+
+		WACounter subclass: #WATwitterCounter
+			instanceVariableNames: ''
+			classVariableNames: ''
+			package: 'Seaside−Examples−Misc'
+
+	Use JQuery and Bootstrap libraries:
+
+		WATwitterCounter class >> initialize
+			| app |
+			app := WAAdmin register: self asApplicationAt: 'twittercounter '.
+			app
+				addLibrary: JQDeploymentLibrary;
+				addLibrary: TBSDevelopmentLibrary
+
+	Redefine renderContentOn:
+
+		WATwitterCounter >> renderContentOn: html
+			html tbsContainer: [
+				html form: [
+					html tbsButtonGroup beSmall; with: [
+						html tbsButton beDefault; callback: [ self increase ]; with: '+'.
+						html tbsButton beDefault; callback: [ self decrease ]; with: '−' ].
+						html space; tbsBadge: self count ] ]
+
+	Apply Your Own CSS Rules:
+
+		WATwitterCounter >> renderContentOn: html
+			html tbsContainer: [
+				html form: [
+					"..."
+					html space.
+					html tbsBadge
+						class: 'odd' if: self count odd;
+						with: self count ] ]
+
+		WATwitterCounter >> style
+			^ '.odd { color: red; }'
+
+
+
+Forms Report Builder
+-------------------
+Magritte:
+- Meta-description framework.
+- Write descriptions for your data.
+- Use these descriptions:
+	- to generate HTML forms, reports, etc.
+	- to validate input/objects/databases.
+
+
+
+Persistence
+-----------
+Voyage framework:
+- API for NoSQL databases
+- MongoTalk, Riak
+
+Garage framework:
+- API for Relational databases
+- Postgres, mysql, sqlite, opendbx
+
+
 
 Teapot, Web Framework
 ---------------------
@@ -1719,7 +2007,6 @@ Example of a simple HTTP Teapot server running on (default) port 1701 with one r
 
 Please note: Normally, the first letter of a method name (and corresponding message) should be lower case, that's the recommended naming scheme.
 In this case, the author of Teapot decided to ignore this scheme to better reflect the HTTP protocol where verbs (such as GET, POST, PUT and DELETE) are typically written uppercased.
-
 
 
 "The Teapot HTTP server"
@@ -1928,6 +2215,57 @@ Common Pharo Coding Errors
 - Infinite loops in overridden methods.
   Use super (instead of self) in overridden methods.
   Symptom: Error: System is frozen
+
+
+
+Misc - Anti If Campaign
+-----------------------
+Branching (with if) based on the type of an object is bad:
+- Adding a new type requires modifying all such code.
+- Methods will become very long and full of details.
+- Send messages instead.
+- A message acts as a better if !
+- Do not return nil. nil forces every client to check for nil.
+- Avoid error codes because they require if in clients.
+- When possible, replace if by polymorphic objects:
+	- when returning a collection, return an empty one.
+	- when returning a number, return 0.
+- For exceptional cases, replace nil by exceptions.
+
+
+Bad:
+
+	Main >> showHappiness: animal
+		animal isDog
+			ifTrue: [ animal shakeTail ].
+		animal isDuck
+			ifTrue: [ animal quack ].
+		animal isCat
+			ifTrue: [ animal miaow].
+
+Good:
+
+	Dog >> showHappiness
+		self shakeTail
+	Duck >> showHappiness
+		self quack
+	Cat >> showHappiness
+		self miaow
+
+
+
+Misc - Avoid Null Checks
+------------------------
+- Avoid null checks, return polymorphic objects instead.
+- Initialize your variables.
+	- By default instance variables are initialized with nil.
+- Use lazy initialization if necessary.
+	-  You can defer initialization of a variable to its first use
+- Sometimes you have to check before doing an action if you can, turn the default case into an object.
+- If you can, create objects representing default behavior.
+- Use NullObject:
+	- A null object proposes a polymorphic API and embeds default actions/values.
+	- Woolf, Bobby (1998). "Null Object". In Pattern Languages of Program Design 3. Addison-Wesley.
 
 
 
@@ -2222,13 +2560,12 @@ Users can set the value.
 MOOC
 ----
 Done:
-	1, 2, 3, 4, 5
+	1, 2, 3, 4, 5, 6
 
 Todo:
+	4.7 - 4.14
+	check pdfs of lesson 1,2 and 3
 	2.14.3.[Mini-projet] Chap.3 TinyBlog: Extending and Testing the Model
 	3.14.2 challenge 2
-	4.7 - 4.14
 	5.11, 5.12
 	6.10, 6.11
-
-	7
