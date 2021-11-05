@@ -1956,6 +1956,8 @@ Components are converted into valid HTML by method renderContentOn:
 Seaside sends this message automatically to components.
 renderContentOn: has a parameter named html (WAHtmlCanvas).
 html defines a DSL like API to generate valid HTML.
+The canvas, html, is responsible for drawing components.
+
 
 	WACounter >> renderContentOn: html
 		html heading: count.
@@ -2104,6 +2106,186 @@ Implement a Counter using Twitter Bootstrap:
 
 		WATwitterCounter >> style
 			^ '.odd { color: red; }'
+
+
+
+Three mechanisms to reuse components:
+- Components aggregation
+- The call: / answer: mechanism
+- Definition of workflows (Task)
+
+
+Component aggregation: How to compose components?
+With a composite:
+- Stores subcomponents in an instance variable (e.g. a collection of counters).
+- Sends render: to subcomponents in its renderContentOn: method.
+- Redefines children to return the collection of its subcomponents.
+
+	Example, aggregating the same subcomponents:
+
+		WAExampleComponent subclass: #WAMultiCounter
+			instanceVariableNames: 'counters'
+			classVariableNames: ''
+			package: 'Seaside−Examples−Misc'.
+
+		WAMultiCounter >> initialize
+			super initialize.
+			counters := (1 to: 5) collect: [ :each | WACounter new ].
+
+		WAMultiCounter >> children
+			^ counters
+
+		WAMultiCounter >> renderContentOn: html
+			counters do: [ :each | html render: each ]
+
+
+	Example, aggregating different subcomponents:
+
+		WAExampleComponent subclass: #MyApp
+			instanceVariableNames: 'children'
+			classVariableNames: ''
+			package: 'Seaside−Examples−Misc'.
+
+		MyApp >> initialize
+			super initialize.
+			children := { Greeter new. WATwitterCounter new. WACounter new }.
+
+		MyApp >> children
+			^ children
+
+		MyApp >> renderContentOn: html
+			children
+				do: [ :each | html render: each ]
+				separatedBy: [ html line ]
+
+
+	Example, rendering only one subcomponent
+
+		MyApp >> initialize
+			"..."
+			selectedChild := children first
+
+		MyApp >> renderContentOn: html
+			self renderMenuOn: html.
+			html render: selectedChild
+
+		MyApp >> renderMenuOn: html
+			html unorderedList: [
+				self children do: [ :child |
+					html listItem: [
+						html anchor
+							class: 'active' if: child = selectedChild;
+							callback: [ selectedChild := child ];
+							with: child className ]]]
+
+
+
+The call: / answer: mechanism:
+- When a component wants to be replaced by another component, it has to send the message call: to itself with the replacement component as parameter.
+- When a component terminates its job, it has to send the message answer: to itself with the returned value as argument.
+
+		WATwitterCounter >> renderContentOn: html
+			"..."
+			html tbsButton
+				beDefault;
+				callback: [ self setCountToUserValue ];
+				with: 'Set Value'
+			"..."
+
+		WATwitterCounter >> setCountToUserValue
+			| webDialog newCounterValueByUser |
+			webDialog := WAInputDialog new
+				addMessage: 'Enter a new value for the counter:';
+				default: '0';
+				label: 'Ok';
+				yourself.
+			newCounterValueByUser := self call: webDialog.      <<<<< The call part
+			count := newCounterValueByUser asNumber
+
+		WAInputDialog:
+		- is a reusable component
+		- it answer: a result
+
+
+		WAInputDialog >> renderContentOn: html
+			html form
+				defaultAction: [ self answer: value ];
+				with: [
+					html div: [
+						html textInput on: #value of: self.
+						html space.
+						html submitButton
+							callback: [ self answer: value ];           <<<<< The answer part
+							text: self label ] ]
+
+
+
+Definition of workflows (Task)
+- By tasks
+- Tasks are simple components:
+	- No UI part (i.e. no renderContentOn:)
+	- Orchestrating several components
+		- implemented by request: and inform:
+		- use call:/answer: behind the scene
+
+
+		Example, a simple web task
+
+			WATask subclass: #Adder
+				instanceVariableNames: ''
+				classVariableNames: ''
+				package: 'SeaExample'
+
+			Adder >> go
+				| value1 value2 |
+				value1 := self request: 'first number'.                <<<<< request
+				value2 := self request: 'second number'.
+				self inform: value1 asNumber + value2 asNumber         <<<<< inform
+
+			WAAdmin register: self asApplicationAt: 'Adder'.
+
+
+		How is request: implemented?
+		request: uses call: / answer: on a WAInputDialog
+
+			WAComponent >> request: aRequestString label: aLabelString default: aDefaultString onAnswer: aBlock
+				"Display an input dialog with the question aRequestString,
+				 the button label aLabelString and the default string aDefaultString.
+				 Passes the answer into aBlock."
+
+				self
+					call: (WAInputDialog new
+						addMessage: aRequestString;
+						default: aDefaultString;
+						label: aLabelString;
+						yourself)
+					onAnswer: aBlock
+
+		How is inform: implemented?
+		inform: uses call: / answer: on a WAFormDialog
+
+			WAComponent >> inform: aString onAnswer: aBlock
+				"Display a dialog with aString to the user until he clicks the ok button.
+				Continue by evaluating aBlock."
+
+				self
+					call: (WAFormDialog new
+						addMessage: aString;
+						yourself)
+					onAnswer: aBlock
+
+
+Summarizing, Seaside provides:
+- Stateful components
+- Components composition (children)
+- Components scheduling using call: / answer:
+- Tasks to encapsulate workflows
+
+Moreover:
+- No manual request parsing
+- No request routing
+- No hardcoding of next page
+- No XML configuration files
 
 
 
@@ -2601,12 +2783,9 @@ Users can set the value.
 
 MOOC
 ----
-Done:
-	1, 2, 3, 4, 5, 6
-
 Todo:
-	seaside: 4.11 - 4.14
-	seaside 5.1
+	4.11 Voyage summary, see todo.
+	4.12 - 4.14
 	check pdfs of lesson 1,2 and 3
 	2.14.3.[Mini-projet] Chap.3 TinyBlog: Extending and Testing the Model
 	3.14.2 challenge 2
