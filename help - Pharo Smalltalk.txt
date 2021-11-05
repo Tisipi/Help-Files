@@ -1697,6 +1697,95 @@ DateAndTime today.
 
 
 
+Unit Testing
+------------
+SUnit is the Unit Tests framework in Pharo.
+Extremely simple (4 classes).
+Originally developed by Kent Beck.
+
+A test must be implemented:
+- in a method whose name has a test prefix
+- in a class that subclasses TestCase.
+
+Each method starting with "test" is automatically executed.
+The results of the test are collected in a TestResult object.
+
+
+Example:
+
+	TestCase subclass: #TBPostTest
+		instanceVariableNames: ''
+		classVariableNames: ''
+		package: 'TinyBlog-Tests'
+
+
+	TBPostTest >> testNewPostVisible
+		| post |
+		post := TBPost title: 'First Post' text: 'My first tiny post inside Pharo' category: 'Pharo'.
+		post beVisible.
+
+		self assert: post title equals: 'First Post'.
+		self assert: post text equals: 'My first tiny post inside Pharo'.
+		self assert: post date equals: Date today.
+		self assert: post category equals: 'Pharo'.
+		self assert: post isVisible.
+
+
+To run a test manually:
+
+	<TestClass> run: #<testCaseMethod>
+
+	TBPostTest run: #testNewPostVisible
+
+
+Examples of assert/deny statements:
+
+	self assert: mySet size = 1.
+	self assert: mySet size equals: 1.
+	self assert: anInteger positive.
+
+	self assert: rootEntry isDirectory.
+	self deny: rootEntry isFile.
+
+	self assert: anObject equals: anotherObject   "if assert fails the debugger allows to compare the unequal objects."
+	self assert: anObject = anotherObject         "in this case apparently not; #TODO; test"
+	self deny: anObject ~= anotherObject
+
+
+To test that an error must be raised:
+	should:raise:
+
+	self
+		should: [ Date nameOfMonth: 13 ]
+		raise: SubscriptOutOfBounds.
+
+
+To test that an error must not be raised:
+	shouldnt:raise:
+
+	self
+		shouldnt: [ Date nameOfMonth: 2 ]
+		raise: SubscriptOutOfBounds.
+
+
+Test fixture:
+- setUp and tearDown messages.
+- Executed systematically before and after each test run.
+- setUp allows us to specify and reuse the context.
+- tearDown to clean after.
+
+
+- A TestCase represents one test.
+- A TestSuite is a group of tests.
+- A TestResult represents the test execution results.
+- A TestResource is an object which is needed by a number of Test Cases and whose instantiation is so costly in terms of time or resources that it becomes advantageous to only initialize it once for a Test Suite run.
+- A TestResource is invoked once before any test is run.
+
+
+NOTE: There exist libraries for mocking for example BabyMock.
+
+
+
 ZnClient, Zinc HTTP Client
 --------------------------
 ZnClient, a full featured HTTP client.
@@ -1760,6 +1849,58 @@ anEmail := 'Stephane.Ducasse@inria.fr' trimBoth asLowercase.
 md5Email := (MD5 new hashMessage: anEmail) hex.
 url := 'http://www.gravatar.com/avatar/' , md5Email , '.jpg'.
 (ZnEasy getJpeg: url) asMorph openInWorld.
+
+
+
+ZnUrl
+-----
+ZnUrl, an implementation of an interpreted URL/URI.
+URLs are used to describe/identify resources,
+Part of Zinc HTTP Components.
+
+
+Creating a ZnUrl:
+
+	'http://www.pharo.org' asUrl.
+	'http://www.pharo.org' asZnUrl.
+
+	ZnUrl fromString: 'http://www.pharo.org'.
+	ZnUrl fromString: 'http://www.google.com/search?q=Smalltalk'.
+	ZnUrl fromString: 'www.example.com' defaultScheme: #http
+
+  ZnUrl new
+    scheme: #https;
+    host: 'encrypted.google.com';
+    addPathSegment: 'search';
+    queryAt: 'q' put: 'Smalltalk';
+    yourself.
+
+
+Manipulating a ZnUrl:
+
+  'http://www.google.com/?one=1&two=2' asZnUrl
+    queryAt: 'three' put: '3';
+    queryRemoveKey: 'one';
+    yourself.
+
+
+Convenience method #retrieveContents to download the resource a ZnUrl points to:
+
+	'http://www.pharo.org' asUrl retrieveContents.
+	'http://www.pharo.org' asZnUrl retrieveContents.
+
+  'http://zn.stfx.eu/zn/numbers.txt' asZnUrl retrieveContents.
+
+
+
+ZnServer, HTTP Server
+---------------------
+
+(ZnServer startDefaultOn: 8080)
+  onRequestRespond: [ :request |
+    ZnResponse ok: (ZnEntity with: DateAndTime now printString) ]
+
+Go to http://localhost:8080 to see the current date and time
 
 
 
@@ -1950,7 +2091,7 @@ Implement a Counter using Twitter Bootstrap:
 						html tbsButton beDefault; callback: [ self decrease ]; with: '−' ].
 						html space; tbsBadge: self count ] ]
 
-	Apply Your Own CSS Rules:
+	Apply your own css rules:
 
 		WATwitterCounter >> renderContentOn: html
 			html tbsContainer: [
@@ -1971,9 +2112,13 @@ Forms Report Builder
 Magritte:
 - Meta-description framework.
 - Write descriptions for your data.
+- Describe once, generate many times.
 - Use these descriptions:
-	- to generate HTML forms, reports, etc.
+	- to generate HTML forms.
+	- to generate reports, etc.
 	- to validate input/objects/databases.
+- No more manually created forms.
+- Seaside component automatic generation.
 
 
 
@@ -1986,6 +2131,44 @@ Voyage framework:
 Garage framework:
 - API for Relational databases
 - Postgres, mysql, sqlite, opendbx
+
+
+Voyage
+------
+Object-Document Mapper for MongoDB
+MongoDB is an open-source NoSQL Object Database
+MongoDB is cocument oriented,
+Voyage Features:
+- Simple
+- Ensure object identity
+- Provide error-handling
+- Implement a connection pool
+
+
+Setting a In Memory connection (for prototyping; later you can easily switch to a MongoDB):
+	| repository |
+	repository := VOMemoryRepository new.
+	repository enableSingleton.
+
+
+Setting a connection for a real MongoDB:
+	| repository |
+	repository := VOMongoRepository
+		host: 'localhost'
+		database: 'demo'.
+	repository enableSingleton.
+
+
+Example:
+#TODO
+Hero-1--*-Power
+
+Object subclass: #Power instanceVariableNames: 'name' classVariableNames: '' package: 'SuperHeroes'. Power>>name ^ name Power>>name: aString name := aString
+
+
+A Voyage developer needs to declare which classes are database documents. This is done by implementing the class method isVoyageRoot to a model class.
+
+ When an object is ready to be saved in a Voyage database, it is necessary to send it the save message.
 
 
 
@@ -2044,147 +2227,6 @@ Tealight
 https://github.com/astares/Tealight
 
 Tealight is a project defining a few extensions to the Teapot framework to make the (tea) time you spend with the Pharo Teapot system even easier.
-
-
-
-ZnUrl
------
-ZnUrl, an implementation of an interpreted URL/URI.
-URLs are used to describe/identify resources,
-Part of Zinc HTTP Components.
-
-
-Creating a ZnUrl:
-
-	'http://www.pharo.org' asUrl.
-	'http://www.pharo.org' asZnUrl.
-
-	ZnUrl fromString: 'http://www.pharo.org'.
-	ZnUrl fromString: 'http://www.google.com/search?q=Smalltalk'.
-	ZnUrl fromString: 'www.example.com' defaultScheme: #http
-
-  ZnUrl new
-    scheme: #https;
-    host: 'encrypted.google.com';
-    addPathSegment: 'search';
-    queryAt: 'q' put: 'Smalltalk';
-    yourself.
-
-
-Manipulating a ZnUrl:
-
-  'http://www.google.com/?one=1&two=2' asZnUrl
-    queryAt: 'three' put: '3';
-    queryRemoveKey: 'one';
-    yourself.
-
-
-Convenience method #retrieveContents to download the resource a ZnUrl points to:
-
-	'http://www.pharo.org' asUrl retrieveContents.
-	'http://www.pharo.org' asZnUrl retrieveContents.
-
-  'http://zn.stfx.eu/zn/numbers.txt' asZnUrl retrieveContents.
-
-
-
-ZnServer, HTTP Server
----------------------
-
-(ZnServer startDefaultOn: 8080)
-  onRequestRespond: [ :request |
-    ZnResponse ok: (ZnEntity with: DateAndTime now printString) ]
-
-Go to http://localhost:8080 to see the current date and time
-
-
-
-Unit Testing
-------------
-SUnit is the Unit Tests framework in Pharo.
-Extremely simple (4 classes).
-Originally developed by Kent Beck.
-
-A test must be implemented:
-- in a method whose name has a test prefix
-- in a class that subclasses TestCase.
-
-Each method starting with "test" is automatically executed.
-The results of the test are collected in a TestResult object.
-
-
-Example:
-
-	TestCase subclass: #TBPostTest
-		instanceVariableNames: ''
-		classVariableNames: ''
-		package: 'TinyBlog-Tests'
-
-
-	TBPostTest >> testNewPostVisible
-		| post |
-		post := TBPost title: 'First Post' text: 'My first tiny post inside Pharo' category: 'Pharo'.
-		post beVisible.
-
-		self assert: post title equals: 'First Post'.
-		self assert: post text equals: 'My first tiny post inside Pharo'.
-		self assert: post date equals: Date today.
-		self assert: post category equals: 'Pharo'.
-		self assert: post isVisible.
-
-
-To run a test manually:
-
-	<TestClass> run: #<testCaseMethod>
-
-	TBPostTest run: #testNewPostVisible
-
-
-Examples of assert/deny statements:
-
-	self assert: mySet size = 1.
-	self assert: mySet size equals: 1.
-	self assert: anInteger positive.
-
-	self assert: rootEntry isDirectory.
-	self deny: rootEntry isFile.
-
-	self assert: anObject equals: anotherObject   "if assert fails the debugger allows to compare the unequal objects."
-	self assert: anObject = anotherObject         "in this case apparently not; #TODO; test"
-	self deny: anObject ~= anotherObject
-
-
-To test that an error must be raised:
-	should:raise:
-
-	self
-		should: [ Date nameOfMonth: 13 ]
-		raise: SubscriptOutOfBounds.
-
-
-To test that an error must not be raised:
-	shouldnt:raise:
-
-	self
-		shouldnt: [ Date nameOfMonth: 2 ]
-		raise: SubscriptOutOfBounds.
-
-
-Test fixture:
-- setUp and tearDown messages.
-- Executed systematically before and after each test run.
-- setUp allows us to specify and reuse the context.
-- tearDown to clean after.
-
-
-- A TestCase represents one test.
-- A TestSuite is a group of tests.
-- A TestResult represents the test execution results.
-- A TestResource is an object which is needed by a number of Test Cases and whose instantiation is so costly in terms of time or resources that it becomes advantageous to only initialize it once for a Test Suite run.
-- A TestResource is invoked once before any test is run.
-
-
-NOTE: There exist libraries for mocking for example BabyMock.
 
 
 
@@ -2563,7 +2605,8 @@ Done:
 	1, 2, 3, 4, 5, 6
 
 Todo:
-	4.7 - 4.14
+	seaside: 4.11 - 4.14
+	seaside 5.1
 	check pdfs of lesson 1,2 and 3
 	2.14.3.[Mini-projet] Chap.3 TinyBlog: Extending and Testing the Model
 	3.14.2 challenge 2
