@@ -38,13 +38,40 @@ Learn Pharo in Pharo itself by using professor Stef:
 
 Massive Open Online Course  http://mooc.pharo.org
 Pharo Books                 http://books.pharo.org
+                            	Pharo by Example
+                            	Entreprise Pharo
+                            	Deep into Pharo
+                            	Dynamic Web with Seaside: http://book.seaside.st
 Updated Pharo by Example    https://github.com/SquareBracketAssociates/UpdatedPharoByExample
+Numerical Methods           https://github.com/SquareBracketAssociates/ NumericalMethods
+
 Screencasts                 https://www.youtube.com/channel/UCp3mNigANqkesFzdm058bvw
 Presentations               http://www.slideshare.net/pharoproject/
 Cheat-sheet                 https://files.pharo.org/media/flyer-cheat-sheet.pdf
 Misc Articles               https://medium.com/concerning-pharo
 
 Notes below are primarily learned from these resources.
+
+
+
+The Complete Syntax on a Postcard
+---------------------------------
+
+exampleWithNumber: x
+	"This method illustrates the complete syntax."
+	<aMethodAnnotation>
+
+	|y|
+	true & false not & (nil isNil)
+		ifFalse: [ self halt ].
+	y := self size + super size.
+	#($a #a 'a' 1 1.0)
+		do: [ :each | Transcript
+			show: (each class name);
+			show: (each printString);
+			show: ' ' ].
+	^x<y
+
 
 
 Comments
@@ -268,9 +295,25 @@ Where is method new defined?
 
 
 
-Instance Creation
------------------
+Object/Instance Creation
+------------------------
 #TODO: new & initialize.
+
+
+Sending the messages new or new: to a class:
+	Counter new.
+	Array new: 6
+
+Sending an instance-creation messages to a class:
+	Counter startingAt: 5.
+
+Sending a message to another object:
+	10@20                     "Creates a point"
+	'Pharo', ' is Cool'       "Creates a string"
+
+
+
+
 
 "self class" always returns the class of the receiver.
 "self class new" returns an instance of the receiver.
@@ -543,6 +586,11 @@ Numbers, Fractions, Floats
 --------------------------
 #TODO: =, ~=, ==
 
+
+Number - Integer
+----------------
+SmallInteger -> Integer -> Number -> Magnitude
+
 1 class.
 1 class maxVal.
 
@@ -561,10 +609,28 @@ Integer primesUpTo: 14
 (Integer primesUpTo: 14) sum
 
 
+Integer expressed in binary:
+	2r100		"4"
+	2r101		"5"
+
+
+Numbers - Fraction
+------------------
+Fraction -> Number -> Magnitude
+
 1/3.
 (1/3) class.          "This is a Fraction"
 (1/3) + (4/5).
 
+
+Number - Real/Float
+-------------------
+SmallFloat64 -> Float -> Number -> Magnitude
+
+1.5
+2.4e1		"24"
+2.4e2		"240"
+2.4e3		"2400"
 
 (1/3) asFloat.        "This is a float"
 Float pi.
@@ -872,6 +938,12 @@ Blocks may contain temporary variables.
 Use blocks with 2 or 3 arguments maximum.
 A block encapsulates only one computation.
 
+Blocks look like functions:
+
+	f := [ :x | x * x + 3 ] 		"f(x) = x*x+3"
+	f value: 2 									"f(2)""
+
+
 [:x | x * x ] value:12.
 [:x :y | x + y] value:3 value:5.
 [GTPlayground open] value.
@@ -907,7 +979,7 @@ Iterators
 With iterators we tell the collection (Array, Set, OrderedCollection) to iterate on itself.
 As a client we do not have to know the internal logic of the collection.
 
-do:              Iterate and apply the block on each element ('side effect')
+do:              Iterate and apply the block on each element ('side effect').
 collect:         Iterate and collect results of the block evalutation.
 select:          Select matching elements (filter).
 reject:          Reject matching elements (filter; selects non-matching elements).
@@ -955,6 +1027,22 @@ To find the first element that matches, use detect:
 
 	#(16 11 68 19) detect: [ :i | i odd ]
 
+To find the first element that matches else return a (default) value, use detect:ifNone:
+
+	#(16 12 68 20) detect: [ :i | i odd ] ifNone: [ 0 ]
+	>0
+
+
+Some Powerful Iterators
+-----------------------
+
+anySatisfy:          Tests if one object is satisfying the criteria.
+allSatisfy:          Tests if all objects are satisfying the criteria.
+reverseDo:           Do an action on the collection starting from the end.
+doWithIndex:         Do an action with the element and its index.
+pairsDo:             Evaluate aBlock with my elements taken two at a time.
+permutationsDo:      xxxx
+
 
 
 Instances
@@ -995,6 +1083,11 @@ Click on the button to go to next lesson:
 
 yourself
 --------
+
+Object >> yourself
+	^ self
+
+
 |s|
 s := Set new.
 s add: 2.
@@ -1016,6 +1109,7 @@ Set new
 The cascade returns the value of the last message sent to the object.
 When creating a new object, after sending several messages to configure it with a cascade,
 yourself is the simplest way to get the new object as a result of the whole expression.
+Using yourself makes sure the code returns the new instance.
 
 
 
@@ -2644,7 +2738,7 @@ Singleton with a class variable:
 MOOC - Todo
 -----------
 4.11 Voyage summary, see #TODO.
-check pdfs of lesson 1,2 and 3
+check pdfs of lesson 3
 
 Exercises/challenges Todo:
 	2.14.3.[Mini-projet] Chap.3 TinyBlog: Extending and Testing the Model
