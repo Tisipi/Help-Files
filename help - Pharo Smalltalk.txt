@@ -30,6 +30,7 @@ http://pharo.org
 http://pharo.org/documentation
 https://github.com/pharo-open-documentation/pharo-wiki
 https://pharoweekly.wordpress.com/
+https://thepharo.dev
 
 Learn Pharo in Pharo itself by using professor Stef:
 	ProfStef go.
@@ -2045,9 +2046,11 @@ A Web Framework.
 
 Seaside               http://www.seaside.st
 Seaside book          http://book.seaside.st
+                      https://github.com/SquareBracketAssociates/DynamicWebDevelopmentWithSeaside
 Seaside tutorial      http://www.swa.hpi.uni-potsdam.de/seaside/
 Seaside tutorial      http://seaside.gemtalksystems.com/tutorial.html
 TinyBlog tutorial     https://lms.fun-mooc.fr/asset-v1:inria+41024+session01+type@asset+block/TinyBlog-EN.pdf
+
 
 Define reusable and stateful components.
 Use a DSL for rendering components into HTML.
@@ -2865,6 +2868,10 @@ Basic grep on a single file:
   '/tmp/foo.txt' asFileReference contents lines
     select: [ :line | regex matches: line ] ]
 
+
+Docker
+------
+https://thepharo.dev/2021/02/24/running-pharo-9-in-docker/
 
 
 MOOC - Todo
