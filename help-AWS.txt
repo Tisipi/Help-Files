@@ -155,17 +155,17 @@ S3 url:	https://bucket-name.s3.region-code.amazonaws.com/key-name
 
 
 0-5 TB objects
-durability		11 nines (99.999999999%)
-Availability	99.99%
-SLA 			99.9%
-default buckets	20
+durability      11 nines (99.999999999%)
+Availability    99.99%
+SLA             99.9%
+default buckets 20
 
-S3 Standard 			99.99%; SLA 99,9%	Frequent access; default; highest cost, no access fee
-S3 Intelligent Tiering 	99.9%; SLA 99%		Frequent and Infrequent access; unkown access patterns
-S3 Standard-IA; 		99.9%; SLA 99%		S3-IA, Infrequent Access; not dayly access; lower fee, but retrieval fee
-S3 One Zone-IA; 		99.5%; SLA 99%		One Zone Infrequent Access; 20% less than S3-IA; non-critical data
-S3 Glacier 				99.99%; SLA 99,9%	Archiving, very infrequent access (2-3 times/year), very cheap, but pay for access; 1 min to 12 h Retrieval time
-S3 Glacier Deep Archive	99.99%				Lowest cost, long-term, retrieval time within 12 h; alternative to magnetic tape libraries
+S3 Standard             99.99%; SLA 99,9%   Frequent access; default; highest cost, no access fee
+S3 Intelligent Tiering  99.9%; SLA 99%      Frequent and Infrequent access; unkown access patterns
+S3 Standard-IA;         99.9%; SLA 99%      S3-IA, Infrequent Access; not dayly access; lower fee, but retrieval fee
+S3 One Zone-IA;         99.5%; SLA 99%      One Zone Infrequent Access; 20% less than S3-IA; non-critical data
+S3 Glacier              99.99%; SLA 99,9%   Archiving, very infrequent access (2-3 times/year), very cheap, but pay for access; 1 min to 12 h Retrieval time
+S3 Glacier Deep Archive 99.99%              Lowest cost, long-term, retrieval time within 12 h; alternative to magnetic tape libraries
 
 Glacier 99.99% or 99.9% ??
 
@@ -211,14 +211,14 @@ When Amazon S3 receives a preflight request from a browser, it evaluates the COR
 
 EBS volume types
 ----------------
-- gp2					General Purpose SSD				boot disks & general applications, < 16000 IOPS/volume, 99.9% durability
-- io1					Provisioned IOPS SSD			OLTP, latency sensitive applications, < 64000 IOPS/volume, 50 IOPS/GB, 99.9% durability
-- io2					Provisioned IOPS SSD			OLTP, latency sensitive applications, < 64000 IOPS/volume, 500 IOPS/GB, 99.999% durability
-														pricing io1 and io2 is the same; io2 is later generation
+- gp2                   General Purpose SSD             boot disks & general applications, < 16000 IOPS/volume, 99.9% durability
+- io1                   Provisioned IOPS SSD            OLTP, latency sensitive applications, < 64000 IOPS/volume, 50 IOPS/GB, 99.9% durability
+- io2                   Provisioned IOPS SSD            OLTP, latency sensitive applications, < 64000 IOPS/volume, 500 IOPS/GB, 99.999% durability
+                                                        pricing io1 and io2 is the same; io2 is later generation
 
-- st1					Throughput Optimized HDD		big data, warehouse, ETL; 500 MB/s/volume; NO boot volume, 99.9% durability
-- sc1					Cold HDD						less frequently accessed data; lowest cost, 50 MB/s/volume; NO boot volume; 99.9% durability
-- magnetic (standard)	Magnetic HDD					obsolete?
+- st1                   Throughput Optimized HDD        big data, warehouse, ETL; 500 MB/s/volume; NO boot volume, 99.9% durability
+- sc1                   Cold HDD                        less frequently accessed data; lowest cost, 50 MB/s/volume; NO boot volume; 99.9% durability
+- magnetic (standard)   Magnetic HDD                    obsolete?
 
 Root volume only on SSD or Magnetic
 
@@ -256,10 +256,10 @@ Read Replicas (for performance):
 - Aurora
 (SQL Server not supported)
 
-Five read replicas			(Backup must be enable to create them)
+Five read replicas          (Backup must be enable to create them)
 	15 aurora read replicas
-Multi-AZ Read replicas 		(cross-AZ)
-Read replica in 2nd region	(cross-region)
+Multi-AZ Read replicas      (cross-AZ)
+Read replica in 2nd region  (cross-region)
 
 
 RDS Backup:
@@ -282,8 +282,8 @@ DynamoDB (no SQL)
 ElastiCache:
 - In-memory cache 
 - Two options:
-	1. Memcached	(simple, object caching, key/value; no persistence/failover, no multi-AZ)
-	2. Redis		(key/value, sorting/ranking; 'complexer' datatypes; persistence/failover, multi-AZ)
+	1. Memcached    (simple, object caching, key/value; no persistence/failover, no multi-AZ)
+	2. Redis        (key/value, sorting/ranking; 'complexer' datatypes; persistence/failover, multi-AZ)
 
 ElastiCache help DB under stress when:
 - read-heavy
@@ -544,8 +544,8 @@ https://www.freecodecamp.org/news/how-i-passed-the-aws-certified-developer-assoc
 freeCodeCamp 	https://www.youtube.com/watch?v=RrKRN9zRBWs	12h
 https://tutorialsdojo.com/aws-certified-developer-associate/
 
-AM Policy Simulator Console		https://policysim.aws.amazon.com/
-Pricing calculator				https://calculator.aws/#/
+AM Policy Simulator Console     https://policysim.aws.amazon.com/
+Pricing calculator              https://calculator.aws/#/
 
 
 Github ACloudGuru	https://github.com/ACloudGuru-Resources/course-aws-certified-developer-associate
@@ -605,13 +605,13 @@ IAM User or Role?
 
 	Code Running on											Suggestion
 	---------------											----------
-	Local development laptop or on-premises server			IAM user
-	Deploying Code to AWS									IAM role
-	EC2	instance											IAM role
-	An IAM user mobile device								IAM role
-	Enterprise environment with external identity provider	IAM role
-	Client-side code uploading data to S3					IAM role
-	Client-side code interacting with DynamoDB				IAM role
+	Local development laptop or on-premises server          IAM user
+	Deploying Code to AWS                                   IAM role
+	EC2	instance                                            IAM role
+	An IAM user mobile device                               IAM role
+	Enterprise environment with external identity provider  IAM role
+	Client-side code uploading data to S3                   IAM role
+	Client-side code interacting with DynamoDB              IAM role
 
 
 ARN formats:
@@ -642,8 +642,8 @@ Management & Governance > Systems Manager > Parameter Store
 
 AWS CLI
 -------
-CLI command reference	https://docs.aws.amazon.com/cli/latest/index.html
-						https://awscli.amazonaws.com/v2/documentation/api/latest/index.html
+CLI command reference   https://docs.aws.amazon.com/cli/latest/index.html
+                        https://awscli.amazonaws.com/v2/documentation/api/latest/index.html
 
 Supported on Linux, Windows and MacOS
 Also available on AMI Linux EC2 instances.
@@ -843,30 +843,30 @@ The general syntax of a Regional endpoint is as follows:
 	https://dynamodb.us-west-2.amazonaws.com
 
 
-Region Name					Region Code
-US East (Ohio)				us-east-2
-US East (N. Virginia)		us-east-1
-US West (N. California)		us-west-1
-US West (Oregon)			us-west-2
-Africa (Cape Town)			af-south-1
-Asia Pacific (Hong Kong)	ap-east-1
-Asia Pacific (Mumbai)		ap-south-1
-Asia Pacific (Osaka)		ap-northeast-3
-Asia Pacific (Seoul)		ap-northeast-2
-Asia Pacific (Singapore)	ap-southeast-1
-Asia Pacific (Sydney)		ap-southeast-2
-Asia Pacific (Tokyo)		ap-northeast-1
-Canada (Central)			ca-central-1
-China (Beijing)				cn-north-1
-China (Ningxia)				cn-northwest-1
-Europe (Frankfurt)			eu-central-1
-Europe (Ireland)			eu-west-1
-Europe (London)				eu-west-2
-Europe (Milan)				eu-south-1
-Europe (Paris)				eu-west-3
-Europe (Stockholm)			eu-north-1
-Middle East (Bahrain)		me-south-1
-South America (São Paulo)	sa-east-1
+Region Name                 Region Code
+US East (Ohio)              us-east-2
+US East (N. Virginia)       us-east-1
+US West (N. California)     us-west-1
+US West (Oregon)            us-west-2
+Africa (Cape Town)          af-south-1
+Asia Pacific (Hong Kong)    ap-east-1
+Asia Pacific (Mumbai)       ap-south-1
+Asia Pacific (Osaka)        ap-northeast-3
+Asia Pacific (Seoul)        ap-northeast-2
+Asia Pacific (Singapore)    ap-southeast-1
+Asia Pacific (Sydney)       ap-southeast-2
+Asia Pacific (Tokyo)        ap-northeast-1
+Canada (Central)            ca-central-1
+China (Beijing)             cn-north-1
+China (Ningxia)             cn-northwest-1
+Europe (Frankfurt)          eu-central-1
+Europe (Ireland)            eu-west-1
+Europe (London)             eu-west-2
+Europe (Milan)              eu-south-1
+Europe (Paris)              eu-west-3
+Europe (Stockholm)          eu-north-1
+Middle East (Bahrain)       me-south-1
+South America (São Paulo)   sa-east-1
 
 
 
@@ -913,8 +913,8 @@ HTTP response codes:
 
 AWS Certified Advanced Networking - Specialty
 =============================================
-Rick Crisci			https://www.linkedin.com/in/rickcrisci/
-AWS landing page	https://aws.amazon.com/certification/certified-advanced-networking-specialty/
+Rick Crisci         https://www.linkedin.com/in/rickcrisci/
+AWS landing page    https://aws.amazon.com/certification/certified-advanced-networking-specialty/
 
 #TODO:
 - IPSpace
@@ -942,7 +942,7 @@ Most are soft limits and can be adjusted.
 VPCs per Region                         5       (100s)       <<<
 Subnets per VPC                         200                  <<<
 IPv4 CIDR blocks per VPC            	5       (50)         <<<
-IPv6 CIDR blocks per VPC	            1                    <<<
+IPv6 CIDR blocks per VPC                1                    <<<
 
 Elastic IP addresses per Region         5                    <<<
 
@@ -950,7 +950,7 @@ Network ACLs per VPC                    200                  <<<
 Rules per network ACL                   20      (40)         <<<
 
 Route tables per VPC                    200
-Routes per route table                  50	    (1,000)		 (non-propagated routes)
+Routes per route table                  50      (1,000)		 (non-propagated routes)
 BGP advertised routes per route table   100     (No)         (propagated routes)
 
 
