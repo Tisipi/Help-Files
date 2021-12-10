@@ -40,42 +40,42 @@ Certified Machine Learning – Specialty
 
 Abbreviations
 -------------
-ACM		AWS Certificate Manager
-ALB		Application Load Balancer
-AMI		Amazon Machine Image
-ARN 	Amazon Resource Name
-AZ 		Availability Zone
+ACM     AWS Certificate Manager
+ALB     Application Load Balancer
+AMI     Amazon Machine Image
+ARN     Amazon Resource Name
+AZ     	Availability Zone
 CORS	Cross Origin Resource Sharing
-CRR 	Cross-region replication
+CRR     Cross-region replication
 DAX		DynamoDB Accelerator
-DC 		dense compute, Redshift
-DS 		dense storage , Redshift
+DC     	dense compute, Redshift
+DS     	dense storage , Redshift
 EBS		Elastic Block Store
 EC2		Elastic Compute Cloud
-ECS 	EC2 Container Service
-ECU 	EC2 compute units
+ECS     EC2 Container Service
+ECU     EC2 compute units
 EFS		Elastic File System
-EKS 	Elastic Container Service for Kubernetes
+EKS     Elastic Container Service for Kubernetes
 EMR		Elastic MapReduce
-HVM 	Hardware Virtual Machine
+HVM     Hardware Virtual Machine
 IAM		AWS Identity and Access Management
 JWT		JSON Web Token
-KMS 	Key Management Service
+KMS     Key Management Service
 OLAP	Online Analytics Processing
 OLTP	Online Transaction Processing
-PV 		Paravirtual
+PV     	Paravirtual
 RDS		Relational Database Service
 S3		Simple Storage Service
-SES 	Simple Email Service
-SNS 	Simple Notification Service
+SES     Simple Email Service
+SNS     Simple Notification Service
 SQS		Simple Queue Service
 SSE		Server Side Encryption (SSE-S3, SSE-KMS, SSE-C)
-STS 	Security Token Service
+STS     Security Token Service
 SWF		Simple WordFlow Service
-VTL 	gateway-virtual tape library
-VTS 	virtual tape shelf
-WAF 	Well-Architected Framework
-WAF 	Web Application Firewall
+VTL     gateway-virtual tape library
+VTS     virtual tape shelf
+WAF     Well-Architected Framework
+WAF     Web Application Firewall
 
 
 Regions
@@ -607,7 +607,7 @@ IAM User or Role?
 	---------------											----------
 	Local development laptop or on-premises server          IAM user
 	Deploying Code to AWS                                   IAM role
-	EC2	instance                                            IAM role
+	EC2 instance                                            IAM role
 	An IAM user mobile device                               IAM role
 	Enterprise environment with external identity provider  IAM role
 	Client-side code uploading data to S3                   IAM role
