@@ -56,7 +56,7 @@ ECS     EC2 Container Service
 ECU     EC2 compute units
 EFS     Elastic File System
 EKS     Elastic Container Service for Kubernetes
-EMR	    Elastic MapReduce
+EMR     Elastic MapReduce
 HVM     Hardware Virtual Machine
 IAM	    AWS Identity and Access Management
 JWT	    JSON Web Token
