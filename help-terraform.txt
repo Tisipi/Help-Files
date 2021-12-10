@@ -1,34 +1,56 @@
 Terraform
 ---------
-
 Terraform language:   https://www.terraform.io/docs/language/index.html
 Terraform providers:  https://www.terraform.io/docs/language/providers/index.html
 Terraform registry:   https://registry.terraform.io/browse/providers
+Terraform AWS git:    https://github.com/hashicorp/terraform-provider-aws
 
-# Install terraform extensions in Visual Studio Code
-Select extensions
-Search for Terraform and install
-Rrigger IntelliSense (code completion/assist) in any editor window by typing Ctrl+Space
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 
 
-# Install terraform (v1.0.11), 10 December 2021
-Via Pamac package manager (Linux Manjaroo)
 
-# Check Terraform version
+Installation
+------------
+Install terraform extensions in Visual Studio Code
+    Select extensions
+    Search for Terraform and install
+Trigger IntelliSense (code completion/assist) in any editor window by typing Ctrl+Space
+
+
+Install terraform (v1.0.11), 10 December 2021
+    Via Pamac package manager (Linux Manjaro)
+
+Check Terraform version:
 terraform -v
 
 
-# Terraform files have extension .tf
+Terraform files
+---------------
+Terraform files have extension .tf
+
 providers.tf
 
 
+Style and Syntax
+----------------
 Style Conventions:
 - Indent two spaces for each nesting level.
 - You can enforce these conventions automatically by running terraform fmt.
 - Automatic source code formatting tools apply these conventions automatically.
 
-
 Terraform language comments:
 - # begins a single-line comment (default comment style)
 - // also begins a single-line comment
 - /* and */ are start and end delimiters for multi-line comments
+
+
+Providers
+---------
+Terraform uses plugins called "providers" to interact with cloud and SaaS providers.
+
+
+
+
+terraform init
+terraform plan
+terraform apply
