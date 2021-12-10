@@ -1,27 +1,28 @@
 Terraform
 ---------
+
 Terraform language:   https://www.terraform.io/docs/language/index.html
 Terraform providers:  https://www.terraform.io/docs/language/providers/index.html
 Terraform registry:   https://registry.terraform.io/browse/providers
+                      https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 Terraform AWS git:    https://github.com/hashicorp/terraform-provider-aws
-
-https://registry.terraform.io/providers/hashicorp/aws/latest/docs
-
 
 
 Installation
 ------------
-Install terraform extensions in Visual Studio Code
-    Select extensions
-    Search for Terraform and install
-Trigger IntelliSense (code completion/assist) in any editor window by typing Ctrl+Space
+Install terraform extensions in Visual Studio Code:
+    Select extensions.
+    Search for Terraform and install.
+    You must perform a terraform init to get up-to-date provider schemas !!
+    (ensure that valid dummy tf file is present, otherwise terraform init fails).
+Trigger IntelliSense (code completion/assist) in any editor window by typing Ctrl+Space.
 
 
-Install terraform (v1.0.11), 10 December 2021
+Install terraform (v1.0.11), 10 December 2021:
     Via Pamac package manager (Linux Manjaro)
 
 Check Terraform version:
-terraform -v
+    terraform -v
 
 
 Terraform files
@@ -48,6 +49,30 @@ Providers
 ---------
 Terraform uses plugins called "providers" to interact with cloud and SaaS providers.
 
+# Configure the AWS Provider
+# Terraform 0.13 and later:
+
+    terraform {
+        required_providers {
+            aws = {
+              source  = "hashicorp/aws"
+              version = "~> 3.0"
+            }
+        }
+    }
+
+    provider "aws" {
+      region = "us-east-1"
+    }
+
+
+# Configure the AWS Provider
+# Terraform 0.12 and earlier:
+
+    provider "aws" {
+      version = "~> 3.0"
+      region  = "us-east-1"
+    }
 
 
 
