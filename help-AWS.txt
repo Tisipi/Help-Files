@@ -603,8 +603,8 @@ IAM User or Role?
 
 	Use roles to make AWS API calls from untrusted machines (short term credentials)
 
-	Code Running on											Suggestion
-	---------------											----------
+	Code Running on                                         Suggestion
+	---------------                                         ----------
 	Local development laptop or on-premises server          IAM user
 	Deploying Code to AWS                                   IAM role
 	EC2 instance                                            IAM role
@@ -939,25 +939,25 @@ AWS VPC Limits 		https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-lim
 Per account.
 Most are soft limits and can be adjusted.
 
-VPCs per Region                         5       (100s)       <<<
-Subnets per VPC                         200                  <<<
-IPv4 CIDR blocks per VPC            	5       (50)         <<<
-IPv6 CIDR blocks per VPC                1                    <<<
+VPCs per Region                         5       (100s)       
+Subnets per VPC                         200                  
+IPv4 CIDR blocks per VPC            	5       (50)         
+IPv6 CIDR blocks per VPC                1                    
 
-Elastic IP addresses per Region         5                    <<<
+Elastic IP addresses per Region         5                    
 
-Network ACLs per VPC                    200                  <<<
-Rules per network ACL                   20      (40)         <<<
+Network ACLs per VPC                    200                  
+Rules per network ACL                   20      (40)         
 
 Route tables per VPC                    200
-Routes per route table                  50      (1,000)		 (non-propagated routes)
+Routes per route table                  50      (1,000)      (non-propagated routes)
 BGP advertised routes per route table   100     (No)         (propagated routes)
 
 
-VPC security groups per Region          2,500                <<<
-Inbound rules per security group        60                   <<<
-Outbound rules per security group       60                   <<<
-Security groups per network interface   5       (16)         <<<
+VPC security groups per Region          2,500                
+Inbound rules per security group        60                   
+Outbound rules per security group       60                   
+Security groups per network interface   5       (16)         
 
 Enforced separately for IPv4 rules and IPv6 rules.
 #(security groups per network interface) * #(rules per security group) <= 1,000. 
