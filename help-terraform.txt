@@ -1,11 +1,22 @@
 Terraform
 ---------
+Terraform is open source, created by HashiCorp.
+Terraform code is written in  HashiCorp Configuration Language (HCL).
 
 Terraform language:   https://www.terraform.io/docs/language/index.html
 Terraform providers:  https://www.terraform.io/docs/language/providers/index.html
 Terraform registry:   https://registry.terraform.io/browse/providers
                       https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 Terraform AWS git:    https://github.com/hashicorp/terraform-provider-aws
+
+
+Book
+----
+Terraform: Up and Running, Second Edition by Yevgeniy Brikman (O’Reilly).
+Copyright 2019, Yevgeniy Brikman, 978-1-492-04690-5.
+
+Errata: https://www.oreilly.com/catalog/errata.csp?isbn=0636920225010
+Code:   https://github.com/brikis98/terraform-up-and-running-code
 
 
 Installation
@@ -25,11 +36,31 @@ Check Terraform version:
     terraform -v
 
 
+Note: When using AWS, create an IAM user with the right (managed) policies attached, for example:
+- AmazonEC2FullAccess
+- AmazonS3FullAccess
+- AmazonDynamoDBFullAccess
+- AmazonRDSFullAccess
+- CloudWatchFullAccess
+- IAMFullAccess
+
+Terraform needs the AWS credentials for the IAM user. Do this
+- by exporting environment variables AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.
+- or by using the credentials in $HOME/.aws/credentials
+
+
+# NOTE: STORING CREDENTIALS IN HOME DIRECTORY IS A SECURITY RISK!
+# DON'T DO THIS!
+
+
+
 Terraform files
 ---------------
 Terraform files have extension .tf
 
+main.tf
 providers.tf
+variables.tf
 
 
 Style and Syntax
@@ -45,9 +76,18 @@ Terraform language comments:
 - /* and */ are start and end delimiters for multi-line comments
 
 
+General syntax for creating a resource in Terraform is:
+
+resource "<PROVIDER>_<TYPE>" "<NAME>" {
+  [CONFIG ...]
+}
+
+
 Providers
 ---------
 Terraform uses plugins called "providers" to interact with cloud and SaaS providers.
+The first step is to configure the provider(s) you want to use.
+For example create a file called main.tf or providers.tf.
 
 # Configure the AWS Provider
 # Terraform 0.13 and later:
@@ -75,7 +115,68 @@ Terraform uses plugins called "providers" to interact with cloud and SaaS provid
     }
 
 
+resource "aws_instance" "app" {
+  instance_type     = "t2.micro"
+  availability_zone = "us-east-1"
+  ami               = "ami-a0cfeed8"
 
+  user_data = <<-EOF
+              #!/bin/bash
+              sudo service apache2 start
+              EOF
+}
+
+
+
+Input variables
+---------------
+Define variables in e.g. variables.tf
+
+  variable "instance_name_tag" {
+    description = "Value of the Name tag for the EC2 instance"
+    type        = string
+    default     = "AppServerInstance"
+  }
+
+Reference variable in resource definition:
+
+  resource "aws_instance" "app_server" {
+    ami           = "ami-08d70e59c07c61a3a"
+    instance_type = "t2.micro"
+    tags = {
+      Name = var.instance_name_tag
+    }
+  }
+
+
+Variables can also be provided via CLI either via tf-file or via variable name
+#TODO examples
+
+Variables can also be locally defined:
+
+  locals {
+    instance_type = "t3.micro"
+  }
+
+And then referenced:
+
+  resource "aws_instance" "my_web1" {
+    ami           = "ami-a0cfeed8"
+    instance_type = local.instance_type
+    tags = {
+      name = "web server"
+      zone = "presentation"
+    }
+  }
+
+
+----
+# Terraform help
+terraform
+terraform -h
+terraform --help
+
+# 
 terraform init
 terraform plan
 terraform apply
