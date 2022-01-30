@@ -53,16 +53,6 @@ Terraform needs the AWS credentials for the IAM user. Do this
 # DON'T DO THIS!
 
 
-
-Terraform files
----------------
-Terraform files have extension .tf
-
-main.tf
-providers.tf
-variables.tf
-
-
 Style and Syntax
 ----------------
 Style Conventions:
@@ -81,6 +71,35 @@ General syntax for creating a resource in Terraform is:
 resource "<PROVIDER>_<TYPE>" "<NAME>" {
   [CONFIG ...]
 }
+
+
+Terraform types
+---------------
+string:          a sequence of Unicode characters, like "hi".
+
+number:          a numeric value, either a whole number like 15 or fractional like 3.14.
+
+bool:            a boolean value, either true or false
+
+list (or tuple): a sequence of values, like ["a", 15, true]. Index of list starts with zero.
+
+map (or object): a group of values identified by named labels.
+                 Key/value pairs can be separated by either a comma or a line break.
+                 The keys in a map must be strings; they can be left unquoted if they are a valid identifier,
+                 but must be quoted otherwise.
+                 
+                 {name = "Marry", age = 34}.
+
+                 {
+                   name = "Peter"
+                   age  = 45
+                 }
+
+null:            a special value that has no type; a value that represents absence or omission.
+
+
+Terraform automatically converts number and bool values to strings when needed. 
+It also converts strings to numbers or bools.
 
 
 Providers
@@ -110,7 +129,7 @@ For example create a file called main.tf or providers.tf.
 # Terraform 0.12 and earlier:
 
     provider "aws" {
-      version = "~> 3.0"
+      version = "~> 3.0"               # will be deprecated
       region  = "us-east-1"
     }
 
@@ -125,7 +144,6 @@ resource "aws_instance" "app" {
               sudo service apache2 start
               EOF
 }
-
 
 
 Input variables
@@ -170,13 +188,131 @@ And then referenced:
   }
 
 
-----
+Output variables
+----------------
+#TODO
+
+
+
+Interpolation
+-------------
+A ${ ... } sequence is an interpolation, which evaluates the expression given between the markers,
+converts the result to a string if necessary, and then inserts it into the final string:
+
+  variable "name" {
+    type        = string
+    default     = "Terraform user"
+  }
+
+  "Hello, ${var.name}!"
+
+produces:
+
+  "Hello, Terraform user!".
+
+
+
+Conditional Expression
+----------------------
+condition ? true_val : false_val
+
+If condition is true then the result is true_val.
+If condition is false then the result is false_val.
+
+For example, if var.a is an empty string then the result is "default-a", but otherwise it is the actual value of var.a.
+
+  var.a != "" ? var.a : "default-a"
+    or
+  var.a = "" ? : "default-a" : var.a
+
+
+
+Loops - with the for_each Meta-Argument
+---------------------------------------
+for_each is a meta-argument. It can be used with modules and with every resource type.
+for_each accepts a map or a set of strings, and creates an instance for each item in that map or set. 
+
+each.key      The map key (or set member) corresponding to this instance.
+each.value    The map value corresponding to this instance. (If a set was provided, this is the same as each.key.)
+
+
+resource "aws_iam_user" "accounts" {
+  for_each = toset( ["Jan", "Thomas", "Pete"] )
+  name     = each.key
+}
+
+
+#TODO dynamic blocks
+
+
+Loops - for Expressions
+-----------------------
+[for s in var.list : upper(s)]
+[for k, v in var.map : length(k) + length(v)]
+[for i, v in var.list : "${i} is ${v}"]
+
+The type of brackets around the for expression decide what type of result it produces.
+- [ and ] produces a list/tuple. 
+- { and } produces a map/object and you must provide two result expressions that are separated by the => symbol
+  
+    {for s in var.list : s => upper(s)}
+
+    { 
+      foo = "FOO"
+      bar = "BAR"
+      bah = "BAH"
+    }
+
+
+Terraform files
+---------------
+Terraform files have extension .tf
+
+main.tf
+providers.tf
+variables.tf
+
+
+
+Terraform commands
+------------------
 # Terraform help
 terraform
 terraform -h
 terraform --help
 
-# 
+# Main Terraform cyclus:
 terraform init
 terraform plan
 terraform apply
+
+
+# Main Terraform commands:
+
+terraform init          Prepare your working directory for other commands
+terraform validate      Check whether the configuration is valid
+terraform plan          Show changes required by the current configuration
+terraform apply         Create or update infrastructure
+terraform destroy       Destroy previously-created infrastructure
+
+
+# Other Terraform commands:
+
+terraform console       Try Terraform expressions at an interactive command prompt
+terraform fmt           Reformat your configuration in the standard style
+terraform force-unlock  Release a stuck lock on the current workspace
+terraform get           Install or upgrade remote Terraform modules
+terraform graph         Generate a Graphviz graph of the steps in an operation
+terraform import        Associate existing infrastructure with a Terraform resource
+terraform login         Obtain and save credentials for a remote host
+terraform logout        Remove locally-stored credentials for a remote host
+terraform output        Show output values from your root module
+terraform providers     Show the providers required for this configuration
+terraform refresh       Update the state to match remote systems
+terraform show          Show the current state or a saved plan
+terraform state         Advanced state management
+terraform taint         Mark a resource instance as not fully functional
+terraform test          Experimental support for module integration testing
+terraform untaint       Remove the 'tainted' state from a resource instance
+terraform version       Show the current Terraform version
+terraform workspace     Workspace management
