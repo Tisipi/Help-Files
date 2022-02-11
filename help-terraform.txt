@@ -49,8 +49,8 @@ Terraform needs the AWS credentials for the IAM user. Do this
 - or by using the credentials in $HOME/.aws/credentials
 
 
-# NOTE: STORING CREDENTIALS IN HOME DIRECTORY IS A SECURITY RISK!
-# DON'T DO THIS!
+NOTE: STORING CREDENTIALS IN HOME DIRECTORY IS A SECURITY RISK!
+DON'T DO THIS!
 
 
 Style and Syntax
@@ -108,8 +108,8 @@ Terraform uses plugins called "providers" to interact with cloud and SaaS provid
 The first step is to configure the provider(s) you want to use.
 For example create a file called main.tf or providers.tf.
 
-# Configure the AWS Provider
-# Terraform 0.13 and later:
+Configure the AWS Provider
+Terraform 0.13 and later:
 
     terraform {
         required_providers {
@@ -125,8 +125,8 @@ For example create a file called main.tf or providers.tf.
     }
 
 
-# Configure the AWS Provider
-# Terraform 0.12 and earlier:
+Configure the AWS Provider
+Terraform 0.12 and earlier:
 
     provider "aws" {
       version = "~> 3.0"               # will be deprecated
@@ -190,7 +190,29 @@ And then referenced:
 
 Output variables
 ----------------
-#TODO
+Output values are similar to return values in programming languages. They can be used on the command line or in other Terraform configurations.
+
+  output "instance_ip_addr" {
+    value       = aws_instance.server.private_ip
+    description = "The private IP address of the main server instance."
+  }
+
+In a parent module, outputs of child modules are available as module.<MODULE NAME>.<OUTPUT NAME>:
+For example, for a child module named web_server:
+
+  module.web_server.instance_ip_addr.
+
+
+Sensitive values can be hidden in terraform plan and terraform apply messages:
+
+  output "db_password" {
+    value       = aws_db_instance.db.password
+    description = "The password for logging in to the database."
+    sensitive   = true
+  }
+
+To print all the output:
+  terraform output
 
 
 
