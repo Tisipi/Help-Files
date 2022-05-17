@@ -1,0 +1,310 @@
+You watched 109h 44m of content.
+
+
+TITLE
+TYPE
+VIEW TIME
+DURATION
+COMPLETION %
+LAST VIEWED
+
+Introduction to the Bash Shell on Mac OS and Linux
+Course
+1h 57m
+3h 29m
+56%
+Aug 12, 2020
+
+Introduction to the Cisco Certified DevNet Professional Certification
+Course
+17m
+17m
+100%
+Aug 11, 2020
+
+Managing Cisco Networks via Infrastructure as Code
+Course
+2h 20m
+2h 20m
+100%
+Aug 11, 2020
+
+Deploying Network Configuration Management and Telemetry Solutions
+Course
+2h 38m
+2h 38m
+100%
+Aug 10, 2020
+
+Puppet Fundamentals for System Administrators
+Course
+49m
+5h 31m
+15%
+Aug 08, 2020
+
+Puppet 4: Language Essentials
+Course
+1h 34m
+3h 49m
+41%
+Aug 08, 2020
+
+Infrastructure from Code: The Big Picture
+Course
+1h 32m
+1h 32m
+100%
+Aug 08, 2020
+
+Automating Networks with Ansible the Right Way
+Course
+3h 42m
+3h 42m
+100%
+Aug 08, 2020
+
+Automating Networks with Python
+Course
+3h 49m
+3h 49m
+100%
+Aug 07, 2020
+
+Managing Cisco Products Using Advanced API-based Methods
+Course
+2h 42m
+2h 42m
+100%
+Jul 27, 2020
+
+Getting Started with ChatOps
+Course
+1h 0m
+1h 0m
+100%
+Jul 26, 2020
+
+Getting Started with Cisco Firepower – Initial Configuration
+Course
+37m
+2h 1m
+31%
+Jul 23, 2020
+
+Getting Started with Kubernetes
+Course
+2h 53m
+2h 53m
+100%
+Jul 10, 2020
+
+Getting Started with Docker
+Course
+1h 7m
+2h 12m
+51%
+Jul 05, 2020
+
+Getting Started with OAuth 2.0
+Course
+1h 5m
+2h 0m
+55%
+Jul 04, 2020
+
+Assessing and Enhancing Applications Using Cisco DevNet Techniques
+Course
+2h 25m
+2h 25m
+100%
+Jul 03, 2020
+
+General Data Protection Regulation (GDPR): Executive Briefing
+Course
+23m
+23m
+100%
+Jul 03, 2020
+
+Getting Started with HashiCorp Vault
+Course
+30m
+3h 7m
+16%
+Jul 03, 2020
+
+The State of GDPR: Common Questions and Misperceptions
+Course
+1h 24m
+1h 24m
+100%
+Jul 01, 2020
+
+OAuth 2.0 and OpenID Connect (In Plain English)
+Course
+1h 0m
+1h 0m
+100%
+Jun 30, 2020
+
+Web Security and the OWASP Top 10: The Big Picture
+Course
+2h 3m
+2h 3m
+100%
+Jun 29, 2020
+
+Continuous Integration
+Course
+55m
+2h 34m
+36%
+Jun 28, 2020
+
+Unit Testing with Python
+Course
+1h 26m
+2h 49m
+51%
+Jun 28, 2020
+
+REST Fundamentals
+Course
+1h 30m
+2h 59m
+51%
+Jun 26, 2020
+
+HTTP Fundamentals
+Course
+2h 50m
+2h 50m
+100%
+Jun 23, 2020
+
+Getting Started with Git
+Course
+2h 2m
+2h 2m
+100%
+Jun 20, 2020
+
+How Git Works
+Course
+1h 48m
+1h 48m
+100%
+Jun 19, 2020
+
+Linux Encryption Security
+Course
+52m
+1h 31m
+58%
+Jun 15, 2020
+
+Understanding Databases with SQLAlchemy: Python Data Playbook
+Course
+43m
+1h 22m
+53%
+Jun 14, 2020
+
+Code School: The Magical Marvels of MongoDB
+Course
+56m
+56m
+100%
+Jun 14, 2020
+
+Clean Coding Principles in C#
+Course
+2h 23m
+3h 19m
+72%
+Jun 13, 2020
+
+Introduction to the Flask Microframework
+Course
+1h 5m
+3h 57m
+28%
+Jun 13, 2020
+
+MySQL Fundamentals
+Course
+1h 52m
+2h 38m
+71%
+Jun 12, 2020
+
+Databases: Executive Briefing
+Course
+48m
+48m
+100%
+Jun 10, 2020
+
+Real World SOA: Analysis and Design
+Course
+1h 49m
+3h 52m
+47%
+Jun 08, 2020
+
+Clean Architecture: Patterns, Practices, and Principles
+Course
+2h 21m
+2h 21m
+100%
+Jun 08, 2020
+
+Designing Event-driven Applications Using Apache Kafka Ecosystem
+Course
+51m
+2h 27m
+35%
+Jun 06, 2020
+
+Designing a Hybrid Cloud in Azure
+Course
+2h 8m
+2h 8m
+100%
+Jun 04, 2020
+
+Microservices: The Big Picture
+Course
+1h 45m
+1h 45m
+100%
+May 30, 2020
+
+Web API Design
+Course
+2h 17m
+2h 17m
+100%
+May 29, 2020
+
+Consuming Cisco APIs and Understanding Application DevOps
+Course
+2h 30m
+2h 30m
+100%
+May 25, 2020
+
+Getting Started with Software Development Using Cisco DevNet
+Course
+2h 36m
+2h 36m
+100%
+May 22, 2020
+
+Introduction to the Cisco Certified DevNet Associate Certification
+Course
+14m
+14m
+100%
+May 21, 2020
