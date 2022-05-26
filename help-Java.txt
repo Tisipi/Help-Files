@@ -1,0 +1,280 @@
+// Java Notes
+
+
+Hello World
+-----------
+public class Hello {
+    public static void main(String[] args) {
+        System.out.println("Hello, world!");
+    }
+}
+
+
+Comments
+--------
+// This is a single line comment
+
+/*
+    This is a multi-line comment
+*/
+
+/**
+    This is a documentation comment
+*/
+
+
+Assignment
+----------
+int myInt = 7;
+
+
+Console Output
+--------------
+// soutv in Intellij
+System.out.println("Hello, world!");
+
+
+Primitive Types
+---------------
+Eight primitive types:
+- byte      8 bits     1 byte
+- short     16 bits    2 bytes
+- int       32 bits    4 bytes  default
+- long      64 bits    8 bytes
+
+- float     32 bits    4 bytes
+- double    64 bits    8 bytes  default
+
+- char      16 bits    2 bytes
+- boolean   1 bit
+
+
+Integer is assumed to be the default number.
+Double is assumed to be the default real number.
+Double is preferred even though it occupies more memory, because:
+- Faster on modern CPUs.
+- Math libraries use doubles too.
+- It is the default.
+
+
+// byte is 8 bits
+// minByte = -128
+// maxByte = 127
+//
+byte minByte = Byte.MIN_VALUE;
+byte maxByte = Byte.MAX_VALUE;
+byte castedByte = (byte) (maxByte / 2);
+
+
+// Short is 16 bits
+// minShort = -32768
+// maxShort = 32767
+//
+short minShort = Short.MIN_VALUE;
+short maxShort = Short.MAX_VALUE;
+byte castedShort = (short) (maxShort / 2);
+
+
+// int is 32 bits
+// Underscores may be used for readability.
+// maxInt = 2_147_483_647
+// minInt = -2_147_483_648
+//
+int minInt = Integer.MIN_VALUE;
+int maxInt = Integer.MAX_VALUE;
+
+
+// long has 64 bits
+// minLong = -9223372036854775808
+// maxLong = 9223372036854775807
+//
+long minLong = Long.MIN_VALUE;
+long maxLong = Long.MAX_VALUE;
+
+long longValue = 1000L;
+
+
+// float is 32 bits; single precision number
+float myFloat = 3.14f / 3;
+
+Float.MIN_VALUE;
+Float.MAX_VALUE;
+
+// double is 64 bits; double precision number
+double myDouble = 3.14d / 3;
+
+Double.MIN_VALUE;
+Double.MAX_VALUE;
+
+
+// Double is the default real number.
+//
+double myUncastedDouble = 3.14;
+float myCastedFloat = (float) 3.14;
+
+
+// Character
+//
+char myChar = 'a';
+
+// Character in Unicode notation
+// https://unicode-table.com/en/
+//
+myChar = '\u00EB';
+myHeart = '\u2665';
+
+
+// boolean
+//
+boolean myTrue = true;
+boolean myFalse = false;
+
+
+Arithmetic Operators
+--------------------
+-   minus
++   plus
+*   multiply
+/   divide
+%   modulus/remainder
+
+
+// Increment by one, n = n + 1
+//
+n++
+
+// Decrement by one, n = n - 1
+//
+n--
+
+
+// Increment, n = n + 2
+//
+n += 2
+
+/ Decrement, n = n - 2
+//
+n -= 2
+
+// Multiplication, n = n * 2
+//
+n *= 2
+
+// Division, n = n / 2
+//
+n /= 2
+
+
+Relational Operators
+--------------------
+==      tests if equal
+!=      tests if NOT equal
+<       less than
+>       greater than
+<=      less than or equal
+>=      greater than or equal
+
+
+Logical Operators
+-----------------
+&&      and
+||      or
+!       not
+
+
+Bitwise Operators
+-----------------
+&       and
+|       or
+^       xor
+
+<<      shift to the left
+>>      shift to the right; extends the sign bit into the top bits
+>>>     shift to the right; fills the top bits with zero
+
+
+Conditional Operator
+--------------------
+Takes three operands: a condition and two values.
+The result is
+- first value if condition is true
+- second value otherwise
+
+time < 12 ? "am" : "pm"
+
+
+
+Control Flow - Branches
+-----------------------
+if (condition) {
+    statement;
+}
+
+
+if (condition) {
+    statement;
+} else {
+    statement;
+}
+
+
+if (condition 1) {
+    statement;
+} else if (condition 2) {
+    statement;
+} else if (condition 3) {
+    statement;
+} else {
+    statement;
+}
+
+
+// Use the switch statement to test an expression against
+// a finite number of constant values.
+//
+// Execution starts at the matching case label.
+// If there is no match, the default label is used (if present).
+//
+// Statements are executed until the break or the end of the switch statement.
+// If you forget the break, execution “falls through” to the next case.
+//
+
+switch (count) {
+    case 0:
+        statement;
+        break;
+    case 1:
+        statement;
+        break;
+    case 2:
+        statement;
+        break;
+    default:
+        statement;
+        break;
+}
+
+
+String
+------
+String myName = "Frenske";
+System.out.println("My name is " + myName);
+
+// String are immutable
+//
+String myName = "Frenske";
+//
+// Below a new string is created; the old one is discarded
+//
+myName = myName + " Yes yes"
+
+
+StringBuffer
+------------
+#todo
+more efficient
+
+
+BigDecimal
+----------
+#todo
