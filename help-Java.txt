@@ -1,5 +1,37 @@
 // Java Notes
 
++++ udemy  +++
+video:      156
+progress:   231 / 453
+
+Todo:
+    Streams
+    Java collections
+    Basic IO
+
+    Databases
+    Regular expressions
+    Concurrency
+    JavaFX
+
++++ protected keyword +++
+
++++++++++++++++
+
+References/sources
+------------------
+Java Programming Masterclass, Tim Buchalka, Udemy
+Core Java SE 9 for the Impatient, 2nd Edition, Cay S. Horstmann, 2017
+Java Network Programming, 4th Edition, Elliotte Rusty Harold, 2013
+Head First Java, 2nd Edition, Kathy Sierra, Bert Bates, 2005
+Head First Java, 3rd Edition, Kathy Sierra, Bert Bates, Trisha Gee, 2022
+
+https://docs.oracle.com/javase/tutorial/
+https://www.w3schools.com/java/default.asp
+
+Search for Java code:       https://www.tabnine.com/code
+Google Java Style Guide:    https://google.github.io/styleguide/javaguide.html
+
 
 Hello World
 -----------
@@ -23,6 +55,19 @@ Comments
 */
 
 
+Naming Conventions
+------------------
+CamelCase for class, interface, method and variable.
+
+Packages        Lowercase; reversed domain name as prefix
+Classes         UpperCamelCase, capitalized; nouns
+Interfaces      UpperCamelCase, capitalized; adjective??
+Methods         lowerCamelCase, first letter lowercase; verbs
+Variables       lowerCamelCase, first letter lowercase; no underscores
+Constants       All UPPERCASE; words separated by underscores
+Type Parameter  Single capital character.
+
+
 Assignment
 ----------
 int myInt = 7;
@@ -30,8 +75,41 @@ int myInt = 7;
 
 Console Output
 --------------
-// soutv in Intellij
+System.out.print("Hello, world!");
 System.out.println("Hello, world!");
+
+\t    tab
+\n    newline
+\r    xxxx
+
+
+Input from Console
+------------------
+Reading input from console:
+
+    import java.util.Scanner;
+
+    Scanner scanner = new Scanner(System.in);
+    String hairColour = scanner.nextLine();
+    int age = scanner.nextInt();
+    scanner.nextLine(); // to handle CR after entering int
+    scanner.close();
+
+Example:
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("What's your age?");
+        int age = scanner.nextInt();
+        scanner.nextLine(); // to handle CR after entering int
+        System.out.println("What colour is your hair?");
+        String hairColour = scanner.nextLine();
+        System.out.println("Your age is " + age);
+        System.out.println("Your hair colour is " + hairColour);
+        scanner.close();
+
+To check whether user input is of correct type, for example int or double:
+        boolean isCorrectValue = scanner.hasNextInt();
+        boolean isCorrectValue == scanner.hasNextDouble()
+
 
 
 Primitive Types
@@ -132,6 +210,8 @@ boolean myFalse = false;
 
 Arithmetic Operators
 --------------------
+https://docs.oracle.com/javase/tutorial/java/nutsandbolts/opsummary.html
+
 -   minus
 +   plus
 *   multiply
@@ -203,7 +283,6 @@ The result is
 time < 12 ? "am" : "pm"
 
 
-
 Control Flow - Branches
 -----------------------
 if (condition) {
@@ -219,13 +298,13 @@ if (condition) {
 
 
 if (condition 1) {
-    statement;
+    statements;
 } else if (condition 2) {
-    statement;
+    statements;
 } else if (condition 3) {
-    statement;
+    statements;
 } else {
-    statement;
+    statements;
 }
 
 
@@ -239,6 +318,8 @@ if (condition 1) {
 // If you forget the break, execution “falls through” to the next case.
 //
 
+// Switch on integer
+//
 switch (count) {
     case 0:
         statement;
@@ -254,11 +335,108 @@ switch (count) {
         break;
 }
 
+// Switch on character
+//
+switch (charValue) {
+    case 'f':
+        statement;
+        break;
+    case 'a':case 'e':case 'o':
+        statement;
+        break;
+    default:
+        statement;
+        break;
+}
+
+
+// Switch on String
+//
+switch (month) {
+    case 'Jan':
+        statement;
+        break;
+    case 'Feb':
+        statement;
+        break;
+    case 'Mar':
+        statement;
+        break;
+    default:
+        statement;
+        break;
+}
+
+
+Control Flow - Loops
+--------------------
+Interrupting loop:
+- break exits loop completely.
+- continue bypasses rest of loop body and continues with next loop iteration.
+
+
+While loop:
+
+    int n = 1;
+    while (n <= numberOfTimes) {
+        System.out.println(n);
+        n++;
+    }
+
+
+doWhile loop:
+
+    int n = 1;
+    do {
+        System.out.println(n);
+        n++;
+    } while (n <= numberOfTimes);
+
+
+
+For loop:
+
+    for (int i = 1; i <= 10; i++ ) {
+        System.out.println(i);
+    }
+
+
+For loop (array with integers):
+
+    int sum = 0;
+    for (int i = 0; i < numbers.length; i++) {
+        sum += numbers[i];
+    }
+
+
+Enhanced for loop (array with integers):
+
+    int sum = 0;
+    for (int n : numbers) {
+        // loop variable traverses the elements of the array
+        sum += n;
+    }
+
+Enhanced for loop (ArrayList of strings):
+
+    for (String car : cars) {
+        System.out.println(car);
+    }
+
+
+Constants
+---------
+static final int MAX_HEIGHT = 8;
+
 
 String
 ------
 String myName = "Frenske";
 System.out.println("My name is " + myName);
+
+String concatenation with +:
+    "Yes" + " yes"
+
 
 // String are immutable
 //
@@ -269,12 +447,5730 @@ String myName = "Frenske";
 myName = myName + " Yes yes"
 
 
+month.toLowerCase();
+month.toUpperCase();
+aString.isEmpty();
+
+firstString.equals(secondString);
+firstString.equalsIgnoreCase(secondString);
+
+String myAge = String.valueOf(88);
+String myAge = "" + 88;
+
+
+Integer
+-------
+Please note:
+- int is a primitive type.
+- Integer is a class.
+
+
+Autoboxing and unboxing:
+
+    Integer myInteger = new Integer(17);        // deprecated, marked for removal
+    Integer myInteger = Integer.valueOf(17);    // unnecessary boxing
+    Integer myInteger = 17;                     // preferred, autoboxing
+
+    int myInt = myInteger.intValue();           // unnecessary unboxing
+    int myInt = myInteger;                      // preferred
+
+
+    ArrayList<Integer> myIntegers = new ArrayList<Integer>();
+    for (int i = 0; i < 5; i++ ) {
+        myIntegers.add(i);
+        // myIntegers.add(Integer.valueOf(i));  << unnecessary boxing
+    }
+
+
+Parsing string as integer:
+
+    String yearAsString = "2017";
+    int yearAsInt = Integer.parseInt(yearAsString);
+
+
+
+Class
+-----
+
+public class BankAccount {
+
+    private String number;
+    private Double balance;
+    private String customerName;
+
+    public BankAccount(String number, Double balance, String customerName) {
+        // main constructor
+        this.number = number;
+        this.balance = balance;
+        this.customerName = customerName;
+    }
+
+    public BankAccount() {
+        // second constructor
+        // invokes main constructor with default values.
+        //
+        // this() must always be the first statement in the constructor.
+        //
+        this("000.000.000", 0.0, "Mr. Dummy Default");
+    }
+
+
+#TODO:
+this() call:
+    to call a constructor from another overloaded constructor
+    must be the first statement in the constructor
+
+super() call
+    calls the parent contructor
+    must be the first statement in the constructor
+    note: is always added by compiler when you don't define one
+
+You can't use both this() and super() in a constructor.
+
+A subclass can use super.method() to call the parent version of an overridden method.
+
+
+Inner Classes
+-------------
+local class
+anonymous class
+
+
+Abstract Classes
+----------------
+public abstract class Account {
+
+    // instance vars
+    ...
+
+    // abstract methods
+    //
+    public abstract void method1();
+    public abstract boolean method2();
+}
+
+public class WindowsAccount extends Account {
+
+    // instance vars
+    ...
+
+    // concrete methods
+    //
+    @Override
+    public void method1() {
+        actual implementation
+    }
+
+    @Override
+    public void method2() {
+        actual implementation
+    }
+
+
+
+Method Overloading
+------------------
+To reuse a method name with different parameters.
+Two or more methods in a class with the same name but different parameters.
+Return type may or may not be different.
+
+So, methods are overloaded if and only if:
+- methods have the same name
+- methods must have different parameters
+
+If overloaded, then they may or may not
+- have different return types
+- have different access modifiers (private, protected, public)
+- throw different checked or unchecked exceptions.
+
+#TODO
+Example different argument type: println()
+Example different number of arguments
+Example different return type
+
+
+Nethod Overriding
+-----------------
+Overrides/extends behaviour of the parent class in the child class.
+Method with same signature (name & arguments) in child clas that also exists in parent class.
+
+It is recommended to put @Override above method.
+
+Method overriding rules:
+- same name & arguments
+- return type can be a subclass of the parent return type
+- no lower access modifier allowed; higher is allowed.
+- must not throw a new or broader checked exception.
+
+- constructors and private methods cannot be overridden.
+- final methods cannot be overriden
+
+
+Interfaces
+----------
+public interface MyInterface {
+    boolean myMethod1();
+    int myMethod2();
+}
+
+Note:
+- Interface methods are automatically public; no public keyword needed here.
+- Interface variables/constants are public static final.
+
+
+public class MyClass implements MyInterface {
+    private int i;
+
+    public boolean myMethod1() {
+        ...
+    }
+
+    public int myMethod2() {
+        ...
+    }
+}
+
+
+Generic Classes
+---------------
+A generic class is a class with one or more type parameters.
+
+    public class Team <T> {
+        private String name;
+        private ArrayList<T> members = new ArrayList<>();
+
+        public void addPlayer(T player) {
+            members.add(player);
+        }
+    }
+
+You instantiate the generic class by substituting types for the type variables:
+
+    ArrayList<String> cars = new ArrayList<>();
+
+    Team<SoccerPlayer> soccerTeam = new Team<>("EmVeeVeeKe");
+    SoccerPLayer sjeng = new SoccerPlayer("Sjeng")
+    soccerTeam.addPlayer(sjeng);
+
+
+
+Bounded type parameter:
+
+    public class Team <T extends Player> {
+    }
+
+    public class Team <T extends Player & Coach & Manager> {
+        // Note: Can only be one class, but multiple interfaces.
+    }
+
+    public class Team <T extends Player> implements Comparable<Team<T>> {
+    }
+
+
+Access Modifiers
+----------------
+public:
+    Visible to all classes.
+    Applicable on class, interface and member level.
+    Keyword.
+
+package-private:
+    Only visible inside own package.
+    Applicable on class, interface and member level.
+    Not a keyword (it is the default when you omit the public keyword).
+
+private:
+    Only visible within the class (including subclasses).
+    Applicable only on MEMBER level.
+    Keyword.
+
+protected:
+    Only visible inside own package like package-private
+    But, also visible in subclasses if they are in another packages!
+    Applicable on member level.
+    Keyword.
+
+
+
+static and final keywords
+-------------------------
+#TODO
+
+final:
+    Denotes a value that cannot be changed once it has been assigned.
+    Once a value has been assigned, it is final and can never be changed.
+    You can defer the initialization of a final variable.
+    It must be initialized exactly once before it is used.
+
+    final class cannot be extended
+    final method cannot be overridden/refined
+
+static:
+    Static methods are not invoked on objects.
+    You can declare a constant outside a method, using the static keyword.
+
+
+Static Initialization Block
+---------------------------
+#TODO
+
+A Static Initialization Block in Java is a block that runs when the class is loaded.
+A Static Initialization Block will execute only once.
+Multiple Initialization Blocks can be defined.
+
+public class StaticInit
+{
+    static double percentage;
+    static String colour;
+
+    static
+    {
+        percentage = 11.2;
+        colour = "Red";
+    }
+}
+
+
+Array
+-----
+Type[] syntax for array types; new Type[n] syntax for constructing arrays.
+Abstract example:
+    Type[] anArray new Type[n];
+
+An array of integers has type int[]
+An array of doubles has type double[]
+An array of String objects has type String[]
+
+Arrays start at index 0.
+The default value of a numeric array element is set to 0.
+The default value of a boolean array element is set to false.
+The default value of a String array element is set to null.
+The default value of another object array element is set to null.
+
+
+// An array with 10 integer elements
+//
+int[] anIntArray new int[10];
+
+// An array with 10 double elements
+//
+double[] anDoubleArray new double[10];
+
+// An array with 100 String elements,
+//
+String[] names = new String[100];
+
+
+// Accesssing element of array
+//
+names[0]
+names[99]
+
+
+// Writing values in array
+//
+int[] aSmallIntArray new int[3];
+aSmallIntArray[0] = 1;
+aSmallIntArray[1] = 2;
+aSmallIntArray[2] = 3;
+
+
+// To initialize an array at declaration
+// Also known as: Inline array initialization, or anonymous array.
+//
+int[] aSmallIntArray = {1, 2, 3};
+
+new int[] {1, 2, 3};
+
+somePrimes = new int[] { 7, 11, 13, 17, 19, 23 };
+
+
+// Length of an array
+//
+aSmallIntArray.length
+
+
+// Copy an array
+//
+int [] copyOfArray = Arrays.copyOf(array, array.length);
+
+
+// Contents of an Array as string
+//
+Arrays.toString(myArray)
+
+    import java.util.Arrays;
+    System.out.println("Array = " + Arrays.toString(array));
+
+
+
+ArrayList
+---------
+import java.util.ArrayList;
+
+ArrayList class in the java.util
+ArrayList class is a generic class, a class with a type parameter.
+
+Please note: element of an ArrayList must be an object, not a primitive;
+- Primitives of type int cannot be added.
+- Objects of class Integer can be added.
+
+
+Declare an array list variable (with type of elements in angle brackets):
+    ArrayList<String> cars;
+
+Construct the array list:
+
+    cars = new ArrayList<>();        << diamond syntax; type inferred from var declaration
+        or
+    cars = new ArrayList<String>()
+
+
+Declare and construct together:
+    ArrayList<String> cars = new ArrayList<String>();
+
+
+Init an ArrayList by means of List:
+    ArrayList<String> cars = new ArrayList<>(List.of("Audi", "Ferrari"));
+
+
+Add an element (to the end):
+    cars.add("Audi");
+    cars.add("Ferrari");
+
+Add an element BEFORE an index:
+    cars.add(0, "Mercedes");
+
+Read an element,
+    String first = cars.get(0);
+
+Remove an element at an index:
+    cars.remove(1);
+
+Replace an element with another:
+    cars.set(0, "Renault");
+
+Size of the list:
+    cars.size();
+
+Check if empry:
+    cars.isEmpty();
+
+Check if element is present:
+    boolean isPresent = cars.contains("Mercedes");
+
+Find an element:
+
+    int position = cars.indexOf("Mercedes");
+    if (position >= 0) {
+            return cars.get(position);
+    }
+
+Print ArrayList:
+    System.out.println("Cars: " + cars);
+
+Remove all elements:
+    cars.clear();
+
+
+LinkedList
+----------
+import java.util.LinkedList;
+
+LinkedList<String> cars = new LinkedList<String>();
+
+Similar operations as ArrayList, and:
+
+addFirst()      Adds an item to the beginning of the list.
+addLast()       Add an item to the end of the list.
+removeFirst()   Remove an item from the beginning of the list.
+removeLast()    Remove an item from the end of the list.
+getFirst()      Get the item at the beginning of the list.
+getLast()       Get the item at the end of the.
+
+
+Iterator
+--------
+Iterator traverses the elements of a list in a forward direction.
+
+import java.util.Iterator;
+
+Create iterator:
+    Iterator<String> it = cars.iterator();
+
+Forward direction iteration:
+- hasNext()
+- next()
+- nextIndex()
+
+Example:
+    while(it.hasNext()) {
+      System.out.println(it.next());
+    }
+
+
+ListIterator
+------------
+ListIterator extends the Iterator interface and traverses the elements in both forward and backward directions.
+
+An iterator for lists that allows the programmer to traverse the list in either direction, modify the list during iteration, and obtain the iterator's current position in the list. A ListIterator has no current element; its cursor position always lies between the element that would be returned by a call to previous() and the element that would be returned by a call to next(). An iterator for a list of length n has n+1 possible cursor positions.
+
+Note: Alternating calls to next and previous will return the same element repeatedly!
+
+
+ListIterator<String> it = cars.listIterator();
+
+Forward direction iteration:
+- hasNext()
+- next()
+- nextIndex()
+
+Backward direction iteration:
+- hasPrevious()
+- previous()
+- previousIndex()
+
+List methods like add() and remove() can be executed on iterator! Side effect!
+
+
+
 StringBuffer
 ------------
 #todo
 more efficient
 
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Monster{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", hitPoints=").append(hitPoints);
+        sb.append(", strength=").append(strength);
+        sb.append('}');
+        return sb.toString();
+
+
+
+Math
+----
+Math.PI
+Math.round(3.1415)
+Math.abs(a)
+Math.pow(x, 3)
+Math.sqrt
+
+min = Math.min(min, number);
+max = Math.max(max, number);
+
 
 BigDecimal
 ----------
 #todo
+
+
+Collections
+-----------
+https://docs.oracle.com/javase/tutorial/collections/interfaces/index.html
+https://docs.oracle.com/en/java/javase/18/language/java-language-changes.html
+
+The Collections interface hierarchy consists of two distinct trees:
+    1. Collection:
+        - Set, SortedSet
+        - List
+        - Queue, Deque
+    2. Map, SortedMap
+
+
+Collection:
+     Root of the collection hierarchy. Some types of collections allow duplicate elements, and others do not. Some are ordered and others are unordered.
+
+Set:
+    Mathematical set; no duplicate elements.
+
+SortedSet:
+    Set in ascending order.
+
+List:
+    Ordered collection, i.e. a sequence. Can contain duplicate elements.
+
+Queue:
+    A collection used to hold multiple elements prior to processing.
+    For exanple FIFO queues or priority queues.
+    Head and tail of the queue.
+
+Deque:
+    A collection used to hold multiple elements prior to processing.
+    Can be used both as FIFO and LIFO (last-in, first-out).
+    New elements can be inserted, retrieved and removed at both ends.
+
+
+Map:
+    Maps keys to values.
+    A Map cannot contain duplicate keys.
+
+    Similar to Hashtable, but:
+    - Hashtable does not allow null keys or values.
+    - Hashtable is synchronized for threaded application. HashMap is not; HashMap preferred for non-threaded applications.
+
+SortedMap
+    A map in ascending key order.
+    Used for ordered collections of key/value pairs like dictionaries and directories.
+
+
+Collections.sort(myCollection);
+Collections.binarySearch(coll, item, null);
+Collections.reverse();
+Collections.shuffle();
+Collections.min();
+Collections.max();
+Collections.swap(list, pos1, pos2);
+
+Implementations of List:
+    AbstractList, AbstractSequentialList, ArrayList, AttributeList, CopyOnWriteArrayList, LinkedList, RoleList, RoleUnresolvedList, Stack, Vector
+
+Implementations of Map:
+    AbstractMap, Attributes, AuthProvider, ConcurrentHashMap, ConcurrentSkipListMap, EnumMap, HashMap, Hashtable, IdentityHashMap, LinkedHashMap, PrinterStateReasons, Properties, Provider, RenderingHints, SimpleBindings, TabularDataSupport, TreeMap, UIDefaults, WeakHashMap
+
+
+Vector
+------
+Similar to an ArrayList, but:
+- Vectors are synchronized, ArrayLists are not.
+- Data Growth:
+    - Vector doubles the size of its array.
+    - ArrayList increases its array size by 50 percent.
+
+
+Exception Handling
+------------------
+TODO:
+- checked and runtime exception;
+- best practice from clean code, elegant objects
+
+
+Several try/catch handlers:
+
+    try (...) {
+        ...
+    } catch (Exception ex) {
+        ...
+    }
+
+
+    try {
+        ...
+    } catch (Exception ex) {
+        ...
+    }
+
+
+    try {
+        ...
+    } catch (Exception ex) {
+        ...
+    } finally {
+        ...
+    }
+
+
+Printing exception info to error log:
+
+    System.err.println(ex + "Could not ...");
+
+Printing exception info to conmsole output:
+
+    System.out.println("Exception: ...: " + ex.getMessage());
+
+Info about excetion:
+    ex.getMessage();
+    ex.printStackTrace();
+
+
+
+File I/O
+--------
+
+
+
+Modules
+-------
+#TODO
+Java 9 introduced the Java Platform Module System.
+It is designed to modularize large code bases by means of modules.
+A module provides encapsulation. Accessible packages must be explicitly exported.
+Supports scalability, security and maintainability.
+Improved application performance.
+
+A module consists of:
+- A collection of packages.
+- A list of the accessible packages.
+- A list of all modules on which this module depends
+- Optionally, resource files and other files such as native libraries.
+
+The properties of a module are defined in module-info.java.
+A module has:
+- a name
+- a module descriptor: module-info.class file
+- inputs; imported modules
+- outputs; exported packages
+
+
+module xxxx {
+
+    requires moduleA;
+
+    exports packageX;
+
+    provides ...
+    uses ...
+
+}
+
+
+Named modules
+    normal
+        basic
+        open
+    automatic
+
+Unnamed modules
+
+Aggregator modules
+
+
++++
+A modular JAR is a JAR with a module-info.class file that is placed on the module path.
+By placing a regular JAR on the module path, it becomes an automatic module that exports and opens all of its packages.
++++
+
+
+Lambda Expresions
+-----------------
+- A lambda expression (or function) is a block of code.
+- It is an anonymous function/method , i.e. a function with no name.
+- A lambda expression is function that has parameters and returns a value. Paremeters may be empty.
+- Purpose is to save (unnecessary) code.
+- You don't need to specify the result type of a lambda expression. The compiler infers and checks it.
+- You can use a lambda expression whenever an object of an interface with a single abstract method (i.e. a functional interface) is expected, for example:
+    * To pass a comparison method to Arrays.sort
+    * To run a task in a thread (runnable interface).
+    * To specify an event handler when a button is clicked (replacing e.g. an anonymous class).
+- You can put a lambda expression in a variable whose type is a functional interface, so that it is converted to an instance of that interface.
+
+
+Example Lambda expressions without parameters:
+
+    () -> System.out.println("test")
+
+    (event) -> System.out.println("You clicked this button")
+    event -> System.out.println("You clicked this button")
+
+    Runnable task = () -> { for (int i = 0; i < 100; i++) printSqr(i); }
+
+
+Example Lambda expression with parameters:
+
+    (int first, int second) -> first + second
+
+
+Example Long Lambda expression using curly braces:
+
+    (int first, int second) -> {
+       if (first <= second) {
+            return first;
+        } else {
+            return second;
+        }
+    }
+
+
+Using lambda in forEach method:
+
+    List<Employee> employees = new ArrayList<>();
+    employees.add(...);
+
+    employees.forEach(employee -> {
+        System.out.println(employee.getName());
+        System.out.println(employee.getSalary());
+    });
+
+
+Method References:
+
+    https://docs.oracle.com/javase/tutorial/java/javaOO/methodreferences.html
+
+    String::compareToIgnoreCase is a method reference that is equivalent to the lambda:
+
+        Arrays.sort(words, (x, y) -> x.compareToIgnoreCase(y));
+        Arrays.sort(words, String::compareToIgnoreCase);
+
+    Some more examples:
+        list.removeIf(x -> Objects.isNull(x));
+        list.removeIf(Objects::isNull);
+
+        list.forEach(x -> System.out.println(x));
+        list.forEach(System.out::println);
+
+
+    The :: operator separates the method from the class or object name. There are three variations:
+
+    1. Class::instanceMethod
+        First parameter becomes the receiver of the method.
+        Any other parameters are passed to the method.
+            String::compareToIgnoreCase
+            (x, y) -> x.compareToIgnoreCase(y).
+
+    2. Class::staticMethod
+        All parameters are passed to the static method.
+            Objects::isNull
+            x -> Objects.isNull(x)
+
+    3. object::instanceMethod
+        Method is invoked on the given object.
+        Parameters are passed to the instance method.
+            System.out::println
+            x -> System.out.println(x)
+
+
+Constructor References:
+
+    Similar to method references, but the name of the method is new.
+        Animal::new is a reference to an Animal constructor.
+        #TODO
+
+
+Predicates:
+
+    Use test(value) to evaluate predicate with a value:
+
+        import java.util.function.IntPredicate;
+        import java.util.function.Predicate;
+
+        int age = ... ;
+        IntPredicate greaterThan12 = i -> i > 12;
+
+        if (greaterThan12.test(age)) {
+            ...
+        }
+
+
+    Predicates can be chained:
+
+        IntPredicate lessThan21 = i -> i < 21;
+
+        if (greaterThan12.and(lessThan21).test(age)) {
+            ...
+        }
+
+
+    Predicate/lambda passed into method:
+
+        List<Employee> employees = new ArrayList<>();
+        employees.add(...);
+
+        printEmployeesByAge(employees, "Employees over 55", employee -> employee.getAge() > 55);
+        printEmployeesByAge(employees, "Employees under 21", employee -> employee.getAge() < 21);
+
+        private static void printEmployeesByAge(List<Employee> employees,
+                                                String ageText,
+                                                Predicate<Employee> ageCondition) {
+
+            System.out.println(ageText);
+            for(Employee employee : employees) {
+                if (ageCondition.test(employee)) {
+                    System.out.println(employee.getName());
+                }
+            }
+        }
+
+
+    Instead of lambda, anonymous class/predicate passed into method:
+
+        printEmployeesByAge(employees, "Employees older than 21", new Predicate<Employee>() {
+            @Override
+            public boolean test(Employee employee) {
+                return employee.getAge() > 21;
+            }
+        });
+
+
+
+Consumer/Supplier
+-----------------
+#TODO
+
+accept()
+get()
+
+
+Example supplier:
+
+    import java.util.function.Supplier;
+
+    Random random = new Random();
+    Supplier<Integer> randomSupplier = () -> random.nextInt(1000);
+    for(int i=0; i<10; i++) {
+        System.out.println(randomSupplier.get());
+    }
+
+
+
+
+Function
+--------
+#TODO
+https://www.baeldung.com/java-8-functional-interfaces
+https://www.baeldung.com/java-bifunction-interface
+
+
+Function<A, R> where A is the argument type and R is the return type.
+BiFunction<A1, A2, R>
+
+chaining of functions
+
+apply()
+applyAsInt()
+
+
+
+Streams
+-------
+#TODO
+
+https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html
+
+A stream is a sequence of elements supporting sequential and parallel aggregate operations.
+To perform a computation, stream operations are composed into a stream pipeline that consists of:
+- A source (an array, a collection, a generator function, an I/O channel, etc.);
+- Intermediate operations, zero or more, which transform a stream into another stream;
+- A terminal operation which produces a result or side-effect (such as count() or forEach(Consumer)).
+A stream pipeline can be viewed as a query on the stream source.
+
+Collections and streams have different goals:
+- Collections are primarily concerned with the efficient management of, and access to, their elements.
+- Streams do not provide a means to directly access or manipulate their elements, and are instead concerned with declaratively describing their source and the computational operations which will be performed in aggregate on that source.
+
+Streams are lazy:
+- Computation on the source data is only performed when the terminal operation is initiated.
+- Source elements are consumed only as needed.
+
+A stream can be operated on only once. Intermediate results stored in variables cannot be accessed afterwards.
+
+
+primitive specializations: IntStream, LongStream, DoubleStream
+
+
+
+Turn any collection into a stream:
+    use Collection.stream() method
+
+Construct a stream from any number of arguments:
+    Stream<String> words = Stream.of("I", "am", "crazy");
+
+Stream with no elements:
+    Stream<String> words = Stream.empty();
+
+Stream of random numbers:
+    Stream<Double> randomNumbers = Stream.generate(Math::random);
+    Stream<Double> randomNumbers = Stream.generate(Math::random).limit(1000);
+
+Use the iterate method to produce sequences such as 0 1 2 3 ...:
+    Stream<BigInteger> integers = Stream.iterate(BigInteger.ZERO, n -> n.add(BigInteger.ONE));
+
+Produce a finite stream:
+    BigInteger limit = new BigInteger("1000");
+    Stream<BigInteger> integers = Stream.iterate(BigInteger.ZERO,
+                                                 n -> n.compareTo(limit) < 0,
+                                                 n -> n.add(BigInteger.ONE));
+
+Stream of tokens of a scanner:
+    Stream<String> words = new Scanner(contents).tokens();
+
+Stream of all lines in a file:
+    Stream<String> lines = Files.lines(path)
+
+
+Concatenate two streams:
+    Stream<String> concatStream = Stream.concat(stream1, stream2);
+
+
+
+Networking - TCP
+----------------
+Connect to a server socket on port 4000
+
+    import java.net.ServerSocket;
+    Socket socket = new Socket("10.1.1.1", 4000);
+    Socket socket = new Socket("my.server.com", 4000);
+
+    try (socket = new Socket("10.1.1.1", 4000)) {
+        ...
+    } catch (IOException ex) {
+        ...
+    }
+
+
+Set a timeout on the socket connection (in milliseconds):
+
+    socket.setSoTimeout(15000);  // SocketTimeoutException
+
+
+Starting from Java 7, Socket implements Autocloseable, so you can use try-with-resources:
+
+    try (Socket socket = new Socket("my.server.com", 4000)) {
+      // read from the socket...
+    } catch (IOException ex) {
+      System.err.println("Could not connect to server");
+    }
+
+In earlier versions, you explicitly had to close the socket to release resources:
+
+    Socket socket = null;
+    try {
+      socket = new Socket("my.server.com", 4000);
+      // read from the socket
+
+    } catch (IOException ex) {
+      System.err.println(ex);
+    } finally {
+      if (socket != null) {
+        try {
+          socket.close();
+        } catch (IOException ex) {
+          // ignore
+        }
+      }
+    }
+
+
+To read data from a Socket, use a BufferedReader:
+
+    Client -- BufferedReader -- InputStreamReader -- InputStream -- Server
+
+    Socket socket = new Socket("my.server.com", 4000);
+    BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    String message = reader.readLine();
+
+    try {
+        Socket socket = new Socket();
+        InputStreamReader isReader = new InputStreamReader(socket.getInputStream());
+        BufferedReader reader = new BufferedReader(isReader);
+        String message = reader.readLine();
+
+    } catch (IOException ex) {
+        ex.printStackTrace();
+    }
+
+
+To write data to a Socket, use a PrintWriter/BufferedWriter.
+For writing one String at a time, PrintWriter is the standard choice.
+
+    Client -- BufferedWriter -- OutputStreamWriter -- OutputStream -- Server
+    Client -- PrintWriter -- OutputStream -- Server
+
+    Socket socket = new Socket("my.server.com", 4000);
+    PrintWriter writer = new PrintWriter(socket.getOutputStream());
+    writer.println("message one");
+    writer.print("message two");
+
+    Should be handled in try/catch.
+
+
+To flush the writer:
+    writer.flush();
+
+To flush the writer automatically:
+    new PrintWriter(socket.getOutputStream(), true);
+
+
+Server application listening on specific port:
+
+    ServerSocket serverSocket = new ServerSocket(4000);
+
+    // Server wants to make a new socket to communicate with incoming client.
+    // The accept() method blocks, waiting for a client connection.
+    // A socket is created when a connection is established.
+    //
+    Socket sock = serverSock.accept();
+    System.out.println("Client connected");
+
+
+What about?
+    reader.close();
+
+    writer.close();
+
+
+
+Networking - UDP
+----------------
+Connect to the daytime server at NIST and ask it for the current time.
+By specifying port 0 you ask Java to pick a random available port.
+
+    DatagramSocket socket = new DatagramSocket(0);
+    socket.setSoTimeout(10000);
+
+Prepate a packet. For the daytime protocol it doesn’t matter what data you put in the packet.
+The daytime server listens on port 13.
+Specify the remote host and remote port to connect to:
+
+    InetAddress host = InetAddress.getByName("time.nist.gov");
+    DatagramPacket request = new DatagramPacket(new byte[1], 1, host, 13);
+
+Create a byte arrary to receive the server’s response:
+
+    byte[] data = new byte[1024];
+    DatagramPacket response = new DatagramPacket(data, data.length);
+
+
+Send the packet and receive the response:
+
+    socket.send(request);
+    socket.receive(response);
+
+Extract the bytes from the response:
+
+    String daytime = new String(response.getData(), 0, response.getLength(), "US-ASCII");
+    System.out.println(daytime);
+
+
+A daytime protocol client, from Java Network Programming, 4th edition, 2013, by Elliotte Rusty Harold:
+
+    import java.io.IOException;
+    import java.net.DatagramPacket;
+    import java.net.DatagramSocket;
+    import java.net.InetAddress;
+    import java.nio.charset.StandardCharsets;
+
+    public class DaytimeUDPClient {
+
+        // A daytime protocol client.
+        // from Java Network Programming, 4th edition, 2013, by Elliotte Rusty Harold.
+
+        private final static int PORT = 13;
+        // private final static int PORT = 37;
+        private static final String HOSTNAME = "time.nist.gov";
+
+        public static void main(String[] args) {
+
+            try (DatagramSocket socket = new DatagramSocket(0)) {
+
+                socket.setSoTimeout(5000);
+                InetAddress host = InetAddress.getByName(HOSTNAME);
+
+                DatagramPacket request = new DatagramPacket(new byte[1], 1, host , PORT);
+                DatagramPacket response = new DatagramPacket(new byte[1024], 1024);
+
+                System.out.println("Sending UDP packet to server " + host + " on port " + PORT);
+                socket.send(request);
+
+                socket.receive(response);
+                System.out.println("Received kind of a response: " + response);
+
+                String result = new String(response.getData(), 0, response.getLength(), StandardCharsets.US_ASCII);
+                System.out.println(result);
+
+            } catch (SocketTimeoutException ex) {
+                System.out.println("SocketTimeoutException, yes, yes");
+                System.out.println(ex.getMessage());
+
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+
+        }
+
+    }
+
+
+---
+
+Some UDP socket contructors:
+
+    public DatagramSocket(int port) throws SocketException;
+    public DatagramSocket(int port, InetAddress laddr) throws SocketException;
+
+
+DatagramSocket socket = new DatagramSocket();
+DatagramSocket socket = new DatagramSocket(0);
+DatagramSocket socket = new DatagramSocket(5000);
+DatagramSocket socket = new DatagramSocket(5000, "127.0.0.1");
+
+---
+
+UDP client, sending:
+
+    try {
+        static final int PORT = 5000;
+        InetAddress address = InetAddress.getLocalHost();
+        byte[] buffer = "I want to send this message".getBytes();
+
+        DatagramSocket socket = new DatagramSocket();
+        DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address , PORT);
+        socket.send(packet);
+
+    } catch (SocketTimeoutException ex) {
+        System.out.println("SocketTimeoutException, yes, yes");
+        System.out.println(ex.getMessage());
+    } catch (IOException ex) {
+        System.out.println(ex.getMessage());
+    }
+
+
+UDP server, receiving:
+
+    DatagramSocket socket = new DatagramSocket(5000);
+    while (true) {
+        byte[] buffer = new byte[1024];
+        DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+        socket.receive(packet);
+        System.out.println("Received is: " + new String(buffer, 0, packet.getLength()));
+
+
+        // Retrieve length, IP address and port of the received UDP packet
+        int packetLength = packet.getLength();
+        InetAddress address = packet.getAddress();
+        int portNUmber = packet.getPort();
+
+    }
+
+
+
+Networking - High-level API
+---------------------------
+Low level networking API:  Socket, ServerSocket, DatagramSocket
+High level networking API: URI, URL, URLConnection, HttpURLConnection
+
+
+Example, retrieving URI info:
+
+    try {
+
+        URI uri = new URI("https://username:password@pharoweekly.wordpress.com:80/2022/06/09/ann-pharo-9-by-example-is-out/questions?why#here");
+
+        System.out.println("Scheme = " + uri.getScheme());
+        System.out.println("Scheme-specific part = " + uri.getSchemeSpecificPart());
+        System.out.println("Authority = " + uri.getAuthority());
+        System.out.println("User info = " + uri.getUserInfo());
+        System.out.println("Host = " + uri.getHost());
+        System.out.println("Port = " + uri.getPort());
+        System.out.println("Path = " + uri.getPath());
+        System.out.println("Query = " + uri.getQuery());
+        System.out.println("Fragment = " + uri.getFragment());
+
+    } catch(URISyntaxException e) {
+        System.out.println("URI Bad Syntax: " + e.getMessage());
+    }
+
+
+Example, base/relative URI:
+
+    try {
+
+        URI baseUri = new URI("https://pharoweekly.wordpress.com");
+        URI relativeUri = new URI("/2022/06/09/ann-pharo-9-by-example-is-out");
+
+        URI resolvedUri = baseUri.resolve(relativeUri);
+        System.out.println("URI = " + resolvedUri);
+
+        URL url = resolvedUri.toURL();
+        System.out.println("URL = " + url);
+
+
+        // Deduce rel URL when having base and resolved URI
+        System.out.println("Relative URL = " + baseUri.relativize(resolvedUri));
+
+
+    } catch(URISyntaxException e) {
+        System.out.println("URI Bad Syntax: " + e.getMessage());
+    } catch(MalformedURLException e) {
+        System.out.println("URL Malformed: " + e.getMessage());
+    }
+
+
+Reading URL via stream:
+
+    //URL url = new URL("http://example.org");
+    URL url = new URL("http://checkip.amazonaws.com");
+
+    BufferedReader inputStream = new BufferedReader(new InputStreamReader(url.openStream()));
+
+    String line = "";
+    while(line != null) {
+        line = inputStream.readLine();
+        System.out.println(line);
+    }
+    inputStream.close();
+
+
+Reading URL via input stream on URL connection:
+
+    URL url = new URL("http://example.org");
+    URLConnection urlConnection = url.openConnection();
+
+    // Note: if you want to write use
+    // urlConnection.setDoOutput(true);
+
+    urlConnection.connect();
+
+    BufferedReader inputStream = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+
+HTTP headers:
+
+    URL url = new URL("http://example.org");
+
+    URLConnection urlConnection = url.openConnection();
+    // urlConnection.connect();   not needed, implicitly executed by other methods.
+    System.out.println(urlConnection.getHeaderFields());
+
+
+HTTP response code:
+
+    URL url = new URL("http://example.org");
+    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+    connection.setRequestMethod("GET"); // Optional, is the default
+
+    int responseCode = connection.getResponseCode();
+    if(responseCode != 200) {
+        System.out.println("Error");
+    }
+
+
+Some other HTTP methods:
+
+    connection.setRequestProperty("User-Agent", "Chrome");
+    connection.setRequestProperty("Content-Type", "application/json");
+    connection.setReadTimeout(15000);
+
+    connection.getResponseMessage();
+
+---
+
+Java.net HttpUrlConnection is rather obsolete. Some 3rd party alternatives (still up-to-date?):
+- Jetty: https://www.eclipse.org/jetty/
+- Apache HTTPClient: https://hc.apache.org/httpcomponents-client-5.1.x
+- Status JEP 110: HTTP/2 Client (Incubator); https://openjdk.org/jeps/110
+
+
+Also refer to:
+- https://www.baeldung.com/java-http-request
+- https://www.twilio.com/blog/5-ways-to-make-http-requests-in-java
+- https://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests
+
+---
+
+Example Apache HTTPClient:
+
+    CloseableHttpClient httpClient = HttpClients.createDefault();
+
+    HttpGet request = new HttpGet("http://example.org");
+    request.addHeader("User-Agent", "Chrome");
+
+    CloseableHttpResponse response = httpClient.execute(request);
+
+    System.out.println("response code = " + response.getStatusLine().getStatusCode());
+
+    BufferedReader inputReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+
+
+
+Threads
+-------
+
+How to launch a new thread.
+
+Make a Runnable object (the thread’s job):
+
+    Runnable threadJob = new MyRunnable();
+
+Make a Thread object (a worker) and give it a Runnable job:
+
+    Thread myThread = new Thread(threadJob);
+
+Start the Thread:
+
+    myThread.start();
+
+
+Runnable is an interface with only one method: public void run().
+An example:
+
+    public class MyRunnable implements Runnable {
+
+       public void run() {
+          go();
+       }
+
+       public void go() {
+          // Do your work here
+       }
+    }
+
+    class ThreadTest {
+
+       public static void main (String[] args) {
+
+          Runnable threadJob = new MyRunnable();
+          Thread myThread = new Thread(threadJob);
+          myThread.start();
+       }
+    }
+
+
+Threads can be named:
+
+    Thread one = new Thread(job1);
+    Thread two = new Thread(job)2;
+    one.setName("ClientHandler");
+    two.setName("MessageQueue");
+    one.start();
+    two.start();
+
+
+Let Thread sleep for number of msec. Sleep method throws a checked InterruptedException, so wrap it in a try/catch:
+
+    try {
+       Thread.sleep(1000);
+    } catch(InterruptedException ex) {
+        ex.printStackTrace();
+    }
+
+
+Synchonize threads via synchronized methods:
+- Use the keyword synchronized in the method declaration.
+- This prevents two threads from entering that method.
+- Every object has a single lock, with a single key.
+- Only one method can acquire the key.
+- There is  only one key, even if an object has more than one synchronized method.
+- Once any thread has entered a synchronized method, no other thread can enter any other synchronized method.
+
+    public synchronized void method() {
+        ...
+    }
+
+
+
+jUnit, 4.12
+-----------
+
+Example:
+
+    import org.junit.Test;
+    import static org.junit.Assert.*;
+
+    public class LeapYearTest {
+
+        @Test
+        public void isLeapYearTest() {
+
+            // A year is a leap year if and only if:
+            //  1. it is divisible by 4,
+            //  2. but not by 100, unless it is also divisible by 400.
+
+            // isLeapYear(2016):  true, is a leap year
+            assertEquals(true, LeapYear.isLeapYear(2016));
+
+            // isLeapYear(2017):  false, not a leap year
+            assertEquals(false, LeapYear.isLeapYear(2017));
+
+            // isLeapYear(2000):  true, a leap year divisible by both 100 and 400
+            assertEquals(true, LeapYear.isLeapYear(2000));
+
+            // isLeapYear(2200):  false, not a leap year, divisible by 100 but not by 400
+            assertEquals(false, LeapYear.isLeapYear(2200));
+        }
+    }
+
+
+Use the expected attribute of the @Test annotation to declare that we expect an exception to be thrown (Junit 4) :
+
+    @Test(expected = NullPointerException.class)
+
+    public void exceptionThrown() {
+        String test = null;
+        test.length();
+    }
+
+
+To fail a test on purpose:
+
+    @Test
+    public void deposit() {
+        fail("TODO: Testcase not implemented yet");
+    }
+
+
+To do setup and cleanup before and after tests, use these annotations:
+    @BeforeClass
+    @Before
+    @After
+    @AfterClass
+
+Example:
+
+    import org.junit.After;
+    import org.junit.AfterClass;
+    import org.junit.Before;
+    import org.junit.BeforeClass;
+
+    public class SetUpAndTearDownTest {
+
+        @BeforeClass
+        public static void beforeAllTestMethods() {
+            System.out.println("Invoked once before all test methods");
+        }
+
+        @Before
+        public void beforeEachTestMethod() {
+            System.out.println("Invoked before each test method");
+        }
+
+        @After
+        public void afterEachTestMethod() {
+            System.out.println("Invoked after each test method");
+        }
+
+        @AfterClass
+        public static void afterAllTestMethods() {
+            System.out.println("Invoked once after all test methods");
+        }
+
+
+
+jUnit 4, Parameterized tests
+----------------------------
+Use parameterized tests to run the same test using different test values.
+
+@RunWith(Parameterized.class)
+@Parameterized.Parameters
+
+Refer example, https://www.tutorialspoint.com/junit/junit_parameterized_test.htm:
+- Annotate test class with @RunWith(Parameterized.class).
+- Create a public static method annotated with @Parameterized.Parameters that returns a Collection of Objects (as Array) as test data set.
+- Create a public constructor that takes in what is equivalent to one "row" of test data.
+- Create an instance variable for each "column" of test data.
+- Create your test case(s) using the instance variables as the source of the test data.
+
+
+Example Tim Buchalka:
+
+    package com.timbuchalka;
+
+    import org.junit.runner.RunWith;
+    import org.junit.runners.Parameterized;
+
+    import java.util.Arrays;
+    import java.util.Collection;
+
+    import static junit.framework.TestCase.assertEquals;
+
+    /**
+     * Created by timbuchalka on 20/11/16.
+     */
+    @RunWith(Parameterized.class)
+    public class BankAccountTestParameterized {
+
+        private BankAccount account;
+        private double amount;
+        private boolean branch;
+        private double expected;
+
+        public BankAccountTestParameterized(double amount, boolean branch, double expected) {
+            this.amount = amount;
+            this.branch = branch;
+            this.expected = expected;
+        }
+
+        @org.junit.Before
+        public void setup() {
+            account = new BankAccount("Tim", "Buchalka", 1000.00, BankAccount.CHECKING);
+            System.out.println("Running a test...");
+        }
+
+        @Parameterized.Parameters
+        public static Collection<Object[]> testConditions() {
+            return Arrays.asList(new Object[][] {
+                    {100.00, true, 1100.00},
+                    {200.00, true, 1200.00},
+                    {325.14, true, 1325.14},
+                    {489.33, true, 1489.33},
+                    {1000.00, true, 2000.00}
+            });
+
+        }
+
+        @org.junit.Test
+        public void deposit() throws Exception {
+            account.deposit(amount, branch);
+            assertEquals(expected, account.getBalance(), .01);
+        }
+
+    }
+
+
+
+jUnit Assert Statements
+-----------------------
+https://www.baeldung.com/junit-assertions
+https://junit.org/junit4/javadoc/4.8/org/junit/Assert.html
+
+
+fail()                       Fails a test with no message.
+fail(String message)         Fails a test with the given message.
+
+assertTrue(boolean condition)
+assertFalse(boolean condition)
+
+assertTrue(String message, boolean condition)
+assertFalse(String message, boolean condition)
+
+assertEquals(double expected, double actual, double delta)
+assertEquals(long expected, long actual)
+assertEquals(Object expected, Object actual)
+
+assertEquals(String message, double expected, double actual, double delta)      Specify a message to display when the assertion fails
+assertEquals(String message, long expected, long actual)
+assertEquals(String message, Object expected, Object actual)
+
+assertArrayEquals(byte[] expecteds, byte[] actuals)
+assertArrayEquals(char[] expecteds, char[] actuals)
+assertArrayEquals(double[] expecteds, double[] actuals, double delta)
+assertArrayEquals(float[] expecteds, float[] actuals, float delta)
+assertArrayEquals(int[] expecteds, int[] actuals)
+assertArrayEquals(long[] expecteds, long[] actuals)
+assertArrayEquals(Object[] expecteds, Object[] actuals)
+assertArrayEquals(short[] expecteds, short[] actuals)
+
+assertArrayEquals(String message, byte[] expecteds, byte[] actuals)
+assertArrayEquals(String message, char[] expecteds, char[] actuals)
+assertArrayEquals(String message, double[] expecteds, double[] actuals, double delta)
+assertArrayEquals(String message, float[] expecteds, float[] actuals, float delta)
+assertArrayEquals(String message, int[] expecteds, int[] actuals)
+assertArrayEquals(String message, long[] expecteds, long[] actuals)
+assertArrayEquals(String message, Object[] expecteds, Object[] actuals)
+assertArrayEquals(String message, short[] expecteds, short[] actuals)
+
+assertNull(Object object)
+assertNull(String message, Object object)
+assertNotNull(Object object)
+assertNotNull(String message, Object object)
+
+assertSame(Object expected, Object actual)
+assertSame(String message, Object expected, Object actual)
+assertNotSame(Object unexpected, Object actual)
+assertNotSame(String message, Object unexpected, Object actual)
+
+assertThat(String reason, T actual, Matcher<T> matcher)               Asserts that actual satisfies the condition specified by matcher.
+assertThat(T actual, Matcher<T> matcher)                              Asserts that actual satisfies the condition specified by matcher.
+
+
+
+Java File Types
+---------------
+.java   Java source code
+.jar    Java Archive
+
+
+Packages
+--------
+package com.example.mypackage;
+
+
+java.lang.*          automatically imported, e.g. java.lang.Integer
+java.util.ArrayList
+
+
+
+IntelliJ
+--------
+sout:
+    System.out.println();
+
+soutv:
+    System.out.println("args = " + args);
+
+psvm:
+    public static void main(String[] args) {
+    }
+
+psf:
+    public static final
+psfi:
+    public static final int
+
+
+default keymap reference card: Help | Keyboard Shortcuts PDF.
+
+Install Key Promoter X plugin, for shortcut help.
+
+Compile/run:    ctrl-shift-F10
+Find Action:    Ctrl-Shift-A    search for commands and settings across all menus and tools.
+
+ctrl-Y  Delete line (you can choose; can also be used for restore)
+ctrl-D  Duplicate line
+
+
+
+jUnit configuration, Install jUnit:
+
+    File > Project Structure
+        Click +
+        Select From Maven
+        Search for Junit
+        Select your version and click OK
+
+    Make test directory:
+        File > Project Structure
+            Select Modules
+            Click in your dir structure
+                right click
+                new folder named test
+                mark your test folder as test sources root (click green Tests button)
+
+Build a jar Artifact:
+    File > Project Structure > Artifacts
+        Click +
+        Note the output directory of your artifact
+        Include in project build
+        Ok
+    Build > Build Project or Build Module or Build Artefact
+    Check that artifact is in location, e.g.: /home/eric/dev/java/Series/out/artifacts/Series_jar
+
+Import a library (jar artifact):
+    File > Project Structure > Libraries
+        Click +
+        Select Java
+        Select the location of your artifact
+        Ok
+
+
+
+All Java Classes
+----------------
+https://docs.oracle.com/javase/7/docs/api/allclasses-noframe.html:
+
+    AbstractAction
+    AbstractAnnotationValueVisitor6
+    AbstractAnnotationValueVisitor7
+    AbstractBorder
+    AbstractButton
+    AbstractCellEditor
+    AbstractCollection
+    AbstractColorChooserPanel
+    AbstractDocument
+    AbstractDocument.AttributeContext
+    AbstractDocument.Content
+    AbstractDocument.ElementEdit
+    AbstractElementVisitor6
+    AbstractElementVisitor7
+    AbstractExecutorService
+    AbstractInterruptibleChannel
+    AbstractLayoutCache
+    AbstractLayoutCache.NodeDimensions
+    AbstractList
+    AbstractListModel
+    AbstractMap
+    AbstractMap.SimpleEntry
+    AbstractMap.SimpleImmutableEntry
+    AbstractMarshallerImpl
+    AbstractMethodError
+    AbstractOwnableSynchronizer
+    AbstractPreferences
+    AbstractProcessor
+    AbstractQueue
+    AbstractQueuedLongSynchronizer
+    AbstractQueuedSynchronizer
+    AbstractRegionPainter
+    AbstractRegionPainter.PaintContext
+    AbstractRegionPainter.PaintContext.CacheMode
+    AbstractScriptEngine
+    AbstractSelectableChannel
+    AbstractSelectionKey
+    AbstractSelector
+    AbstractSequentialList
+    AbstractSet
+    AbstractSpinnerModel
+    AbstractTableModel
+    AbstractTypeVisitor6
+    AbstractTypeVisitor7
+    AbstractUndoableEdit
+    AbstractUnmarshallerImpl
+    AbstractWriter
+    AcceptPendingException
+    AccessControlContext
+    AccessControlException
+    AccessController
+    AccessDeniedException
+    AccessException
+    Accessible
+    AccessibleAction
+    AccessibleAttributeSequence
+    AccessibleBundle
+    AccessibleComponent
+    AccessibleContext
+    AccessibleEditableText
+    AccessibleExtendedComponent
+    AccessibleExtendedTable
+    AccessibleExtendedText
+    AccessibleHyperlink
+    AccessibleHypertext
+    AccessibleIcon
+    AccessibleKeyBinding
+    AccessibleObject
+    AccessibleRelation
+    AccessibleRelationSet
+    AccessibleResourceBundle
+    AccessibleRole
+    AccessibleSelection
+    AccessibleState
+    AccessibleStateSet
+    AccessibleStreamable
+    AccessibleTable
+    AccessibleTableModelChange
+    AccessibleText
+    AccessibleTextSequence
+    AccessibleValue
+    AccessMode
+    AccountException
+    AccountExpiredException
+    AccountLockedException
+    AccountNotFoundException
+    Acl
+    AclEntry
+    AclEntry
+    AclEntry.Builder
+    AclEntryFlag
+    AclEntryPermission
+    AclEntryType
+    AclFileAttributeView
+    AclNotFoundException
+    Action
+    Action
+    ActionEvent
+    ActionListener
+    ActionMap
+    ActionMapUIResource
+    Activatable
+    ActivateFailedException
+    ActivationDataFlavor
+    ActivationDesc
+    ActivationException
+    ActivationGroup
+    ActivationGroup_Stub
+    ActivationGroupDesc
+    ActivationGroupDesc.CommandEnvironment
+    ActivationGroupID
+    ActivationID
+    ActivationInstantiator
+    ActivationMonitor
+    ActivationSystem
+    Activator
+    ACTIVE
+    ActiveEvent
+    ACTIVITY_COMPLETED
+    ACTIVITY_REQUIRED
+    ActivityCompletedException
+    ActivityRequiredException
+    AdapterActivator
+    AdapterActivatorOperations
+    AdapterAlreadyExists
+    AdapterAlreadyExistsHelper
+    AdapterInactive
+    AdapterInactiveHelper
+    AdapterManagerIdHelper
+    AdapterNameHelper
+    AdapterNonExistent
+    AdapterNonExistentHelper
+    AdapterStateHelper
+    AddressHelper
+    Addressing
+    AddressingFeature
+    AddressingFeature.Responses
+    Adjustable
+    AdjustmentEvent
+    AdjustmentListener
+    Adler32
+    AEADBadTagException
+    AffineTransform
+    AffineTransformOp
+    AlgorithmConstraints
+    AlgorithmMethod
+    AlgorithmParameterGenerator
+    AlgorithmParameterGeneratorSpi
+    AlgorithmParameters
+    AlgorithmParameterSpec
+    AlgorithmParametersSpi
+    AllPermission
+    AlphaComposite
+    AlreadyBound
+    AlreadyBoundException
+    AlreadyBoundException
+    AlreadyBoundHelper
+    AlreadyBoundHolder
+    AlreadyConnectedException
+    AncestorEvent
+    AncestorListener
+    AnnotatedElement
+    Annotation
+    Annotation
+    AnnotationFormatError
+    AnnotationMirror
+    AnnotationTypeMismatchException
+    AnnotationValue
+    AnnotationValueVisitor
+    Any
+    AnyHolder
+    AnySeqHelper
+    AnySeqHelper
+    AnySeqHolder
+    AppConfigurationEntry
+    AppConfigurationEntry.LoginModuleControlFlag
+    Appendable
+    Applet
+    AppletContext
+    AppletInitializer
+    AppletStub
+    ApplicationException
+    Arc2D
+    Arc2D.Double
+    Arc2D.Float
+    Area
+    AreaAveragingScaleFilter
+    ARG_IN
+    ARG_INOUT
+    ARG_OUT
+    ArithmeticException
+    Array
+    Array
+    ArrayBlockingQueue
+    ArrayDeque
+    ArrayIndexOutOfBoundsException
+    ArrayList
+    Arrays
+    ArrayStoreException
+    ArrayType
+    ArrayType
+    AssertionError
+    AsyncBoxView
+    AsyncHandler
+    AsynchronousByteChannel
+    AsynchronousChannel
+    AsynchronousChannelGroup
+    AsynchronousChannelProvider
+    AsynchronousCloseException
+    AsynchronousFileChannel
+    AsynchronousServerSocketChannel
+    AsynchronousSocketChannel
+    AtomicBoolean
+    AtomicInteger
+    AtomicIntegerArray
+    AtomicIntegerFieldUpdater
+    AtomicLong
+    AtomicLongArray
+    AtomicLongFieldUpdater
+    AtomicMarkableReference
+    AtomicMoveNotSupportedException
+    AtomicReference
+    AtomicReferenceArray
+    AtomicReferenceFieldUpdater
+    AtomicStampedReference
+    AttachmentMarshaller
+    AttachmentPart
+    AttachmentUnmarshaller
+    Attr
+    Attribute
+    Attribute
+    Attribute
+    Attribute
+    AttributeChangeNotification
+    AttributeChangeNotificationFilter
+    AttributedCharacterIterator
+    AttributedCharacterIterator.Attribute
+    AttributedString
+    AttributeException
+    AttributeInUseException
+    AttributeList
+    AttributeList
+    AttributeList
+    AttributeListImpl
+    AttributeModificationException
+    AttributeNotFoundException
+    Attributes
+    Attributes
+    Attributes
+    Attributes.Name
+    Attributes2
+    Attributes2Impl
+    AttributeSet
+    AttributeSet
+    AttributeSet.CharacterAttribute
+    AttributeSet.ColorAttribute
+    AttributeSet.FontAttribute
+    AttributeSet.ParagraphAttribute
+    AttributeSetUtilities
+    AttributesImpl
+    AttributeValueExp
+    AttributeView
+    AudioClip
+    AudioFileFormat
+    AudioFileFormat.Type
+    AudioFileReader
+    AudioFileWriter
+    AudioFormat
+    AudioFormat.Encoding
+    AudioInputStream
+    AudioPermission
+    AudioSystem
+    AuthenticationException
+    AuthenticationException
+    AuthenticationNotSupportedException
+    Authenticator
+    Authenticator.RequestorType
+    AuthorizeCallback
+    AuthPermission
+    AuthProvider
+    AutoCloseable
+    Autoscroll
+    AWTError
+    AWTEvent
+    AWTEventListener
+    AWTEventListenerProxy
+    AWTEventMulticaster
+    AWTException
+    AWTKeyStroke
+    AWTPermission
+    BackingStoreException
+    BAD_CONTEXT
+    BAD_INV_ORDER
+    BAD_OPERATION
+    BAD_PARAM
+    BAD_POLICY
+    BAD_POLICY_TYPE
+    BAD_POLICY_VALUE
+    BAD_QOS
+    BAD_TYPECODE
+    BadAttributeValueExpException
+    BadBinaryOpValueExpException
+    BadKind
+    BadLocationException
+    BadPaddingException
+    BadStringOperationException
+    BandCombineOp
+    BandedSampleModel
+    BaseRowSet
+    BasicArrowButton
+    BasicAttribute
+    BasicAttributes
+    BasicBorders
+    BasicBorders.ButtonBorder
+    BasicBorders.FieldBorder
+    BasicBorders.MarginBorder
+    BasicBorders.MenuBarBorder
+    BasicBorders.RadioButtonBorder
+    BasicBorders.RolloverButtonBorder
+    BasicBorders.SplitPaneBorder
+    BasicBorders.ToggleButtonBorder
+    BasicButtonListener
+    BasicButtonUI
+    BasicCheckBoxMenuItemUI
+    BasicCheckBoxUI
+    BasicColorChooserUI
+    BasicComboBoxEditor
+    BasicComboBoxEditor.UIResource
+    BasicComboBoxRenderer
+    BasicComboBoxRenderer.UIResource
+    BasicComboBoxUI
+    BasicComboPopup
+    BasicControl
+    BasicDesktopIconUI
+    BasicDesktopPaneUI
+    BasicDirectoryModel
+    BasicEditorPaneUI
+    BasicFileAttributes
+    BasicFileAttributeView
+    BasicFileChooserUI
+    BasicFormattedTextFieldUI
+    BasicGraphicsUtils
+    BasicHTML
+    BasicIconFactory
+    BasicInternalFrameTitlePane
+    BasicInternalFrameUI
+    BasicLabelUI
+    BasicListUI
+    BasicLookAndFeel
+    BasicMenuBarUI
+    BasicMenuItemUI
+    BasicMenuUI
+    BasicOptionPaneUI
+    BasicOptionPaneUI.ButtonAreaLayout
+    BasicPanelUI
+    BasicPasswordFieldUI
+    BasicPermission
+    BasicPopupMenuSeparatorUI
+    BasicPopupMenuUI
+    BasicProgressBarUI
+    BasicRadioButtonMenuItemUI
+    BasicRadioButtonUI
+    BasicRootPaneUI
+    BasicScrollBarUI
+    BasicScrollPaneUI
+    BasicSeparatorUI
+    BasicSliderUI
+    BasicSpinnerUI
+    BasicSplitPaneDivider
+    BasicSplitPaneUI
+    BasicStroke
+    BasicTabbedPaneUI
+    BasicTableHeaderUI
+    BasicTableUI
+    BasicTextAreaUI
+    BasicTextFieldUI
+    BasicTextPaneUI
+    BasicTextUI
+    BasicTextUI.BasicCaret
+    BasicTextUI.BasicHighlighter
+    BasicToggleButtonUI
+    BasicToolBarSeparatorUI
+    BasicToolBarUI
+    BasicToolTipUI
+    BasicTreeUI
+    BasicViewportUI
+    BatchUpdateException
+    BeanContext
+    BeanContextChild
+    BeanContextChildComponentProxy
+    BeanContextChildSupport
+    BeanContextContainerProxy
+    BeanContextEvent
+    BeanContextMembershipEvent
+    BeanContextMembershipListener
+    BeanContextProxy
+    BeanContextServiceAvailableEvent
+    BeanContextServiceProvider
+    BeanContextServiceProviderBeanInfo
+    BeanContextServiceRevokedEvent
+    BeanContextServiceRevokedListener
+    BeanContextServices
+    BeanContextServicesListener
+    BeanContextServicesSupport
+    BeanContextServicesSupport.BCSSServiceProvider
+    BeanContextSupport
+    BeanContextSupport.BCSIterator
+    BeanDescriptor
+    BeanInfo
+    Beans
+    BevelBorder
+    Bidi
+    BigDecimal
+    BigInteger
+    BinaryRefAddr
+    Binder
+    BindException
+    Binding
+    Binding
+    Binding
+    BindingHelper
+    BindingHolder
+    BindingIterator
+    BindingIteratorHelper
+    BindingIteratorHolder
+    BindingIteratorOperations
+    BindingIteratorPOA
+    BindingListHelper
+    BindingListHolder
+    BindingProvider
+    Bindings
+    BindingType
+    BindingType
+    BindingTypeHelper
+    BindingTypeHolder
+    BitSet
+    Blob
+    BlockingDeque
+    BlockingQueue
+    BlockView
+    BMPImageWriteParam
+    Book
+    Boolean
+    BooleanControl
+    BooleanControl.Type
+    BooleanHolder
+    BooleanSeqHelper
+    BooleanSeqHolder
+    BootstrapMethodError
+    Border
+    BorderFactory
+    BorderLayout
+    BorderUIResource
+    BorderUIResource.BevelBorderUIResource
+    BorderUIResource.CompoundBorderUIResource
+    BorderUIResource.EmptyBorderUIResource
+    BorderUIResource.EtchedBorderUIResource
+    BorderUIResource.LineBorderUIResource
+    BorderUIResource.MatteBorderUIResource
+    BorderUIResource.TitledBorderUIResource
+    BoundedRangeModel
+    Bounds
+    Bounds
+    Box
+    Box.Filler
+    BoxedValueHelper
+    BoxLayout
+    BoxView
+    BreakIterator
+    BreakIteratorProvider
+    BrokenBarrierException
+    Buffer
+    BufferCapabilities
+    BufferCapabilities.FlipContents
+    BufferedImage
+    BufferedImageFilter
+    BufferedImageOp
+    BufferedInputStream
+    BufferedOutputStream
+    BufferedReader
+    BufferedWriter
+    BufferOverflowException
+    BufferPoolMXBean
+    BufferStrategy
+    BufferUnderflowException
+    Button
+    ButtonGroup
+    ButtonModel
+    ButtonUI
+    Byte
+    ByteArrayInputStream
+    ByteArrayOutputStream
+    ByteBuffer
+    ByteChannel
+    ByteHolder
+    ByteLookupTable
+    ByteOrder
+    C14NMethodParameterSpec
+    CachedRowSet
+    CacheRequest
+    CacheResponse
+    Calendar
+    Callable
+    CallableStatement
+    Callback
+    CallbackHandler
+    CallSite
+    CancelablePrintJob
+    CancellationException
+    CancelledKeyException
+    CannotProceed
+    CannotProceedException
+    CannotProceedHelper
+    CannotProceedHolder
+    CannotRedoException
+    CannotUndoException
+    CanonicalizationMethod
+    Canvas
+    CardLayout
+    Caret
+    CaretEvent
+    CaretListener
+    CDATASection
+    CellEditor
+    CellEditorListener
+    CellRendererPane
+    Certificate
+    Certificate
+    Certificate
+    Certificate.CertificateRep
+    CertificateEncodingException
+    CertificateEncodingException
+    CertificateException
+    CertificateException
+    CertificateExpiredException
+    CertificateExpiredException
+    CertificateFactory
+    CertificateFactorySpi
+    CertificateNotYetValidException
+    CertificateNotYetValidException
+    CertificateParsingException
+    CertificateParsingException
+    CertificateRevokedException
+    CertPath
+    CertPath.CertPathRep
+    CertPathBuilder
+    CertPathBuilderException
+    CertPathBuilderResult
+    CertPathBuilderSpi
+    CertPathParameters
+    CertPathTrustManagerParameters
+    CertPathValidator
+    CertPathValidatorException
+    CertPathValidatorException.BasicReason
+    CertPathValidatorException.Reason
+    CertPathValidatorResult
+    CertPathValidatorSpi
+    CertSelector
+    CertStore
+    CertStoreException
+    CertStoreParameters
+    CertStoreSpi
+    ChangedCharSetException
+    ChangeEvent
+    ChangeListener
+    Channel
+    ChannelBinding
+    Channels
+    Character
+    Character.Subset
+    Character.UnicodeBlock
+    Character.UnicodeScript
+    CharacterCodingException
+    CharacterData
+    CharacterIterator
+    Characters
+    CharArrayReader
+    CharArrayWriter
+    CharBuffer
+    CharConversionException
+    CharHolder
+    CharSeqHelper
+    CharSeqHolder
+    CharSequence
+    Charset
+    CharsetDecoder
+    CharsetEncoder
+    CharsetProvider
+    Checkbox
+    CheckboxGroup
+    CheckboxMenuItem
+    CheckedInputStream
+    CheckedOutputStream
+    Checksum
+    Choice
+    ChoiceCallback
+    ChoiceFormat
+    Chromaticity
+    Cipher
+    CipherInputStream
+    CipherOutputStream
+    CipherSpi
+    Class
+    ClassCastException
+    ClassCircularityError
+    ClassDefinition
+    ClassDesc
+    ClassFileTransformer
+    ClassFormatError
+    ClassLoader
+    ClassLoaderRepository
+    ClassLoadingMXBean
+    ClassNotFoundException
+    ClassValue
+    ClientInfoStatus
+    ClientRequestInfo
+    ClientRequestInfoOperations
+    ClientRequestInterceptor
+    ClientRequestInterceptorOperations
+    Clip
+    Clipboard
+    ClipboardOwner
+    Clob
+    Cloneable
+    CloneNotSupportedException
+    Closeable
+    ClosedByInterruptException
+    ClosedChannelException
+    ClosedDirectoryStreamException
+    ClosedFileSystemException
+    ClosedSelectorException
+    ClosedWatchServiceException
+    CMMException
+    Codec
+    CodecFactory
+    CodecFactoryHelper
+    CodecFactoryOperations
+    CodecOperations
+    CoderMalfunctionError
+    CoderResult
+    CODESET_INCOMPATIBLE
+    CodeSets
+    CodeSigner
+    CodeSource
+    CodingErrorAction
+    CollapsedStringAdapter
+    CollationElementIterator
+    CollationKey
+    Collator
+    CollatorProvider
+    Collection
+    CollectionCertStoreParameters
+    Collections
+    Color
+    ColorChooserComponentFactory
+    ColorChooserUI
+    ColorConvertOp
+    ColorModel
+    ColorSelectionModel
+    ColorSpace
+    ColorSupported
+    ColorType
+    ColorUIResource
+    ComboBoxEditor
+    ComboBoxModel
+    ComboBoxUI
+    ComboPopup
+    COMM_FAILURE
+    CommandInfo
+    CommandMap
+    CommandObject
+    Comment
+    Comment
+    CommonDataSource
+    CommunicationException
+    Comparable
+    Comparator
+    Compilable
+    CompilationMXBean
+    CompiledScript
+    Compiler
+    Completion
+    CompletionHandler
+    Completions
+    CompletionService
+    CompletionStatus
+    CompletionStatusHelper
+    Component
+    Component.BaselineResizeBehavior
+    ComponentAdapter
+    ComponentColorModel
+    ComponentEvent
+    ComponentIdHelper
+    ComponentInputMap
+    ComponentInputMapUIResource
+    ComponentListener
+    ComponentOrientation
+    ComponentSampleModel
+    ComponentUI
+    ComponentView
+    Composite
+    CompositeContext
+    CompositeData
+    CompositeDataInvocationHandler
+    CompositeDataSupport
+    CompositeDataView
+    CompositeName
+    CompositeType
+    CompositeView
+    CompoundBorder
+    CompoundControl
+    CompoundControl.Type
+    CompoundEdit
+    CompoundName
+    Compression
+    ConcurrentHashMap
+    ConcurrentLinkedDeque
+    ConcurrentLinkedQueue
+    ConcurrentMap
+    ConcurrentModificationException
+    ConcurrentNavigableMap
+    ConcurrentSkipListMap
+    ConcurrentSkipListSet
+    Condition
+    Configuration
+    Configuration.Parameters
+    ConfigurationException
+    ConfigurationSpi
+    ConfirmationCallback
+    ConnectException
+    ConnectException
+    ConnectIOException
+    Connection
+    ConnectionEvent
+    ConnectionEventListener
+    ConnectionPendingException
+    ConnectionPoolDataSource
+    Console
+    ConsoleHandler
+    ConstantCallSite
+    Constructor
+    ConstructorProperties
+    Container
+    ContainerAdapter
+    ContainerEvent
+    ContainerListener
+    ContainerOrderFocusTraversalPolicy
+    ContentHandler
+    ContentHandler
+    ContentHandlerFactory
+    ContentModel
+    Context
+    Context
+    ContextList
+    ContextNotEmptyException
+    ContextualRenderedImageFactory
+    Control
+    Control
+    Control.Type
+    ControlFactory
+    ControllerEventListener
+    ConvolveOp
+    CookieHandler
+    CookieHolder
+    CookieManager
+    CookiePolicy
+    CookieStore
+    Copies
+    CopiesSupported
+    CopyOnWriteArrayList
+    CopyOnWriteArraySet
+    CopyOption
+    CountDownLatch
+    CounterMonitor
+    CounterMonitorMBean
+    CRC32
+    CredentialException
+    CredentialExpiredException
+    CredentialNotFoundException
+    CRL
+    CRLException
+    CRLReason
+    CRLSelector
+    CropImageFilter
+    CryptoPrimitive
+    CSS
+    CSS.Attribute
+    CTX_RESTRICT_SCOPE
+    CubicCurve2D
+    CubicCurve2D.Double
+    CubicCurve2D.Float
+    Currency
+    CurrencyNameProvider
+    Current
+    Current
+    Current
+    CurrentHelper
+    CurrentHelper
+    CurrentHelper
+    CurrentHolder
+    CurrentOperations
+    CurrentOperations
+    CurrentOperations
+    Cursor
+    Customizer
+    CustomMarshal
+    CustomValue
+    CyclicBarrier
+    Data
+    DATA_CONVERSION
+    DatabaseMetaData
+    DataBindingException
+    DataBuffer
+    DataBufferByte
+    DataBufferDouble
+    DataBufferFloat
+    DataBufferInt
+    DataBufferShort
+    DataBufferUShort
+    DataContentHandler
+    DataContentHandlerFactory
+    DataFlavor
+    DataFormatException
+    DatagramChannel
+    DatagramPacket
+    DatagramSocket
+    DatagramSocketImpl
+    DatagramSocketImplFactory
+    DataHandler
+    DataInput
+    DataInputStream
+    DataInputStream
+    DataLine
+    DataLine.Info
+    DataOutput
+    DataOutputStream
+    DataOutputStream
+    DataSource
+    DataSource
+    DataTruncation
+    DatatypeConfigurationException
+    DatatypeConstants
+    DatatypeConstants.Field
+    DatatypeConverter
+    DatatypeConverterInterface
+    DatatypeFactory
+    Date
+    Date
+    DateFormat
+    DateFormat.Field
+    DateFormatProvider
+    DateFormatSymbols
+    DateFormatSymbolsProvider
+    DateFormatter
+    DateTimeAtCompleted
+    DateTimeAtCreation
+    DateTimeAtProcessing
+    DateTimeSyntax
+    DebugGraphics
+    DecimalFormat
+    DecimalFormatSymbols
+    DecimalFormatSymbolsProvider
+    DeclaredType
+    DeclHandler
+    DefaultBoundedRangeModel
+    DefaultButtonModel
+    DefaultCaret
+    DefaultCellEditor
+    DefaultColorSelectionModel
+    DefaultComboBoxModel
+    DefaultDesktopManager
+    DefaultEditorKit
+    DefaultEditorKit.BeepAction
+    DefaultEditorKit.CopyAction
+    DefaultEditorKit.CutAction
+    DefaultEditorKit.DefaultKeyTypedAction
+    DefaultEditorKit.InsertBreakAction
+    DefaultEditorKit.InsertContentAction
+    DefaultEditorKit.InsertTabAction
+    DefaultEditorKit.PasteAction
+    DefaultFocusManager
+    DefaultFocusTraversalPolicy
+    DefaultFormatter
+    DefaultFormatterFactory
+    DefaultHandler
+    DefaultHandler2
+    DefaultHighlighter
+    DefaultHighlighter.DefaultHighlightPainter
+    DefaultKeyboardFocusManager
+    DefaultListCellRenderer
+    DefaultListCellRenderer.UIResource
+    DefaultListModel
+    DefaultListSelectionModel
+    DefaultLoaderRepository
+    DefaultLoaderRepository
+    DefaultMenuLayout
+    DefaultMetalTheme
+    DefaultMutableTreeNode
+    DefaultPersistenceDelegate
+    DefaultRowSorter
+    DefaultRowSorter.ModelWrapper
+    DefaultSingleSelectionModel
+    DefaultStyledDocument
+    DefaultStyledDocument.AttributeUndoableEdit
+    DefaultStyledDocument.ElementSpec
+    DefaultTableCellRenderer
+    DefaultTableCellRenderer.UIResource
+    DefaultTableColumnModel
+    DefaultTableModel
+    DefaultTextUI
+    DefaultTreeCellEditor
+    DefaultTreeCellRenderer
+    DefaultTreeModel
+    DefaultTreeSelectionModel
+    DefaultValidationEventHandler
+    DefinitionKind
+    DefinitionKindHelper
+    Deflater
+    DeflaterInputStream
+    DeflaterOutputStream
+    Delayed
+    DelayQueue
+    Delegate
+    Delegate
+    Delegate
+    DelegationPermission
+    Deprecated
+    Deque
+    Descriptor
+    DescriptorAccess
+    DescriptorKey
+    DescriptorRead
+    DescriptorSupport
+    DESedeKeySpec
+    DesignMode
+    DESKeySpec
+    Desktop
+    Desktop.Action
+    DesktopIconUI
+    DesktopManager
+    DesktopPaneUI
+    Destination
+    Destroyable
+    DestroyFailedException
+    Detail
+    DetailEntry
+    DGC
+    DHGenParameterSpec
+    DHKey
+    DHParameterSpec
+    DHPrivateKey
+    DHPrivateKeySpec
+    DHPublicKey
+    DHPublicKeySpec
+    Diagnostic
+    Diagnostic.Kind
+    DiagnosticCollector
+    DiagnosticListener
+    Dialog
+    Dialog.ModalExclusionType
+    Dialog.ModalityType
+    DialogTypeSelection
+    Dictionary
+    DigestException
+    DigestInputStream
+    DigestMethod
+    DigestMethodParameterSpec
+    DigestOutputStream
+    Dimension
+    Dimension2D
+    DimensionUIResource
+    DirContext
+    DirectColorModel
+    DirectoryIteratorException
+    DirectoryManager
+    DirectoryNotEmptyException
+    DirectoryStream
+    DirectoryStream.Filter
+    DirObjectFactory
+    DirStateFactory
+    DirStateFactory.Result
+    DISCARDING
+    Dispatch
+    DisplayMode
+    DnDConstants
+    Doc
+    DocAttribute
+    DocAttributeSet
+    DocFlavor
+    DocFlavor.BYTE_ARRAY
+    DocFlavor.CHAR_ARRAY
+    DocFlavor.INPUT_STREAM
+    DocFlavor.READER
+    DocFlavor.SERVICE_FORMATTED
+    DocFlavor.STRING
+    DocFlavor.URL
+    DocPrintJob
+    Document
+    Document
+    DocumentBuilder
+    DocumentBuilderFactory
+    Documented
+    DocumentEvent
+    DocumentEvent
+    DocumentEvent.ElementChange
+    DocumentEvent.EventType
+    DocumentFilter
+    DocumentFilter.FilterBypass
+    DocumentFragment
+    DocumentHandler
+    DocumentListener
+    DocumentName
+    DocumentParser
+    DocumentType
+    DomainCombiner
+    DomainManager
+    DomainManagerOperations
+    DOMConfiguration
+    DOMCryptoContext
+    DOMError
+    DOMErrorHandler
+    DOMException
+    DomHandler
+    DOMImplementation
+    DOMImplementationList
+    DOMImplementationLS
+    DOMImplementationRegistry
+    DOMImplementationSource
+    DOMLocator
+    DOMLocator
+    DOMResult
+    DOMSignContext
+    DOMSource
+    DOMStringList
+    DOMStructure
+    DOMURIReference
+    DOMValidateContext
+    DosFileAttributes
+    DosFileAttributeView
+    Double
+    DoubleBuffer
+    DoubleHolder
+    DoubleSeqHelper
+    DoubleSeqHolder
+    DragGestureEvent
+    DragGestureListener
+    DragGestureRecognizer
+    DragSource
+    DragSourceAdapter
+    DragSourceContext
+    DragSourceDragEvent
+    DragSourceDropEvent
+    DragSourceEvent
+    DragSourceListener
+    DragSourceMotionListener
+    Driver
+    DriverManager
+    DriverPropertyInfo
+    DropMode
+    DropTarget
+    DropTarget.DropTargetAutoScroller
+    DropTargetAdapter
+    DropTargetContext
+    DropTargetDragEvent
+    DropTargetDropEvent
+    DropTargetEvent
+    DropTargetListener
+    DSAKey
+    DSAKeyPairGenerator
+    DSAParameterSpec
+    DSAParams
+    DSAPrivateKey
+    DSAPrivateKeySpec
+    DSAPublicKey
+    DSAPublicKeySpec
+    DTD
+    DTD
+    DTDConstants
+    DTDHandler
+    DuplicateFormatFlagsException
+    DuplicateName
+    DuplicateNameHelper
+    Duration
+    DynamicImplementation
+    DynamicImplementation
+    DynamicMBean
+    DynAny
+    DynAny
+    DynAnyFactory
+    DynAnyFactoryHelper
+    DynAnyFactoryOperations
+    DynAnyHelper
+    DynAnyOperations
+    DynAnySeqHelper
+    DynArray
+    DynArray
+    DynArrayHelper
+    DynArrayOperations
+    DynEnum
+    DynEnum
+    DynEnumHelper
+    DynEnumOperations
+    DynFixed
+    DynFixed
+    DynFixedHelper
+    DynFixedOperations
+    DynSequence
+    DynSequence
+    DynSequenceHelper
+    DynSequenceOperations
+    DynStruct
+    DynStruct
+    DynStructHelper
+    DynStructOperations
+    DynUnion
+    DynUnion
+    DynUnionHelper
+    DynUnionOperations
+    DynValue
+    DynValue
+    DynValueBox
+    DynValueBoxOperations
+    DynValueCommon
+    DynValueCommonOperations
+    DynValueHelper
+    DynValueOperations
+    ECField
+    ECFieldF2m
+    ECFieldFp
+    ECGenParameterSpec
+    ECKey
+    ECParameterSpec
+    ECPoint
+    ECPrivateKey
+    ECPrivateKeySpec
+    ECPublicKey
+    ECPublicKeySpec
+    EditorKit
+    Element
+    Element
+    Element
+    Element
+    Element
+    ElementFilter
+    ElementIterator
+    ElementKind
+    ElementKindVisitor6
+    ElementKindVisitor7
+    Elements
+    ElementScanner6
+    ElementScanner7
+    ElementType
+    ElementVisitor
+    Ellipse2D
+    Ellipse2D.Double
+    Ellipse2D.Float
+    EllipticCurve
+    EmptyBorder
+    EmptyStackException
+    EncodedKeySpec
+    Encoder
+    Encoding
+    ENCODING_CDR_ENCAPS
+    EncryptedPrivateKeyInfo
+    EndDocument
+    EndElement
+    Endpoint
+    EndpointContext
+    EndpointReference
+    Entity
+    Entity
+    EntityDeclaration
+    EntityReference
+    EntityReference
+    EntityResolver
+    EntityResolver2
+    Enum
+    EnumConstantNotPresentException
+    EnumControl
+    EnumControl.Type
+    Enumeration
+    EnumMap
+    EnumSet
+    EnumSyntax
+    Environment
+    EOFException
+    Error
+    ErrorHandler
+    ErrorListener
+    ErrorManager
+    ErrorType
+    EtchedBorder
+    Event
+    Event
+    EventContext
+    EventDirContext
+    EventException
+    EventFilter
+    EventHandler
+    EventListener
+    EventListener
+    EventListenerList
+    EventListenerProxy
+    EventObject
+    EventQueue
+    EventReaderDelegate
+    EventSetDescriptor
+    EventTarget
+    ExcC14NParameterSpec
+    Exception
+    ExceptionDetailMessage
+    ExceptionInInitializerError
+    ExceptionList
+    ExceptionListener
+    Exchanger
+    ExecutableElement
+    ExecutableType
+    ExecutionException
+    Executor
+    ExecutorCompletionService
+    Executors
+    ExecutorService
+    ExemptionMechanism
+    ExemptionMechanismException
+    ExemptionMechanismSpi
+    ExpandVetoException
+    ExportException
+    Expression
+    ExtendedRequest
+    ExtendedResponse
+    ExtendedSSLSession
+    Extension
+    Externalizable
+    FactoryConfigurationError
+    FactoryConfigurationError
+    FailedLoginException
+    FaultAction
+    FeatureDescriptor
+    Fidelity
+    Field
+    FieldNameHelper
+    FieldNameHelper
+    FieldPosition
+    FieldView
+    File
+    FileAlreadyExistsException
+    FileAttribute
+    FileAttributeView
+    FileCacheImageInputStream
+    FileCacheImageOutputStream
+    FileChannel
+    FileChannel.MapMode
+    FileChooserUI
+    FileDataSource
+    FileDescriptor
+    FileDialog
+    FileFilter
+    FileFilter
+    FileHandler
+    FileImageInputStream
+    FileImageOutputStream
+    FileInputStream
+    FileLock
+    FileLockInterruptionException
+    FileNameExtensionFilter
+    FilenameFilter
+    FileNameMap
+    FileNotFoundException
+    FileObject
+    FileOutputStream
+    FileOwnerAttributeView
+    FilePermission
+    Filer
+    FileReader
+    FilerException
+    Files
+    FileStore
+    FileStoreAttributeView
+    FileSystem
+    FileSystemAlreadyExistsException
+    FileSystemException
+    FileSystemLoopException
+    FileSystemNotFoundException
+    FileSystemProvider
+    FileSystems
+    FileSystemView
+    FileTime
+    FileTypeDetector
+    FileTypeMap
+    FileView
+    FileVisitOption
+    FileVisitor
+    FileVisitResult
+    FileWriter
+    Filter
+    FilteredImageSource
+    FilteredRowSet
+    FilterInputStream
+    FilterOutputStream
+    FilterReader
+    FilterWriter
+    Finishings
+    FixedHeightLayoutCache
+    FixedHolder
+    FlatteningPathIterator
+    FlavorEvent
+    FlavorException
+    FlavorListener
+    FlavorMap
+    FlavorTable
+    Float
+    FloatBuffer
+    FloatControl
+    FloatControl.Type
+    FloatHolder
+    FloatSeqHelper
+    FloatSeqHolder
+    FlowLayout
+    FlowView
+    FlowView.FlowStrategy
+    Flushable
+    FocusAdapter
+    FocusEvent
+    FocusListener
+    FocusManager
+    FocusTraversalPolicy
+    Font
+    FontFormatException
+    FontMetrics
+    FontRenderContext
+    FontUIResource
+    ForkJoinPool
+    ForkJoinPool.ForkJoinWorkerThreadFactory
+    ForkJoinPool.ManagedBlocker
+    ForkJoinTask
+    ForkJoinWorkerThread
+    Format
+    Format.Field
+    FormatConversionProvider
+    FormatFlagsConversionMismatchException
+    FormatMismatch
+    FormatMismatchHelper
+    Formattable
+    FormattableFlags
+    Formatter
+    Formatter
+    Formatter.BigDecimalLayoutForm
+    FormatterClosedException
+    FormSubmitEvent
+    FormSubmitEvent.MethodType
+    FormView
+    ForwardingFileObject
+    ForwardingJavaFileManager
+    ForwardingJavaFileObject
+    ForwardRequest
+    ForwardRequest
+    ForwardRequestHelper
+    ForwardRequestHelper
+    Frame
+    FREE_MEM
+    Future
+    FutureTask
+    GapContent
+    GarbageCollectorMXBean
+    GatheringByteChannel
+    GaugeMonitor
+    GaugeMonitorMBean
+    GCMParameterSpec
+    GeneralPath
+    GeneralSecurityException
+    Generated
+    GenericArrayType
+    GenericDeclaration
+    GenericSignatureFormatError
+    GlyphJustificationInfo
+    GlyphMetrics
+    GlyphVector
+    GlyphView
+    GlyphView.GlyphPainter
+    GradientPaint
+    GraphicAttribute
+    Graphics
+    Graphics2D
+    GraphicsConfigTemplate
+    GraphicsConfiguration
+    GraphicsDevice
+    GraphicsDevice.WindowTranslucency
+    GraphicsEnvironment
+    GrayFilter
+    GregorianCalendar
+    GridBagConstraints
+    GridBagLayout
+    GridBagLayoutInfo
+    GridLayout
+    Group
+    GroupLayout
+    GroupLayout.Alignment
+    GroupPrincipal
+    GSSContext
+    GSSCredential
+    GSSException
+    GSSManager
+    GSSName
+    Guard
+    GuardedObject
+    GZIPInputStream
+    GZIPOutputStream
+    Handler
+    Handler
+    HandlerBase
+    HandlerChain
+    HandlerResolver
+    HandshakeCompletedEvent
+    HandshakeCompletedListener
+    HasControls
+    HashAttributeSet
+    HashDocAttributeSet
+    HashMap
+    HashPrintJobAttributeSet
+    HashPrintRequestAttributeSet
+    HashPrintServiceAttributeSet
+    HashSet
+    Hashtable
+    HeadlessException
+    HexBinaryAdapter
+    HierarchyBoundsAdapter
+    HierarchyBoundsListener
+    HierarchyEvent
+    HierarchyListener
+    Highlighter
+    Highlighter.Highlight
+    Highlighter.HighlightPainter
+    HMACParameterSpec
+    Holder
+    HOLDING
+    HostnameVerifier
+    HTML
+    HTML.Attribute
+    HTML.Tag
+    HTML.UnknownTag
+    HTMLDocument
+    HTMLDocument.Iterator
+    HTMLEditorKit
+    HTMLEditorKit.HTMLFactory
+    HTMLEditorKit.HTMLTextAction
+    HTMLEditorKit.InsertHTMLTextAction
+    HTMLEditorKit.LinkController
+    HTMLEditorKit.Parser
+    HTMLEditorKit.ParserCallback
+    HTMLFrameHyperlinkEvent
+    HTMLWriter
+    HTTPBinding
+    HttpContext
+    HttpCookie
+    HTTPException
+    HttpExchange
+    HttpHandler
+    HttpRetryException
+    HttpsURLConnection
+    HttpURLConnection
+    HyperlinkEvent
+    HyperlinkEvent.EventType
+    HyperlinkListener
+    ICC_ColorSpace
+    ICC_Profile
+    ICC_ProfileGray
+    ICC_ProfileRGB
+    Icon
+    IconUIResource
+    IconView
+    ID_ASSIGNMENT_POLICY_ID
+    ID_UNIQUENESS_POLICY_ID
+    IdAssignmentPolicy
+    IdAssignmentPolicyOperations
+    IdAssignmentPolicyValue
+    IdentifierHelper
+    Identity
+    IdentityHashMap
+    IdentityScope
+    IDLEntity
+    IDLType
+    IDLTypeHelper
+    IDLTypeOperations
+    IDN
+    IdUniquenessPolicy
+    IdUniquenessPolicyOperations
+    IdUniquenessPolicyValue
+    IIOByteBuffer
+    IIOException
+    IIOImage
+    IIOInvalidTreeException
+    IIOMetadata
+    IIOMetadataController
+    IIOMetadataFormat
+    IIOMetadataFormatImpl
+    IIOMetadataNode
+    IIOParam
+    IIOParamController
+    IIOReadProgressListener
+    IIOReadUpdateListener
+    IIOReadWarningListener
+    IIORegistry
+    IIOServiceProvider
+    IIOWriteProgressListener
+    IIOWriteWarningListener
+    IllegalAccessError
+    IllegalAccessException
+    IllegalArgumentException
+    IllegalBlockingModeException
+    IllegalBlockSizeException
+    IllegalChannelGroupException
+    IllegalCharsetNameException
+    IllegalClassFormatException
+    IllegalComponentStateException
+    IllegalFormatCodePointException
+    IllegalFormatConversionException
+    IllegalFormatException
+    IllegalFormatFlagsException
+    IllegalFormatPrecisionException
+    IllegalFormatWidthException
+    IllegalMonitorStateException
+    IllegalPathStateException
+    IllegalSelectorException
+    IllegalStateException
+    IllegalThreadStateException
+    IllformedLocaleException
+    Image
+    ImageCapabilities
+    ImageConsumer
+    ImageFilter
+    ImageGraphicAttribute
+    ImageIcon
+    ImageInputStream
+    ImageInputStreamImpl
+    ImageInputStreamSpi
+    ImageIO
+    ImageObserver
+    ImageOutputStream
+    ImageOutputStreamImpl
+    ImageOutputStreamSpi
+    ImageProducer
+    ImageReader
+    ImageReaderSpi
+    ImageReaderWriterSpi
+    ImageReadParam
+    ImageTranscoder
+    ImageTranscoderSpi
+    ImageTypeSpecifier
+    ImageView
+    ImageWriteParam
+    ImageWriter
+    ImageWriterSpi
+    ImagingOpException
+    ImmutableDescriptor
+    IMP_LIMIT
+    IMPLICIT_ACTIVATION_POLICY_ID
+    ImplicitActivationPolicy
+    ImplicitActivationPolicyOperations
+    ImplicitActivationPolicyValue
+    INACTIVE
+    IncompatibleClassChangeError
+    IncompleteAnnotationException
+    InconsistentTypeCode
+    InconsistentTypeCode
+    InconsistentTypeCodeHelper
+    IndexColorModel
+    IndexedPropertyChangeEvent
+    IndexedPropertyDescriptor
+    IndexOutOfBoundsException
+    IndirectionException
+    Inet4Address
+    Inet6Address
+    InetAddress
+    InetSocketAddress
+    Inflater
+    InflaterInputStream
+    InflaterOutputStream
+    InheritableThreadLocal
+    Inherited
+    InitialContext
+    InitialContextFactory
+    InitialContextFactoryBuilder
+    InitialDirContext
+    INITIALIZE
+    InitialLdapContext
+    InitParam
+    InlineView
+    InputContext
+    InputEvent
+    InputMap
+    InputMapUIResource
+    InputMethod
+    InputMethodContext
+    InputMethodDescriptor
+    InputMethodEvent
+    InputMethodHighlight
+    InputMethodListener
+    InputMethodRequests
+    InputMismatchException
+    InputSource
+    InputStream
+    InputStream
+    InputStream
+    InputStreamReader
+    InputSubset
+    InputVerifier
+    Insets
+    InsetsUIResource
+    InstanceAlreadyExistsException
+    InstanceNotFoundException
+    InstantiationError
+    InstantiationException
+    Instrument
+    Instrumentation
+    InsufficientResourcesException
+    IntBuffer
+    Integer
+    IntegerSyntax
+    Interceptor
+    InterceptorOperations
+    InterfaceAddress
+    INTERNAL
+    InternalError
+    InternalFrameAdapter
+    InternalFrameEvent
+    InternalFrameFocusTraversalPolicy
+    InternalFrameListener
+    InternalFrameUI
+    InternationalFormatter
+    InterruptedByTimeoutException
+    InterruptedException
+    InterruptedIOException
+    InterruptedNamingException
+    InterruptibleChannel
+    INTF_REPOS
+    IntHolder
+    IntrospectionException
+    IntrospectionException
+    Introspector
+    INV_FLAG
+    INV_IDENT
+    INV_OBJREF
+    INV_POLICY
+    Invalid
+    INVALID_ACTIVITY
+    INVALID_TRANSACTION
+    InvalidActivityException
+    InvalidAddress
+    InvalidAddressHelper
+    InvalidAddressHolder
+    InvalidAlgorithmParameterException
+    InvalidApplicationException
+    InvalidAttributeIdentifierException
+    InvalidAttributesException
+    InvalidAttributeValueException
+    InvalidAttributeValueException
+    InvalidClassException
+    InvalidDnDOperationException
+    InvalidKeyException
+    InvalidKeyException
+    InvalidKeySpecException
+    InvalidMarkException
+    InvalidMidiDataException
+    InvalidName
+    InvalidName
+    InvalidName
+    InvalidNameException
+    InvalidNameHelper
+    InvalidNameHelper
+    InvalidNameHolder
+    InvalidObjectException
+    InvalidOpenTypeException
+    InvalidParameterException
+    InvalidParameterSpecException
+    InvalidPathException
+    InvalidPolicy
+    InvalidPolicyHelper
+    InvalidPreferencesFormatException
+    InvalidPropertiesFormatException
+    InvalidRelationIdException
+    InvalidRelationServiceException
+    InvalidRelationTypeException
+    InvalidRoleInfoException
+    InvalidRoleValueException
+    InvalidSearchControlsException
+    InvalidSearchFilterException
+    InvalidSeq
+    InvalidSlot
+    InvalidSlotHelper
+    InvalidTargetObjectTypeException
+    InvalidTransactionException
+    InvalidTypeForEncoding
+    InvalidTypeForEncodingHelper
+    InvalidValue
+    InvalidValue
+    InvalidValueHelper
+    Invocable
+    InvocationEvent
+    InvocationHandler
+    InvocationTargetException
+    InvokeHandler
+    Invoker
+    IOError
+    IOException
+    IOR
+    IORHelper
+    IORHolder
+    IORInfo
+    IORInfoOperations
+    IORInterceptor
+    IORInterceptor_3_0
+    IORInterceptor_3_0Helper
+    IORInterceptor_3_0Holder
+    IORInterceptor_3_0Operations
+    IORInterceptorOperations
+    IRObject
+    IRObjectOperations
+    IstringHelper
+    ItemEvent
+    ItemListener
+    ItemSelectable
+    Iterable
+    Iterator
+    IvParameterSpec
+    JApplet
+    JarEntry
+    JarException
+    JarFile
+    JarInputStream
+    JarOutputStream
+    JarURLConnection
+    JavaCompiler
+    JavaCompiler.CompilationTask
+    JavaFileManager
+    JavaFileManager.Location
+    JavaFileObject
+    JavaFileObject.Kind
+    JAXB
+    JAXBContext
+    JAXBElement
+    JAXBElement.GlobalScope
+    JAXBException
+    JAXBIntrospector
+    JAXBPermission
+    JAXBResult
+    JAXBSource
+    JButton
+    JCheckBox
+    JCheckBoxMenuItem
+    JColorChooser
+    JComboBox
+    JComboBox.KeySelectionManager
+    JComponent
+    JdbcRowSet
+    JDesktopPane
+    JDialog
+    JEditorPane
+    JFileChooser
+    JFormattedTextField
+    JFormattedTextField.AbstractFormatter
+    JFormattedTextField.AbstractFormatterFactory
+    JFrame
+    JInternalFrame
+    JInternalFrame.JDesktopIcon
+    JLabel
+    JLayer
+    JLayeredPane
+    JList
+    JList.DropLocation
+    JMenu
+    JMenuBar
+    JMenuItem
+    JMException
+    JMRuntimeException
+    JMX
+    JMXAddressable
+    JMXAuthenticator
+    JMXConnectionNotification
+    JMXConnector
+    JMXConnectorFactory
+    JMXConnectorProvider
+    JMXConnectorServer
+    JMXConnectorServerFactory
+    JMXConnectorServerMBean
+    JMXConnectorServerProvider
+    JMXPrincipal
+    JMXProviderException
+    JMXServerErrorException
+    JMXServiceURL
+    JobAttributes
+    JobAttributes.DefaultSelectionType
+    JobAttributes.DestinationType
+    JobAttributes.DialogType
+    JobAttributes.MultipleDocumentHandlingType
+    JobAttributes.SidesType
+    JobHoldUntil
+    JobImpressions
+    JobImpressionsCompleted
+    JobImpressionsSupported
+    JobKOctets
+    JobKOctetsProcessed
+    JobKOctetsSupported
+    JobMediaSheets
+    JobMediaSheetsCompleted
+    JobMediaSheetsSupported
+    JobMessageFromOperator
+    JobName
+    JobOriginatingUserName
+    JobPriority
+    JobPrioritySupported
+    JobSheets
+    JobState
+    JobStateReason
+    JobStateReasons
+    Joinable
+    JoinRowSet
+    JOptionPane
+    JPanel
+    JPasswordField
+    JPEGHuffmanTable
+    JPEGImageReadParam
+    JPEGImageWriteParam
+    JPEGQTable
+    JPopupMenu
+    JPopupMenu.Separator
+    JProgressBar
+    JRadioButton
+    JRadioButtonMenuItem
+    JRootPane
+    JScrollBar
+    JScrollPane
+    JSeparator
+    JSlider
+    JSpinner
+    JSpinner.DateEditor
+    JSpinner.DefaultEditor
+    JSpinner.ListEditor
+    JSpinner.NumberEditor
+    JSplitPane
+    JTabbedPane
+    JTable
+    JTable.DropLocation
+    JTable.PrintMode
+    JTableHeader
+    JTextArea
+    JTextComponent
+    JTextComponent.DropLocation
+    JTextComponent.KeyBinding
+    JTextField
+    JTextPane
+    JToggleButton
+    JToggleButton.ToggleButtonModel
+    JToolBar
+    JToolBar.Separator
+    JToolTip
+    JTree
+    JTree.DropLocation
+    JTree.DynamicUtilTreeNode
+    JTree.EmptySelectionModel
+    JViewport
+    JWindow
+    KerberosKey
+    KerberosPrincipal
+    KerberosTicket
+    Kernel
+    Key
+    KeyAdapter
+    KeyAgreement
+    KeyAgreementSpi
+    KeyAlreadyExistsException
+    KeyboardFocusManager
+    KeyEvent
+    KeyEventDispatcher
+    KeyEventPostProcessor
+    KeyException
+    KeyFactory
+    KeyFactorySpi
+    KeyGenerator
+    KeyGeneratorSpi
+    KeyInfo
+    KeyInfoFactory
+    KeyListener
+    KeyManagementException
+    KeyManager
+    KeyManagerFactory
+    KeyManagerFactorySpi
+    Keymap
+    KeyName
+    KeyPair
+    KeyPairGenerator
+    KeyPairGeneratorSpi
+    KeyRep
+    KeyRep.Type
+    KeySelector
+    KeySelector.Purpose
+    KeySelectorException
+    KeySelectorResult
+    KeySpec
+    KeyStore
+    KeyStore.Builder
+    KeyStore.CallbackHandlerProtection
+    KeyStore.Entry
+    KeyStore.LoadStoreParameter
+    KeyStore.PasswordProtection
+    KeyStore.PrivateKeyEntry
+    KeyStore.ProtectionParameter
+    KeyStore.SecretKeyEntry
+    KeyStore.TrustedCertificateEntry
+    KeyStoreBuilderParameters
+    KeyStoreException
+    KeyStoreSpi
+    KeyStroke
+    KeyTab
+    KeyValue
+    Label
+    LabelUI
+    LabelView
+    LanguageCallback
+    LastOwnerException
+    LayeredHighlighter
+    LayeredHighlighter.LayerPainter
+    LayerUI
+    LayoutFocusTraversalPolicy
+    LayoutManager
+    LayoutManager2
+    LayoutPath
+    LayoutQueue
+    LayoutStyle
+    LayoutStyle.ComponentPlacement
+    LDAPCertStoreParameters
+    LdapContext
+    LdapName
+    LdapReferralException
+    Lease
+    Level
+    LexicalHandler
+    LIFESPAN_POLICY_ID
+    LifespanPolicy
+    LifespanPolicyOperations
+    LifespanPolicyValue
+    LimitExceededException
+    Line
+    Line.Info
+    Line2D
+    Line2D.Double
+    Line2D.Float
+    LinearGradientPaint
+    LineBorder
+    LineBreakMeasurer
+    LineEvent
+    LineEvent.Type
+    LineListener
+    LineMetrics
+    LineNumberInputStream
+    LineNumberReader
+    LineUnavailableException
+    LinkageError
+    LinkedBlockingDeque
+    LinkedBlockingQueue
+    LinkedHashMap
+    LinkedHashSet
+    LinkedList
+    LinkedTransferQueue
+    LinkException
+    LinkLoopException
+    LinkOption
+    LinkPermission
+    LinkRef
+    List
+    List
+    ListCellRenderer
+    ListDataEvent
+    ListDataListener
+    ListenerNotFoundException
+    ListIterator
+    ListModel
+    ListResourceBundle
+    ListSelectionEvent
+    ListSelectionListener
+    ListSelectionModel
+    ListUI
+    ListView
+    LoaderHandler
+    Locale
+    Locale.Builder
+    Locale.Category
+    LocaleNameProvider
+    LocaleServiceProvider
+    LocalObject
+    LocateRegistry
+    Location
+    LOCATION_FORWARD
+    Locator
+    Locator2
+    Locator2Impl
+    LocatorImpl
+    Lock
+    LockInfo
+    LockSupport
+    Logger
+    LoggingMXBean
+    LoggingPermission
+    LogicalHandler
+    LogicalMessage
+    LogicalMessageContext
+    LoginContext
+    LoginException
+    LoginModule
+    LogManager
+    LogRecord
+    LogStream
+    Long
+    LongBuffer
+    LongHolder
+    LongLongSeqHelper
+    LongLongSeqHolder
+    LongSeqHelper
+    LongSeqHolder
+    LookAndFeel
+    LookupOp
+    LookupTable
+    LSException
+    LSInput
+    LSLoadEvent
+    LSOutput
+    LSParser
+    LSParserFilter
+    LSProgressEvent
+    LSResourceResolver
+    LSSerializer
+    LSSerializerFilter
+    Mac
+    MacSpi
+    MailcapCommandMap
+    MalformedInputException
+    MalformedLinkException
+    MalformedObjectNameException
+    MalformedParameterizedTypeException
+    MalformedURLException
+    ManagementFactory
+    ManagementPermission
+    ManageReferralControl
+    ManagerFactoryParameters
+    Manifest
+    Manifest
+    Map
+    Map.Entry
+    MappedByteBuffer
+    MARSHAL
+    MarshalException
+    MarshalException
+    MarshalException
+    MarshalledObject
+    Marshaller
+    Marshaller.Listener
+    MaskFormatter
+    Matcher
+    MatchResult
+    Math
+    MathContext
+    MatteBorder
+    MBeanAttributeInfo
+    MBeanConstructorInfo
+    MBeanException
+    MBeanFeatureInfo
+    MBeanInfo
+    MBeanNotificationInfo
+    MBeanOperationInfo
+    MBeanParameterInfo
+    MBeanPermission
+    MBeanRegistration
+    MBeanRegistrationException
+    MBeanServer
+    MBeanServerBuilder
+    MBeanServerConnection
+    MBeanServerDelegate
+    MBeanServerDelegateMBean
+    MBeanServerFactory
+    MBeanServerForwarder
+    MBeanServerInvocationHandler
+    MBeanServerNotification
+    MBeanServerNotificationFilter
+    MBeanServerPermission
+    MBeanTrustPermission
+    Media
+    MediaName
+    MediaPrintableArea
+    MediaSize
+    MediaSize.Engineering
+    MediaSize.ISO
+    MediaSize.JIS
+    MediaSize.NA
+    MediaSize.Other
+    MediaSizeName
+    MediaTracker
+    MediaTray
+    Member
+    MembershipKey
+    MemoryCacheImageInputStream
+    MemoryCacheImageOutputStream
+    MemoryHandler
+    MemoryImageSource
+    MemoryManagerMXBean
+    MemoryMXBean
+    MemoryNotificationInfo
+    MemoryPoolMXBean
+    MemoryType
+    MemoryUsage
+    Menu
+    MenuBar
+    MenuBarUI
+    MenuComponent
+    MenuContainer
+    MenuDragMouseEvent
+    MenuDragMouseListener
+    MenuElement
+    MenuEvent
+    MenuItem
+    MenuItemUI
+    MenuKeyEvent
+    MenuKeyListener
+    MenuListener
+    MenuSelectionManager
+    MenuShortcut
+    MessageContext
+    MessageContext.Scope
+    MessageDigest
+    MessageDigestSpi
+    MessageFactory
+    MessageFormat
+    MessageFormat.Field
+    MessageProp
+    Messager
+    MetaEventListener
+    MetalBorders
+    MetalBorders.ButtonBorder
+    MetalBorders.Flush3DBorder
+    MetalBorders.InternalFrameBorder
+    MetalBorders.MenuBarBorder
+    MetalBorders.MenuItemBorder
+    MetalBorders.OptionDialogBorder
+    MetalBorders.PaletteBorder
+    MetalBorders.PopupMenuBorder
+    MetalBorders.RolloverButtonBorder
+    MetalBorders.ScrollPaneBorder
+    MetalBorders.TableHeaderBorder
+    MetalBorders.TextFieldBorder
+    MetalBorders.ToggleButtonBorder
+    MetalBorders.ToolBarBorder
+    MetalButtonUI
+    MetalCheckBoxIcon
+    MetalCheckBoxUI
+    MetalComboBoxButton
+    MetalComboBoxEditor
+    MetalComboBoxEditor.UIResource
+    MetalComboBoxIcon
+    MetalComboBoxUI
+    MetalDesktopIconUI
+    MetalFileChooserUI
+    MetalIconFactory
+    MetalIconFactory.FileIcon16
+    MetalIconFactory.FolderIcon16
+    MetalIconFactory.PaletteCloseIcon
+    MetalIconFactory.TreeControlIcon
+    MetalIconFactory.TreeFolderIcon
+    MetalIconFactory.TreeLeafIcon
+    MetalInternalFrameTitlePane
+    MetalInternalFrameUI
+    MetalLabelUI
+    MetalLookAndFeel
+    MetalMenuBarUI
+    MetalPopupMenuSeparatorUI
+    MetalProgressBarUI
+    MetalRadioButtonUI
+    MetalRootPaneUI
+    MetalScrollBarUI
+    MetalScrollButton
+    MetalScrollPaneUI
+    MetalSeparatorUI
+    MetalSliderUI
+    MetalSplitPaneUI
+    MetalTabbedPaneUI
+    MetalTextFieldUI
+    MetalTheme
+    MetalToggleButtonUI
+    MetalToolBarUI
+    MetalToolTipUI
+    MetalTreeUI
+    MetaMessage
+    Method
+    MethodDescriptor
+    MethodHandle
+    MethodHandleProxies
+    MethodHandles
+    MethodHandles.Lookup
+    MethodType
+    MGF1ParameterSpec
+    MidiChannel
+    MidiDevice
+    MidiDevice.Info
+    MidiDeviceProvider
+    MidiDeviceReceiver
+    MidiDeviceTransmitter
+    MidiEvent
+    MidiFileFormat
+    MidiFileReader
+    MidiFileWriter
+    MidiMessage
+    MidiSystem
+    MidiUnavailableException
+    MimeHeader
+    MimeHeaders
+    MimeType
+    MimeTypeParameterList
+    MimeTypeParseException
+    MimeTypeParseException
+    MimetypesFileTypeMap
+    MinimalHTMLWriter
+    MirroredTypeException
+    MirroredTypesException
+    MissingFormatArgumentException
+    MissingFormatWidthException
+    MissingResourceException
+    Mixer
+    Mixer.Info
+    MixerProvider
+    MLet
+    MLetContent
+    MLetMBean
+    ModelMBean
+    ModelMBeanAttributeInfo
+    ModelMBeanConstructorInfo
+    ModelMBeanInfo
+    ModelMBeanInfoSupport
+    ModelMBeanNotificationBroadcaster
+    ModelMBeanNotificationInfo
+    ModelMBeanOperationInfo
+    ModificationItem
+    Modifier
+    Modifier
+    Monitor
+    MonitorInfo
+    MonitorMBean
+    MonitorNotification
+    MonitorSettingException
+    MouseAdapter
+    MouseDragGestureRecognizer
+    MouseEvent
+    MouseEvent
+    MouseInfo
+    MouseInputAdapter
+    MouseInputListener
+    MouseListener
+    MouseMotionAdapter
+    MouseMotionListener
+    MouseWheelEvent
+    MouseWheelListener
+    MTOM
+    MTOMFeature
+    MultiButtonUI
+    MulticastChannel
+    MulticastSocket
+    MultiColorChooserUI
+    MultiComboBoxUI
+    MultiDesktopIconUI
+    MultiDesktopPaneUI
+    MultiDoc
+    MultiDocPrintJob
+    MultiDocPrintService
+    MultiFileChooserUI
+    MultiInternalFrameUI
+    MultiLabelUI
+    MultiListUI
+    MultiLookAndFeel
+    MultiMenuBarUI
+    MultiMenuItemUI
+    MultiOptionPaneUI
+    MultiPanelUI
+    MultiPixelPackedSampleModel
+    MultipleComponentProfileHelper
+    MultipleComponentProfileHolder
+    MultipleDocumentHandling
+    MultipleGradientPaint
+    MultipleGradientPaint.ColorSpaceType
+    MultipleGradientPaint.CycleMethod
+    MultipleMaster
+    MultiPopupMenuUI
+    MultiProgressBarUI
+    MultiRootPaneUI
+    MultiScrollBarUI
+    MultiScrollPaneUI
+    MultiSeparatorUI
+    MultiSliderUI
+    MultiSpinnerUI
+    MultiSplitPaneUI
+    MultiTabbedPaneUI
+    MultiTableHeaderUI
+    MultiTableUI
+    MultiTextUI
+    MultiToolBarUI
+    MultiToolTipUI
+    MultiTreeUI
+    MultiViewportUI
+    MutableAttributeSet
+    MutableCallSite
+    MutableComboBoxModel
+    MutableTreeNode
+    MutationEvent
+    MXBean
+    Name
+    Name
+    Name
+    NameAlreadyBoundException
+    NameCallback
+    NameClassPair
+    NameComponent
+    NameComponentHelper
+    NameComponentHolder
+    NamedNodeMap
+    NamedValue
+    NameDynAnyPair
+    NameDynAnyPairHelper
+    NameDynAnyPairSeqHelper
+    NameHelper
+    NameHolder
+    NameList
+    NameNotFoundException
+    NameParser
+    Namespace
+    NamespaceChangeListener
+    NamespaceContext
+    NamespaceSupport
+    NameValuePair
+    NameValuePair
+    NameValuePairHelper
+    NameValuePairHelper
+    NameValuePairSeqHelper
+    Naming
+    NamingContext
+    NamingContextExt
+    NamingContextExtHelper
+    NamingContextExtHolder
+    NamingContextExtOperations
+    NamingContextExtPOA
+    NamingContextHelper
+    NamingContextHolder
+    NamingContextOperations
+    NamingContextPOA
+    NamingEnumeration
+    NamingEvent
+    NamingException
+    NamingExceptionEvent
+    NamingListener
+    NamingManager
+    NamingSecurityException
+    NavigableMap
+    NavigableSet
+    NavigationFilter
+    NavigationFilter.FilterBypass
+    NClob
+    NegativeArraySizeException
+    NestingKind
+    NetPermission
+    NetworkChannel
+    NetworkInterface
+    NimbusLookAndFeel
+    NimbusStyle
+    NO_IMPLEMENT
+    NO_MEMORY
+    NO_PERMISSION
+    NO_RESOURCES
+    NO_RESPONSE
+    NoClassDefFoundError
+    NoConnectionPendingException
+    NoContext
+    NoContextHelper
+    Node
+    Node
+    NodeChangeEvent
+    NodeChangeListener
+    NodeList
+    NodeSetData
+    NoInitialContextException
+    NON_EXISTENT
+    NoninvertibleTransformException
+    NonReadableChannelException
+    NonWritableChannelException
+    NoPermissionException
+    NormalizedStringAdapter
+    Normalizer
+    Normalizer.Form
+    NoRouteToHostException
+    NoServant
+    NoServantHelper
+    NoSuchAlgorithmException
+    NoSuchAttributeException
+    NoSuchElementException
+    NoSuchFieldError
+    NoSuchFieldException
+    NoSuchFileException
+    NoSuchMechanismException
+    NoSuchMethodError
+    NoSuchMethodException
+    NoSuchObjectException
+    NoSuchPaddingException
+    NoSuchProviderException
+    NotActiveException
+    Notation
+    NotationDeclaration
+    NotBoundException
+    NotCompliantMBeanException
+    NotContextException
+    NotDirectoryException
+    NotEmpty
+    NotEmptyHelper
+    NotEmptyHolder
+    NotFound
+    NotFoundHelper
+    NotFoundHolder
+    NotFoundReason
+    NotFoundReasonHelper
+    NotFoundReasonHolder
+    NotIdentifiableEvent
+    NotIdentifiableEventImpl
+    Notification
+    NotificationBroadcaster
+    NotificationBroadcasterSupport
+    NotificationEmitter
+    NotificationFilter
+    NotificationFilterSupport
+    NotificationListener
+    NotificationResult
+    NotLinkException
+    NotOwnerException
+    NotSerializableException
+    NotYetBoundException
+    NotYetConnectedException
+    NoType
+    NullCipher
+    NullPointerException
+    NullType
+    Number
+    NumberFormat
+    NumberFormat.Field
+    NumberFormatException
+    NumberFormatProvider
+    NumberFormatter
+    NumberOfDocuments
+    NumberOfInterveningJobs
+    NumberUp
+    NumberUpSupported
+    NumericShaper
+    NumericShaper.Range
+    NVList
+    OAEPParameterSpec
+    OBJ_ADAPTER
+    Object
+    Object
+    OBJECT_NOT_EXIST
+    ObjectAlreadyActive
+    ObjectAlreadyActiveHelper
+    ObjectChangeListener
+    ObjectFactory
+    ObjectFactoryBuilder
+    ObjectHelper
+    ObjectHolder
+    ObjectIdHelper
+    ObjectIdHelper
+    ObjectImpl
+    ObjectImpl
+    ObjectInput
+    ObjectInputStream
+    ObjectInputStream.GetField
+    ObjectInputValidation
+    ObjectInstance
+    ObjectName
+    ObjectNotActive
+    ObjectNotActiveHelper
+    ObjectOutput
+    ObjectOutputStream
+    ObjectOutputStream.PutField
+    ObjectReferenceFactory
+    ObjectReferenceFactoryHelper
+    ObjectReferenceFactoryHolder
+    ObjectReferenceTemplate
+    ObjectReferenceTemplateHelper
+    ObjectReferenceTemplateHolder
+    ObjectReferenceTemplateSeqHelper
+    ObjectReferenceTemplateSeqHolder
+    Objects
+    ObjectStreamClass
+    ObjectStreamConstants
+    ObjectStreamException
+    ObjectStreamField
+    ObjectView
+    ObjID
+    Observable
+    Observer
+    OceanTheme
+    OctetSeqHelper
+    OctetSeqHolder
+    OctetStreamData
+    Oid
+    OMGVMCID
+    Oneway
+    OpenDataException
+    OpenMBeanAttributeInfo
+    OpenMBeanAttributeInfoSupport
+    OpenMBeanConstructorInfo
+    OpenMBeanConstructorInfoSupport
+    OpenMBeanInfo
+    OpenMBeanInfoSupport
+    OpenMBeanOperationInfo
+    OpenMBeanOperationInfoSupport
+    OpenMBeanParameterInfo
+    OpenMBeanParameterInfoSupport
+    OpenOption
+    OpenType
+    OpenType
+    OperatingSystemMXBean
+    Operation
+    OperationNotSupportedException
+    OperationsException
+    Option
+    OptionalDataException
+    OptionChecker
+    OptionPaneUI
+    ORB
+    ORB
+    ORBIdHelper
+    ORBInitializer
+    ORBInitializerOperations
+    ORBInitInfo
+    ORBInitInfoOperations
+    OrientationRequested
+    OutOfMemoryError
+    OutputDeviceAssigned
+    OutputKeys
+    OutputStream
+    OutputStream
+    OutputStream
+    OutputStreamWriter
+    OverlappingFileLockException
+    OverlayLayout
+    Override
+    Owner
+    Pack200
+    Pack200.Packer
+    Pack200.Unpacker
+    Package
+    PackageElement
+    PackedColorModel
+    Pageable
+    PageAttributes
+    PageAttributes.ColorType
+    PageAttributes.MediaType
+    PageAttributes.OrientationRequestedType
+    PageAttributes.OriginType
+    PageAttributes.PrintQualityType
+    PagedResultsControl
+    PagedResultsResponseControl
+    PageFormat
+    PageRanges
+    PagesPerMinute
+    PagesPerMinuteColor
+    Paint
+    PaintContext
+    Painter
+    PaintEvent
+    Panel
+    PanelUI
+    Paper
+    ParagraphView
+    ParagraphView
+    Parameter
+    ParameterBlock
+    ParameterDescriptor
+    Parameterizable
+    ParameterizedType
+    ParameterMetaData
+    ParameterMode
+    ParameterModeHelper
+    ParameterModeHolder
+    ParseConversionEvent
+    ParseConversionEventImpl
+    ParseException
+    ParsePosition
+    Parser
+    Parser
+    ParserAdapter
+    ParserConfigurationException
+    ParserDelegator
+    ParserFactory
+    PartialResultException
+    PasswordAuthentication
+    PasswordCallback
+    PasswordView
+    Patch
+    Path
+    Path2D
+    Path2D.Double
+    Path2D.Float
+    PathIterator
+    PathMatcher
+    Paths
+    Pattern
+    PatternSyntaxException
+    PBEKey
+    PBEKeySpec
+    PBEParameterSpec
+    PDLOverrideSupported
+    Permission
+    Permission
+    PermissionCollection
+    Permissions
+    PERSIST_STORE
+    PersistenceDelegate
+    PersistentMBean
+    PGPData
+    PhantomReference
+    Phaser
+    Pipe
+    Pipe.SinkChannel
+    Pipe.SourceChannel
+    PipedInputStream
+    PipedOutputStream
+    PipedReader
+    PipedWriter
+    PixelGrabber
+    PixelInterleavedSampleModel
+    PKCS8EncodedKeySpec
+    PKIXBuilderParameters
+    PKIXCertPathBuilderResult
+    PKIXCertPathChecker
+    PKIXCertPathValidatorResult
+    PKIXParameters
+    PKIXReason
+    PlainDocument
+    PlainView
+    PlatformLoggingMXBean
+    PlatformManagedObject
+    POA
+    POAHelper
+    POAManager
+    POAManagerOperations
+    POAOperations
+    Point
+    Point2D
+    Point2D.Double
+    Point2D.Float
+    PointerInfo
+    Policy
+    Policy
+    Policy
+    Policy.Parameters
+    PolicyError
+    PolicyErrorCodeHelper
+    PolicyErrorHelper
+    PolicyErrorHolder
+    PolicyFactory
+    PolicyFactoryOperations
+    PolicyHelper
+    PolicyHolder
+    PolicyListHelper
+    PolicyListHolder
+    PolicyNode
+    PolicyOperations
+    PolicyQualifierInfo
+    PolicySpi
+    PolicyTypeHelper
+    Polygon
+    PooledConnection
+    Popup
+    PopupFactory
+    PopupMenu
+    PopupMenuEvent
+    PopupMenuListener
+    PopupMenuUI
+    Port
+    Port.Info
+    PortableRemoteObject
+    PortableRemoteObjectDelegate
+    PortInfo
+    PortUnreachableException
+    Position
+    Position.Bias
+    PosixFileAttributes
+    PosixFileAttributeView
+    PosixFilePermission
+    PosixFilePermissions
+    PostConstruct
+    PreDestroy
+    Predicate
+    PreferenceChangeEvent
+    PreferenceChangeListener
+    Preferences
+    PreferencesFactory
+    PreparedStatement
+    PresentationDirection
+    PrimitiveType
+    Principal
+    Principal
+    PrincipalHolder
+    Printable
+    PrintConversionEvent
+    PrintConversionEventImpl
+    PrinterAbortException
+    PrinterException
+    PrinterGraphics
+    PrinterInfo
+    PrinterIOException
+    PrinterIsAcceptingJobs
+    PrinterJob
+    PrinterLocation
+    PrinterMakeAndModel
+    PrinterMessageFromOperator
+    PrinterMoreInfo
+    PrinterMoreInfoManufacturer
+    PrinterName
+    PrinterResolution
+    PrinterState
+    PrinterStateReason
+    PrinterStateReasons
+    PrinterURI
+    PrintEvent
+    PrintException
+    PrintGraphics
+    PrintJob
+    PrintJobAdapter
+    PrintJobAttribute
+    PrintJobAttributeEvent
+    PrintJobAttributeListener
+    PrintJobAttributeSet
+    PrintJobEvent
+    PrintJobListener
+    PrintQuality
+    PrintRequestAttribute
+    PrintRequestAttributeSet
+    PrintService
+    PrintServiceAttribute
+    PrintServiceAttributeEvent
+    PrintServiceAttributeListener
+    PrintServiceAttributeSet
+    PrintServiceLookup
+    PrintStream
+    PrintWriter
+    PriorityBlockingQueue
+    PriorityQueue
+    PRIVATE_MEMBER
+    PrivateClassLoader
+    PrivateCredentialPermission
+    PrivateKey
+    PrivateMLet
+    PrivilegedAction
+    PrivilegedActionException
+    PrivilegedExceptionAction
+    Process
+    ProcessBuilder
+    ProcessBuilder.Redirect
+    ProcessBuilder.Redirect.Type
+    ProcessingEnvironment
+    ProcessingInstruction
+    ProcessingInstruction
+    Processor
+    ProfileDataException
+    ProfileIdHelper
+    ProgressBarUI
+    ProgressMonitor
+    ProgressMonitorInputStream
+    Properties
+    PropertyChangeEvent
+    PropertyChangeListener
+    PropertyChangeListenerProxy
+    PropertyChangeSupport
+    PropertyDescriptor
+    PropertyEditor
+    PropertyEditorManager
+    PropertyEditorSupport
+    PropertyException
+    PropertyPermission
+    PropertyResourceBundle
+    PropertyVetoException
+    ProtectionDomain
+    ProtocolException
+    ProtocolException
+    ProtocolFamily
+    Provider
+    Provider
+    Provider
+    Provider.Service
+    ProviderException
+    ProviderMismatchException
+    ProviderNotFoundException
+    Proxy
+    Proxy
+    Proxy.Type
+    ProxySelector
+    PseudoColumnUsage
+    PSource
+    PSource.PSpecified
+    PSSParameterSpec
+    PUBLIC_MEMBER
+    PublicKey
+    PushbackInputStream
+    PushbackReader
+    QName
+    QuadCurve2D
+    QuadCurve2D.Double
+    QuadCurve2D.Float
+    QualifiedNameable
+    Query
+    QueryEval
+    QueryExp
+    Queue
+    QueuedJobCount
+    RadialGradientPaint
+    Random
+    RandomAccess
+    RandomAccessFile
+    Raster
+    RasterFormatException
+    RasterOp
+    RC2ParameterSpec
+    RC5ParameterSpec
+    Rdn
+    Readable
+    ReadableByteChannel
+    Reader
+    ReadOnlyBufferException
+    ReadOnlyFileSystemException
+    ReadPendingException
+    ReadWriteLock
+    RealmCallback
+    RealmChoiceCallback
+    REBIND
+    Receiver
+    Rectangle
+    Rectangle2D
+    Rectangle2D.Double
+    Rectangle2D.Float
+    RectangularShape
+    RecursiveAction
+    RecursiveTask
+    ReentrantLock
+    ReentrantReadWriteLock
+    ReentrantReadWriteLock.ReadLock
+    ReentrantReadWriteLock.WriteLock
+    Ref
+    RefAddr
+    Reference
+    Reference
+    Reference
+    Referenceable
+    ReferenceQueue
+    ReferenceType
+    ReferenceUriSchemesSupported
+    ReferralException
+    ReflectionException
+    ReflectiveOperationException
+    ReflectPermission
+    Refreshable
+    RefreshFailedException
+    Region
+    RegisterableService
+    Registry
+    RegistryHandler
+    RejectedExecutionException
+    RejectedExecutionHandler
+    Relation
+    RelationException
+    RelationNotFoundException
+    RelationNotification
+    RelationService
+    RelationServiceMBean
+    RelationServiceNotRegisteredException
+    RelationSupport
+    RelationSupportMBean
+    RelationType
+    RelationTypeNotFoundException
+    RelationTypeSupport
+    RemarshalException
+    Remote
+    RemoteCall
+    RemoteException
+    RemoteObject
+    RemoteObjectInvocationHandler
+    RemoteRef
+    RemoteServer
+    RemoteStub
+    RenderableImage
+    RenderableImageOp
+    RenderableImageProducer
+    RenderContext
+    RenderedImage
+    RenderedImageFactory
+    Renderer
+    RenderingHints
+    RenderingHints.Key
+    RepaintManager
+    ReplicateScaleFilter
+    RepositoryIdHelper
+    Request
+    REQUEST_PROCESSING_POLICY_ID
+    RequestInfo
+    RequestInfoOperations
+    RequestingUserName
+    RequestProcessingPolicy
+    RequestProcessingPolicyOperations
+    RequestProcessingPolicyValue
+    RequestWrapper
+    RequiredModelMBean
+    RescaleOp
+    ResolutionSyntax
+    Resolver
+    ResolveResult
+    Resource
+    Resource.AuthenticationType
+    ResourceBundle
+    ResourceBundle.Control
+    Resources
+    RespectBinding
+    RespectBindingFeature
+    Response
+    ResponseCache
+    ResponseHandler
+    ResponseWrapper
+    Result
+    ResultSet
+    ResultSetMetaData
+    Retention
+    RetentionPolicy
+    RetrievalMethod
+    ReverbType
+    RGBImageFilter
+    RMIClassLoader
+    RMIClassLoaderSpi
+    RMIClientSocketFactory
+    RMIConnection
+    RMIConnectionImpl
+    RMIConnectionImpl_Stub
+    RMIConnector
+    RMIConnectorServer
+    RMICustomMaxStreamFormat
+    RMIFailureHandler
+    RMIIIOPServerImpl
+    RMIJRMPServerImpl
+    RMISecurityException
+    RMISecurityManager
+    RMIServer
+    RMIServerImpl
+    RMIServerImpl_Stub
+    RMIServerSocketFactory
+    RMISocketFactory
+    Robot
+    Role
+    RoleInfo
+    RoleInfoNotFoundException
+    RoleList
+    RoleNotFoundException
+    RoleResult
+    RoleStatus
+    RoleUnresolved
+    RoleUnresolvedList
+    RootPaneContainer
+    RootPaneUI
+    RoundEnvironment
+    RoundingMode
+    RoundRectangle2D
+    RoundRectangle2D.Double
+    RoundRectangle2D.Float
+    RowFilter
+    RowFilter.ComparisonType
+    RowFilter.Entry
+    RowId
+    RowIdLifetime
+    RowMapper
+    RowSet
+    RowSetEvent
+    RowSetFactory
+    RowSetInternal
+    RowSetListener
+    RowSetMetaData
+    RowSetMetaDataImpl
+    RowSetProvider
+    RowSetReader
+    RowSetWarning
+    RowSetWriter
+    RowSorter
+    RowSorter.SortKey
+    RowSorterEvent
+    RowSorterEvent.Type
+    RowSorterListener
+    RSAKey
+    RSAKeyGenParameterSpec
+    RSAMultiPrimePrivateCrtKey
+    RSAMultiPrimePrivateCrtKeySpec
+    RSAOtherPrimeInfo
+    RSAPrivateCrtKey
+    RSAPrivateCrtKeySpec
+    RSAPrivateKey
+    RSAPrivateKeySpec
+    RSAPublicKey
+    RSAPublicKeySpec
+    RTFEditorKit
+    RuleBasedCollator
+    Runnable
+    RunnableFuture
+    RunnableScheduledFuture
+    Runtime
+    RunTime
+    RuntimeErrorException
+    RuntimeException
+    RuntimeMBeanException
+    RuntimeMXBean
+    RunTimeOperations
+    RuntimeOperationsException
+    RuntimePermission
+    SAAJMetaFactory
+    SAAJResult
+    SafeVarargs
+    SampleModel
+    Sasl
+    SaslClient
+    SaslClientFactory
+    SaslException
+    SaslServer
+    SaslServerFactory
+    Savepoint
+    SAXException
+    SAXNotRecognizedException
+    SAXNotSupportedException
+    SAXParseException
+    SAXParser
+    SAXParserFactory
+    SAXResult
+    SAXSource
+    SAXTransformerFactory
+    Scanner
+    ScatteringByteChannel
+    ScheduledExecutorService
+    ScheduledFuture
+    ScheduledThreadPoolExecutor
+    Schema
+    SchemaFactory
+    SchemaFactoryLoader
+    SchemaOutputResolver
+    SchemaViolationException
+    ScriptContext
+    ScriptEngine
+    ScriptEngineFactory
+    ScriptEngineManager
+    ScriptException
+    Scrollable
+    Scrollbar
+    ScrollBarUI
+    ScrollPane
+    ScrollPaneAdjustable
+    ScrollPaneConstants
+    ScrollPaneLayout
+    ScrollPaneLayout.UIResource
+    ScrollPaneUI
+    SealedObject
+    SearchControls
+    SearchResult
+    SecondaryLoop
+    SecretKey
+    SecretKeyFactory
+    SecretKeyFactorySpi
+    SecretKeySpec
+    SecureCacheResponse
+    SecureClassLoader
+    SecureDirectoryStream
+    SecureRandom
+    SecureRandomSpi
+    Security
+    SecurityException
+    SecurityManager
+    SecurityPermission
+    SeekableByteChannel
+    Segment
+    SelectableChannel
+    SelectionKey
+    Selector
+    SelectorProvider
+    Semaphore
+    SeparatorUI
+    Sequence
+    SequenceInputStream
+    Sequencer
+    Sequencer.SyncMode
+    SerialArray
+    SerialBlob
+    SerialClob
+    SerialDatalink
+    SerialException
+    Serializable
+    SerializablePermission
+    SerialJavaObject
+    SerialRef
+    SerialStruct
+    Servant
+    SERVANT_RETENTION_POLICY_ID
+    ServantActivator
+    ServantActivatorHelper
+    ServantActivatorOperations
+    ServantActivatorPOA
+    ServantAlreadyActive
+    ServantAlreadyActiveHelper
+    ServantLocator
+    ServantLocatorHelper
+    ServantLocatorOperations
+    ServantLocatorPOA
+    ServantManager
+    ServantManagerOperations
+    ServantNotActive
+    ServantNotActiveHelper
+    ServantObject
+    ServantRetentionPolicy
+    ServantRetentionPolicyOperations
+    ServantRetentionPolicyValue
+    ServerCloneException
+    ServerError
+    ServerException
+    ServerIdHelper
+    ServerNotActiveException
+    ServerRef
+    ServerRequest
+    ServerRequestInfo
+    ServerRequestInfoOperations
+    ServerRequestInterceptor
+    ServerRequestInterceptorOperations
+    ServerRuntimeException
+    ServerSocket
+    ServerSocketChannel
+    ServerSocketFactory
+    Service
+    Service.Mode
+    ServiceConfigurationError
+    ServiceContext
+    ServiceContextHelper
+    ServiceContextHolder
+    ServiceContextListHelper
+    ServiceContextListHolder
+    ServiceDelegate
+    ServiceDetail
+    ServiceDetailHelper
+    ServiceIdHelper
+    ServiceInformation
+    ServiceInformationHelper
+    ServiceInformationHolder
+    ServiceLoader
+    ServiceMode
+    ServiceNotFoundException
+    ServicePermission
+    ServiceRegistry
+    ServiceRegistry.Filter
+    ServiceUI
+    ServiceUIFactory
+    ServiceUnavailableException
+    Set
+    SetOfIntegerSyntax
+    SetOverrideType
+    SetOverrideTypeHelper
+    Severity
+    Shape
+    ShapeGraphicAttribute
+    SheetCollate
+    Short
+    ShortBuffer
+    ShortBufferException
+    ShortHolder
+    ShortLookupTable
+    ShortMessage
+    ShortSeqHelper
+    ShortSeqHolder
+    ShutdownChannelGroupException
+    Sides
+    Signature
+    SignatureException
+    SignatureMethod
+    SignatureMethodParameterSpec
+    SignatureProperties
+    SignatureProperty
+    SignatureSpi
+    SignedInfo
+    SignedObject
+    Signer
+    SimpleAnnotationValueVisitor6
+    SimpleAnnotationValueVisitor7
+    SimpleAttributeSet
+    SimpleBeanInfo
+    SimpleBindings
+    SimpleDateFormat
+    SimpleDoc
+    SimpleElementVisitor6
+    SimpleElementVisitor7
+    SimpleFileVisitor
+    SimpleFormatter
+    SimpleJavaFileObject
+    SimpleScriptContext
+    SimpleTimeZone
+    SimpleType
+    SimpleTypeVisitor6
+    SimpleTypeVisitor7
+    SinglePixelPackedSampleModel
+    SingleSelectionModel
+    Size2DSyntax
+    SizeLimitExceededException
+    SizeRequirements
+    SizeSequence
+    Skeleton
+    SkeletonMismatchException
+    SkeletonNotFoundException
+    SliderUI
+    SOAPBinding
+    SOAPBinding
+    SOAPBinding.ParameterStyle
+    SOAPBinding.Style
+    SOAPBinding.Use
+    SOAPBody
+    SOAPBodyElement
+    SOAPConnection
+    SOAPConnectionFactory
+    SOAPConstants
+    SOAPElement
+    SOAPElementFactory
+    SOAPEnvelope
+    SOAPException
+    SOAPFactory
+    SOAPFault
+    SOAPFaultElement
+    SOAPFaultException
+    SOAPHandler
+    SOAPHeader
+    SOAPHeaderElement
+    SOAPMessage
+    SOAPMessageContext
+    SOAPMessageHandler
+    SOAPMessageHandlers
+    SOAPPart
+    Socket
+    SocketAddress
+    SocketChannel
+    SocketException
+    SocketFactory
+    SocketHandler
+    SocketImpl
+    SocketImplFactory
+    SocketOption
+    SocketOptions
+    SocketPermission
+    SocketSecurityException
+    SocketTimeoutException
+    SoftBevelBorder
+    SoftReference
+    SortControl
+    SortedMap
+    SortedSet
+    SortingFocusTraversalPolicy
+    SortKey
+    SortOrder
+    SortResponseControl
+    Soundbank
+    SoundbankReader
+    SoundbankResource
+    Source
+    SourceDataLine
+    SourceLocator
+    SourceVersion
+    SpinnerDateModel
+    SpinnerListModel
+    SpinnerModel
+    SpinnerNumberModel
+    SpinnerUI
+    SplashScreen
+    SplitPaneUI
+    Spring
+    SpringLayout
+    SpringLayout.Constraints
+    SQLClientInfoException
+    SQLData
+    SQLDataException
+    SQLException
+    SQLFeatureNotSupportedException
+    SQLInput
+    SQLInputImpl
+    SQLIntegrityConstraintViolationException
+    SQLInvalidAuthorizationSpecException
+    SQLNonTransientConnectionException
+    SQLNonTransientException
+    SQLOutput
+    SQLOutputImpl
+    SQLPermission
+    SQLRecoverableException
+    SQLSyntaxErrorException
+    SQLTimeoutException
+    SQLTransactionRollbackException
+    SQLTransientConnectionException
+    SQLTransientException
+    SQLWarning
+    SQLXML
+    SSLContext
+    SSLContextSpi
+    SSLEngine
+    SSLEngineResult
+    SSLEngineResult.HandshakeStatus
+    SSLEngineResult.Status
+    SSLException
+    SSLHandshakeException
+    SSLKeyException
+    SSLParameters
+    SSLPeerUnverifiedException
+    SSLPermission
+    SSLProtocolException
+    SslRMIClientSocketFactory
+    SslRMIServerSocketFactory
+    SSLServerSocket
+    SSLServerSocketFactory
+    SSLSession
+    SSLSessionBindingEvent
+    SSLSessionBindingListener
+    SSLSessionContext
+    SSLSocket
+    SSLSocketFactory
+    Stack
+    StackOverflowError
+    StackTraceElement
+    StandardCharsets
+    StandardCopyOption
+    StandardEmitterMBean
+    StandardJavaFileManager
+    StandardLocation
+    StandardMBean
+    StandardOpenOption
+    StandardProtocolFamily
+    StandardSocketOptions
+    StandardWatchEventKinds
+    StartDocument
+    StartElement
+    StartTlsRequest
+    StartTlsResponse
+    State
+    State
+    StateEdit
+    StateEditable
+    StateFactory
+    Statement
+    Statement
+    StatementEvent
+    StatementEventListener
+    StAXResult
+    StAXSource
+    Streamable
+    StreamableValue
+    StreamCorruptedException
+    StreamFilter
+    StreamHandler
+    StreamPrintService
+    StreamPrintServiceFactory
+    StreamReaderDelegate
+    StreamResult
+    StreamSource
+    StreamTokenizer
+    StrictMath
+    String
+    StringBuffer
+    StringBufferInputStream
+    StringBuilder
+    StringCharacterIterator
+    StringContent
+    StringHolder
+    StringIndexOutOfBoundsException
+    StringMonitor
+    StringMonitorMBean
+    StringNameHelper
+    StringReader
+    StringRefAddr
+    StringSelection
+    StringSeqHelper
+    StringSeqHolder
+    StringTokenizer
+    StringValueExp
+    StringValueHelper
+    StringWriter
+    Stroke
+    StrokeBorder
+    Struct
+    StructMember
+    StructMemberHelper
+    Stub
+    StubDelegate
+    StubNotFoundException
+    Style
+    StyleConstants
+    StyleConstants.CharacterConstants
+    StyleConstants.ColorConstants
+    StyleConstants.FontConstants
+    StyleConstants.ParagraphConstants
+    StyleContext
+    StyledDocument
+    StyledEditorKit
+    StyledEditorKit.AlignmentAction
+    StyledEditorKit.BoldAction
+    StyledEditorKit.FontFamilyAction
+    StyledEditorKit.FontSizeAction
+    StyledEditorKit.ForegroundAction
+    StyledEditorKit.ItalicAction
+    StyledEditorKit.StyledTextAction
+    StyledEditorKit.UnderlineAction
+    StyleSheet
+    StyleSheet.BoxPainter
+    StyleSheet.ListPainter
+    Subject
+    SubjectDelegationPermission
+    SubjectDomainCombiner
+    SUCCESSFUL
+    SupportedAnnotationTypes
+    SupportedOptions
+    SupportedSourceVersion
+    SupportedValuesAttribute
+    SuppressWarnings
+    SwingConstants
+    SwingPropertyChangeSupport
+    SwingUtilities
+    SwingWorker
+    SwingWorker.StateValue
+    SwitchPoint
+    SYNC_WITH_TRANSPORT
+    SyncFactory
+    SyncFactoryException
+    SyncFailedException
+    SynchronousQueue
+    SyncProvider
+    SyncProviderException
+    SyncResolver
+    SyncScopeHelper
+    SynthButtonUI
+    SynthCheckBoxMenuItemUI
+    SynthCheckBoxUI
+    SynthColorChooserUI
+    SynthComboBoxUI
+    SynthConstants
+    SynthContext
+    SynthDesktopIconUI
+    SynthDesktopPaneUI
+    SynthEditorPaneUI
+    Synthesizer
+    SynthFormattedTextFieldUI
+    SynthGraphicsUtils
+    SynthInternalFrameUI
+    SynthLabelUI
+    SynthListUI
+    SynthLookAndFeel
+    SynthMenuBarUI
+    SynthMenuItemUI
+    SynthMenuUI
+    SynthOptionPaneUI
+    SynthPainter
+    SynthPanelUI
+    SynthPasswordFieldUI
+    SynthPopupMenuUI
+    SynthProgressBarUI
+    SynthRadioButtonMenuItemUI
+    SynthRadioButtonUI
+    SynthRootPaneUI
+    SynthScrollBarUI
+    SynthScrollPaneUI
+    SynthSeparatorUI
+    SynthSliderUI
+    SynthSpinnerUI
+    SynthSplitPaneUI
+    SynthStyle
+    SynthStyleFactory
+    SynthTabbedPaneUI
+    SynthTableHeaderUI
+    SynthTableUI
+    SynthTextAreaUI
+    SynthTextFieldUI
+    SynthTextPaneUI
+    SynthToggleButtonUI
+    SynthToolBarUI
+    SynthToolTipUI
+    SynthTreeUI
+    SynthUI
+    SynthViewportUI
+    SysexMessage
+    System
+    SYSTEM_EXCEPTION
+    SystemColor
+    SystemException
+    SystemFlavorMap
+    SystemTray
+    TabableView
+    TabbedPaneUI
+    TabExpander
+    TableCellEditor
+    TableCellRenderer
+    TableColumn
+    TableColumnModel
+    TableColumnModelEvent
+    TableColumnModelListener
+    TableHeaderUI
+    TableModel
+    TableModelEvent
+    TableModelListener
+    TableRowSorter
+    TableStringConverter
+    TableUI
+    TableView
+    TabSet
+    TabStop
+    TabularData
+    TabularDataSupport
+    TabularType
+    TAG_ALTERNATE_IIOP_ADDRESS
+    TAG_CODE_SETS
+    TAG_INTERNET_IOP
+    TAG_JAVA_CODEBASE
+    TAG_MULTIPLE_COMPONENTS
+    TAG_ORB_TYPE
+    TAG_POLICIES
+    TAG_RMI_CUSTOM_MAX_STREAM_FORMAT
+    TagElement
+    TaggedComponent
+    TaggedComponentHelper
+    TaggedComponentHolder
+    TaggedProfile
+    TaggedProfileHelper
+    TaggedProfileHolder
+    Target
+    TargetDataLine
+    TargetedNotification
+    TCKind
+    Templates
+    TemplatesHandler
+    Text
+    Text
+    TextAction
+    TextArea
+    TextAttribute
+    TextComponent
+    TextEvent
+    TextField
+    TextHitInfo
+    TextInputCallback
+    TextLayout
+    TextLayout.CaretPolicy
+    TextListener
+    TextMeasurer
+    TextOutputCallback
+    TextSyntax
+    TextUI
+    TexturePaint
+    Thread
+    Thread.State
+    Thread.UncaughtExceptionHandler
+    THREAD_POLICY_ID
+    ThreadDeath
+    ThreadFactory
+    ThreadGroup
+    ThreadInfo
+    ThreadLocal
+    ThreadLocalRandom
+    ThreadMXBean
+    ThreadPolicy
+    ThreadPolicyOperations
+    ThreadPolicyValue
+    ThreadPoolExecutor
+    ThreadPoolExecutor.AbortPolicy
+    ThreadPoolExecutor.CallerRunsPolicy
+    ThreadPoolExecutor.DiscardOldestPolicy
+    ThreadPoolExecutor.DiscardPolicy
+    Throwable
+    Tie
+    TileObserver
+    Time
+    TimeLimitExceededException
+    TIMEOUT
+    TimeoutException
+    Timer
+    Timer
+    Timer
+    TimerMBean
+    TimerNotification
+    TimerTask
+    Timestamp
+    Timestamp
+    TimeUnit
+    TimeZone
+    TimeZoneNameProvider
+    TitledBorder
+    Tool
+    ToolBarUI
+    Toolkit
+    ToolProvider
+    ToolTipManager
+    ToolTipUI
+    TooManyListenersException
+    Track
+    TRANSACTION_MODE
+    TRANSACTION_REQUIRED
+    TRANSACTION_ROLLEDBACK
+    TRANSACTION_UNAVAILABLE
+    TransactionalWriter
+    TransactionRequiredException
+    TransactionRolledbackException
+    TransactionService
+    Transferable
+    TransferHandler
+    TransferHandler.DropLocation
+    TransferHandler.TransferSupport
+    TransferQueue
+    Transform
+    TransformAttribute
+    Transformer
+    TransformerConfigurationException
+    TransformerException
+    TransformerFactory
+    TransformerFactoryConfigurationError
+    TransformerHandler
+    TransformException
+    TransformParameterSpec
+    TransformService
+    Transient
+    TRANSIENT
+    Transmitter
+    Transparency
+    TRANSPORT_RETRY
+    TrayIcon
+    TrayIcon.MessageType
+    TreeCellEditor
+    TreeCellRenderer
+    TreeExpansionEvent
+    TreeExpansionListener
+    TreeMap
+    TreeModel
+    TreeModelEvent
+    TreeModelListener
+    TreeNode
+    TreePath
+    TreeSelectionEvent
+    TreeSelectionListener
+    TreeSelectionModel
+    TreeSet
+    TreeUI
+    TreeWillExpandListener
+    TrustAnchor
+    TrustManager
+    TrustManagerFactory
+    TrustManagerFactorySpi
+    Type
+    TypeCode
+    TypeCodeHolder
+    TypeConstraintException
+    TypeElement
+    TypeInfo
+    TypeInfoProvider
+    TypeKind
+    TypeKindVisitor6
+    TypeKindVisitor7
+    TypeMirror
+    TypeMismatch
+    TypeMismatch
+    TypeMismatch
+    TypeMismatchHelper
+    TypeMismatchHelper
+    TypeNotPresentException
+    TypeParameterElement
+    Types
+    Types
+    TypeVariable
+    TypeVariable
+    TypeVisitor
+    UID
+    UIDefaults
+    UIDefaults.ActiveValue
+    UIDefaults.LazyInputMap
+    UIDefaults.LazyValue
+    UIDefaults.ProxyLazyValue
+    UIEvent
+    UIManager
+    UIManager.LookAndFeelInfo
+    UIResource
+    ULongLongSeqHelper
+    ULongLongSeqHolder
+    ULongSeqHelper
+    ULongSeqHolder
+    UndeclaredThrowableException
+    UndoableEdit
+    UndoableEditEvent
+    UndoableEditListener
+    UndoableEditSupport
+    UndoManager
+    UnexpectedException
+    UnicastRemoteObject
+    UnionMember
+    UnionMemberHelper
+    UnionType
+    UNKNOWN
+    UNKNOWN
+    UnknownAnnotationValueException
+    UnknownElementException
+    UnknownEncoding
+    UnknownEncodingHelper
+    UnknownEntityException
+    UnknownError
+    UnknownException
+    UnknownFormatConversionException
+    UnknownFormatFlagsException
+    UnknownGroupException
+    UnknownHostException
+    UnknownHostException
+    UnknownObjectException
+    UnknownServiceException
+    UnknownTypeException
+    UnknownUserException
+    UnknownUserExceptionHelper
+    UnknownUserExceptionHolder
+    UnmappableCharacterException
+    UnmarshalException
+    UnmarshalException
+    Unmarshaller
+    Unmarshaller.Listener
+    UnmarshallerHandler
+    UnmodifiableClassException
+    UnmodifiableSetException
+    UnrecoverableEntryException
+    UnrecoverableKeyException
+    Unreferenced
+    UnresolvedAddressException
+    UnresolvedPermission
+    UnsatisfiedLinkError
+    UnsolicitedNotification
+    UnsolicitedNotificationEvent
+    UnsolicitedNotificationListener
+    UNSUPPORTED_POLICY
+    UNSUPPORTED_POLICY_VALUE
+    UnsupportedAddressTypeException
+    UnsupportedAudioFileException
+    UnsupportedCallbackException
+    UnsupportedCharsetException
+    UnsupportedClassVersionError
+    UnsupportedDataTypeException
+    UnsupportedEncodingException
+    UnsupportedFlavorException
+    UnsupportedLookAndFeelException
+    UnsupportedOperationException
+    URI
+    URIDereferencer
+    URIException
+    URIParameter
+    URIReference
+    URIReferenceException
+    URIResolver
+    URISyntax
+    URISyntaxException
+    URL
+    URLClassLoader
+    URLConnection
+    URLDataSource
+    URLDecoder
+    URLEncoder
+    URLStreamHandler
+    URLStreamHandlerFactory
+    URLStringHelper
+    USER_EXCEPTION
+    UserDataHandler
+    UserDefinedFileAttributeView
+    UserException
+    UserPrincipal
+    UserPrincipalLookupService
+    UserPrincipalNotFoundException
+    UShortSeqHelper
+    UShortSeqHolder
+    UTFDataFormatException
+    Util
+    UtilDelegate
+    Utilities
+    UUID
+    ValidationEvent
+    ValidationEventCollector
+    ValidationEventHandler
+    ValidationEventImpl
+    ValidationEventLocator
+    ValidationEventLocatorImpl
+    ValidationException
+    Validator
+    Validator
+    ValidatorHandler
+    ValueBase
+    ValueBaseHelper
+    ValueBaseHolder
+    ValueExp
+    ValueFactory
+    ValueHandler
+    ValueHandlerMultiFormat
+    ValueInputStream
+    ValueMember
+    ValueMemberHelper
+    ValueOutputStream
+    VariableElement
+    VariableHeightLayoutCache
+    Vector
+    VerifyError
+    VersionSpecHelper
+    VetoableChangeListener
+    VetoableChangeListenerProxy
+    VetoableChangeSupport
+    View
+    ViewFactory
+    ViewportLayout
+    ViewportUI
+    VirtualMachineError
+    Visibility
+    VisibilityHelper
+    VM_ABSTRACT
+    VM_CUSTOM
+    VM_NONE
+    VM_TRUNCATABLE
+    VMID
+    VoiceStatus
+    Void
+    VolatileCallSite
+    VolatileImage
+    W3CDomHandler
+    W3CEndpointReference
+    W3CEndpointReferenceBuilder
+    Watchable
+    WatchEvent
+    WatchEvent.Kind
+    WatchEvent.Modifier
+    WatchKey
+    WatchService
+    WCharSeqHelper
+    WCharSeqHolder
+    WeakHashMap
+    WeakReference
+    WebEndpoint
+    WebFault
+    WebMethod
+    WebParam
+    WebParam.Mode
+    WebResult
+    WebRowSet
+    WebService
+    WebServiceClient
+    WebServiceContext
+    WebServiceException
+    WebServiceFeature
+    WebServiceFeatureAnnotation
+    WebServicePermission
+    WebServiceProvider
+    WebServiceRef
+    WebServiceRefs
+    WildcardType
+    WildcardType
+    Window
+    Window.Type
+    WindowAdapter
+    WindowConstants
+    WindowEvent
+    WindowFocusListener
+    WindowListener
+    WindowStateListener
+    WrappedPlainView
+    Wrapper
+    WritableByteChannel
+    WritableRaster
+    WritableRenderedImage
+    WriteAbortedException
+    WritePendingException
+    Writer
+    WrongAdapter
+    WrongAdapterHelper
+    WrongMethodTypeException
+    WrongPolicy
+    WrongPolicyHelper
+    WrongTransaction
+    WrongTransactionHelper
+    WrongTransactionHolder
+    WStringSeqHelper
+    WStringSeqHolder
+    WStringValueHelper
+    X500Principal
+    X500PrivateCredential
+    X509Certificate
+    X509Certificate
+    X509CertSelector
+    X509CRL
+    X509CRLEntry
+    X509CRLSelector
+    X509Data
+    X509EncodedKeySpec
+    X509ExtendedKeyManager
+    X509ExtendedTrustManager
+    X509Extension
+    X509IssuerSerial
+    X509KeyManager
+    X509TrustManager
+    XAConnection
+    XADataSource
+    XAException
+    XAResource
+    Xid
+    XmlAccessOrder
+    XmlAccessorOrder
+    XmlAccessorType
+    XmlAccessType
+    XmlAdapter
+    XmlAnyAttribute
+    XmlAnyElement
+    XmlAttachmentRef
+    XmlAttribute
+    XMLConstants
+    XMLCryptoContext
+    XMLDecoder
+    XmlElement
+    XmlElement.DEFAULT
+    XmlElementDecl
+    XmlElementDecl.GLOBAL
+    XmlElementRef
+    XmlElementRef.DEFAULT
+    XmlElementRefs
+    XmlElements
+    XmlElementWrapper
+    XMLEncoder
+    XmlEnum
+    XmlEnumValue
+    XMLEvent
+    XMLEventAllocator
+    XMLEventConsumer
+    XMLEventFactory
+    XMLEventReader
+    XMLEventWriter
+    XMLFilter
+    XMLFilterImpl
+    XMLFormatter
+    XMLGregorianCalendar
+    XmlID
+    XmlIDREF
+    XmlInlineBinaryData
+    XMLInputFactory
+    XmlJavaTypeAdapter
+    XmlJavaTypeAdapter.DEFAULT
+    XmlJavaTypeAdapters
+    XmlList
+    XmlMimeType
+    XmlMixed
+    XmlNs
+    XmlNsForm
+    XMLObject
+    XMLOutputFactory
+    XMLParseException
+    XmlReader
+    XMLReader
+    XMLReaderAdapter
+    XMLReaderFactory
+    XmlRegistry
+    XMLReporter
+    XMLResolver
+    XmlRootElement
+    XmlSchema
+    XmlSchemaType
+    XmlSchemaType.DEFAULT
+    XmlSchemaTypes
+    XmlSeeAlso
+    XMLSignature
+    XMLSignature.SignatureValue
+    XMLSignatureException
+    XMLSignatureFactory
+    XMLSignContext
+    XMLStreamConstants
+    XMLStreamException
+    XMLStreamReader
+    XMLStreamWriter
+    XMLStructure
+    XmlTransient
+    XmlType
+    XmlType.DEFAULT
+    XMLValidateContext
+    XmlValue
+    XmlWriter
+    XPath
+    XPathConstants
+    XPathException
+    XPathExpression
+    XPathExpressionException
+    XPathFactory
+    XPathFactoryConfigurationException
+    XPathFilter2ParameterSpec
+    XPathFilterParameterSpec
+    XPathFunction
+    XPathFunctionException
+    XPathFunctionResolver
+    XPathType
+    XPathType.Filter
+    XPathVariableResolver
+    XSLTTransformParameterSpec
+    ZipEntry
+    ZipError
+    ZipException
+    ZipFile
+    ZipInputStream
+    ZipOutputStream
+    ZoneView
+    _BindingIteratorImplBase
+    _BindingIteratorStub
+    _DynAnyFactoryStub
+    _DynAnyStub
+    _DynArrayStub
+    _DynEnumStub
+    _DynFixedStub
+    _DynSequenceStub
+    _DynStructStub
+    _DynUnionStub
+    _DynValueStub
+    _IDLTypeStub
+    _NamingContextExtStub
+    _NamingContextImplBase
+    _NamingContextStub
+    _PolicyStub
+    _Remote_Stub
+    _ServantActivatorStub
+    _ServantLocatorStub
