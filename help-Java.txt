@@ -4,7 +4,7 @@
 video:      156
 progress:   231 / 453
 
-Todo:
+Todo: 1,618
     Streams
     Java collections
     Basic IO
@@ -14,9 +14,10 @@ Todo:
     Concurrency
     JavaFX
 
-+++ protected keyword +++
+protected keyword
 
-+++++++++++++++
++++
+
 
 References/sources
 ------------------
@@ -424,13 +425,131 @@ Enhanced for loop (ArrayList of strings):
     }
 
 
+
+Control Flow - Loops - forEach
+------------------------------
+Source: https://www.baeldung.com/foreach-java
+
+Foreach and enhanced for-Loop are different iterators:
+- forEach, internal Iterator; the collection does the iteration itself.
+- for-loop, external Iterator; requires external code that takes every element out of the collection.
+
+Enumerations, Iterators and enhanced for-loop are all external iterators (with methods like iterator, next and hasNext).
+
+
+Enhanced for-loop:
+
+    for (String name : names) {
+        System.out.println(name);
+    }
+
+
+forEach loop:
+
+    names.forEach(name -> {
+        System.out.println(name);
+    });
+
+    names.forEach(name -> System.out.println(name));
+
+
+Ways to use the forEach method:
+- Anonymous Consumer Implementation
+- Lambda Expression
+- Method Reference
+
+
+Anonymous Consumer Implementation
+
+    Instantiate an implementation of the Consumer interface using an anonymous class and then apply it as an argument to the forEach method:
+
+    Consumer<String> printConsumer= new Consumer<String>() {
+        public void accept(String name) {
+            System.out.println(name);
+        }
+    };
+    names.forEach(printConsumer);
+
+
+Lambda Expression
+
+    Consumer Interface is a functional interface and can be expressed in Lambda. Avoid using bulky anonymous class implementation.
+    Most common way to use the forEach method.
+
+    names.forEach(name -> System.out.println(name));
+
+
+Method Reference, instead of the normal Lambda syntax:
+
+    names.forEach(System.out::println);
+
+---
+
+Iterating over collections (List, Set, Queue):
+
+    List<String> names = Arrays.asList("Larry", "Steve", "James");
+    names.forEach(System.out::println);
+
+    Set<String> uniqueNames = new HashSet<>(Arrays.asList("Larry", "Steve", "James"));
+    uniqueNames.forEach(System.out::println);
+
+    Queue<String> namesQueue = new ArrayDeque<>(Arrays.asList("Larry", "Steve", "James"));
+    namesQueue.forEach(System.out::println);
+
+
+Iterating over a map:
+    Maps are not Iterable, but Java 8 introduced a BiConsumer instead of Consumer in Iterable's forEach,
+    which enables iteration on both the key and value simultaneously.
+
+    Map<Integer, String> namesMap = new HashMap<>();
+    namesMap.put(1, "Larry");
+    namesMap.put(2, "Steve");
+    namesMap.put(3, "James");
+
+    namesMap.forEach((key, value) -> System.out.println(key + " " + value));
+
+
+Iterating over a map by iterating entrySet:
+    Entries of a Map are stored in a Set called EntrySet, we can iterate that using a forEach:
+
+    namesMap.entrySet().forEach(entry -> System.out.println(entry.getKey() + " " + entry.getValue()));
+
+---
+
+Background info:
+
+    The Collection interface has Iterable as its super interface with forEach API:
+
+        void forEach(Consumer<? super T> action);
+
+    The Consumer interface is a functional interface (an interface with a single abstract method). It accepts an input and returns no result.
+
+        @FunctionalInterface
+        public interface Consumer {
+            void accept(T t);
+        }
+
+    Therefore, any implementation, for instance, a consumer that simply prints a String:
+
+        Consumer<String> printConsumer = new Consumer<String>() {
+            public void accept(String name) {
+                System.out.println(name);
+            };
+        };
+
+    can be passed to forEach as an argument:
+
+        names.forEach(printConsumer);
+
+
+
 Constants
 ---------
 static final int MAX_HEIGHT = 8;
 
 
-String
-------
+Strings
+-------
 String myName = "Frenske";
 System.out.println("My name is " + myName);
 
@@ -456,6 +575,17 @@ firstString.equalsIgnoreCase(secondString);
 
 String myAge = String.valueOf(88);
 String myAge = "" + 88;
+
+
+Splitting a string:
+
+    String aString = "It is a wonderful day";
+    String[] parts = aString.split(" ");
+    for (String part: parts) {
+        System.out.println(part);
+    }
+
+
 
 
 Integer
@@ -1144,16 +1274,23 @@ By placing a regular JAR on the module path, it becomes an automatic module that
 
 Lambda Expresions
 -----------------
+#TODO: check core Java book.
+
 - A lambda expression (or function) is a block of code.
 - It is an anonymous function/method , i.e. a function with no name.
 - A lambda expression is function that has parameters and returns a value. Paremeters may be empty.
 - Purpose is to save (unnecessary) code.
 - You don't need to specify the result type of a lambda expression. The compiler infers and checks it.
 - You can use a lambda expression whenever an object of an interface with a single abstract method (i.e. a functional interface) is expected, for example:
-    * To pass a comparison method to Arrays.sort
+    * To pass a comparison method to Arrays.sort.
     * To run a task in a thread (runnable interface).
     * To specify an event handler when a button is clicked (replacing e.g. an anonymous class).
 - You can put a lambda expression in a variable whose type is a functional interface, so that it is converted to an instance of that interface.
+
+Multiline lambda expressions:
+- Must be inside curly braces.
+- Must end every line with a semicolon.
+- Must include a return statement if the method is supposed to return something.
 
 
 Example Lambda expressions without parameters:
@@ -1333,10 +1470,10 @@ applyAsInt()
 
 Streams
 -------
-#TODO
-
 https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html
+https://www.baeldung.com/java-streams-peek-api
 
+The Streams API is a set of operations we can perform on a collection.
 A stream is a sequence of elements supporting sequential and parallel aggregate operations.
 To perform a computation, stream operations are composed into a stream pipeline that consists of:
 - A source (an array, a collection, a generator function, an I/O channel, etc.);
@@ -1359,8 +1496,8 @@ primitive specializations: IntStream, LongStream, DoubleStream
 
 
 
-Turn any collection into a stream:
-    use Collection.stream() method
+Turn collection into a stream:
+    Collection.stream()
 
 Construct a stream from any number of arguments:
     Stream<String> words = Stream.of("I", "am", "crazy");
@@ -1387,9 +1524,115 @@ Stream of tokens of a scanner:
 Stream of all lines in a file:
     Stream<String> lines = Files.lines(path)
 
-
 Concatenate two streams:
     Stream<String> concatStream = Stream.concat(stream1, stream2);
+
+
+Transform the output of the stream pipeline in a List:
+    aStream.collect(Collectors.toList)
+
+
+Transform the output of the stream pipeline in an immutable List:
+    aStream.collect(Collectors.toUnmodifableList)
+
+
+Transform the output of the stream pipeline in a Set:
+    aStream.collect(Collectors.toSet)
+    aStream.collect(Collectors.toUnmodifiableSet)
+
+
+Collect your stream into a Map of key/value pairs. Provide some functions to specify the keys and values
+
+    Collectors.toMap
+    Collectors.toUnmodifiableMap
+
+    public Map<String, String> listToMap(List<Book> books) {
+        return books.stream().collect(Collectors.toMap(Book::getIsbn, Book::getName));
+    }
+
+Join your stream elements into a String:
+    Stream<String> s = Stream.of("I", "love", "you");
+    String str = s.collect(Collectors.joining());
+
+
+Join your stream elements into a String with a delimiter, for example a String of Comma Separated Values (CSV).
+
+     String joined = things.stream()
+                           .map(Object::toString)
+                           .collect(Collectors.joining(", "));
+
+
+Count the items in a stream:
+
+    int result = songs.stream()
+                    .map(Song::getArtist)
+                    .distinct()
+                    .count();
+
+
+Checking if something exists in the stream:
+    #TODO
+    boolean anyMatch(Predicate p);
+    boolean allMatch(Predicate p);
+    boolean noneMatch(Predicate p);
+
+
+Find a specific element in the stream:
+    #TODO
+    Optional<T> findAny();
+    Optional<T> findFirst();
+    Optional<T> findAny();
+
+
+Other common stream operations:
+
+    distinct    Remove duplicates from stream
+    sorted      Order the result of the stream in some way
+    filter      Allows elements in stream that match the given criteria
+    skip        Skip number of elements at the start of the Stream
+    limit       Sets the maximum number of elements that can be output from this Stream
+    map         Change the current elements in the stream into something else
+    takeWhile   Process elements while a given criteria is true
+    dropWhile   Drop elements while a given criteria is true
+
+
+Example:
+
+    List<String> result = strings.stream()
+                                 .sorted((s1, s2) -> s1.compareToIgnoreCase(s2))
+                                 .skip(2)
+                                 .limit(4)
+                                 .collect(Collectors.toList());
+
+Example:
+
+    String songTitle = "Mr. Brightside";
+    List<String> result = allSongs.stream()
+                                  .filter(song -> song.getTitle().equals(songTitle))
+                                  .map(song -> song.getArtist())
+                                  .filter(artist -> !artist.equals("The Killers"))
+                                  .collect(Collectors.toList());
+
+
+Peeking in streams:
+
+    Mainly to support debugging, for example to see the elements as they flow past a certain point in a pipeline.
+    It's an intermediate operation. To see the debug output, you have to apply a terminal operation to the pipeline.
+
+        Stream.of("one", "two", "three", "four")
+          .filter(e -> e.length() > 3)
+          .peek(e -> System.out.println("Filtered value: " + e))
+          .map(String::toUpperCase)
+          .peek(e -> System.out.println("Mapped value: " + e))
+          .collect(Collectors.toList());
+
+    Peek can be useful when we want to alter the inner state of an element. For example, let's say we want to convert all user's name to lowercase before printing them:
+
+        Stream<User> userStream = Stream.of(new User("Alice"), new User("Bob"), new User("Popa"));
+        userStream.peek(u -> u.setName(u.getName().toLowerCase()))
+          .forEach(System.out::println);
+
+    We use peek() instead of map(), because we don't want to replace the element.
 
 
 
