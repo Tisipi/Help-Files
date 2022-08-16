@@ -2,10 +2,9 @@
 
 +++ udemy  +++
 video:      156
-progress:   231 / 453
+progress:   234 / 453
 
 Todo: 1,618
-    Streams
     Java collections
     Basic IO
 
@@ -450,6 +449,9 @@ forEach loop:
         System.out.println(name);
     });
 
+
+forEach loop (one-liner):
+
     names.forEach(name -> System.out.println(name));
 
 
@@ -584,8 +586,6 @@ Splitting a string:
     for (String part: parts) {
         System.out.println(part);
     }
-
-
 
 
 Integer
@@ -1171,7 +1171,7 @@ Similar to an ArrayList, but:
 
 Exception Handling
 ------------------
-TODO:
+#TODO:
 - checked and runtime exception;
 - best practice from clean code, elegant objects
 
@@ -2309,6 +2309,18 @@ assertThat(String reason, T actual, Matcher<T> matcher)               Asserts th
 assertThat(T actual, Matcher<T> matcher)                              Asserts that actual satisfies the condition specified by matcher.
 
 
+Hamcrest
+--------
+asserts and matchers
+
+
+Mockito
+-------
+
+
+WireMock
+--------
+
 
 Java File Types
 ---------------
@@ -2329,6 +2341,7 @@ java.util.ArrayList
 IntelliJ
 --------
 sout:
+
     System.out.println();
 
 soutv:
@@ -2354,6 +2367,18 @@ Find Action:    Ctrl-Shift-A    search for commands and settings across all menu
 ctrl-Y  Delete line (you can choose; can also be used for restore)
 ctrl-D  Duplicate line
 
+
+Settings|Editor|General
+    Auto Import
+        Add unambiguous imports on the fly
+        Optimize imports on the fly
+    Code Folding
+        Deselect Imports
+        Deselect One-line methods
+        Deselect Closures
+        Deselect Generic constructor and method parameters
+    Appearance
+        Show line numbers
 
 
 jUnit configuration, Install jUnit:
@@ -2389,9 +2414,37 @@ Import a library (jar artifact):
         Ok
 
 
+Maven
+-----
+https://maven.apache.org/
+https://mvnrepository.com/
 
-All Java Classes
-----------------
+mvn --version
+mvn help:effective-pom
+
+mvn dependency tree?
+
+mvn <plugin><goal>
+mvn compiler:compile
+mvn compiler:testCompile
+
+maven surefire plugin:
+    mvn clean test
+
+maven install plugin:
+    mvn clean install
+
+maven deploy plugin:
+    mvn clean deploy ?
+
+
+
+https://www.youtube.com/watch?v=JhSBS2OpGdU
+
+
+
+Java Classes
+------------
 https://docs.oracle.com/javase/7/docs/api/allclasses-noframe.html:
 
     AbstractAction
