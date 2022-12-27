@@ -1,8 +1,8 @@
 // Java Notes
 
 +++ udemy  +++
-video:      156
-progress:   234 / 453
+video:      157
+progress:   235 / 453
 
 Todo: 1,618
     Java collections
@@ -417,6 +417,7 @@ Enhanced for loop (array with integers):
         sum += n;
     }
 
+
 Enhanced for loop (ArrayList of strings):
 
     for (String car : cars) {
@@ -807,7 +808,7 @@ public:
 package-private:
     Only visible inside own package.
     Applicable on class, interface and member level.
-    Not a keyword (it is the default when you omit the public keyword).
+    Not a keyword (it is the default when you omit the public keyword)!
 
 private:
     Only visible within the class (including subclasses).
@@ -815,7 +816,7 @@ private:
     Keyword.
 
 protected:
-    Only visible inside own package like package-private
+    Only visible inside own package like package-private.
     But, also visible in subclasses if they are in another packages!
     Applicable on member level.
     Keyword.
@@ -1103,9 +1104,10 @@ https://docs.oracle.com/en/java/javase/18/language/java-language-changes.html
 
 The Collections interface hierarchy consists of two distinct trees:
     1. Collection:
-        - Set, SortedSet
+        - Set, SortedSet.   Implementations: HashSet, TreeSet, LinkedHashSet
         - List
-        - Queue, Deque
+        - Queue
+        - Deque
     2. Map, SortedMap
 
 
@@ -1219,6 +1221,11 @@ File I/O
 --------
 #TODO
 
+
+Comparator
+----------
+https://www.baeldung.com/java-comparator-comparable
+#todo
 
 
 Modules
@@ -2366,6 +2373,9 @@ Find Action:    Ctrl-Shift-A    search for commands and settings across all menu
 
 ctrl-Y  Delete line (you can choose; can also be used for restore)
 ctrl-D  Duplicate line
+
+alt-enter  once, twice
+ctrl-space once, twice
 
 
 Settings|Editor|General

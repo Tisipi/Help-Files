@@ -267,6 +267,10 @@ MenubarMorph reset
 /usr/racket/bin/
 
 
+# TypeScript compilation in watch mode
+tsc -w
+
+
 
 =================
 
