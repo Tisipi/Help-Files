@@ -1283,9 +1283,10 @@ Example using Comparable with compareTo method.
     Collections.sort(myCars);
 
 
-Example using Comparator with comparemethod.
+Example using Comparator with compare method.
+
     Comparator interface defines a compare(arg1, arg2) method.
-    Using this approach, we can override the natural ordering:
+    We can now override the natural ordering.
 
     import java.util.Comparator;
 
