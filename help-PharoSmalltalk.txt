@@ -102,7 +102,7 @@ Variable Declaration
 Messages, Selectors, Methods
 ----------------------------
 Selector:  Name of a message.
-Message:   Selecor with parameter values.
+Message:   Selector with parameter values.
 Method:    Code found in class for responding to message.
 
 A method is called by sending a message to an object,the message receiver; the message returns an object. Messages are modeled from natural languages, with a subject, a verb and complements.
@@ -116,7 +116,7 @@ There are three types of messages:
 A unary message is one with no arguments:
 
 	Array new.          The message new is sent to the class Array (instance creation).
-	2 squared           The message squared is sent to an integer.
+	2 squared.          The message squared is sent to an integer.
 	-3 abs.							The message absolute is sent to an integer.
 	#(1 2 3) size.			The message size is sent to an array.
 
@@ -499,6 +499,10 @@ Unprintable characters:
 Print all 256 characters of the ASCII extended set:
 	Character allByteCharacters.
 
+Code point (Unicode value) of a character:
+		$A codePoint.
+		$λ codePoint.
+		'I love Pharo' collect: #codePoint as: Array.
 
 
 Strings
@@ -1081,8 +1085,6 @@ To remove one level of nesting in a collection use flatCollect:
 
 	#((3 4) (1 2)) flatCollect: [:each | each ]
 	> #(3 4 1 2)
-
-
 
 
 
@@ -1919,6 +1921,18 @@ Test fixture:
 
 
 NOTE: There exist libraries for mocking for example BabyMock.
+
+
+
+Encoding/Decoding
+-----------------
+Convert String to ByteArray
+	'éèç' utf8Encoded.
+	'éèç' encodeWith: #latin1.
+
+Decode ByteArray to String
+	#[72 101 108 108 111] utf8Decoded.
+	#[72 101 108 108 111] decodeWith: #latin1.
 
 
 

@@ -29,8 +29,23 @@ Head First Java, 3rd Edition, Kathy Sierra, Bert Bates, Trisha Gee, 2022
 https://docs.oracle.com/javase/tutorial/
 https://www.w3schools.com/java/default.asp
 
+
+Misc Links
+----------
 Search for Java code:       https://www.tabnine.com/code
 Google Java Style Guide:    https://google.github.io/styleguide/javaguide.html
+
+
+Awesome Java                https://github.com/akullpp/awesome-java
+Java8 Tutorial              https://github.com/winterbe/java8-tutorial
+Baeldung Tutorials          https://github.com/eugenp/tutorials
+Codever Java tags           https://github.com/CodeverDotDev/bookmarks/blob/master/tagged/java.md
+Java Design Patterns        https://github.com/iluwatar/java-design-patterns
+                            https://java-design-patterns.com/principles/
+Programming Principles      https://github.com/webpro/programming-principles
+Cracking the code interview https://github.com/careercup/CtCI-6th-Edition/tree/master/Java
+Spring                      https://github.com/spring-projects/spring-framework
+
 
 
 Hello World
@@ -1222,10 +1237,81 @@ File I/O
 #TODO
 
 
-Comparator
-----------
+Comparable vs. Comparator
+-------------------------
 https://www.baeldung.com/java-comparator-comparable
-#todo
+
+Example using Comparable with compareTo method.
+
+    The sorting order is decided by the return value of the compareTo() method.
+    This is called the class's natural ordering.
+
+    public class Car implements Comparable<Car> {
+        private String type;
+        private String color;
+        private Integer price;
+
+        public Car(String type, String color, Integer price) {
+            this.type = type;
+            this.color = color;
+            this.price = price;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public String getColor() {
+            return color;
+        }
+
+        @Override
+        public String toString(){
+            return color + " " + type;
+        }
+
+        @Override
+        public int compareTo(Car aCar) {
+            return this.getType().compareTo(aCar.getType());
+        }
+    }
+
+    List<Car> myCars = new ArrayList<>();
+    myCars.add(new Car("Ford", "blue", 10000));
+    myCars.add(new Car("VW", "red", 8000));
+    myCars.add(new Car("Audi", "black", 18000));
+    Collections.sort(myCars);
+
+
+Example using Comparator with comparemethod.
+    Comparator interface defines a compare(arg1, arg2) method.
+    Using this approach, we can override the natural ordering:
+
+    import java.util.Comparator;
+
+    public class CarTypeComparator implements Comparator<Car> {
+        @Override
+        public int compare(Car firstCar, Car secondCar) {
+            return firstCar.getType().compareTo(secondCar.getType());
+        }
+    }
+
+    public class CarColorComparator implements Comparator<Car> {
+        @Override
+        public int compare(Car firstCar, Car secondCar) {
+            return firstCar.getColor().compareTo(secondCar.getColor());
+        }
+    }
+
+    List<Car> myCars = new ArrayList<>();
+    myCars.add(new Car("Ford", "blue", 10000));
+    myCars.add(new Car("VW", "red", 8000));
+    myCars.add(new Car("Audi", "black", 18000));
+    CarTypeComparator carTypeComparator = new CarTypeComparator();
+    Collections.sort(myCars, carTypeComparator);
+    CarColorComparator carColorComparator = new CarColorComparator();
+    Collections.sort(myCars, carColorComparator);
+
 
 
 Modules
