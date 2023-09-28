@@ -50,7 +50,7 @@ Screencasts                 https://www.youtube.com/channel/UCp3mNigANqkesFzdm05
 Presentations               http://www.slideshare.net/pharoproject/
 Cheat-sheet                 https://files.pharo.org/media/flyer-cheat-sheet.pdf
 Misc Articles               https://medium.com/concerning-pharo
-														https://medium.com/concerning-pharo/elegant-pharo-code-bb590f0856d0
+							https://medium.com/concerning-pharo/elegant-pharo-code-bb590f0856d0
 
 
 Notes below are primarily learned from these resources.
@@ -94,8 +94,8 @@ Separator
 
 Variable Declaration
 --------------------
-| foo |			  "Declaration of one variable"
-| foo bar |	  "Declaration of two variables"
+| foo |       "Declaration of one variable"
+| foo bar |   "Declaration of two variables"
 
 
 
@@ -105,7 +105,7 @@ Selector:  Name of a message.
 Message:   Selector with parameter values.
 Method:    Code found in class for responding to message.
 
-A method is called by sending a message to an object,the message receiver; the message returns an object. Messages are modeled from natural languages, with a subject, a verb and complements.
+A method is called by sending a message to an object, the message receiver; the message returns an object. Messages are modeled from natural languages, with a subject, a verb and complements.
 
 There are three types of messages:
 - unary,
@@ -117,8 +117,8 @@ A unary message is one with no arguments:
 
 	Array new.          The message new is sent to the class Array (instance creation).
 	2 squared.          The message squared is sent to an integer.
-	-3 abs.							The message absolute is sent to an integer.
-	#(1 2 3) size.			The message size is sent to an array.
+	-3 abs.             The message absolute is sent to an integer.
+	#(1 2 3) size.      The message size is sent to an array.
 
 
 A binary message takes only one argument and is named by one or more symbol characters:
@@ -953,8 +953,8 @@ A block encapsulates only one computation.
 
 Blocks look like functions:
 
-	f := [ :x | x * x + 3 ] 		"f(x) = x*x+3"
-	f value: 2 									"f(2)""
+	f := [ :x | x * x + 3 ]          "f(x) = x*x+3"
+	f value: 2                       "f(2)""
 
 
 [:x | x * x ] value:12.
@@ -1532,7 +1532,17 @@ Create directory:
 
 	(home / 'dev' / 'tempDir') isDirectory.
 	(home / 'dev' / 'tempDir') ensureCreateDirectory.
-	"(home / 'dev' / 'tempDir') createDirectory."
+	(home / 'dev' / 'tempDir') createDirectory.
+
+	createDirectory
+		Verifies that the directory does not exist and only creates if necessary.
+		Do not remove files contained if they exist.
+		If the parents do not exist return an exception.
+
+	ensureCreateDirectory
+		Verifies that the directory does not exist and only creates if necessary.
+		Do not remove files contained if they exist.
+		Creates the parents if needed.
 
 
 Delete directory:
@@ -1612,20 +1622,12 @@ Writing to a file (automatically closing file stream):
 ++++
 
 
-#TODO: Difference between these two:
-
-		createDirectory
-			"Verifies that the directory does not exist and only creates if necessary. Do not remove files contained if they exist.If the parents does not exist return an exception"
-
-		ensureCreateDirectory
-			"Verifies that the directory does not exist and only creates if necessary. Do not remove files contained if they exist.Creates the parents if needed"
-
-
 
 File Manipulation (source Pharo image)
 --------------------------------------
 
-FileSystem is a low-level protocol for interacting with filesystems. FileSystem instances know two methods that return a Reference object: workingDirectory and root.
+FileSystem is a low-level protocol for interacting with filesystems.
+FileSystem instances know two methods that return a Reference object: workingDirectory and root.
 
 FileSystem disk workingDirectory.                  "FileReference on working directory"
 FileSystem disk root.                              "FileReference on root"
@@ -1634,10 +1636,12 @@ FileSystem disk workingDirectory files.
 FileSystem disk workingDirectory directories.
 
 
-FileReference provides methods for navigating the filesystem, performing filesystem operations and opening and closing files. It is the primary mechanism for working with files and directories.
+FileReference provides methods for navigating the filesystem, performing filesystem operations and opening and closing files.
+It is the primary mechanism for working with files and directories.
 
 
-FileLocator refers to a file or directory in relation to a well-known location on the filesystem, called an origin. When asked to perform concrete operation, I look up the current location of my origin, and resolve my path against it.
+FileLocator refers to a file or directory in relation to a well-known location on the filesystem, called an origin.
+When asked to perform concrete operation, I look up the current location of my origin, and resolve my path against it.
 
 FileLocator documents.
 FileLocator documents pathString.
@@ -2570,7 +2574,7 @@ Common Pharo Coding Errors
   Example of symptom: MessageNotUnderstood exception regarding message self
 
 - Missing brackets. Keyword messages are built out of fragments.
-  The message is the longuest sequence of fragments.
+  The message is the longest sequence of fragments.
   Use parentheses to delimit multiple keyword messages
   Symptom: Error: Message includes:ifTrue: does not exist
            Error: Message assert:includes: does not exist
@@ -2600,7 +2604,7 @@ Branching (with if) based on the type of an object is bad:
 - Adding a new type requires modifying all such code.
 - Methods will become very long and full of details.
 - Send messages instead.
-- A message acts as a better if !
+- A message acts as a better if!
 - Do not return nil. nil forces every client to check for nil.
 - Avoid error codes because they require if in clients.
 - When possible, replace if by polymorphic objects:
@@ -2820,10 +2824,10 @@ Advantage:
 
 Misc
 ----
-MenubarMorph reset.			"hdpi displays; resets the menubar when you've adjusted the scale factor and/or font sizes"
+MenubarMorph reset.       "hdpi displays; resets the menubar when you've adjusted the scale factor and/or font sizes"
 
-GTPlayground open.			"Open a playground"
-Workspace open.					"Open a workspace"
+GTPlayground open.        "Open a playground"
+Workspace open.           "Open a workspace"
 
 'Hello World' asMorph openInWindow .
 
