@@ -325,9 +325,19 @@ Sending a message to another object:
 "self class new" returns an instance of a potential subclass in case of inheritance.
 
 
+#TODO, is this correct?
 The initialize method is an instance method.
 It is called automatically by the new method just after an instance is created.
 The purpose of the initialize method is to set up the initial state of the newly created object.
+
+
+Standard implementation of new is:
+
+    new
+        ^self basicNew initialize
+
+#basicNew is a primitive that just creates the object, but does no initialization.
+All instance variables will be nil after basicNew.
 
 
 
@@ -340,8 +350,9 @@ A class is initialized through the class method initialize.
 A class is initialized:
 - either at load time after its methods are loaded
 - or explicitly by the programmer.
+
 Warning:
-- Don’t write super initialize in a class initialize method !
+- Don’t write super initialize in a class initialize method!
 - This will initialize superclasses that are already initialized (at load time).
 
 
