@@ -6,12 +6,12 @@ A clean, innovative, open-source Smalltalk-inspired environment.
 
 Pharo has a simple dynamically-typed object model:
 - Everything is an object (an instance of a class).
-- Classes are objects too
+- Classes are objects too.
 - Computation happens only via message sends (and variable assignment).
 - There is single inheritance between classes.
 - Instance variables are protected.
 - Methods are public.
-- Blocks are lexical closure a.k.a.anonymous methods.
+- Blocks are lexical closure a.k.a. anonymous methods.
 - Traits are groups of methods that can be reused orthogonally to inheritance.
 
 Pharo is:
@@ -44,13 +44,13 @@ Pharo Books                 http://books.pharo.org
                             	Deep into Pharo
                             	Dynamic Web with Seaside: http://book.seaside.st
 Updated Pharo by Example    https://github.com/SquareBracketAssociates/UpdatedPharoByExample
-Numerical Methods           https://github.com/SquareBracketAssociates/ NumericalMethods
+Numerical Methods           https://github.com/SquareBracketAssociates/NumericalMethods
 
-Screencasts                 https://www.youtube.com/channel/UCp3mNigANqkesFzdm058bvw
+Screen casts                https://www.youtube.com/channel/UCp3mNigANqkesFzdm058bvw
 Presentations               http://www.slideshare.net/pharoproject/
 Cheat-sheet                 https://files.pharo.org/media/flyer-cheat-sheet.pdf
 Misc Articles               https://medium.com/concerning-pharo
-							https://medium.com/concerning-pharo/elegant-pharo-code-bb590f0856d0
+                            https://medium.com/concerning-pharo/elegant-pharo-code-bb590f0856d0
 
 
 Notes below are primarily learned from these resources.
@@ -130,7 +130,7 @@ A binary message takes only one argument and is named by one or more symbol char
 A keyword message can take one or more arguments that are inserted in the message name:
 
 	’Smalltalk’ allButFirst: 5.  Sends the message allButFirst: to a string, with the argument 5 (this returns the string ’talk’).
-	3 to: 10 by: 2.              Sends to:by: to 3, with arguments 10 and 2 (this returns a collection containing 3, 5, 7 and 9).
+	3 to: 10 by: 2.              Sends to:by: to 3, with arguments 10 and 2 (this returns an interval (a collection) containing 3, 5, 7 and 9).
 
 
 
@@ -167,8 +167,8 @@ Use parentheses to change order of evaluation
 	(2 raisedTo: 3) + 2.
 
 
-The rule suffers no exception: operators are just binary messages with no notion of mathematical precedence.
-Traditional precedence rules from mathematics do not apply in Pharo.
+The rule suffers no exception: Operators are just binary messages with no notion of mathematical precedence.
+Traditional precedence rules from mathematics do not apply in Pharo!
 Remember that all messages always follow a simple left-to-right precedence rule.
 	2 * 10 + 2.
 	2 + 2 * 10.
@@ -177,7 +177,7 @@ Remember that all messages always follow a simple left-to-right precedence rule.
 
 Cascading Messages
 ------------------
-Multiple messages can be sent to the same receiver with ;.
+Multiple messages can be sent to the same receiver with ; (semicolon).
 ; is the cascade operator.
 
 	OrderedCollection new
@@ -188,6 +188,11 @@ Multiple messages can be sent to the same receiver with ;.
 The value of the whole message cascade is the value of the last message sent.
 To return the receiver of the message cascade instead, make sure to send yourself as the last message of the cascade.
 
+    OrderedCollection new
+        add: #abc;
+        add: #def;
+        add: #ghi;
+        yourself.
 
 
 Classes
@@ -272,7 +277,7 @@ Metaclasses
 -----------
 Advanced topic, for details see MOOC or Deep Into Pharo.
 
-Metaclasses in 7 Points:
+Metaclasses in seven Points:
 1. Every object is an instance of a class.
 2. Every class eventually inherits from Object.
 3. Every class is an instance of a metaclass.
@@ -282,8 +287,8 @@ Metaclasses in 7 Points:
 7. The metaclass of Metaclass is an instance of Metaclass.
 
 Class Object represents the common object behavior:
-- error handling, halting, announcements
-- all classes eventually inherit from Object
+- Error handling, halting, announcements.
+- All classes eventually inherit from Object.
 
 Every class is an instance of a metaclass.
 Classes are objects too!
@@ -300,8 +305,8 @@ Where is method new defined?
 
 Object/Instance Creation
 ------------------------
-#TODO: new & initialize.
-
+The new method is a class method.
+When you send the new message to a class, it creates a new instance of that class and returns it.
 
 Sending the messages new or new: to a class:
 	Counter new.
@@ -315,12 +320,14 @@ Sending a message to another object:
 	'Pharo', ' is Cool'       "Creates a string"
 
 
-
-
-
 "self class" always returns the class of the receiver.
 "self class new" returns an instance of the receiver.
 "self class new" returns an instance of a potential subclass in case of inheritance.
+
+
+The initialize method is an instance method.
+It is called automatically by the new method just after an instance is created.
+The purpose of the initialize method is to set up the initial state of the newly created object.
 
 
 
@@ -2892,12 +2899,21 @@ Docker
 https://thepharo.dev/2021/02/24/running-pharo-9-in-docker/
 
 
+Morphic Halo
+------------
+The Morphic Halo is a user interface component in the Morphic graphical user interface.
+It provides a set of interactive controls and handles that can be displayed around a Morph (a graphical object).
+It enables various operations and manipulations on that Morph.
+
+Activate the Halo: Alt-Shift or Fn-Shift and click on any element on the screen.
+
+
 MOOC - Todo
 -----------
 4.11 Voyage summary, see #TODO.
 
 Exercises/challenges Todo:
-	2.14.3.[Mini-projet] Chap.3 TinyBlog: Extending and Testing the Model
+	2.14.3.[Mini-project] Chap.3 TinyBlog: Extending and Testing the Model
 	3.14.2 challenge 2
 	4.12 - 4.14
 	5.11, 5.12
