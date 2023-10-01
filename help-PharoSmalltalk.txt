@@ -534,7 +534,7 @@ Code point (Unicode value) of a character:
 
 Strings
 -------
-A String is a collection of characters, delimited by ’.
+A String is a collection of characters, delimited by single quotes.
 Use single quotes to create a String object.
 
 	'ProfStef'.
@@ -549,7 +549,7 @@ You can access each character using at: message. Index starts at 1, not at 0.
 	'ProfStef' at: 1.
 
 String concatenation uses the comma operator:
-	'ProfStef', ' is cool'.
+	'ProfStef' , ' is cool'.
 
 To add a quote in a string just type it twice (escape with '):
 	'It''s not correct'
@@ -561,22 +561,44 @@ Other ways to create strings:
 	String with: $a with: $b
 	#mac asString
 
+String is a collection:
+    'Hello there' do: [:each | Transcript show: each ; cr ]
 
-'Hello there' do: [:each | Transcript show: each ; cr ]
+Remove characters from a string:
+    'ProfStef' copyWithout: $f.
+    'ProfStef' copyWithoutAll: 'fP'.
+    ('ip is it' copyWithout: ' ') reverse capitalized.
+
+Splitting a string on a certain character, for example a space:
+    ' ' split: 'eclair au chocolat'
+    Character space split: 'eclair au chocolat'
+        > an OrderedCollection('eclair' 'au' 'chocolat')
+
+    Character space split: 'A Symbol is a String which is guaranteed to be globally unique'
+
+Splitting a string on a dash:
+    $- split: '1969-07-20'
+    '-' split: '1969-07-20'
+    ('-' split: '1969-07-20') first
+
+Joining an array of strings with a specific character:
+    Character space join: #('This' 'is' 'crazy')
+    $_ join: #('This' 'is' 'crazy')
+
+    $/ join: ($- split: '1969-07-20') reverse
+    '/' join: ('-' split: '1969-07-20') reverse
 
 
-Character space split: 'eclair au chocolat'
-> an OrderedCollection('eclair' 'au' 'chocolat')
+#TODO: add example of copy strings
+    'ProfStef' copyUpTo: $f.
+    'ProfStef' copyUpToAll: 'fP'.
+    'ProfStef' copyUpToAll: 'fP' asSet.
 
-Character space split: 'A Symbol is a String which is guaranteed to be globally unique'
+    'ProfStef' copyFrom: $f.
+    'ProfStef' copyFrom: $f to: $t.
+    'ProfStef' copyFrom: $f to: $t + 1.
 
-$- split: '1969-07-20'
 
-
-$/ join: ($- split: '1969-07-20') reverse
-
-Character space join: #('This' 'is' 'crazy')
-$_ join: #('This' 'is' 'crazy')
 
 
 Note:
