@@ -370,21 +370,21 @@ A class eventually inherits from Object.
 Object is the root of most classes.
 ProtoObject is Object’s superclass (it is for special purposes).
 
-Inheritance of state is static (i.e., during class creation).
-Inheritance of behavior is dynamic (i.e., during execution).
+Inheritance of state is static (i.e. during class creation).
+Inheritance of behavior is dynamic (i.e. during execution).
 
-Inheritance of Instance Variables:
-- happens during class definition
+Inheritance of instance variables:
+- happens during class definition;
 - computed from the class own instance variables and the ones of its superclasses,
 
-Inheritance of Behavior:
+Inheritance of behavior:
 - happens at runtime;
 - the method is searched starting from the receiver’s class then going to the superclass.
 
 
 
-Inheritance, Lookup, self, super
---------------------------------
+Inheritance, Method Lookup, self, super
+---------------------------------------
 Sending a message is a two-step process:
 1. Look up the method matching the message.
 2. Execute this method on the receiver.
@@ -399,12 +399,21 @@ Method lookup:
 
 self always represents the receiver of the message.
 self in Pharo, this in Java.
-The method lookup starts in the class of the receiver
+The method lookup starts in the class of the receiver.
 
 super refers to the receiver of the message (just like self) !!!
 super changes where the lookup starts.
 The method lookup starts in the superclass of the class containing the super expression !!!
+
 NOTE this WRONG definition: super looks for the method in the superclass of the receiver’s class.
+    So, the key distinction is that super refers to the superclass of the class containing the super
+    expression and not necessarily to the superclass of the actual runtime class of the object.
+    So, super always refers to the superclass of the class containing the super expression and is
+    not dependent on the runtime class of the object.
+
+ So, super refers to the receiver, but the method lookup starts in the superclass of the class
+ defining the method.
+
 
 When no method is found during lookup in the class hierarchy:
 - doesNotUnderstand: is sent to the receiver.
@@ -420,8 +429,8 @@ When no method is found during lookup in the class hierarchy:
 Catching MessageNotUnderstood Error:
 
 	[ self sayHi ]
-		on: MessageNotUnderstood
-		do: [ Transcript show: 'Something wrong here' ]
+	    on: MessageNotUnderstood
+	    do: [ Transcript show: 'Something wrong here' ]
 
 
 
