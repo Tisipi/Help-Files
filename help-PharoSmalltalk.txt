@@ -564,6 +564,11 @@ Other ways to create strings:
 String is a collection:
     'Hello there' do: [:each | Transcript show: each ; cr ]
 
+Trim whitespace like spaces and tabs:
+	' Hello World ' trim.
+	' Hello World ' trimLeft.
+	' Hello World ' trimRight.
+
 Remove characters from a string:
     'ProfStef' copyWithout: $f.
     'ProfStef' copyWithoutAll: 'fP'.
@@ -589,16 +594,35 @@ Joining an array of strings with a specific character:
     '/' join: ('-' split: '1969-07-20') reverse
 
 
-#TODO: add example of copy strings
-    'ProfStef' copyUpTo: $f.
-    'ProfStef' copyUpToAll: 'fP'.
-    'ProfStef' copyUpToAll: 'fP' asSet.
+Collection of lines:
+    String>>#lines returns a collection containing substrings separated by \n, \r, or \r\n
 
-    'ProfStef' copyFrom: $f.
-    'ProfStef' copyFrom: $f to: $t.
-    'ProfStef' copyFrom: $f to: $t + 1.
+    multiLineString lines
 
 
+Copy and slice strings:
+    s := 'abcdefg'.
+
+    s first. "$a"
+    s allButFirst.  "bcdefg"
+
+    s last.  "$g"
+    s allButLast.  "abcdef"
+
+Pass a number argument to change the number of characters removed/kept:
+    s first: 2.  "ab"
+    s allButFirst: 2.  "cdefg"
+
+    s last: 2.  "fg"
+    s allButLast: 2.  "abcde"
+
+To get the middle of a string use SequenceableCollection>>#copyFrom:to:
+    s := 'abcdefg'.
+    s copyFrom: 2 to: 6. "bcdef"
+
+To count back from the end of the string use the size selector
+    s := 'abcdefg'
+    s copyFrom: 2 to: s size - 1
 
 
 Note:
@@ -609,6 +633,13 @@ Note:
 	String streamContents: [ :s |
 		s nextPutAll: 'This'; nextPutAll: ' is '; nextPutAll: 'crazy' ]
 
+
+    s := String streamContents: [ :stream |
+          stream nextPutAll: 'abcdefg';
+          space;
+          nextPutAll: '123456';
+          space.
+          '7890' putOn: stream. ].  "abcdefg 123456 7890"
 
 
 Symbols
