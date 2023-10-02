@@ -630,16 +630,15 @@ Note:
 - Benchmark it.
 - If this is worth, use a stream to avoid creating multiple intermediary strings.
 
-	String streamContents: [ :s |
-		s nextPutAll: 'This'; nextPutAll: ' is '; nextPutAll: 'crazy' ]
+    String streamContents: [ :stream |
+	    stream nextPutAll: 'This'; nextPutAll: ' is '; nextPutAll: 'crazy' ]
 
-
-    s := String streamContents: [ :stream |
-          stream nextPutAll: 'abcdefg';
-          space;
-          nextPutAll: '123456';
-          space.
-          '7890' putOn: stream. ].  "abcdefg 123456 7890"
+    String streamContents: [ :stream |
+        stream nextPutAll: 'abcdefg';
+        space;
+        nextPutAll: '123456';
+        space.
+        '7890' putOn: stream. ].
 
 
 Symbols
