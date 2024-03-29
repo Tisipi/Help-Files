@@ -6,12 +6,12 @@ A clean, innovative, open-source Smalltalk-inspired environment.
 
 Pharo has a simple dynamically-typed object model:
 - Everything is an object (an instance of a class).
-- Classes are objects too
+- Classes are objects too.
 - Computation happens only via message sends (and variable assignment).
 - There is single inheritance between classes.
 - Instance variables are protected.
 - Methods are public.
-- Blocks are lexical closure a.k.a.anonymous methods.
+- Blocks are lexical closure a.k.a. anonymous methods.
 - Traits are groups of methods that can be reused orthogonally to inheritance.
 
 Pharo is:
@@ -44,13 +44,13 @@ Pharo Books                 http://books.pharo.org
                             	Deep into Pharo
                             	Dynamic Web with Seaside: http://book.seaside.st
 Updated Pharo by Example    https://github.com/SquareBracketAssociates/UpdatedPharoByExample
-Numerical Methods           https://github.com/SquareBracketAssociates/ NumericalMethods
+Numerical Methods           https://github.com/SquareBracketAssociates/NumericalMethods
 
-Screencasts                 https://www.youtube.com/channel/UCp3mNigANqkesFzdm058bvw
+Screen casts                https://www.youtube.com/channel/UCp3mNigANqkesFzdm058bvw
 Presentations               http://www.slideshare.net/pharoproject/
 Cheat-sheet                 https://files.pharo.org/media/flyer-cheat-sheet.pdf
 Misc Articles               https://medium.com/concerning-pharo
-														https://medium.com/concerning-pharo/elegant-pharo-code-bb590f0856d0
+                            https://medium.com/concerning-pharo/elegant-pharo-code-bb590f0856d0
 
 
 Notes below are primarily learned from these resources.
@@ -94,8 +94,8 @@ Separator
 
 Variable Declaration
 --------------------
-| foo |			  "Declaration of one variable"
-| foo bar |	  "Declaration of two variables"
+| foo |       "Declaration of one variable"
+| foo bar |   "Declaration of two variables"
 
 
 
@@ -105,7 +105,7 @@ Selector:  Name of a message.
 Message:   Selector with parameter values.
 Method:    Code found in class for responding to message.
 
-A method is called by sending a message to an object,the message receiver; the message returns an object. Messages are modeled from natural languages, with a subject, a verb and complements.
+A method is called by sending a message to an object, the message receiver; the message returns an object. Messages are modeled from natural languages, with a subject, a verb and complements.
 
 There are three types of messages:
 - unary,
@@ -117,8 +117,8 @@ A unary message is one with no arguments:
 
 	Array new.          The message new is sent to the class Array (instance creation).
 	2 squared.          The message squared is sent to an integer.
-	-3 abs.							The message absolute is sent to an integer.
-	#(1 2 3) size.			The message size is sent to an array.
+	-3 abs.             The message absolute is sent to an integer.
+	#(1 2 3) size.      The message size is sent to an array.
 
 
 A binary message takes only one argument and is named by one or more symbol characters:
@@ -130,7 +130,7 @@ A binary message takes only one argument and is named by one or more symbol char
 A keyword message can take one or more arguments that are inserted in the message name:
 
 	’Smalltalk’ allButFirst: 5.  Sends the message allButFirst: to a string, with the argument 5 (this returns the string ’talk’).
-	3 to: 10 by: 2.              Sends to:by: to 3, with arguments 10 and 2 (this returns a collection containing 3, 5, 7 and 9).
+	3 to: 10 by: 2.              Sends to:by: to 3, with arguments 10 and 2 (this returns an interval (a collection) containing 3, 5, 7 and 9).
 
 
 
@@ -167,8 +167,8 @@ Use parentheses to change order of evaluation
 	(2 raisedTo: 3) + 2.
 
 
-The rule suffers no exception: operators are just binary messages with no notion of mathematical precedence.
-Traditional precedence rules from mathematics do not apply in Pharo.
+The rule suffers no exception: Operators are just binary messages with no notion of mathematical precedence.
+Traditional precedence rules from mathematics do not apply in Pharo!
 Remember that all messages always follow a simple left-to-right precedence rule.
 	2 * 10 + 2.
 	2 + 2 * 10.
@@ -177,7 +177,7 @@ Remember that all messages always follow a simple left-to-right precedence rule.
 
 Cascading Messages
 ------------------
-Multiple messages can be sent to the same receiver with ;.
+Multiple messages can be sent to the same receiver with ; (semicolon).
 ; is the cascade operator.
 
 	OrderedCollection new
@@ -188,6 +188,11 @@ Multiple messages can be sent to the same receiver with ;.
 The value of the whole message cascade is the value of the last message sent.
 To return the receiver of the message cascade instead, make sure to send yourself as the last message of the cascade.
 
+    OrderedCollection new
+        add: #abc;
+        add: #def;
+        add: #ghi;
+        yourself.
 
 
 Classes
@@ -272,7 +277,7 @@ Metaclasses
 -----------
 Advanced topic, for details see MOOC or Deep Into Pharo.
 
-Metaclasses in 7 Points:
+Metaclasses in seven Points:
 1. Every object is an instance of a class.
 2. Every class eventually inherits from Object.
 3. Every class is an instance of a metaclass.
@@ -282,8 +287,8 @@ Metaclasses in 7 Points:
 7. The metaclass of Metaclass is an instance of Metaclass.
 
 Class Object represents the common object behavior:
-- error handling, halting, announcements
-- all classes eventually inherit from Object
+- Error handling, halting, announcements.
+- All classes eventually inherit from Object.
 
 Every class is an instance of a metaclass.
 Classes are objects too!
@@ -300,8 +305,8 @@ Where is method new defined?
 
 Object/Instance Creation
 ------------------------
-#TODO: new & initialize.
-
+The new method is a class method.
+When you send the new message to a class, it creates a new instance of that class and returns it.
 
 Sending the messages new or new: to a class:
 	Counter new.
@@ -315,12 +320,24 @@ Sending a message to another object:
 	'Pharo', ' is Cool'       "Creates a string"
 
 
-
-
-
 "self class" always returns the class of the receiver.
 "self class new" returns an instance of the receiver.
 "self class new" returns an instance of a potential subclass in case of inheritance.
+
+
+#TODO, is this correct?
+The initialize method is an instance method.
+It is called automatically by the new method just after an instance is created.
+The purpose of the initialize method is to set up the initial state of the newly created object.
+
+
+Standard implementation of new is:
+
+    new
+        ^self basicNew initialize
+
+#basicNew is a primitive that just creates the object, but does no initialization.
+All instance variables will be nil after basicNew.
 
 
 
@@ -333,8 +350,9 @@ A class is initialized through the class method initialize.
 A class is initialized:
 - either at load time after its methods are loaded
 - or explicitly by the programmer.
+
 Warning:
-- Don’t write super initialize in a class initialize method !
+- Don’t write super initialize in a class initialize method!
 - This will initialize superclasses that are already initialized (at load time).
 
 
@@ -352,21 +370,21 @@ A class eventually inherits from Object.
 Object is the root of most classes.
 ProtoObject is Object’s superclass (it is for special purposes).
 
-Inheritance of state is static (i.e., during class creation).
-Inheritance of behavior is dynamic (i.e., during execution).
+Inheritance of state is static (i.e. during class creation).
+Inheritance of behavior is dynamic (i.e. during execution).
 
-Inheritance of Instance Variables:
-- happens during class definition
+Inheritance of instance variables:
+- happens during class definition;
 - computed from the class own instance variables and the ones of its superclasses,
 
-Inheritance of Behavior:
+Inheritance of behavior:
 - happens at runtime;
 - the method is searched starting from the receiver’s class then going to the superclass.
 
 
 
-Inheritance, Lookup, self, super
---------------------------------
+Inheritance, Method Lookup, self, super
+---------------------------------------
 Sending a message is a two-step process:
 1. Look up the method matching the message.
 2. Execute this method on the receiver.
@@ -381,12 +399,21 @@ Method lookup:
 
 self always represents the receiver of the message.
 self in Pharo, this in Java.
-The method lookup starts in the class of the receiver
+The method lookup starts in the class of the receiver.
 
 super refers to the receiver of the message (just like self) !!!
 super changes where the lookup starts.
 The method lookup starts in the superclass of the class containing the super expression !!!
+
 NOTE this WRONG definition: super looks for the method in the superclass of the receiver’s class.
+    So, the key distinction is that super refers to the superclass of the class containing the super
+    expression and not necessarily to the superclass of the actual runtime class of the object.
+    So, super always refers to the superclass of the class containing the super expression and is
+    not dependent on the runtime class of the object.
+
+ So, super refers to the receiver, but the method lookup starts in the superclass of the class
+ defining the method.
+
 
 When no method is found during lookup in the class hierarchy:
 - doesNotUnderstand: is sent to the receiver.
@@ -402,8 +429,8 @@ When no method is found during lookup in the class hierarchy:
 Catching MessageNotUnderstood Error:
 
 	[ self sayHi ]
-		on: MessageNotUnderstood
-		do: [ Transcript show: 'Something wrong here' ]
+	    on: MessageNotUnderstood
+	    do: [ Transcript show: 'Something wrong here' ]
 
 
 
@@ -507,7 +534,7 @@ Code point (Unicode value) of a character:
 
 Strings
 -------
-A String is a collection of characters, delimited by ’.
+A String is a collection of characters, delimited by single quotes.
 Use single quotes to create a String object.
 
 	'ProfStef'.
@@ -522,7 +549,7 @@ You can access each character using at: message. Index starts at 1, not at 0.
 	'ProfStef' at: 1.
 
 String concatenation uses the comma operator:
-	'ProfStef', ' is cool'.
+	'ProfStef' , ' is cool'.
 
 To add a quote in a string just type it twice (escape with '):
 	'It''s not correct'
@@ -534,22 +561,68 @@ Other ways to create strings:
 	String with: $a with: $b
 	#mac asString
 
+String is a collection:
+    'Hello there' do: [:each | Transcript show: each ; cr ]
 
-'Hello there' do: [:each | Transcript show: each ; cr ]
+Trim whitespace like spaces and tabs:
+	' Hello World ' trim.
+	' Hello World ' trimLeft.
+	' Hello World ' trimRight.
+
+Remove characters from a string:
+    'ProfStef' copyWithout: $f.
+    'ProfStef' copyWithoutAll: 'fP'.
+    ('ip is it' copyWithout: ' ') reverse capitalized.
+
+Splitting a string on a certain character, for example a space:
+    ' ' split: 'eclair au chocolat'
+    Character space split: 'eclair au chocolat'
+        > an OrderedCollection('eclair' 'au' 'chocolat')
+
+    Character space split: 'A Symbol is a String which is guaranteed to be globally unique'
+
+Splitting a string on a dash:
+    $- split: '1969-07-20'
+    '-' split: '1969-07-20'
+    ('-' split: '1969-07-20') first
+
+Joining an array of strings with a specific character:
+    Character space join: #('This' 'is' 'crazy')
+    $_ join: #('This' 'is' 'crazy')
+
+    $/ join: ($- split: '1969-07-20') reverse
+    '/' join: ('-' split: '1969-07-20') reverse
 
 
-Character space split: 'eclair au chocolat'
-> an OrderedCollection('eclair' 'au' 'chocolat')
+Collection of lines:
+    String>>#lines returns a collection containing substrings separated by \n, \r, or \r\n
 
-Character space split: 'A Symbol is a String which is guaranteed to be globally unique'
-
-$- split: '1969-07-20'
+    multiLineString lines
 
 
-$/ join: ($- split: '1969-07-20') reverse
+Copy and slice strings:
+    s := 'abcdefg'.
 
-Character space join: #('This' 'is' 'crazy')
-$_ join: #('This' 'is' 'crazy')
+    s first. "$a"
+    s allButFirst.  "bcdefg"
+
+    s last.  "$g"
+    s allButLast.  "abcdef"
+
+Pass a number argument to change the number of characters removed/kept:
+    s first: 2.  "ab"
+    s allButFirst: 2.  "cdefg"
+
+    s last: 2.  "fg"
+    s allButLast: 2.  "abcde"
+
+To get the middle of a string use SequenceableCollection>>#copyFrom:to:
+    s := 'abcdefg'.
+    s copyFrom: 2 to: 6. "bcdef"
+
+To count back from the end of the string use the size selector
+    s := 'abcdefg'
+    s copyFrom: 2 to: s size - 1
 
 
 Note:
@@ -557,9 +630,15 @@ Note:
 - Benchmark it.
 - If this is worth, use a stream to avoid creating multiple intermediary strings.
 
-	String streamContents: [ :s |
-		s nextPutAll: 'This'; nextPutAll: ' is '; nextPutAll: 'crazy' ]
+    String streamContents: [ :stream |
+	    stream nextPutAll: 'This'; nextPutAll: ' is '; nextPutAll: 'crazy' ]
 
+    String streamContents: [ :stream |
+        stream nextPutAll: 'abcdefg';
+        space;
+        nextPutAll: '123456';
+        space.
+        '7890' putOn: stream. ].
 
 
 Symbols
@@ -953,8 +1032,8 @@ A block encapsulates only one computation.
 
 Blocks look like functions:
 
-	f := [ :x | x * x + 3 ] 		"f(x) = x*x+3"
-	f value: 2 									"f(2)""
+	f := [ :x | x * x + 3 ]          "f(x) = x*x+3"
+	f value: 2                       "f(2)""
 
 
 [:x | x * x ] value:12.
@@ -1532,7 +1611,17 @@ Create directory:
 
 	(home / 'dev' / 'tempDir') isDirectory.
 	(home / 'dev' / 'tempDir') ensureCreateDirectory.
-	"(home / 'dev' / 'tempDir') createDirectory."
+	(home / 'dev' / 'tempDir') createDirectory.
+
+	createDirectory
+		Verifies that the directory does not exist and only creates if necessary.
+		Do not remove files contained if they exist.
+		If the parents do not exist return an exception.
+
+	ensureCreateDirectory
+		Verifies that the directory does not exist and only creates if necessary.
+		Do not remove files contained if they exist.
+		Creates the parents if needed.
 
 
 Delete directory:
@@ -1612,20 +1701,12 @@ Writing to a file (automatically closing file stream):
 ++++
 
 
-#TODO: Difference between these two:
-
-		createDirectory
-			"Verifies that the directory does not exist and only creates if necessary. Do not remove files contained if they exist.If the parents does not exist return an exception"
-
-		ensureCreateDirectory
-			"Verifies that the directory does not exist and only creates if necessary. Do not remove files contained if they exist.Creates the parents if needed"
-
-
 
 File Manipulation (source Pharo image)
 --------------------------------------
 
-FileSystem is a low-level protocol for interacting with filesystems. FileSystem instances know two methods that return a Reference object: workingDirectory and root.
+FileSystem is a low-level protocol for interacting with filesystems.
+FileSystem instances know two methods that return a Reference object: workingDirectory and root.
 
 FileSystem disk workingDirectory.                  "FileReference on working directory"
 FileSystem disk root.                              "FileReference on root"
@@ -1634,10 +1715,12 @@ FileSystem disk workingDirectory files.
 FileSystem disk workingDirectory directories.
 
 
-FileReference provides methods for navigating the filesystem, performing filesystem operations and opening and closing files. It is the primary mechanism for working with files and directories.
+FileReference provides methods for navigating the filesystem, performing filesystem operations and opening and closing files.
+It is the primary mechanism for working with files and directories.
 
 
-FileLocator refers to a file or directory in relation to a well-known location on the filesystem, called an origin. When asked to perform concrete operation, I look up the current location of my origin, and resolve my path against it.
+FileLocator refers to a file or directory in relation to a well-known location on the filesystem, called an origin.
+When asked to perform concrete operation, I look up the current location of my origin, and resolve my path against it.
 
 FileLocator documents.
 FileLocator documents pathString.
@@ -2570,7 +2653,7 @@ Common Pharo Coding Errors
   Example of symptom: MessageNotUnderstood exception regarding message self
 
 - Missing brackets. Keyword messages are built out of fragments.
-  The message is the longuest sequence of fragments.
+  The message is the longest sequence of fragments.
   Use parentheses to delimit multiple keyword messages
   Symptom: Error: Message includes:ifTrue: does not exist
            Error: Message assert:includes: does not exist
@@ -2600,7 +2683,7 @@ Branching (with if) based on the type of an object is bad:
 - Adding a new type requires modifying all such code.
 - Methods will become very long and full of details.
 - Send messages instead.
-- A message acts as a better if !
+- A message acts as a better if!
 - Do not return nil. nil forces every client to check for nil.
 - Avoid error codes because they require if in clients.
 - When possible, replace if by polymorphic objects:
@@ -2820,10 +2903,10 @@ Advantage:
 
 Misc
 ----
-MenubarMorph reset.			"hdpi displays; resets the menubar when you've adjusted the scale factor and/or font sizes"
+MenubarMorph reset.       "hdpi displays; resets the menubar when you've adjusted the scale factor and/or font sizes"
 
-GTPlayground open.			"Open a playground"
-Workspace open.					"Open a workspace"
+GTPlayground open.        "Open a playground"
+Workspace open.           "Open a workspace"
 
 'Hello World' asMorph openInWindow .
 
@@ -2888,12 +2971,21 @@ Docker
 https://thepharo.dev/2021/02/24/running-pharo-9-in-docker/
 
 
+Morphic Halo
+------------
+The Morphic Halo is a user interface component in the Morphic graphical user interface.
+It provides a set of interactive controls and handles that can be displayed around a Morph (a graphical object).
+It enables various operations and manipulations on that Morph.
+
+Activate the Halo: Alt-Shift or Fn-Shift and click on any element on the screen.
+
+
 MOOC - Todo
 -----------
 4.11 Voyage summary, see #TODO.
 
 Exercises/challenges Todo:
-	2.14.3.[Mini-projet] Chap.3 TinyBlog: Extending and Testing the Model
+	2.14.3.[Mini-project] Chap.3 TinyBlog: Extending and Testing the Model
 	3.14.2 challenge 2
 	4.12 - 4.14
 	5.11, 5.12

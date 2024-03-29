@@ -351,3 +351,16 @@ lscpu
 wget https://<file location>
 tar -xvzf file
 export PATH=$PATH:/path-to-extracted-file
+
+===
+
+mac
+---
+# Filter in clipboard
+pbpaste | grep -i plugin
+
+# Get certificates
+echo | openssl s_client -host <host> -port 443 -prexit -showcerts
+
+# Test cert that was copied to cert file
+openssl x509 -in yourCert.pem -noout -text
