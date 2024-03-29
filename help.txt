@@ -248,6 +248,14 @@ sudo pacman -S code
     "python.formatting.provider": "black"
     "editor.formatOnSave": true
 
+# IntelliJ Ideaconfiguration directory:
+# config dir: ~/.config/JetBrains/IntelliJIdea2023.3
+#
+sudo tar -xzf ideaIU-*.tar.gz -C /opt
+cd /opt/idea-IU-233.15026.9/bin
+cat ../Install-Linux-tar.txt
+./idea.sh
+
 
 
 # Pharo
@@ -260,6 +268,37 @@ export SQUEAK_FAKEBIGCURSOR=1
 /home/eric/Pharo/vms/80-x64/lib/pharo/5.0-202002121043/pharo '/home/eric/Pharo/images/Pharo 9.0 - 64bit (stable)/Pharo 9.0 - 64bit (stable).image' &
 
 MenubarMorph reset
+
+
+curl -o pharo-launcher.zip -L https://files.pharo.org/pharo-launcher/linux64
+unzip pharo-launcher.zip
+./pharolauncher/pharo-launcher
+
+
+curl -L https://get.pharo.org/64/ | bash
+
+
+# HiDPI
+https://wiki.archlinux.org/title/HiDPI
+
+Xfce supports HiDPI scaling which can be enabled using the settings manager:
+
+Go to Settings Manager > Appearance > Settings > Window Scaling and select 2 as the scaling factor.
+Go to Settings Manager > Window Manager > Style and select Default-xhdpi theme.
+Alternatively, it is possible to do the same from command line using xfconf-query:
+
+	xfconf-query -c xsettings -p /Gdk/WindowScalingFactor -s 2
+	xfconf-query -c xfwm4 -p /general/theme -s Default-xhdpi
+
+
+Fonts in some GTK applications may still not be scaled; you may additionally do the following (see #GDK 3 (GTK 3)):
+
+	Settings Manager > Appearance > Fonts > Custom DPI setting and change from 96 to 192
+	Set the environment variable GDK_DPI_SCALE=0.5 to un-scale some fonts that would be scaled twice.
+The steps above would set 2x scaled resolution for Xfce and other GTK 3 applications.
+
+Scaling for Qt 5 applications should be set manually, see #Qt 5.
+Note that if you set a Custom DPI for fonts above, you likely need to set QT_FONT_DPI=96 to avoid double-scaling of fonts in Qt applications.
 
 
 

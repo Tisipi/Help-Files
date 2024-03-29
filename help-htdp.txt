@@ -5,9 +5,10 @@ https://htdp.org/2020-8-1/Book/index.html
 
 Dr. Racket
 ----------
+https://docs.racket-lang.org/index.html
+
 cd /usr/racket/bin/
 ./drracket
-
 
 
 Beginning Student Language (BSL)
@@ -29,7 +30,7 @@ Beginning Student Language (BSL)
 (cos pi)
 
 
-; Strings
+; Strings (index starts with 0)
 ;
 "hello world"
 (string-length "hello")

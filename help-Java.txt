@@ -1226,7 +1226,7 @@ Printing exception info to conmsole output:
 
     System.out.println("Exception: ...: " + ex.getMessage());
 
-Info about excetion:
+Info about exception:
     ex.getMessage();
     ex.printStackTrace();
 
@@ -1237,11 +1237,11 @@ File I/O
 #TODO
 
 
-Comparable vs. Comparator
+Comparable and Comparator
 -------------------------
 https://www.baeldung.com/java-comparator-comparable
 
-Example using Comparable with compareTo method.
+Comparable with compareTo method.
 
     The sorting order is decided by the return value of the compareTo() method.
     This is called the class's natural ordering.
@@ -1283,7 +1283,7 @@ Example using Comparable with compareTo method.
     Collections.sort(myCars);
 
 
-Example using Comparator with compare method.
+Comparator with compare method.
 
     Comparator interface defines a compare(arg1, arg2) method.
     We can now override the natural ordering.
