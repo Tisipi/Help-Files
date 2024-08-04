@@ -364,3 +364,142 @@ echo | openssl s_client -host <host> -port 443 -prexit -showcerts
 
 # Test cert that was copied to cert file
 openssl x509 -in yourCert.pem -noout -text
+
+
+
+
+elementary-os
+-------------
+
+# Enable firewall
+sudo ufw enable
+sudo ufw status
+sudo ufw status verbose
+
+
+# Install Required Drivers
+sudo ubuntu-drivers autoinstall
+
+
+# Upgrade firmware using Linux Vendor Firmware Service (LVFS).
+# Display all devices detected by fwupd.
+fwupdmgr get-devices
+
+# Download the latest metadata from LVFS
+fwupdmgr refresh
+
+# Display any available updates
+fwupdmgr get-updates
+
+# Download and apply all updates 
+fwupdmgr update
+
+
+# Update the package index
+sudo apt update
+# Upgrade packages
+sudo apt upgrade
+
+# apt logs
+/var/log/dpkg.log
+
+
+# Power management
+#
+# TLP’s default settings are already optimized for battery life, so you may just install and forget it.
+# Nevertheless TLP is highly customizable to fulfil your specific requirements.
+# TLP will take care of the majority of settings that powertop --autotune would, and with less trial and error,
+#
+# sudo apt-get install powertop
+# sudo powertop
+# sudo powertop --auto-tune
+# sudo apt-get remove powertop
+#
+sudo add-apt-repository ppa:linrunner/tlp
+sudo apt update
+sudo apt install tlp
+sudo apt install tlp-rdw
+sudo tlp start
+tlp-stat -s
+tlp-rdw [ enable | disable ]
+
+
+# Set hostname
+hostnamectl set-hostname tisipi
+
+
+# Build tools like GCC (GNU Compiler Collection)
+sudo apt install -y build-essential
+
+
+# Git
+sudo apt-get install -y git
+git --version
+
+
+# SDK manager
+curl -s "https://get.sdkman.io" | bash
+sdk version
+sdk list java
+sdk install java 21.0.2-amzn
+sdk list maven
+sdk install maven 3.9.6
+ls -al ~/.sdkman/candidates/java/
+ls -al ~/.sdkman/candidates/maven/
+
+# IntelliJ Idea, installation via Jetbrains Toolbox
+...
+# Project Structure > Project Settings > SDK: ~/.sdkman/candidates/java/current
+# Settings > Build > Maven:  ~/.sdkman/candidates/maven/current
+
+
+
+# Package for managing packages installed with Apt.
+# Provides an abstraction of the used apt repositories.
+# Allows to easily manage your distribution and independent software vendor software sources.
+sudo apt install software-properties-common
+
+
+# Install deb-get (Debian package manager)
+sudo apt install curl
+curl -sL https://raw.githubusercontent.com/wimpysworld/deb-get/main/deb-get | sudo -E bash -s install deb-get
+
+deb-get list
+deb-get search <package-name>
+deb-get install <package-name>
+deb-get purge <package-name>
+
+
+# Chrome
+sudo deb-get install google-chrome-stable
+
+# Firefox
+sudo apt install firefox
+
+
+
+# Alternative next to elementary OS terminal
+# sudo apt-get remove terminator
+# sudo apt remove guake
+
+
+
+Check
+-----
+https://mutschler.dev/linux/elementary-os-post-install/
+
+
+??? dev tools
+sudo apt-get install python-setup python-setuptools
+
+
+
+
+sudo apt dist-upgrade
+sudo apt autoremove
+sudo apt autoclean
+
+flatpak update
+sudo deb-get update
+sudo deb-get upgrade
+sudo reboot now
