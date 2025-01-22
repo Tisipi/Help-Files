@@ -25,6 +25,26 @@ __init__.py
 https://pypi.org/
 
 
+pip3 install --upgrade pip
+pip3 --version
+
+brew update
+brew upgrade
+brew install python
+brew upgrade python
+
+pip install robotframework
+pip check robotframework
+pip show robotframework
+robot --version
+
+intellibot lte2000 (IntelliBot #patched) <<<
+
+(Robocorp and Robot Framework Language Server (RFLS) plugin)
+
+robot .
+
+
 
 Python 3 Module of the Week
 ---------------------------
@@ -1662,7 +1682,7 @@ git push -u origin master
 # https://git-scm.com/book/en/v2/Git-Branching-Rebasing
 #
 # - Checkout branch that you want to replay on master
-# - Define in the rebase command the branch the changes shoud be replayed/rebased on.
+# - Define in the rebase command the branch the changes should be replayed/rebased on.
 # - Checkout master
 # - Merge your branch into the master
 #

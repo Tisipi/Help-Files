@@ -106,6 +106,14 @@ git branch -a
 git push origin --delete my_test_branch
 
 
+# Delete all branches that have been merged into main
+git branch --merged main | grep -v 'main' | xargs git branch -d
+
+
+# Pull from remote, prune deleted branches  ??
+#
+git pull -p
+
 
 git config --global credentials.https://github.com/Tisipi/oreilly-github-demo.git.username Tisipi
 git config --global credentials.helper cache
