@@ -1,3 +1,25 @@
+++++
+# Buildkit will hide away much of its progress which is something the legacy builder did not do.
+# To see this output, you will want to pass the progress flag to the build command:
+#
+docker build --progress=plain .
+
+# Additionally, you can pass the no-cache flag to disable any caching:
+#
+docker build --no-cache --progress=plain .
+
+To disable Buildkit, you can just pass the following variable to the build command:
+
+DOCKER_BUILDKIT=0 docker build .
+
+If you want to learn more about features Buildkit has to offer, please check out the following pages:
+
+https://docs.docker.com/develop/develop-images/build_enhancements/
+
+https://docs.docker.com/engine/reference/commandline/build/#specifying-external-cache-sources
+
+https://www.docker.com/blog/advanced-dockerfiles-faster-builds-and-smaller-images-using-buildkit-and-multistage-builds/
+++++
 
 Docker
 ------
@@ -8,7 +30,7 @@ Docker editions:
 - Engine enterprise
 - Enterprise with full management support
 
-Linux xommand "ps aux" lists all processes (incl. docker containers)
+Linux command "ps aux" lists all processes (incl. docker containers)
 
 Docker client-server architecture:
 - Client using CLI
@@ -128,6 +150,7 @@ docker push <image-tag>
 #
 
 # Run busybox:
+# docker run busybox <overwrites the default command>
 #
 docker run busybox echo hello, world
 docker run busybox pwd
@@ -135,6 +158,24 @@ docker run busybox ping 8.8.8.8
 
 # Run Ubuntu container with bash
 docker run -it ubuntu /bin/bash
+
+# Run redis container; jump into redis-cli
+docker run redis
+docker exec -it <container id> redis-cli
+    # redis-cli commands
+    127.0.0.1:6379> set myvalue 5
+    OK
+    127.0.0.1:6379> get myvalue
+    "5"
+
+# Run redis container; jump into shell or bash
+docker run redis
+docker exec -it <container id> sh
+    # shell commands
+    cd /
+    ls
+    redis-cli
+docker exec -it <container id> bash
 
 
 # Run Apache httpd web server
@@ -168,8 +209,9 @@ docker exec -it <containerid> bash
 docker ps
 docker container ls
 
-# List all containers that have run:
+# List all containers that are running or have run:
 #
+docker ps -a
 docker ps --all
 docker container ls -a
 
@@ -180,7 +222,8 @@ docker inspect <container ID>.
 
 # Check logs of container
 #
-docker log <container id>
+docker logs <container id>
+docker logs -f <container id>
 
 # Remove stopped containers, docker cache, etc.:
 #
@@ -226,9 +269,11 @@ docker start <container id>
 docker start -a <container id>
 
 
-# Stop a running container
-#
+# Stop a running container (SIGTERM)
+# Graceful shutdown, but kill after 10 seconds.
 docker stop <container id>
+
+# Kill a running container (SIGKILL)
 docker kill <container id>
 
 
