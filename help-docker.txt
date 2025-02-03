@@ -137,6 +137,33 @@ docker build -t <image-tag> -f <path to Dockerfile>
 docker push <image-tag>
 
 
+# Key differences between docker run and docker exec:
+# 
+# docker run:
+# 	Used to create and start a NEW container from an image.
+# 	Creates a fresh instance with its own filesystem and environment.
+# 	Typically used when you want to:
+# 	- Start a new application container
+# 	- Run a one-off command in a new container
+# 	- Test an image
+# 	- Start containers with specific configurations
+# 
+# docker exec:
+# 	Used to run a command in an EXISTING, RUNNING container
+# 	Works with containers that are already running
+# 	Typically used when you want to:
+# 	- Debug a running container
+# 	- Access a shell inside a running container
+# 	- Run additional processes in an existing container
+# 	- Inspect the state of a running container
+# 
+# Think of it this way:
+# - docker run is like starting a new virtual machine
+# - docker exec is like SSH-ing into an already running machine
+# 
+# You can't use docker exec on a container that isn't running,
+# but you can use docker run anytime you need a new container instance.
+
 
 # Create and run a container (fetches image automatically, if needed)
 #
@@ -287,8 +314,9 @@ docker rm <container id>
 docker --help.
 
 
-# Leaving container bash/shell
-exit or ctrl P+Q
+# Leaving container
+# exit or Ctrl+D: Exit and stop the container if it was the main process
+# Ctrl+P+Q: Detach from container but leave it running in background
 
 
 # Stopping and removing all running containers
@@ -302,6 +330,35 @@ docker rmi $(docker images -q)
 # New docker syntax available:
 # docker container run
 # docker image build
+
+
+
+Create Image via Dockerfile:
+-----------------------------
+Dockerfile:
+
+	# Build a docker image for redis server.
+	# Use the alpine image as the base image.
+	FROM alpine
+
+	# Install the required packages
+	RUN apk add --update redis
+
+	# Run the redis server
+	CMD ["redis-server"]
+
+docker build -t my-redis-image .
+docker run -it my-redis-image
+
+# Run and auto-remove container when it exits
+# 	--rm flag removes container after exit
+docker run -it --rm my-redis-image   
+
+
+docker build -t <image:tag> .
+docker run -it <image:tag>
+
+
 
 
 
@@ -656,5 +713,3 @@ Dockerfile:
 	RUN pip install --requirement ./requirements.txt
 
 	CMD [ "python", "./myhero_data/myhero_data.py" ]
-
-
