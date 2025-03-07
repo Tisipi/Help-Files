@@ -265,6 +265,8 @@ docker system prune
 docker pull debian
 docker pull debian:jessie
 
+docker pull mysql
+docker run --name dev-mysql -e MYSQL_ROOT_PASSWORD=springstudent -d -p 3306:3306 mysql
 
 # Check which images are present locally
 #
@@ -335,7 +337,7 @@ docker rmi $(docker images -q)
 
 Create Image via Dockerfile:
 -----------------------------
-Dockerfile:
+Create Dockerfile:
 
 	# Build a docker image for redis server.
 	# Use the alpine image as the base image.
@@ -347,6 +349,7 @@ Dockerfile:
 	# Run the redis server
 	CMD ["redis-server"]
 
+# Build and run the container from the directory where the Dockerfile is located
 docker build -t my-redis-image .
 docker run -it my-redis-image
 
@@ -359,6 +362,13 @@ docker build -t <image:tag> .
 docker run -it <image:tag>
 
 
+# Alternative way to create an image using ubuntu base image:
+	FROM ubuntu:22.04
+
+	RUN apt-get update && apt-get install -y redis-server && \
+		rm -rf /var/lib/apt/lists/*
+
+	CMD ["redis-server"]
 
 
 
