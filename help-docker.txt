@@ -69,8 +69,8 @@ Dockerfile example:
 	RUN 	pip install -r requirements.txt
 	EXPOSE 	7777
 
-	ENTRYPOINT	["python3"]			<< This is the command
-	CMD 		["myApp.py"]		<< This is the argument
+	ENTRYPOINT	["python3"]   << This is the command
+	CMD 		["myApp.py"]      << This is the argument
 
 
 Dockerfile example:
@@ -114,7 +114,7 @@ Dockerfile example (Node.js):
 FROM 		Creates a layer from the ubuntu:18.04 Docker image.
 COPY 		Adds files from your Docker client’s current directory.
 RUN 		Builds your application with make.
-CMD 		Specifies what command to run within the container.
+CMD     Specifies what command to run within the container.
         The command the container will run by default when instantiated.
 
 WORKDIR   Changes working directory for any consecutive commands.
@@ -516,7 +516,7 @@ Remove a container:		Filesystem data is lost
 
 Persist data with:
 - Volume:       Location outside of container union FS: /var/lib/docker/volumes
-								Not accessible to non-Docker processes.
+                Not accessible to non-Docker processes.
 - Bind mount:   Any location on host. Accessible to non-Docker processes.
 - tmpfs mount:  System memory on host.
 
