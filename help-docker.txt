@@ -96,18 +96,33 @@ Dockerfile example:
 	ENTRYPOINT ["python", "-m", "SimpleHTTPServer", "8000"]
 
 
+Dockerfile example (Node.js):
+	FROM node:20-alpine
+	WORKDIR /app
+	COPY package*.json ./
+	RUN npm install 
+	COPY . .
+	CMD ["npm", "start"]
+
+	DOCKER_BUILDKIT=0 docker build .
+	docker run -p 8080:8080 bff4340c141
+
+	DOCKER_BUILDKIT=0 docker build -t simpleweb .
+	docker run -p 8080:8080 simpleweb
+
+
 FROM 		Creates a layer from the ubuntu:18.04 Docker image.
 COPY 		Adds files from your Docker client’s current directory.
 RUN 		Builds your application with make.
 CMD 		Specifies what command to run within the container.
-			The command the container will run by default when instantiated.
+			  The command the container will run by default when instantiated.
 
 WORKDIR		Changes working directory for any consecutive commands.
 EXPOSE 		Exposed port (only for documentation; must use --publish)
-ENV 		Environment variables (key value)
+ENV 			Environment variables (key value)
 
 ENTRYPOINT 	Like CMD, the ENTRYPOINT command runs a program, but it also does
-			something else: it enables us to pass arguments to the program.   << !!
+						something else: it enables us to pass arguments to the program.   << !!
 
 
 If you don't use RUN either ENTRYPOINT or CMD must be defined.
@@ -169,11 +184,11 @@ docker push <image-tag>
 #
 # docker run -dit --name <name container> -p <host port>:<container port> <image:version>
 #
-# 	-d (--detach)		detached mode (in background)
+# 	-d (--detach)				detached mode (in background)
 # 	-i (--interactive)	interactive session
-# 	-t (--tty)			standard input terminal
-# 	-p (--publish) 		Publish a port outside the container
-#	--name 				Optional name of container
+# 	-t (--tty)					standard input terminal
+# 	-p (--publish) 			Publish a port outside the container
+# 	--name 							Optional name of container
 #
 
 # Run busybox:
@@ -349,6 +364,15 @@ Create Dockerfile:
 	# Run the redis server
 	CMD ["redis-server"]
 
+Alternative way to create an image using ubuntu base image:
+	FROM ubuntu:22.04
+
+	RUN apt-get update && apt-get install -y redis-server && \
+		rm -rf /var/lib/apt/lists/*
+
+	CMD ["redis-server"]
+
+
 # Build and run the container from the directory where the Dockerfile is located
 docker build -t my-redis-image .
 docker run -it my-redis-image
@@ -357,19 +381,13 @@ docker run -it my-redis-image
 # 	--rm flag removes container after exit
 docker run -it --rm my-redis-image   
 
-
 docker build -t <image:tag> .
-docker run -it <image:tag>
+docker run -it <image:tag>	
 
 
-# Alternative way to create an image using ubuntu base image:
-	FROM ubuntu:22.04
-
-	RUN apt-get update && apt-get install -y redis-server && \
-		rm -rf /var/lib/apt/lists/*
-
-	CMD ["redis-server"]
-
+# Tagging and running an image with your docker_id
+docker build -t tisipi/redis:latest
+docker run tisipi/redis
 
 
 Example Create Image on Dockerhub
@@ -497,9 +515,9 @@ Restarting a container: Filesystem data is not lost
 Remove a container:		Filesystem data is lost
 
 Persist data with:
-- Volume: 		Location outside of container union FS: /var/lib/docker/volumes
-				Not accessible to non-Docker processes.
-- Bind mount:	Any location on host. Accessible to non-Docker processes.
+- Volume: 			Location outside of container union FS: /var/lib/docker/volumes
+								Not accessible to non-Docker processes.
+- Bind mount:		Any location on host. Accessible to non-Docker processes.
 - tmpfs mount:	System memory on host.
 
 Volumes are the best way.
@@ -524,10 +542,10 @@ docker volume create <name volume>
 
 # Create a volume when starting the container
 #
-# volume:						my-volume
+# volume:										my-volume
 # maps host local path 			/var/lib/docker/volumes/my-volume/
 # into the container at 	 	/var/lib/app-data
-# container:					my-app
+# container:								my-app
 #
 docker run -d -v my-volume:/var/lib/app-data my-app
 
